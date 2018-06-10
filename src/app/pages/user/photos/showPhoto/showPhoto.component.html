@@ -1,0 +1,145 @@
+<div class="dialogBox">
+	<div mat-dialog-title class="header headerMobile">
+		<button mat-icon-button (click)="dialogRef.close()"><mat-icon>arrow_back</mat-icon></button>
+		<div class="text">{{data.comeFrom == 'photos' ? translations.photos : translations.notifications}}</div>
+	</div>
+
+	<div mat-dialog-content class="bodyPhotos">
+		<div class="container" *ngIf="!notExist">
+			<div class="left" [ngClass]="{'remove': data.current.addRemoveSession}">
+				<img *ngIf="data.current.mimetype.indexOf('image') !== -1" [src]="environment.pathPhotos + data.current.name">
+				<video *ngIf="data.current.mimetype.indexOf('video') !== -1" [src]="environment.pathVideos + data.current.name.split('.')[0] + '.mp4'" #videoPlayer></video>
+
+				<span *ngIf="data.current.type=='video'">
+					<div class="playPause" (click)="playVideo('play')" *ngIf="!data.current.playButton">
+						<mat-icon>play_arrow</mat-icon>
+					</div>
+				</span>
+				<span *ngIf="data.list.length > 1">
+					<div class="prev" (click)="prevNext('prev')">
+						<mat-icon>chevron_left</mat-icon>
+					</div>
+					<div class="next" (click)="prevNext('next')">
+						<mat-icon>chevron_right</mat-icon>
+					</div>
+				</span>
+			</div>
+
+			<div class="right">
+				<div class="box">
+					<div class="panel">
+						<div class="user">
+							<a class="avatar" routerLink="/{{userData.username}}">
+								<img [src]="userData.avatar ? userData.avatarUrl : environment.avatar"/>
+							</a>
+							<div class="text">
+								<a class="name" routerLink="/{{userData.username}}">
+									<span class="username">{{userData.username}}</span>
+									<span class="date"> · {{data.current.date | timeago}}</span>
+								</a>
+							</div>
+							<div class="actions" *ngIf="sessionData.current.id">
+								<button mat-icon-button [matMenuTriggerFor]="optionsItem"><mat-icon>more_vert</mat-icon></button>
+								<mat-menu #optionsItem="matMenu">
+									<button mat-menu-item (click)="itemOptions('remove', data.current); data.current.addRemoveSession=!data.current.addRemoveSession;" *ngIf="userData.id == sessionData.current.id">{{data.current.addRemoveSession ? translations.add : translations.remove}}</button>
+									<button mat-menu-item (click)="itemOptions('disableComments', data.current)" *ngIf="userData.id == sessionData.current.id">{{data.current.disabledComments ? translations.disableComments : translations.enableComments}}</button>
+									<button mat-menu-item (click)="itemOptions('share', data.current)">{{translations.share}}</button>
+									<button mat-menu-item (click)="itemOptions('report', data.current)">{{translations.report}}</button>
+									<button mat-menu-item (click)="itemOptions('close', null)">{{translations.close}}</button>
+								</mat-menu>
+							</div>
+						</div>
+
+						<div class="analytics">
+							<div class="buttonBox">
+								<button mat-icon-button>
+									<mat-icon>chat_bubble_outline</mat-icon>
+								</button>
+								{{data.current.disabledComments ? data.current.countComments : ''}}
+							</div>
+							<div class="buttonBox">
+								<button mat-icon-button (click)="likeUnlike(data.current)" [ngClass]="{'active' : data.current.liked}">
+									<mat-icon>favorite_border</mat-icon>
+								</button>
+								{{data.current.countLikes}}
+							</div>
+
+							<div class="likers" *ngIf="data.current.countLikes > 0">
+								<span *ngFor="let l of data.current.likers; let isLast = last">
+									<a routerLink="/{{l.username}}">{{l.username}}</a>
+									{{isLast ? '' : ', '}}
+								</span>
+								{{data.current.countLikes <= 2 ? translations.likedThis : translations.andMoreLikedThis}}
+							</div>
+						</div>
+					</div>
+
+					<div class="boxComments" *ngIf="data.current.disabledComments">
+						<div class="comments">
+							<div class="new" *ngIf="sessionData.current.id">
+								<div class="avatar">
+									<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>
+								</div>
+								<form>
+									<mat-form-field floatPlaceholder="never">
+										<textarea matInput matTextareaAutosize rows="1" placeholder="{{translations.writeComment}}" [(ngModel)]="data.current.newComment" name="comment"></textarea>
+									</mat-form-field>
+								</form>
+								<div class="actions">
+									<button mat-button type="submit" [disabled]="data.current.newComment.length == 0" (click)="newComment('create')">
+										{{translations.send}}
+									</button>
+								</div>
+							</div>
+
+							<ul>
+								<li *ngFor="let c of data.comments.list" [ngClass]="{'remove': c.addRemove}">
+									<a class="avatar" routerLink="/{{c.user.username}}">
+										<img [src]="c.user.avatar ? c.user.avatarUrl : environment.avatar"/>
+									</a>
+									<div class="text">
+										<div class="name">
+											<a class="username" routerLink="/{{c.user.username}}">{{c.user.username}}</a>
+											<span class="date"> · {{c.date | timeago}}</span>
+											<div class="actions">
+												<button mat-icon-button [matMenuTriggerFor]="optionsComments"><mat-icon>more_vert</mat-icon></button>
+												<mat-menu #optionsComments="matMenu">
+													<button mat-menu-item (click)="commentsOptions('addRemove', data.current, c)" *ngIf="c.user.id == sessionData.current.id">{{c.addRemove ? translations.add : translations.remove}}</button>
+													<button mat-menu-item (click)="commentsOptions('report', data.current, c)">{{translations.report}}</button>
+												</mat-menu>
+											</div>
+										</div>
+										<div class="content">{{c.comment}}</div>
+									</div>
+								</li>
+							</ul>
+
+							<div class="loadingData" *ngIf="loadingData">
+								<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+							</div>
+							<div class="noData" *ngIf="noData">{{translations.noComments}}</div>
+							<div class="loadMore" *ngIf="loadMoreData">
+								<button mat-fab (click)="defaultComments('more', null)" *ngIf="!loadingMoreData">
+									<mat-icon>add</mat-icon>
+								</button>
+								<mat-progress-spinner mode="indeterminate" *ngIf="loadingMoreData"></mat-progress-spinner>
+							</div>
+						</div>
+					</div>
+
+					<div class="noData" *ngIf="!data.current.disabledComments">
+						<mat-icon>lock_outline</mat-icon>
+						<br>
+						{{translations.commentsDisabled}}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container" *ngIf="notExist">
+			<div class="noData">
+				{{translations.photoNotExist}}
+			</div>
+		</div>
+	</div>
+</div>

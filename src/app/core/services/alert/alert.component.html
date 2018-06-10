@@ -1,0 +1,6 @@
+<div *ngFor="let x of alerts" class="alertBox" [@myAnimation]>
+	<div class="inner">
+		<div class="text">{{x.message}}</div>
+		<button mat-mini-fab (click)="close(x)"><mat-icon>clear</mat-icon></button>
+	</div>
+</div>

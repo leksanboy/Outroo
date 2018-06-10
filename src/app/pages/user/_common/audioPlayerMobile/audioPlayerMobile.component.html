@@ -1,0 +1,87 @@
+<div class="audioPlayerMobile" *ngIf="showPalyer" [@showFromBottomAnimation]>
+	<div class="player">
+		<div class="top" id="mytest1">
+			<div class="panel">
+				<div class="text">
+					<div class="title" [style.color]="audioPlayerData.current.color">{{audioPlayerData.current.original_title ? audioPlayerData.current.original_title : audioPlayerData.current.title}}</div>
+					<div class="artist">{{audioPlayerData.current.original_artist ? audioPlayerData.current.original_artist : audioPlayerData.current.title}}</div>
+				</div>
+			</div>
+			<div class="progress">
+				<mat-slider min="0" max="1000" [value]="audioPlayerData.current.progress" (change)="progressBar($event)" [disabled]="audioPlayerData.list.length == 0"></mat-slider>
+			</div>
+			<div class="duration">
+				<div class="current">{{audioPlayerData.current.time}}</div>
+				<div class="total">{{audioPlayerData.current.duration}}</div>
+			</div>
+		</div>
+
+		<div class="bottom">
+			<button mat-mini-fab (click)="playTrack('shuffle', '')" [ngClass]="{active: audioPlayerData.shuffle}" class="shuffle" [disabled]="audioPlayerData.list.length == 0"><mat-icon>shuffle</mat-icon></button>
+			<button mat-mini-fab (click)="playTrack('prev', '')" class="prev" [disabled]="audioPlayerData.list.length <= 1"><mat-icon [style.color]="audioPlayerData.current.color">skip_previous</mat-icon></button>
+
+			<button mat-fab (click)="playTrack('play', '')" class="playPause" [disabled]="audioPlayerData.list.length == 0" [style.background]="audioPlayerData.current.color" [ngClass]="{noImage: audioPlayerData.current.color}">
+				<mat-icon *ngIf="!audioPlayerData.playing">play_arrow</mat-icon>
+				<mat-icon *ngIf="audioPlayerData.playing">pause</mat-icon>
+			</button>
+
+			<button mat-mini-fab (click)="playTrack('next', '')" class="next" [disabled]="audioPlayerData.list.length <= 1"><mat-icon [style.color]="audioPlayerData.current.color">skip_next</mat-icon></button>
+			<button mat-mini-fab (click)="playTrack('repeat', '')" [ngClass]="{active: audioPlayerData.repeat}" class="repeat" [disabled]="audioPlayerData.list.length == 0"><mat-icon>repeat</mat-icon></button>
+		</div>
+
+		<div class="close">
+			<button mat-mini-fab (click)="close()">
+				<mat-icon>close</mat-icon>
+			</button>
+		</div>
+	</div>
+
+	<div class="data">
+	    <ul *ngIf="audioPlayerData.list.length > 0">
+			<li *ngFor="let x of audioPlayerData.list; let i=index;" [ngClass]="{active: audioPlayerData.current.key == i, default: !x.image, remove: x.addRemoveSession}">
+				<div class="inner" *ngIf="!x.contentTypeAd">
+					<div class="image">
+						<button mat-icon-button (click)="playTrack('item', i)">
+							<img *ngIf="x.image" [src]="audioPlayerData.path + 'thumbnails/' + x.image"/>
+							<mat-icon *ngIf="!x.playing">play_arrow</mat-icon>
+							<mat-icon *ngIf="x.playing">pause</mat-icon>
+						</button>
+					</div>
+					<div class="text" (click)="playTrack('item', i)">
+						<div class="titleArtist" title="{{x.original_title ? x.original_title : x.title}}">
+							<div class="title">{{x.original_title ? x.original_title : x.title}}</div>
+							<div class="artist">{{x.original_artist ? x.original_artist : x.title}}</div>
+						</div>
+						<div class="duration">{{(audioPlayerData.current.key == i) ? (x.countdown ? x.countdown : x.duration) : x.duration}}</div>
+					</div>
+					<div class="actions">
+						<span *ngIf="audioPlayerData.current.user == sessionData.current.id && audioPlayerData.current.type == 'default'">
+							<button mat-icon-button [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button>
+						</span>
+						<span *ngIf="audioPlayerData.current.user != sessionData.current.id || audioPlayerData.current.type != 'default'">
+							<button mat-icon-button [matMenuTriggerFor]="appMenu">
+								<mat-icon *ngIf="x.addRemoveOther" class="added">check</mat-icon>
+								<mat-icon *ngIf="!x.addRemoveOther">more_vert</mat-icon>
+							</button>
+						</span>
+						<mat-menu #appMenu="matMenu">
+							<button mat-menu-item (click)="itemOptions('addRemoveSession', x, null); x.addRemoveSession=!x.addRemoveSession;" *ngIf="audioPlayerData.current.user == sessionData.current.id && audioPlayerData.current.type == 'default'">{{x.addRemoveSession ? translations.add : translations.remove}}</button>
+							<button mat-menu-item (click)="itemOptions('addRemoveOther', x, null); x.addRemoveOther=!x.addRemoveOther;" *ngIf="audioPlayerData.current.user != sessionData.current.id || audioPlayerData.current.type != 'default'">{{!x.addRemoveOther ? translations.add : translations.remove}}</button>
+							<button mat-menu-item [matMenuTriggerFor]="menuPlaylists" #trigger="matMenuTrigger">{{translations.addToPlaylist}}</button>
+							<button mat-menu-item (click)="itemOptions('share', x, null)">{{translations.share}}</button>
+							<button mat-menu-item (click)="itemOptions('report', x, null)">{{translations.report}}</button>
+						</mat-menu>
+						<mat-menu #menuPlaylists="matMenu">
+							<button mat-menu-item (click)="itemOptions('createPlaylist', null, null)">{{translations.createPlaylist}}</button>
+							<span *ngFor="let p of sessionData.current.playlists">
+								<button mat-menu-item *ngIf="!p.removed" (click)="itemOptions('playlist', x, p)">{{p.title}}</button>
+							</span>
+						</mat-menu>
+					</div>
+				</div>
+			</li>
+	    </ul>
+
+	    <div class="noData" *ngIf="noData">{{translations.noData}}</div>
+	</div>
+</div>

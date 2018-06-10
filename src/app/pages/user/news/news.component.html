@@ -1,0 +1,57 @@
+<div class="innerBodyContent">
+	<div class="pageNews">
+		<div class="content">
+			<div class="searchBox news">
+			 	<div class="box">
+					<form [formGroup]="actionFormSearch" (ngSubmit)="search('send')">
+						<div class="inner">
+							<mat-icon>search</mat-icon>
+							<input type="text" placeholder="Search" formControlName="caption">
+							<button mat-icon-button type="button" *ngIf="actionFormSearch.controls.caption.value.length > 0" (click)="search('clear')">
+								<mat-icon>clear</mat-icon>
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<ul *ngIf="dataDefault.list.length > 0">
+				<li mat-ripple *ngFor="let x of dataDefault.list" [ngClass]="{'ad': x.contentTypeAd}">
+					<span *ngIf="!x.contentTypeAd">
+						<a class="image" (click)="show(x, i)">
+							<span *ngIf="x.type == 'photo'">
+								<div class="img" [ngStyle]="{'background-image': 'url(' + (x.photos.mimetype.indexOf('image') !== -1 ? environment.pathPhotos : environment.pathVideos) + 'thumbnails/' + x.photos.name + ')'}"></div>
+								<div class="category">
+									<mat-icon *ngIf="x.photos.mimetype.indexOf('video') !== -1">videocam</mat-icon>
+									<mat-icon *ngIf="x.photos.mimetype.indexOf('image/gif') !== -1" class="gif">gif</mat-icon>
+								</div>
+							</span>
+							<span *ngIf="x.type == 'url'">
+								<div class="img" [ngStyle]="{'background-image': 'url(' + x.urlVideo.thumbnail + ')'}"></div>
+								<div class="category">
+									<mat-icon>videocam</mat-icon>
+								</div>
+							</span>
+						</a>
+					</span>
+
+					<div class="ad" *ngIf="x.contentTypeAd">
+						<div class="box" [innerHtml]="x.content"></div>
+						<div class="disableAdBlock" *ngIf="hideAd">{{translations.disableAdBlock}}</div>
+					</div>
+				</li>
+			</ul>
+
+			<div class="loadingData" *ngIf="dataDefault.loadingData">
+				<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+			</div>
+			<div class="noData" *ngIf="dataDefault.noData">{{translations.noData}}</div>
+			<div class="loadMore" *ngIf="dataDefault.loadMoreData">
+				<button mat-fab (click)="default('more', null, null)" *ngIf="!dataDefault.loadingMoreData">
+					<mat-icon>add</mat-icon>
+				</button>
+				<mat-progress-spinner mode="indeterminate" *ngIf="dataDefault.loadingMoreData"></mat-progress-spinner>
+			</div>
+		</div>
+	</div>
+</div>

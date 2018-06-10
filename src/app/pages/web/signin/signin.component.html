@@ -1,0 +1,50 @@
+<div class="innerBodyWeb">
+	<div class="header">
+		<div class="back" routerLink="/">
+			<button mat-icon-button>
+				<mat-icon>arrow_back</mat-icon>
+			</button>
+		</div>
+		<div class="logo" routerLink="/"></div>
+	</div>
+
+	<div class="innerBodyContent">
+		<div class="container">
+			<div class="title">
+				Sign in
+			</div>
+
+			<div class="form">
+				<form autocomplete="off" novalidate [formGroup]="actionForm" (ngSubmit)="submit($event);">
+					<mat-form-field>
+						<input type="email" matInput placeholder="Email" #Email maxlength="100" formControlName="email">
+						<mat-hint align="end">{{Email.value.length}}/100</mat-hint>
+					</mat-form-field>
+
+					<mat-form-field>
+						<input type="password" matInput placeholder="Password" #Password maxlength="100" formControlName="password">
+						<button type="button" *ngIf="Password.value.length > 0" mat-button matSuffix mat-icon-button (click)="showPassword=!showPassword">
+							<mat-icon *ngIf="!showPassword">visibility</mat-icon>
+							<mat-icon *ngIf="showPassword">visibility_off</mat-icon>
+						</button>
+						<mat-hint align="end">{{Password.value.length}}/100</mat-hint>
+					</mat-form-field>
+
+					<!-- <re-captcha class="captcha" formControlName="recaptcha" siteKey="6LdjARYUAAAAAPDX4mmmCFvaWpqpaPpbbIk6gg2r"></re-captcha> -->
+					<!-- <re-captcha class="local captcha" formControlName="recaptcha" siteKey="6LcOuyYTAAAAAHTjFuqhA52fmfJ_j5iFk5PsfXaU"></re-captcha> -->
+
+					<div class="buttons">
+						<button mat-raised-button type="submit" [disabled]="!actionForm.valid">
+							<mat-progress-spinner mode="indeterminate" *ngIf="submitLoading"></mat-progress-spinner>
+							Sign in
+						</button>
+						<br>
+						<button mat-button class="forgot" type="button" routerLink="/forgot-password">
+							Forgot password?
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

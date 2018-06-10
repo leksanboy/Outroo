@@ -1,0 +1,119 @@
+<div class="innerBodyContent">
+	<div class="pagePhotos">
+		<div class="content">
+			<div class="back" (click)="goBack()">
+				<button mat-icon-button><mat-icon>arrow_back</mat-icon></button>
+				<div class="text">{{translations.photos}}</div>
+			</div>
+
+			<div class="uploadFilesBox" *ngIf="userData.id == sessionData.current.id">
+				<div class="button">
+					<button mat-raised-button (click)="uploadFile.click()" [disabled]="!dataFiles.actions">
+						<div class="top" [ngClass]="{'warning': dataFiles.list.length > 9}">
+							<mat-icon>cloud_upload</mat-icon>
+							{{translations.chooseFiles}} {{dataFiles.list.length}}/9
+						</div>
+						<div class="bottom">
+							{{translations.maxSizePerFilePhotos}}
+						</div>
+					</button>
+
+					<input type='file' hidden #uploadFile name='fileUpload[]' multiple (change)="uploadFiles(1, $event)" accept=".jpg, .jpeg, .png, .gif, .bmp, .tiff, image/jpeg, image/png, image/gif, image/heic, image/heif, image/webp, video/*, .avi, .mp4, .3gp, .mpeg, .mov, .flv, .f4v, .wmv, .mkv, .webm, .vob, .rm, .rmvb, .m4v, .mpg, .ogv, .ts, .m2ts, .mts, .mxf">
+				</div>
+
+				<ul class="photosFiles" *ngIf="dataFiles.list.length > 0">
+					<li *ngFor="let x of dataFiles.list; let i = index;">
+						<div class="image" [ngClass]="{'unknown': x.category=='unknown'}">
+							<div *ngIf="x.category=='image'" class="img" [ngStyle]="{'background-image': 'url(' + x.thumbnail + ')'}"></div>
+							<div *ngIf="x.category=='video'" class="vid"><video [src]="x.thumbnail"></video></div>
+
+							<div class="category">
+								<div class="size" *ngIf="x.sizeBig">{{x.sizeBig}}</div>
+								<mat-icon class="redColor" *ngIf="x.category=='unknown'">error_outline</mat-icon>
+								<mat-icon *ngIf="x.category=='video'">videocam</mat-icon>
+							</div>
+
+							<div class="status">
+								<button mat-icon-button (click)="uploadFiles(3, i)" *ngIf="x.status=='clear'">
+									<mat-icon>clear</mat-icon>
+								</button>
+								<div class="progress" *ngIf="x.status=='progress'">
+									<mat-progress-spinner mode="determinate" [value]="x.progress"></mat-progress-spinner>
+									<div class="value">{{x.progress}}%</div>
+								</div>
+								<button mat-icon-button *ngIf="x.status=='error'">
+									<mat-icon>cloud_off</mat-icon>
+								</button>
+								<button mat-icon-button *ngIf="x.status=='completed'">
+									<mat-icon>check</mat-icon>
+								</button>
+							</div>
+
+							<!-- <div class="status">
+								<button mat-icon-button (click)="uploadFiles(3, i)" *ngIf="x.status=='clear'">
+									<mat-icon>clear</mat-icon>
+								</button>
+								<div class="progress" *ngIf="x.status=='progress'">
+									<mat-progress-spinner mode="determinate" [value]="x.progress"></mat-progress-spinner>
+									<div class="value">{{x.progress}}%</div>
+								</div>
+								<div class="icon" *ngIf="x.status=='completed'">
+									<mat-icon>check</mat-icon>
+								</div>
+								<div class="icon" *ngIf="x.status=='error'">
+									<mat-icon>cloud_off</mat-icon>
+								</div>
+							</div> -->
+						</div>
+
+						<!-- <div class="category">
+							<div class="size" *ngIf="x.sizeBig">{{x.sizeBig}}</div>
+							<mat-icon class="redColor" *ngIf="x.category=='unknown'">error_outline</mat-icon>
+							<mat-icon class="whiteColor" *ngIf="x.category=='video'">videocam</mat-icon>
+						</div> -->
+					</li>
+				</ul>
+
+				<div class="buttons" *ngIf="dataFiles.list.length > 0">
+					<div class="group" *ngIf="dataFiles.actions">
+						<button mat-raised-button (click)="uploadFiles(2, $event)">
+							{{translations.cancel}}
+						</button>
+						<button mat-raised-button [disabled]="dataFiles.list.length > 9 || dataFiles.saveDisabled" (click)="uploadFiles(4, $event)">
+							{{translations.upload}}
+						</button>
+					</div>
+
+					<button *ngIf="dataFiles.reload" mat-raised-button (click)="uploadFiles(5, $event)">
+						<mat-icon>autorenew</mat-icon>
+						{{translations.done}}
+					</button>
+				</div>
+			</div>
+
+			<ul *ngIf="dataDefault.list.length > 0" [ngClass]="{noPadding: userData.id != sessionData.current.id}">
+				<li mat-ripple *ngFor="let x of dataDefault.list; let i=index;" [ngClass]="{'remove': x.addRemoveSession}">
+					<!-- <a class="image" routerLink="/{{userData.username}}/photos/{{x.name}}" (click)="show(x, i)"> -->
+					<a class="image" (click)="show(x, i)">
+						<div class="img" [ngStyle]="{'background-image': 'url(' + (x.mimetype.indexOf('image') !== -1 ? environment.pathPhotos : environment.pathVideos) + 'thumbnails/' + x.name + ')'}"></div>
+						<div class="category">
+							<mat-icon *ngIf="x.mimetype.indexOf('video') !== -1">videocam</mat-icon>
+							<mat-icon *ngIf="x.mimetype.indexOf('image/gif') !== -1" class="gif">gif</mat-icon>
+						</div>
+					</a>
+				</li>
+			</ul>
+
+			<div class="loadingData" *ngIf="dataDefault.loadingData">
+				<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+			</div>
+			<div class="noData" *ngIf="dataDefault.noData">{{translations.noData}}</div>
+			<div class="loadMore" *ngIf="dataDefault.loadMoreData">
+				<button mat-fab (click)="default('more', null)" *ngIf="!dataDefault.loadingMoreData">
+					<mat-icon>add</mat-icon>
+				</button>
+				<mat-progress-spinner mode="indeterminate" *ngIf="dataDefault.loadingMoreData"></mat-progress-spinner>
+			</div>
+		</div>
+	</div>
+</div>

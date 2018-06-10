@@ -1,0 +1,193 @@
+<div class="dialogBox">
+	<div mat-dialog-title class="header headerMobile">
+		<button mat-icon-button (click)="dialogRef.close()"><mat-icon>arrow_back</mat-icon></button>
+		<div class="text">{{data.comeFrom == 'publications' ? 'Post' : 'Notification'}}</div>
+	</div>
+
+	<div mat-dialog-content class="bodyPublications">
+		<div class="container" *ngIf="!notExist">
+			<div class="inner">
+				<div class="left" [ngClass]="{'remove': data.current.addRemoveSession}">
+					<div class="photos" *ngIf="data.current.photos">
+						<span *ngIf="data.current.photos.length == 1">
+							<div *ngFor="let p of data.current.photos">
+								<img *ngIf="p.mimetype.indexOf('image') !== -1" [src]="environment.pathPhotos + p.name">
+								<video *ngIf="p.mimetype.indexOf('video') !== -1" [src]="environment.pathVideos + p.name.split('.')[0] + '.mp4'" controls></video>
+							</div>
+						</span>
+
+						<swiper *ngIf="data.current.photos.length > 1" class="swiper" [config]="config">
+							<div class="swiper-wrapper">
+								<div class="swiper-slide" *ngFor="let p of data.current.photos">
+									<img *ngIf="p.mimetype.indexOf('image') !== -1" [src]="environment.pathPhotos + p.name">
+									<video *ngIf="p.mimetype.indexOf('video') !== -1" [src]="environment.pathVideos + p.name.split('.')[0] + '.mp4'" controls></video>
+								</div>
+							</div>
+
+							<div class="swiper-pagination"></div>
+							<div class="swiperNext"><mat-icon>keyboard_arrow_right</mat-icon></div>
+							<div class="swiperPrev"><mat-icon>keyboard_arrow_left</mat-icon></div>
+						</swiper>
+					</div>
+				</div>
+
+				<div class="right">
+					<div class="box">
+						<div class="panel">
+							<div class="user">
+								<a class="avatar" routerLink="/{{data.user.username}}">
+									<img [src]="data.user.avatar ? data.user.avatarUrl : environment.avatar"/>
+								</a>
+								<div class="text">
+									<a class="name" routerLink="/{{data.user.username}}">
+										<span class="username">{{data.user.username}}</span>
+										<span class="date"> · {{data.current.date | timeago}}</span>
+									</a>
+								</div>
+								<div class="actions">
+									<button mat-icon-button [matMenuTriggerFor]="optionsItem"><mat-icon>more_vert</mat-icon></button>
+									<mat-menu #optionsItem="matMenu">
+										<button mat-menu-item (click)="itemOptions('remove', data.current); data.current.addRemoveSession=!data.current.addRemoveSession;" *ngIf="data.user.id == data.session.id">{{data.current.addRemoveSession ? 'Add' : 'Remove'}}</button>
+										<button mat-menu-item (click)="itemOptions('disableComments', data.current)" *ngIf="data.user.id == data.session.id">{{data.current.disabledComments ? 'Disable' : 'Enable'}} comments</button>
+										<button mat-menu-item (click)="itemOptions('share', data.current)">Share</button>
+										<button mat-menu-item (click)="itemOptions('report', data.current)">Report</button>
+										<button mat-menu-item (click)="itemOptions('close', null)">Close</button>
+									</mat-menu>
+								</div>
+							</div>
+
+							<div class="textContainer" *ngIf="data.current.content" [innerHTML]="data.current.content | safeHtml"></div>
+
+							<div class="audios" *ngIf="data.current.audios">
+								<ul>
+									<li *ngFor="let a of data.current.audios; let i=index;" [ngClass]="{active: audioPlayerData.key == i && audioPlayerData.type == 'publication' && audioPlayerData.postId == data.current.id, default: !a.image}">
+										<div class="inner">
+											<div class="image">
+												<button mat-icon-button (click)="playItem(data.current, a, i, 'publication')">
+													<mat-icon *ngIf="!a.playing || !(audioPlayerData.postId == data.current.id)">play_arrow</mat-icon>
+													<mat-icon *ngIf="a.playing && (audioPlayerData.postId == data.current.id)">pause</mat-icon>
+													<img *ngIf="a.image" [src]="environment.pathAudios + 'thumbnails/' + a.image"/>
+												</button>
+											</div>
+											<div class="text" (click)="playItem(data.current, a, i, 'publication')">
+												<div class="titleArtist" title="{{a.original_title ? a.original_title : a.title}}">
+													<div class="title">{{a.original_title ? a.original_title : a.title}}</div>
+													<div class="artist">{{a.original_artist ? a.original_artist : a.title}}</div>
+												</div>
+												<div class="duration">{{a.duration}}</div>
+											</div>
+											<div class="actions">
+												<button mat-icon-button [matMenuTriggerFor]="appMenu">
+													<mat-icon *ngIf="a.addRemoveUser" class="added">check</mat-icon>
+													<mat-icon *ngIf="!a.addRemoveUser">more_vert</mat-icon>
+												</button>
+												<mat-menu #appMenu="matMenu">
+													<button mat-menu-item (click)="itemAudiosOptions('addRemoveUser', a, null); a.addRemoveUser=!a.addRemoveUser;">{{!a.addRemoveUser ? 'Add' : 'Remove'}}</button>
+													<button mat-menu-item [matMenuTriggerFor]="menuPlaylists" #trigger="matMenuTrigger">Add to playlist</button>
+													<button mat-menu-item (click)="itemAudiosOptions('share', a, null)">Share</button>
+													<button mat-menu-item (click)="itemAudiosOptions('report', a, null)">Report</button>
+												</mat-menu>
+												<mat-menu #menuPlaylists="matMenu">
+													<button mat-menu-item (click)="itemAudiosOptions('createPlaylist', null, null)">+ Create playlist</button>
+													<span *ngFor="let p of data.session.playlists">
+														<button mat-menu-item *ngIf="!p.removed" (click)="itemAudiosOptions('playlist', a, p)">{{p.title}}</button>
+													</span>
+												</mat-menu>
+											</div>
+										</div>
+									</li>
+								</ul>
+							</div>
+
+							<div class="analytics">
+								<div class="buttonBox">
+									<button mat-icon-button>
+										<mat-icon>chat_bubble_outline</mat-icon>
+									</button>
+									{{data.current.disabledComments ? data.current.countComments : ''}}
+								</div>
+								<div class="buttonBox">
+									<button mat-icon-button (click)="likeUnlike(data.current)" [ngClass]="{'active' : data.current.liked}">
+										<mat-icon>favorite_border</mat-icon>
+									</button>
+									{{data.current.countLikes}}
+								</div>
+
+								<div class="likers" *ngIf="data.current.countLikes > 0">
+									<span *ngFor="let l of data.current.likers; let isLast = last">
+										<a routerLink="/{{l.username}}">{{l.username}}</a>
+										{{isLast ? '' : ', '}}
+									</span>
+									{{data.current.countLikes <= 2 ? 'liked this' : 'and more liked this'}}
+								</div>
+							</div>
+						</div>
+
+						<div class="boxComments" *ngIf="data.current.disabledComments">
+							<div class="comments">
+								<div class="new">
+									<div class="avatar">
+										<img [src]="data.session.avatar ? data.session.avatarUrl : environment.avatar"/>
+									</div>
+									<form>
+										<mat-form-field floatPlaceholder="never">
+											<textarea matInput matTextareaAutosize autofocus="" rows="1" placeholder="Comment..." [(ngModel)]="data.current.newComment" name="comment"></textarea>
+										</mat-form-field>
+									</form>
+									<div class="actions">
+										<button mat-button type="submit" [disabled]="data.current.newComment.length == 0" (click)="newComment('create')">Send</button>
+									</div>
+								</div>
+
+								<ul>
+									<li *ngFor="let c of data.comments.list" [ngClass]="{'remove': c.addRemove}">
+										<a class="avatar" routerLink="/{{c.user.username}}">
+											<img [src]="c.user.avatar ? c.user.avatarUrl : environment.avatar"/>
+										</a>
+										<div class="text">
+											<div class="name">
+												<a class="username" routerLink="/{{c.user.username}}">{{c.user.username}}</a>
+												<span class="date"> · {{c.date | timeago}}</span>
+												<div class="actions">
+													<button mat-icon-button [matMenuTriggerFor]="optionsComments"><mat-icon>more_vert</mat-icon></button>
+													<mat-menu #optionsComments="matMenu">
+														<button mat-menu-item (click)="commentsOptions('addRemove', data.current, c)" *ngIf="c.user.id == data.session.id">{{c.addRemove ? 'Add' : 'Remove'}}</button>
+														<button mat-menu-item (click)="commentsOptions('report', data.current, c)">Report</button>
+													</mat-menu>
+												</div>
+											</div>
+											<div class="content">{{c.comment}}</div>
+										</div>
+									</li>
+								</ul>
+
+								<div class="loadingData" *ngIf="loadingData">
+									<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+								</div>
+								<div class="noData" *ngIf="noData">No comments</div>
+								<div class="loadMore" *ngIf="loadMoreData">
+									<button mat-fab (click)="defaultComments('more', null)" *ngIf="!loadingMoreData">
+										<mat-icon>add</mat-icon>
+									</button>
+									<mat-progress-spinner mode="indeterminate" *ngIf="loadingMoreData"></mat-progress-spinner>
+								</div>
+							</div>
+						</div>
+
+						<div class="noData" *ngIf="!data.current.disabledComments">
+							<mat-icon>lock_outline</mat-icon>
+							<br>
+							Comments for this publication are disabled.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container" *ngIf="notExist">
+			<div class="noData">
+				Current publication does not exist.
+			</div>
+		</div>
+	</div>
+</div>

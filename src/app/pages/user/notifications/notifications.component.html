@@ -1,0 +1,211 @@
+<div class="innerBodyContent">
+	<div class="pageNotifications">
+		<div class="content">
+			<mat-tab-group mat-stretch-tabs [(selectedIndex)]="data.selectedIndex">
+				<mat-tab label="{{translations.notifications}}">
+					<ul class="notifications" *ngIf="dataNotifications.list.length > 0">
+						<li mat-ripple *ngFor="let x of dataNotifications.list" [ngClass]="{'active': x.status == 0}">
+							<a class="avatar" routerLink="/{{x.user.username}}">
+								<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
+							</a>
+
+							<div class="inner" *ngIf="x.url == 'followers'">
+								<div class="text">
+									<div class="name">
+										<a class="username" routerLink="/{{x.user.username}}">{{x.user.username}}</a>
+										<span class="date"> · {{x.date | timeago}}</span>
+									</div>
+									<div class="container">
+										<span *ngIf="x.type == 'startFollowing' || x.type == 'startFollowingPrivate' || x.type == 'startFollowingPrivateAccepted'">{{translations.startFollowingYou}}</span>
+										<span *ngIf="x.type == 'acceptRequest'">{{translations.acceptFollowingRequest}}</span>
+									</div>
+								</div>
+								<div class="operations">
+									<!-- Request from others -->
+									<span *ngIf="sessionData.current.id == x.receiver && x.type == 'startFollowingPrivate'">
+										<button mat-button class="active" (click)="followUnfollow('accept', x)">
+											{{translations.accept}}
+										</button>
+										<button mat-button class="border" (click)="followUnfollow('decline', x)">
+											{{translations.decline}}
+										</button>
+									</span>
+
+									<!-- Mine Requests -->
+									<span *ngIf="x.type != 'startFollowingPrivate'">
+										<button mat-button class="border" *ngIf="sessionData.current.id != 'x.receiver' && x.statusFollowing == 'pending'" [matMenuTriggerFor]="cancelRequest">
+											{{translations.pending}}
+										</button>
+
+										<button mat-button class="border" *ngIf="x.statusFollowing == 'unfollow'" (click)="followUnfollow('follow', x)">
+											{{translations.follow}}
+										</button>
+
+										<button mat-button class="active" *ngIf="x.statusFollowing == 'following'" [matMenuTriggerFor]="stopFollowing">
+											{{translations.following}}
+										</button>
+
+										<mat-menu #cancelRequest="matMenu" yPosition="below" xPosition="before" class="removeBox">
+											<button mat-menu-item disabled>
+												{{translations.cancelRequest}}
+											</button>
+											<div class="buttons">
+												<button mat-menu-item>{{translations.no}}</button>
+												<button mat-menu-item (click)="followUnfollow('unfollow', x)">{{translations.yes}}</button>
+											</div>
+										</mat-menu>
+										<mat-menu #stopFollowing="matMenu" yPosition="below" xPosition="before" class="removeBox">
+											<button mat-menu-item disabled>
+												{{translations.stopFollowing}}
+												<br>
+												{{x.user.username}}?
+											</button>
+											<div class="buttons">
+												<button mat-menu-item>{{translations.no}}</button>
+												<button mat-menu-item (click)="followUnfollow('unfollow', x)">{{translations.yes}}</button>
+											</div>
+										</mat-menu>
+									</span>
+								</div>
+							</div>
+
+							<div class="inner" *ngIf="x.url == 'photos'">
+								<div class="text">
+									<div class="name">
+										<a class="username" routerLink="/{{x.user.username}}">{{x.user.username}}</a>
+										<span class="date"> · {{x.date | timeago}}</span>
+									</div>
+									<div class="container" (click)="showNotification(x)">
+										<span *ngIf="x.type == 'comment'">
+											{{translations.commentedYourPhoto}}
+											<span *ngIf="x.contentData.comment" [innerHtml]="x.contentData.comment.comment | safeHtml"></span>
+										</span>
+										
+										<span *ngIf="x.type == 'like'">{{translations.likedYourPhoto}}</span>
+
+										<span *ngIf="x.type == 'mention'">{{translations.mentionOnPhoto}}</span>
+
+										<span *ngIf="x.type == 'mentionComment'">{{translations.mentionOnCommentOnPhoto}}</span>
+
+										<span *ngIf="x.type == 'share'">{{translations.sharePhoto}}</span>
+
+										<span *ngIf="!x.contentData.media">
+											<br>
+											<span [innerHtml]="x.contentData.content | safeHtml"></span>
+										</span>
+									</div>
+								</div>
+								<div class="operations">
+									<div class="image" *ngIf="x.contentData.media" (click)="showNotification(x)">
+										<div class="img" [ngStyle]="{'background-image': 'url(' + x.contentData.media + ')'}"></div>
+									</div>
+								</div>
+							</div>
+
+							<div class="inner" *ngIf="x.url == 'publications'">
+								<div class="text">
+									<div class="name">
+										<a class="username" routerLink="/{{x.user.username}}">{{x.user.username}}</a>
+										<span class="date"> · {{x.date | timeago}}</span>
+									</div>
+									<div class="container" (click)="showNotification(x)">
+										<span *ngIf="x.type == 'comment'">
+											{{translations.commentedYourPublication}}
+											<span *ngIf="x.contentData.comment" [innerHtml]="x.contentData.comment.comment | safeHtml"></span>
+										</span>
+										
+										<span *ngIf="x.type == 'like'">{{translations.likedYourPublication}}</span>
+
+										<span *ngIf="x.type == 'mention'">{{translations.mentionOnPublication}}</span>
+
+										<span *ngIf="x.type == 'mentionComment'">{{translations.mentionOnCommentOnPublication}}</span>
+
+										<span *ngIf="x.type == 'share'">{{translations.sharePublication}}</span>
+
+										<span *ngIf="!x.contentData.media">
+											<br>
+											<span [innerHtml]="x.contentData.content | safeHtml"></span>
+										</span>
+									</div>
+								</div>
+								<div class="operations">
+									<div class="image" *ngIf="x.contentData.media" (click)="showNotification(x)">
+										<div class="img" [ngStyle]="{'background-image': 'url(' + x.contentData.media + ')'}"></div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+
+					<div class="loadingData" *ngIf="dataNotifications.loadingData">
+						<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+					</div>
+					<div class="noData" *ngIf="dataNotifications.noData">{{translations.noData}}</div>
+					<div class="loadMore" *ngIf="dataNotifications.loadMoreData">
+						<button mat-fab (click)="defaultNotifications('more', null)" *ngIf="!dataNotifications.loadingMoreData">
+							<mat-icon>add</mat-icon>
+						</button>
+						<mat-progress-spinner mode="indeterminate" *ngIf="dataNotifications.loadingMoreData"></mat-progress-spinner>
+					</div>
+				</mat-tab>
+
+				<mat-tab label="{{translations.messages}}">
+					<div class="uploadFilesBox">
+						<div class="button">
+							<button mat-raised-button (click)="showConversation('new', null)">
+								<div class="top">
+									<mat-icon>question_answer</mat-icon>
+									{{translations.newMessage}}
+								</div>
+								<div class="bottom">
+									{{translations.newGroupConversation}}
+								</div>
+							</button>
+						</div>
+					</div>
+
+					<ul class="chat" *ngIf="dataChats.list.length > 0">
+						<li mat-ripple *ngFor="let x of dataChats.list" [ngClass]="{remove: x.addRemoveSession}">
+							<div class="avatarsGroup" [ngClass]="{'group': x.users.length > 1}">
+								<div class="avatar" *ngFor="let u of x.users | slice: 0:2">
+									<img [src]="u.user.avatar ? u.user.avatarUrl : environment.avatar"/>
+								</div>
+							</div>
+							<div class="text" (click)="showConversation('conversation', x)">
+								<div class="name">
+									<span *ngFor="let u of x.users | slice: 0:5; let isLast = last;">
+										<span class="username">
+											{{u.user.username}}{{isLast ? '' : ', '}}
+										</span>
+									</span>
+									<span class="date"> · {{x.date | timeago}}</span>
+								</div>
+								<div class="container">
+									<span [innerHtml]="x.last | safeHtml"></span>
+								</div>
+							</div>
+							<div class="actions">
+								<button mat-icon-button [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button>
+								<mat-menu #appMenu="matMenu">
+									<button mat-menu-item (click)="itemOptionsChat('addRemoveSession', x); x.addRemoveSession=!x.addRemoveSession;">{{x.addRemoveSession ? translations.returnChat : translations.leaveChat}}</button>
+									<button mat-menu-item (click)="itemOptionsChat('report', x)">{{translations.report}}</button>
+								</mat-menu>
+							</div>
+						</li>
+					</ul>
+
+					<div class="loadingData" *ngIf="dataChats.loadingData">
+						<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+					</div>
+					<div class="noData" *ngIf="dataChats.noData">{{translations.noData}}</div>
+					<div class="loadMore" *ngIf="dataChats.loadMoreData">
+						<button mat-fab (click)="defaultChats('more', null)" *ngIf="!dataChats.loadingMoreData">
+							<mat-icon>add</mat-icon>
+						</button>
+						<mat-progress-spinner mode="indeterminate" *ngIf="dataChats.loadingMoreData"></mat-progress-spinner>
+					</div>
+				</mat-tab>
+			</mat-tab-group>
+		</div>
+	</div>
+</div>

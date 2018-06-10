@@ -1,0 +1,62 @@
+<?php include "../db.php";
+	$data = json_decode(file_get_contents('php://input'), true);
+
+	$ipAddress = $_SERVER['REMOTE_ADDR'];
+	$username = $data['username'];
+
+	// Login page & confirm email auto login
+	$password = explode('-', $data['password']);
+	if ($password[1]) // Came from validation email
+		$password = $password[0];
+	else // login page
+		$password = md5($data['password']);
+
+	// ·> Localhost signin
+	// $username = 1;
+	// $password = md5(1);
+
+	// Log in and return session data
+	$sql = "SELECT id, username, name, avatar, background, email, about, language, theme, official, private, reset_password as rp
+			FROM z_users
+			WHERE email = '$username' AND password = '$password'";
+	$result = $conn->query($sql)->fetch_assoc();
+
+	if ($result){
+		$result['name'] = html_entity_decode($result['name'], ENT_QUOTES);
+		$result['about'] = html_entity_decode($result['about'], ENT_QUOTES);
+		$result['languages'] = getLanguages();
+		$result['avatarUrl'] = $result['avatar'] ? ('./assets/media/user/'.$result['id'].'/avatar/'.$result['avatar']) : '';
+		$result['backgroundUrl'] = $result['background'] ? ('./assets/media/user/'.$result['id'].'/background/'.$result['background']) : '';
+		$result['theme'] = $result['theme'] ? true : false;
+		$result['official'] = $result['official'] ? true : false;
+		$result['private'] = $result['private'] ? true : false;
+		$result['countFollowing'] = countUserFollowing($result['id']);
+		$result['countFollowers'] = countUserFollowers($result['id']);
+		$result['countPhotos'] = countUserPhotos($result['id']);
+		$result['countAudios'] = countUserAudios($result['id']);
+		$result['url'] = "https://outhroo.com/";
+
+		// Set user activity
+		userLoginActivity($result['id'], $ipAddress);
+
+		// Get Device
+		$device = $_SERVER['HTTP_USER_AGENT'];
+		$device = explode(")", $device);
+		$device[0] = explode("(", $device[0])[1];
+		$device = $device[0].', '.$device[2];
+
+		// Get location
+		$location = json_decode(file_get_contents("https://ipinfo.io/$ipAddress/json"));
+		$location = $location->city ? ($location->city.', '.$location->region) : 'Unable to locate '.$ipAddress;
+
+		// Send email
+		emailNewLogin($result['username'], $result['email'], $result['rp'], $device , $location);
+
+		// Data
+		echo json_encode($result);
+	} else {
+		var_dump(http_response_code(403));
+	}
+
+	$conn->close();
+?>
