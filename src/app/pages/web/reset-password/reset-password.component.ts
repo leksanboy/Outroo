@@ -24,7 +24,8 @@ export class ResetPasswordComponent implements OnInit {
     public showPassword: boolean;
     public showConfirmPassword: boolean;
     public userData: any = [];
-    public pageStatus: string = '';
+    public pageStatus: string;
+    public recaptcha: boolean;
 
 	constructor(
 		private titleService: Title,
@@ -34,6 +35,9 @@ export class ResetPasswordComponent implements OnInit {
         private alertService: AlertService,
 		private userDataService: UserDataService
 	) {
+        // reCaptcha
+        window['verifyCallbackReCaptcha'] = this.verifyReCaptcha.bind(this);
+
         // Get url data
         let urlData: any = this.activatedRoute.snapshot;
         let data = {
@@ -70,12 +74,17 @@ export class ResetPasswordComponent implements OnInit {
 		});
 	}
 
-	submit(event:Event) {
+    verifyReCaptcha(ev){
+        if (ev)
+            this.recaptcha = true;
+    }
+
+	submit(ev: Event) {
 		this.submitLoading = true;
 
         if (this.actionForm.get('password').value.length > 0 &&
             this.actionForm.get('confirmPassword').value.length > 0 &&
-            this.actionForm.get('recaptcha').value
+            this.recaptcha
 		) {
             if(this.actionForm.get('password').value === this.actionForm.get('confirmPassword').value){
                 let data = {
@@ -97,7 +106,7 @@ export class ResetPasswordComponent implements OnInit {
         					this.alertService.success('Unexpected error has ocurred.');
 
                             // reset recaptcha
-                            this.actionForm.get('recaptcha').setValue('');
+                            this.recaptcha = false;
                         }
                     );
             } else {
@@ -112,7 +121,7 @@ export class ResetPasswordComponent implements OnInit {
 		}
 	}
 
-    signin() {
+    signin(ev: Event) {
 		this.signinLoading = true;
 
         if (this.userData.email.length > 0 &&
@@ -126,14 +135,17 @@ export class ResetPasswordComponent implements OnInit {
 						this.signinLoading = false;
 
 						// show error message
-						this.alertService.success('Unexpected error has ocurred.');
+						this.alertService.success('Unexpected error has ocurred');
+
+                        // reset recaptcha
+                        this.recaptcha = false;
 					}
 				);
 		} else {
 			this.signinLoading = false;
 
 			// show error message
-			this.alertService.success('Unexpected error has ocurred.');
+			this.alertService.success('Complete all fields and reCAPTCHA');
 		}
 	}
 }

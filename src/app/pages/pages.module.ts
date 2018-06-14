@@ -51,8 +51,6 @@ import { ReversePipe } from '../core/pipes/reverse.pipe';
 import { SafeHtmlPipe } from '../core/pipes/safehtml.pipe';
 
 import { SwiperModule } from 'angular2-useful-swiper';
-// import { RecaptchaModule } from 'ng-recaptcha';
-// import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
 
 import { UserDataService } from '../core/services/user/userData';
 import { AudioDataService } from '../core/services/user/audioData';
@@ -91,8 +89,6 @@ import { SessionPanelMobileComponent } from './user/_common/sessionPanelMobile/s
 		BrowserAnimationsModule,
 		FormsModule,
 		ReactiveFormsModule,
-		// RecaptchaModule.forRoot(),
-		// RecaptchaFormsModule,
 		SwiperModule,
 		CdkTableModule,
 		MatAutocompleteModule,

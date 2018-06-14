@@ -1,8 +1,9 @@
 import { Title } from '@angular/platform-browser';
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
 import { UserDataService } from '../../../../app/core/services/user/userData';
@@ -16,10 +17,12 @@ declare var ga: Function;
 
 export class SupportComponent implements OnInit {
 	private emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	public environment: any = environment;
 	public actionForm: FormGroup;
 	public submitLoading: boolean;
 	public pageStatus: string = 'default';
 	public email: string;
+	public recaptcha: boolean;
 
 	constructor(
 		private titleService: Title,
@@ -28,7 +31,10 @@ export class SupportComponent implements OnInit {
 		private router: Router,
 		private userDataService: UserDataService,
 		private alertService: AlertService
-	) {}
+	) {
+		// reCaptcha
+		window['verifyCallbackReCaptcha'] = this.verifyReCaptcha.bind(this);
+	}
 
 	ngOnInit() {
 		// Set Google analytics
@@ -42,19 +48,26 @@ export class SupportComponent implements OnInit {
 		// Form
 		this.actionForm = this._fb.group({
 			email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
-			content: ['', [Validators.required]],
-			recaptcha: ['', [Validators.required]]
+			content: ['', [Validators.required]]
 		});
 
 		// destroy session & reset login
 		this.userDataService.logout();
 	}
 
-	submit(event:Event) {
+	verifyReCaptcha(ev){
+		if (ev)
+			this.recaptcha = true;
+	}
+
+	submit(ev: Event) {
 		this.submitLoading = true;
 		this.email = this.actionForm.get('email').value;
 
-		if (this.actionForm.get('email').value.trim().length > 0 && this.actionForm.get('content').value.trim().length > 0 && this.actionForm.get('recaptcha').value) {
+		if (this.actionForm.get('email').value.trim().length > 0 && 
+			this.actionForm.get('content').value.trim().length > 0 && 
+			this.recaptcha
+		) {
 			let data = {
 				email: this.actionForm.get('email').value,
 				content: this.actionForm.get('content').value
@@ -75,7 +88,7 @@ export class SupportComponent implements OnInit {
 						this.alertService.success('Email does not exist.');
 
 						// reset recaptcha
-						this.actionForm.get('recaptcha').setValue('');
+						this.recaptcha = false;
 					}
 				);
 		} else {

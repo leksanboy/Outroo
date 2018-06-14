@@ -1,8 +1,9 @@
 import { Title } from '@angular/platform-browser';
-import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
 
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
 import { UserDataService } from '../../../../app/core/services/user/userData';
@@ -16,6 +17,7 @@ declare var ga: Function;
 
 export class SignupComponent implements OnInit {
 	private emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	public environment: any = environment;
 	public actionForm: FormGroup;
 	public submitLoading: boolean;
 	public signinLoading: boolean;
@@ -24,6 +26,7 @@ export class SignupComponent implements OnInit {
 	public validatorUsername: string;
 	public validatorEmail: string;
 	public emailAccount: string;
+	public recaptcha: boolean;
 
 	constructor(
 		private titleService: Title,
@@ -32,7 +35,10 @@ export class SignupComponent implements OnInit {
 		private router: Router,
 		private alertService: AlertService,
 		private userDataService: UserDataService
-	) {}
+	) {
+		// reCaptcha
+		window['verifyCallbackReCaptcha'] = this.verifyReCaptcha.bind(this);
+	}
 
 	ngOnInit() {
 		// Set Google analytics
@@ -48,8 +54,7 @@ export class SignupComponent implements OnInit {
 			username: ['', [Validators.required]],
 			name: ['', [Validators.required]],
 			email: ['', [Validators.required, Validators.pattern(this.emailPattern)]],
-			password: ['', [Validators.required]],
-			recaptcha: ['', [Validators.required]]
+			password: ['', [Validators.required]]
 		});
 
 		// Validate username
@@ -133,14 +138,19 @@ export class SignupComponent implements OnInit {
 		this.userDataService.logout();
 	}
 
-	submit(event:Event) {
+	verifyReCaptcha(ev){
+		if (ev)
+			this.recaptcha = true;
+	}
+
+	submit(ev: Event) {
 		this.submitLoading = true;
 
 		if (this.actionForm.get('name').value.trim().length > 0 &&
 			this.actionForm.get('username').value.trim().length > 0 &&
 			this.actionForm.get('password').value.trim().length > 0 &&
 			this.emailPattern.test(this.actionForm.get('email').value) &&
-			this.actionForm.get('recaptcha').value
+			this.recaptcha
 		) {
 			this.userDataService.createAccount(this.actionForm.value)
 				.subscribe(
@@ -160,7 +170,7 @@ export class SignupComponent implements OnInit {
 						this.alertService.error('An error has ocurred');
 
 						// reset recaptcha
-						this.actionForm.get('recaptcha').setValue('')
+						this.recaptcha = false;
 					}
 				);
 		} else {

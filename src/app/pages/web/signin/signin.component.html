@@ -30,11 +30,14 @@
 						<mat-hint align="end">{{Password.value.length}}/100</mat-hint>
 					</mat-form-field>
 
-					<!-- <re-captcha class="captcha" formControlName="recaptcha" siteKey="6LdjARYUAAAAAPDX4mmmCFvaWpqpaPpbbIk6gg2r"></re-captcha> -->
-					<!-- <re-captcha class="local captcha" formControlName="recaptcha" siteKey="6LcOuyYTAAAAAHTjFuqhA52fmfJ_j5iFk5PsfXaU"></re-captcha> -->
+					<div class="g-recaptcha" data-sitekey="6LdjARYUAAAAAPDX4mmmCFvaWpqpaPpbbIk6gg2r" data-callback="verifyCallbackReCaptcha"></div>
+
+					<!-- <ngx-recaptcha2 (success)="handleSuccess($event)"></ngx-recaptcha2> -->
+					<!-- <ng2-google-recaptcha [siteKey]="recaptchaSiteKey" (onCaptchaComplete)="onCaptchaComplete($event)"></ng2-google-recaptcha> -->
+					<!-- <ngx-recaptcha2 (success)="handleSuccess($event)"></ngx-recaptcha2> -->
 
 					<div class="buttons">
-						<button mat-raised-button type="submit" [disabled]="!actionForm.valid">
+						<button mat-raised-button type="submit">
 							<mat-progress-spinner mode="indeterminate" *ngIf="submitLoading"></mat-progress-spinner>
 							Sign in
 						</button>

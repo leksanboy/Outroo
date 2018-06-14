@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 	// --> https://github.com/johnpapa/pwa-angular
-	// --> https://www.adictosaltrabajo.com/tutoriales/pwa-y-services-worker-en-angular/
 }
