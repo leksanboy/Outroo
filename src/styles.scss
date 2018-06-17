@@ -8,12 +8,12 @@ Version: 1.0.0
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 /* fallback */
-@font-face {
+/*@font-face {
 	font-family: 'Material Icons';
 	font-style: normal;
 	font-weight: 400;
 	src: url('assets/fonts/mat-icons.woff2') format('woff2');
-}
+}*/
 
 .material-icons {
 	font-family: 'Material Icons';
@@ -41,7 +41,7 @@ $spriteImages: url('assets/images/sprite.png');
 /*Booleans*/
 $modalDialogColor: #1D242E;
 $fontBlackColor: #14181d;
-$backgroundBlackColor: #010203;
+$backgroundBlackColor: #070b17;
 $blackColor: #000000;
 $whiteColor: #FFFFFF;
 $greyColor: #9E9E9E;
@@ -147,8 +147,8 @@ body{
 		}
 	}
 
-	/*Captcha*/
-	.g-recaptcha{
+	/*reCaptcha*/
+	.reCaptcha{
 		margin: 18px 0 0;
 		width: 100%;
 		float: left;
@@ -679,9 +679,13 @@ body{
 			float: left;
 
 			.new{
+				background: transparentize($greyColor, .75);
 				box-sizing: border-box;
+				position: relative;
+				border-radius: 5px;
 				margin: 0 0 8px 0;
 				display: flex;
+				padding: 6px;
 				float: left;
 				width: 100%;
 
@@ -690,9 +694,9 @@ body{
 					border-radius: 50%;
 					overflow: hidden;
 					min-width: 24px;
+					margin: 3px 0;
 					height: 24px;
 					width: 24px;
-					margin: 0;
 
 					img{
 						height: 100%;
@@ -701,11 +705,10 @@ body{
 				}
 
 				.richComment{
-					border-bottom: 1px solid $greyColor;
+					width: calc(100% - 48px);
 					box-sizing: border-box;
 					position: relative;
-					width: 100%;
-					float: left;
+					min-height: 30px;
 
 					.highlights{
 						box-sizing: border-box;
@@ -744,15 +747,17 @@ body{
 				}
 
 				.actions{
-					float: left;
+					margin: 3px 0;
+					height: 24px;
+					width: 24px;
 
 					button{
 						background-color: transparent;
 						text-transform: uppercase;
 						line-height: 24px;
-						padding: 0 8px;
-						height: 24px;
 						min-width: 0;
+						height: 24px;
+						width: 24px;
 						margin: 0;
 
 						mat-icon{
@@ -835,6 +840,8 @@ body{
 						}
 
 						.container{
+							word-break: break-all;
+
 							a{
 								color: $blueColor;
 								cursor: pointer;
@@ -1526,6 +1533,10 @@ body{
 
 			&.scrollable{
 				overflow-y: auto !important;
+			}
+
+			a{
+				color: $whiteColor;
 			}
 
 			.header{
@@ -5562,7 +5573,14 @@ body{
 											display: flex;
 											width: 24px;
 
-											i{
+											mat-icon{
+												line-height: 28px;
+												font-size: 28px;
+												height: 28px;
+												width: 28px;
+											}
+
+											/*i{
 												background-image: $spriteImages;
 												background-repeat: no-repeat;
 												background-size: 144px;
@@ -5576,7 +5594,7 @@ body{
 												&.like{
 													background-position: -48px -96px;	
 												}
-											}
+											}*/
 
 											&.active{
 												i.like{
@@ -7173,10 +7191,12 @@ body{
 		}
 
 		.audioPlayerMobile{
-			padding: 24px 0 300px 0;
+			.box{
+				padding: 24px 0 300px 0;
 
-			.player{
-				padding: 0 0 32px 0;
+				.player{
+					padding: 0 0 32px 0;
+				}
 			}
 		}
 	}
@@ -7835,6 +7855,13 @@ body{
 						height: 48px;
 						width: 100%;
 
+						.mat-icon{
+							line-height: 28px;
+							font-size: 28px;
+							height: 28px;
+							width: 28px;
+						}
+
 						.mat-button-ripple-round{
 							border-radius: 0;
 						}
@@ -7877,6 +7904,23 @@ body{
 							}
 						}
 
+						.loader{
+							mat-progress-spinner{
+								height: 24px !important;
+								width: 24px !important;
+								margin: 0 auto;
+
+								svg {
+									height: 24px !important;
+									width: 24px !important;
+
+									circle{
+										stroke: $redColor !important;
+									}
+								}
+							}
+						}
+
 						.pending{
 							background-color: $redColor;
 							margin: 8px 0 0 4px;
@@ -7894,23 +7938,6 @@ body{
 							left: 50%;
 							top: 0;
 						}
-
-						.loader{
-							mat-progress-spinner{
-								height: 24px !important;
-								width: 24px !important;
-								margin: 0 auto;
-
-								svg {
-									height: 24px !important;
-									width: 24px !important;
-
-									circle{
-										stroke: $redColor !important;
-									}
-								}
-							}
-						}
 					}
 				}
 			}
@@ -7921,435 +7948,449 @@ body{
 		}
 
 		.audioPlayerMobile{
-			background: linear-gradient(0, $blackColor 50%, transparentize($blackColor, .25));
-			padding: 24px 0 268px 0;
-			box-sizing: border-box;
 			position: fixed;
-			overflow: auto;
-			display: block;
-    		height: 100%;
+			z-index: 1000;
+			height: 100%;
 			width: 100%;
-			float: left;
-			z-index: 99;
 			left: 0;
 			top: 0;
 
-			.player{
-				background: linear-gradient(0, transparentize($blackColor, .05) 60%, transparentize($blackColor, .05) 75%, transparentize($blackColor, .15) 90%, transparent);
+			.box{
+				border-top: 1px solid transparentize($greyColor, .75);
+				background-color: $blackColor;
+				padding: 24px 0 268px 0;
+				box-sizing: border-box;
+				max-height: 75vh;
 				position: fixed;
+				overflow: auto;
+				display: block;
+				z-index: 1001;
 				width: 100%;
-				z-index: 9;
+				float: left;
 				bottom: 0;
 
-				.top{
-					box-sizing: border-box;
-					padding: 12px 24px 0;
-					margin: 0 0 -12px;
+				.player{
+					background: linear-gradient(0, transparentize($blackColor, .05) 60%, transparentize($blackColor, .05) 75%, transparentize($blackColor, .15) 90%, transparent);
+					position: fixed;
 					width: 100%;
-					float: left;
+					z-index: 9;
+					bottom: 0;
 
-					.panel{
-						justify-content: space-between;
-						display: flex;
-						width: 100%;
-
-						.text{
-							box-sizing: border-box;
-							padding: 12px 36px 0;
-							text-align: center;
-							color: $whiteColor;
-							width: 100%;
-							float: left;
-
-							.title{
-								text-overflow: ellipsis;
-								white-space: nowrap;
-								font-weight: bold;
-								overflow: hidden;
-								transition: .15s;
-								padding: 0 0 4px;
-								font-size: 24px;
-							}
-
-							.artist{
-								text-overflow: ellipsis;
-								white-space: nowrap;
-								overflow: hidden;
-								font-size: 18px;
-							}
-						}
-
-						.addRemove{
-							margin: 12px 20px 0 0;
-							position: absolute;
-							right: 0;
-
-							button{
-								position: relative;
-								background: none;
-								box-shadow: none;
-								height: 24px;
-								float: left;
-								width: 24px;
-								padding: 0;
-								z-index: 9;
-								margin: 0;
-
-								mat-icon{
-									color: $whiteColor;
-									padding: 0;
-
-									&.added{
-										color: $redColor !important;
-									}
-								}
-							}
-						}
-					}
-
-					.progress{
+					.top{
 						box-sizing: border-box;
+						padding: 12px 24px 0;
+						margin: 0 0 -12px;
 						width: 100%;
 						float: left;
 
-						mat-slider{
-							height: 36px;
-							width: 100%;
-							padding: 0;
-							margin: 0;
-
-							.mat-slider-wrapper{
-								top: 18px;
-								right: 0;
-								left: 0;
-
-								.mat-slider-track-wrapper{
-									.mat-slider-track-background{
-										background-color: transparentize($whiteColor, .85);
-									}
-
-									.mat-slider-track-fill{
-										background-color: $whiteColor;
-									}
-								}
-
-								.mat-slider-thumb-container{
-									.mat-slider-thumb{
-										background-color: $whiteColor;
-									}
-								}
-							}
-						}
-					}
-
-					.duration{
-						color: transparentize($whiteColor, .5);
-						margin: -6px 0 0;
-						font-size: 12px;
-						display: flex;
-						float: left;
-						width: 100%;
-
-						.current,
-						.total{
-							text-align: left;
-							width: 100%;
-						}
-
-						.total{
-							text-align: right;
-						}
-					}
-				}
-
-				.bottom{
-					justify-content: center;
-					padding: 24px 0 12px;
-					align-items: center;
-					display: flex;
-					width: 100%;
-					float: left;
-
-					button{
-						border-radius: 50% !important;
-						color: $whiteColor;
-						background: none;
-						box-shadow: none;
-
-						&[disabled]{
-							background: transparent !important;
-
-							mat-icon{
-								color: $whiteColor;
-							}
-						}
-
-						&:hover{
-							box-shadow: none;
-							background: none;
-						}
-
-						&.playPause{
-							background-color: $whiteColor;
-							box-shadow: $shadowBox1;
-							box-sizing: border-box;
-							height: 76px;
-							width: 76px;
-
-							&.noImage{
-								mat-icon{
-									color: $whiteColor;
-								}
-							}
-
-							mat-icon{
-								color: $fontBlackColor;
-								line-height: 36px;
-								font-size: 36px;
-								height: 36px;
-								width: 36px;
-							}
-						}
-
-						&.prev,
-						&.next{
-							margin: 4px 18px;
-
-							mat-icon{
-								text-shadow: $shadowText1;
-								font-size: 36px;
-								height: 36px;
-								width: 36px;
-								padding: 0;
-							}
-						}
-
-						&.shuffle,
-						&.repeat{
-							margin: 4px 0;
-
-							mat-icon{
-								font-size: 24px;
-								height: 24px;
-								width: 24px;
-							}
-
-							&.active{
-								mat-icon{
-									color: $blueColor;
-									font-weight: bold;
-								}
-							}
-						}
-					}
-				}
-
-				.close{
-					justify-content: center;
-					align-items: center;
-					display: flex;
-					width: 100%;
-					float: left;
-					padding: 0;
-
-					button{
-						border-radius: 50% !important;
-						background: none;
-						box-shadow: none;
-						height: 48px;
-						width: 48px;
-
-						mat-icon{
-							color: transparentize($greyColor, .5);
-							font-size: 24px;
-						}
-					}
-				}
-			}
-
-			.data{
-				height: 100%;
-				width: 100%;
-
-				ul{
-					float: left;
-					width: 100%;
-					padding: 0;
-					margin: 0;
-
-					li{
-						color: $whiteColor;
-						display: flex;
-						padding: 0;
-						margin: 0;
-
-						.inner{
-							padding: 2px 9px 2px 18px;
-							box-sizing: border-box;
-							align-items: center;
-							flex-direction: row;
-							position: relative;
-							margin: 0 0 4px;
+						.panel{
+							justify-content: space-between;
 							display: flex;
 							width: 100%;
 
-							&:hover{
-								background-color: transparentize($whiteColor, .95);
-							}
-
-							.image{
-								width: 42px;
-
-								button{
-									overflow: hidden;
-									height: 42px;
-									width: 42px;
-									margin: 0;
-
-									img{
-										position: absolute;
-										height: 100%;
-										width: 100%;
-										left: 0;
-										top: 0;
-									}
-
-									.mat-button-ripple-round{
-										border-radius: 0;
-									}
-
-									mat-icon{
-										text-shadow: 0 1px 5px transparentize($fontBlackColor, .25);
-										color: $whiteColor;
-										position: relative;
-										z-index: 1;
-									}
-								}
-							}
-
 							.text{
-								justify-content: space-between;
 								box-sizing: border-box;
-								line-height: 42px;
-								overflow: hidden;
-								display: flex;
+								padding: 12px 36px 0;
+								text-align: center;
+								color: $whiteColor;
 								width: 100%;
+								float: left;
 
-								.duration,
-								.titleArtist{
-									flex-direction: column;
-									box-sizing: border-box;
-									padding: 0 0 0 12px;
-									text-align: left;
+								.title{
+									text-overflow: ellipsis;
+									white-space: nowrap;
+									font-weight: bold;
 									overflow: hidden;
-									max-width: 80%;
-									display: flex;
-
-									.title{
-										text-overflow: ellipsis;
-										white-space: nowrap;
-										line-height: 15px;
-										overflow: hidden;
-										padding: 4px 0;
-									}
-
-									.artist{
-										text-overflow: ellipsis;
-										white-space: nowrap;
-										color: $greyColor;
-										line-height: 13px;
-										overflow: hidden;
-										font-size: 13px;
-									}
+									transition: .15s;
+									padding: 0 0 4px;
+									font-size: 24px;
 								}
 
-								.duration{
-									padding: 0 6px 0 0;
-									color: $greyColor;
-									text-align: right;
-									font-size: 14px;
-									max-width: 75px;
-									width: 75px;
+								.artist{
+									text-overflow: ellipsis;
+									white-space: nowrap;
+									overflow: hidden;
+									font-size: 18px;
 								}
 							}
 
-							.actions{
-								box-sizing: border-box;
-								height: 42px;
-								width: 42px;
-								margin: 0;
+							.addRemove{
+								margin: 12px 20px 0 0;
+								position: absolute;
+								right: 0;
 
 								button{
-									height: 42px;
-									width: 42px;
+									position: relative;
+									background: none;
+									box-shadow: none;
+									height: 24px;
+									float: left;
+									width: 24px;
+									padding: 0;
+									z-index: 9;
 									margin: 0;
 
 									mat-icon{
-										color: $greyColor;
-										text-shadow: none;
-										font-size: 20px;
+										color: $whiteColor;
+										padding: 0;
 
 										&.added{
-											color: $blueColor !important;
+											color: $redColor !important;
 										}
 									}
 								}
 							}
 						}
 
-						&.active{
-							.inner{
-								background-color: transparentize($whiteColor, .95);
-								color: $blueColor;
-							}
+						.progress{
+							box-sizing: border-box;
+							width: 100%;
+							float: left;
 
-							.text .titleArtist .artist{
-								color: transparentize($blueColor, .5);
-							}
+							mat-slider{
+								height: 36px;
+								width: 100%;
+								padding: 0;
+								margin: 0;
 
-							.text .duration,
-							.actions button mat-icon{
-								color: $blueColor;
+								.mat-slider-wrapper{
+									top: 18px;
+									right: 0;
+									left: 0;
+
+									.mat-slider-track-wrapper{
+										.mat-slider-track-background{
+											background-color: transparentize($whiteColor, .85);
+										}
+
+										.mat-slider-track-fill{
+											background-color: $whiteColor;
+										}
+									}
+
+									.mat-slider-thumb-container{
+										.mat-slider-thumb{
+											background-color: $whiteColor;
+											bottom: -12px;
+											right: -12px;
+											border: none;
+											height: 24px;
+											width: 24px;
+										}
+									}
+								}
 							}
 						}
 
-						&.default{
-							.image button mat-icon{
-								color: $whiteColor;
-								text-shadow: 0 0;
+						.duration{
+							color: transparentize($whiteColor, .5);
+							margin: -6px 0 0;
+							font-size: 12px;
+							display: flex;
+							float: left;
+							width: 100%;
+
+							.current,
+							.total{
+								text-align: left;
+								width: 100%;
+							}
+
+							.total{
+								text-align: right;
 							}
 						}
+					}
 
-						&.remove{
-							filter: grayscale(100%);
-							opacity: .5;
+					.bottom{
+						justify-content: center;
+						padding: 24px 0 12px;
+						align-items: center;
+						display: flex;
+						width: 100%;
+						float: left;
 
-							.text{
-								.title,
-								.artist{
-									text-decoration: line-through;
+						button{
+							border-radius: 50% !important;
+							color: $whiteColor;
+							background: none;
+							box-shadow: none;
+
+							&[disabled]{
+								background: transparent !important;
+
+								mat-icon{
+									color: $whiteColor;
+								}
+							}
+
+							&:hover{
+								box-shadow: none;
+								background: none;
+							}
+
+							&.playPause{
+								background-color: $whiteColor;
+								box-shadow: $shadowBox1;
+								box-sizing: border-box;
+								height: 76px;
+								width: 76px;
+
+								&.noImage{
+									mat-icon{
+										color: $whiteColor;
+									}
+								}
+
+								mat-icon{
+									color: $fontBlackColor;
+									line-height: 36px;
+									font-size: 36px;
+									height: 36px;
+									width: 36px;
+								}
+							}
+
+							&.prev,
+							&.next{
+								margin: 4px 18px;
+
+								mat-icon{
+									text-shadow: $shadowText1;
+									font-size: 36px;
+									height: 36px;
+									width: 36px;
+									padding: 0;
+								}
+							}
+
+							&.shuffle,
+							&.repeat{
+								margin: 4px 0;
+
+								mat-icon{
+									font-size: 24px;
+									height: 24px;
+									width: 24px;
+								}
+
+								&.active{
+									mat-icon{
+										color: $blueColor;
+										font-weight: bold;
+									}
 								}
 							}
 						}
 					}
+
+					.close{
+						justify-content: center;
+						align-items: center;
+						display: flex;
+						width: 100%;
+						float: left;
+						padding: 0;
+
+						button{
+							border-radius: 50% !important;
+							background: none;
+							box-shadow: none;
+							height: 48px;
+							width: 48px;
+
+							mat-icon{
+								color: transparentize($greyColor, .5);
+								font-size: 24px;
+							}
+						}
+					}
 				}
 
-				.loadMore{
-					button{
-						border-color: $whiteColor;
+				.data{
+					height: 100%;
+					width: 100%;
 
-						mat-icon{
+					ul{
+						float: left;
+						width: 100%;
+						padding: 0;
+						margin: 0;
+
+						li{
 							color: $whiteColor;
+							display: flex;
+							padding: 0;
+							margin: 0;
+
+							.inner{
+								padding: 2px 9px 2px 18px;
+								box-sizing: border-box;
+								align-items: center;
+								flex-direction: row;
+								position: relative;
+								margin: 0 0 4px;
+								display: flex;
+								width: 100%;
+
+								&:hover{
+									background-color: transparentize($whiteColor, .95);
+								}
+
+								.image{
+									width: 42px;
+
+									button{
+										overflow: hidden;
+										height: 42px;
+										width: 42px;
+										margin: 0;
+
+										img{
+											position: absolute;
+											height: 100%;
+											width: 100%;
+											left: 0;
+											top: 0;
+										}
+
+										.mat-button-ripple-round{
+											border-radius: 0;
+										}
+
+										mat-icon{
+											text-shadow: 0 1px 5px transparentize($fontBlackColor, .25);
+											color: $whiteColor;
+											position: relative;
+											z-index: 1;
+										}
+									}
+								}
+
+								.text{
+									justify-content: space-between;
+									box-sizing: border-box;
+									line-height: 42px;
+									overflow: hidden;
+									display: flex;
+									width: 100%;
+
+									.duration,
+									.titleArtist{
+										flex-direction: column;
+										box-sizing: border-box;
+										padding: 0 0 0 12px;
+										text-align: left;
+										overflow: hidden;
+										max-width: 80%;
+										display: flex;
+
+										.title{
+											text-overflow: ellipsis;
+											white-space: nowrap;
+											line-height: 15px;
+											overflow: hidden;
+											padding: 4px 0;
+										}
+
+										.artist{
+											text-overflow: ellipsis;
+											white-space: nowrap;
+											color: $greyColor;
+											line-height: 13px;
+											overflow: hidden;
+											font-size: 13px;
+										}
+									}
+
+									.duration{
+										padding: 0 6px 0 0;
+										color: $greyColor;
+										text-align: right;
+										font-size: 14px;
+										max-width: 75px;
+										width: 75px;
+									}
+								}
+
+								.actions{
+									box-sizing: border-box;
+									height: 42px;
+									width: 42px;
+									margin: 0;
+
+									button{
+										height: 42px;
+										width: 42px;
+										margin: 0;
+
+										mat-icon{
+											color: $greyColor;
+											text-shadow: none;
+											font-size: 20px;
+
+											&.added{
+												color: $blueColor !important;
+											}
+										}
+									}
+								}
+							}
+
+							&.active{
+								.inner{
+									background-color: transparentize($whiteColor, .95);
+									color: $blueColor;
+								}
+
+								.text .titleArtist .artist{
+									color: transparentize($blueColor, .5);
+								}
+
+								.text .duration,
+								.actions button mat-icon{
+									color: $blueColor;
+								}
+							}
+
+							&.default{
+								.image button mat-icon{
+									color: $whiteColor;
+									text-shadow: 0 0;
+								}
+							}
+
+							&.remove{
+								filter: grayscale(100%);
+								opacity: .5;
+
+								.text{
+									.title,
+									.artist{
+										text-decoration: line-through;
+									}
+								}
+							}
 						}
 					}
 
-					mat-progress-spinner svg circle{
-						stroke: $whiteColor;
-					}
-				}
+					.loadMore{
+						button{
+							border-color: $whiteColor;
 
-				.noData{
-					color: $whiteColor;
+							mat-icon{
+								color: $whiteColor;
+							}
+						}
+
+						mat-progress-spinner svg circle{
+							stroke: $whiteColor;
+						}
+					}
+
+					.noData{
+						color: $whiteColor;
+					}
 				}
 			}
 		}

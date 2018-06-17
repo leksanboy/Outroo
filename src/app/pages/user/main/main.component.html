@@ -233,13 +233,15 @@
 						<div class="analytics">
 							<div class="buttonBox">
 								<button mat-icon-button (click)="showComments(x)">
-									<i class="comments"></i>
+									<mat-icon>chat_bubble_outline</mat-icon>
+									<!-- <i class="comments"></i> -->
 								</button>
 								{{x.disabledComments ? x.countComments : ''}}
 							</div>
 							<div class="buttonBox">
 								<button mat-icon-button (click)="likeUnlike(x)" [ngClass]="{'active' : x.liked}">
-									<i class="like"></i>
+									<mat-icon>favorite_border</mat-icon>
+									<!-- <i class="like"></i> -->
 								</button>
 								{{x.countLikes}}
 							</div>

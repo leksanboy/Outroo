@@ -1,40 +1,36 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { environment } from '../../../../../environments/environment';
 
+import { AlertService } from '../../../../../app/core/services/alert/alert.service';
+import { NotificationsDataService } from '../../../../../app/core/services/user/notificationsData';
 import { PhotoDataService } from '../../../../../app/core/services/user/photoData';
 import { SessionService } from '../../../../../app/core/services/session/session.service';
-import { NotificationsDataService } from '../../../../../app/core/services/user/notificationsData';
 
 import { TimeagoPipe } from '../../../../../app/core/pipes/timeago.pipe';
+import { SafeHtmlPipe } from '../../../../../app/core/pipes/safehtml.pipe';
 
 @Component({
 	selector: 'app-showPhoto',
 	templateUrl: './showPhoto.component.html',
-	providers: [ TimeagoPipe ]
+	providers: [ TimeagoPipe, SafeHtmlPipe ]
 })
 export class PhotosShowPhotoComponent implements OnInit {
 	@ViewChild('videoPlayer') videoPlayer: any;
-
 	public environment: any = environment;
 	public sessionData: any = [];
 	public userData: any = [];
 	public translations: any = [];
-	public noData: boolean;
-	public loadingData: boolean;
-	public loadMoreData: boolean;
-	public loadingMoreData: boolean;
-	public actionFormNewComment: FormGroup;
-	public rowsComments: number;
 	public notExist: boolean;
+	public searchBoxMentions: boolean;
+	public urlRegex: any = /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/g;
 
 	constructor(
 		@Inject(MAT_DIALOG_DATA) public data: any,
+		private alertService: AlertService,
 		public dialogRef: MatDialogRef<PhotosShowPhotoComponent>,
 		private location: Location,
-    	private _fb: FormBuilder,
 		private sessionService: SessionService,
 		private photoDataService: PhotoDataService,
 		private notificationsDataService: NotificationsDataService
@@ -42,13 +38,8 @@ export class PhotosShowPhotoComponent implements OnInit {
 		this.translations = this.data.translations;
 		this.sessionData = this.data.sessionData;
 		this.userData = this.data.userData;
-
 		this.data.current = this.data.item ? this.data.item : [];
 		this.data.list = this.data.list ? this.data.list : [];
-		this.data.comments = {
-			new: '',
-			list: []
-		};
 
 		if (this.data.item) {
 			// Check if exists
@@ -58,17 +49,15 @@ export class PhotosShowPhotoComponent implements OnInit {
 	    	if (this.data.comeFrom == 'photos')
 		    	this.location.go('/' + this.userData.username + '/photos/' + this.data.current.name.split('.')[0]);
 
-	    	// Set comment clear
-	    	this.newComment('clear');
-
 	    	// Check if photo is liked
 	    	this.checkLike();
-
-	    	// Load comments
-	    	this.defaultComments('default', this.data.current.id);
-
+	    	
 	    	// Update replays
 	    	this.updateReplays(this.data.current.id, this.sessionData.current.id);
+
+	    	// Load comments
+	    	this.defaultComments('default', this.data.current);
+
     	} else {
     		// Check if exists
     		this.notExist = true;
@@ -97,14 +86,11 @@ export class PhotosShowPhotoComponent implements OnInit {
     	// Check if photo is liked
     	this.checkLike();
 
-    	// Set comment clear
-    	this.newComment('clear');
-
-    	// Set comments
-    	this.defaultComments('default', this.data.current.id);
-
     	// Update replays
     	this.updateReplays(this.data.current.id, this.sessionData.current.id);
+
+    	// Set comments
+    	this.defaultComments('default', this.data.current);
     }
 
     playVideo(type){
@@ -121,170 +107,6 @@ export class PhotosShowPhotoComponent implements OnInit {
 		}
 
 		this.photoDataService.updateReplays(data).subscribe();
-	}
-
-    // Comments
-	defaultComments(type, id) {
-		if (type == 'default') {
-			this.noData = false;
-			this.loadMoreData = false;
-			this.loadingData = true;
-			this.data.comments.new = '';
-			this.data.comments.list = [];
-			this.rowsComments = 0;
-
-			let data = {
-				id: id,
-				rows: 0,
-				cuantity: environment.cuantity
-			}
-
-			this.photoDataService.comments(data)
-				.subscribe(res => {
-					setTimeout(() => {
-						this.loadingData = false;
-
-						if (res.length == 0) {
-							this.noData = true;
-						} else {
-							this.loadMoreData = (res.length < environment.cuantity) ? false : true;
-							this.noData = false;
-							this.data.comments.list = res;
-						}
-					}, 300);
-				});
-		} else if (type == 'more') {
-			this.loadingMoreData = true;
-			this.rowsComments++;
-
-			let data = {
-				id: this.data.current.id,
-				rows: this.rowsComments,
-				cuantity: environment.cuantity
-			}
-
-			this.photoDataService.comments(data)
-				.subscribe(res => {
-					setTimeout(() => {
-						this.loadMoreData = (res.length < environment.cuantity) ? false : true;
-						this.loadingMoreData = false;
-
-						for (let i in res)
-							this.data.comments.list.push(res[i]);
-					}, 300);
-				});
-		}
-	}
-
-	// Like / Unlike
-	likeUnlike(item){
-		if(this.data.current.id){
-			if (item.liked) {
-				item.liked = false;
-				item.countLikes--;
-
-				for (let i in item.likers) {
-					if (item.likers[i].id == this.sessionData.current.id)
-						item.likers.splice(i, 1);
-				}
-			} else {
-				item.liked = true;
-				item.countLikes++;
-
-				item.likers.unshift(this.userData.current);
-			}
-
-			// Send request
-			let data = {
-				photo: item.id,
-				user: this.sessionData.current.id,
-				type: item.liked ? 'like' : 'unlike'
-			}
-
-			this.photoDataService.likeUnlike(data).subscribe();
-
-			// // Send notification
-			// if (item.liked == true) {
-			// 	let n = {
-			// 		sender: this.sessionData.current.id,
-			// 		receiver: this.userData.id,
-			// 		page: this.data.current.id,
-			// 		url: 'photos',
-			// 		type: 'like',
-			// 		name: this.data.current.name.split('.')[0],
-			// 		contentMedia: this.data.current.name,
-			// 		contentMediaType: this.data.current.mimetype,
-			// 		delete: false
-			// 	};
-
-			// 	this.notificationsDataService.generateNotification(n).subscribe();
-			// } else {
-			// 	let n = {
-			// 		sender: this.sessionData.current.id,
-			// 		receiver: this.userData.id,
-			// 		page: this.data.current.id,
-			// 		type: 'like',
-			// 		delete: true
-			// 	};
-
-			// 	this.notificationsDataService.generateNotification(n).subscribe();
-			// }
-		}
-	}
-
-	// Check like
-	checkLike(){
-		let data = {
-			id: this.data.current.id,
-			user: this.sessionData.current.id
-		}
-
-		this.photoDataService.checkLike(data)
-			.subscribe(res => {
-				this.data.current.liked = res.liked;
-				this.data.current.likers = res.likers;
-			});
-	}
-
-	// New comment
-	newComment(type){
-		switch (type) {
-			case 'clear':
-				this.data.current.newComment = '';
-				break;
-			case 'create':
-				let dataCreate = {
-					type: 'create',
-					user: this.sessionData.current.id,
-					photo: this.data.current.id,
-					comment: this.data.current.newComment
-				}
-
-				this.photoDataService.comment(dataCreate)
-					.subscribe((res: any) => {
-						res = res.json();
-						this.data.comments.list.unshift(res);
-						this.data.current.countComments++;
-						this.newComment('clear');
-						this.noData = false;
-
-						// // Send notification
-						// let n = {
-						// 	sender: this.sessionData.current.id,
-						// 	receiver: this.userData.id,
-						// 	page: this.data.current.id,
-						// 	url: 'photos',
-						// 	type: 'comment',
-						// 	name: this.data.current.name.split('.')[0],
-						// 	contentMedia: this.data.current.name,
-						// 	contentComment: res.comment,
-						// 	contentMediaType: this.data.current.mimetype
-						// };
-
-						// this.notificationsDataService.generateNotification(n).subscribe();
-					});
-				break;
-		}
 	}
 
 	// Item Options
@@ -325,6 +147,232 @@ export class PhotosShowPhotoComponent implements OnInit {
 		}
 	}
 
+	// Check like
+	checkLike(){
+		let data = {
+			id: this.data.current.id,
+			user: this.sessionData.current.id
+		}
+
+		this.photoDataService.checkLike(data)
+			.subscribe(res => {
+				this.data.current.liked = res.liked;
+				this.data.current.likers = res.likers;
+			});
+	}
+
+	// Like / Unlike
+	likeUnlike(item){
+		if (this.sessionData.current.id) {
+			if (item.liked) {
+				item.liked = false;
+				item.countLikes--;
+
+				for (let i in item.likers)
+					if (item.likers[i].id == this.sessionData.current.id)
+						item.likers.splice(i, 1);
+			} else {
+				item.liked = true;
+				item.countLikes++;
+
+				item.likers.unshift(this.sessionData.current);
+			}
+
+			// data
+			let data = {
+				id: item.id,
+				sender: this.sessionData.current.id,
+				receiver: this.userData.id,
+				type: item.liked ? 'like' : 'unlike'
+			}
+
+			this.photoDataService.likeUnlike(data).subscribe();
+		}
+	}
+
+	// Comments
+	defaultComments(type, item) {
+		if (type == 'default') {
+			item.noData = false;
+			item.loadMoreData = false;
+			item.loadingData = true;
+			item.comments = [];
+			item.comments.list = [];
+			item.rowsComments = 0;
+
+			// New comments set
+			this.newComment('clear', null, item);
+
+			// Data
+			let data = {
+				id: item.id,
+				rows: item.rowsComments,
+				cuantity: this.environment.cuantity
+			}
+
+			this.photoDataService.comments(data)
+				.subscribe(res => {
+					item.loadingData = false;
+
+					if (res.length == 0) {
+						item.noData = true;
+					} else {
+						item.noData = false;
+						item.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
+						item.comments.list = res;
+					}
+				}, error => {
+					item.loadingData = false;
+					this.alertService.success(this.translations.anErrorHasOcurred);
+				});
+		} else if (type == 'more') {
+			item.loadingMoreData = true;
+			item.rowsComments++;
+
+			let data = {
+				id: item.id,
+				rows: item.rowsComments,
+				cuantity: this.environment.cuantity
+			}
+
+			this.photoDataService.comments(data)
+				.subscribe(res => {
+					setTimeout(() => {
+						item.loadingMoreData = false;
+						item.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
+
+						for (let i in res)
+							item.comments.list.push(res[i]);
+					}, 600);
+				}, error => {
+					item.loadingData = false;
+					this.alertService.success(this.translations.anErrorHasOcurred);
+				});
+		}
+	}
+
+	// New comment
+	newComment(type, event, item){
+		if (type == 'clear') {
+			item.newCommentData = [];
+
+			setTimeout(() => {
+				item.newCommentData = {
+					original: '',
+					transformed: '',
+					onBackground: '',
+					eventTarget: '',
+					lastTypedWord: []
+				};
+
+				this.newComment('checkPlaceholder', null, item);
+			}, 100);
+		} else if (type == 'writingChanges') {
+			let str = event;
+			item.newCommentData.original = event;
+			
+			// new line
+			str = str.replace(/\n/g, '<br>');
+
+			// hashtag
+			str = str.replace(/(#)\w+/g, function(value){
+				return '<span class="hashtag">' + value + '</span>';
+			});
+
+			// mention
+			str = str.replace(/(@)\w+/g, function(value){
+				return '<span class="mention">' + value + '</span>';
+			});
+
+			// url
+			str = str.replace(this.urlRegex, function(value){
+				return '<span class="url">' + value + '</span>';
+			});
+
+			// writing content
+			item.newCommentData.transformed = str;
+
+			//check empty contenteditable
+			this.newComment('checkPlaceholder', null, item);
+		} else if (type == 'keyCode') {
+			if (event.keyCode === 32 || event.keyCode === 13 || event.keyCode === 27) {
+				// Space, Enter, Escape
+				this.searchBoxMentions = false;
+			} else {
+				if (event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40) {
+					// console.log("key navigation up-down-left-right");
+					this.searchBoxMentions = false;
+				} else {
+					item.newCommentData.eventTarget = event.target;
+					let position = this.getCaretPosition(event.target);
+					let word = this.getCurrentWord(event.target, position);
+					
+					item.newCommentData.lastTypedWord = {
+						word: word,
+						position: position
+					};
+				}
+			}
+		} else if (type == 'checkPlaceholder') {
+			if (item.newCommentData.original.length == 0)
+				item.newCommentData.transformed = '<div class="placeholder">' + this.translations.whatsHappening.one + '</div>';
+		} else if (type == 'transformBeforeSend') {
+			let newData = {
+				content: item.newCommentData.original ? item.newCommentData.original : '',
+				original: item.newCommentData.original ? item.newCommentData.original : '',
+				mentions: [],
+				hashtags: []
+			}
+
+			// new line
+			newData.content = newData.content.replace(/\n/g, '<br>');
+
+			// hashtag
+			newData.content = newData.content.replace(/(#)\w+/g, function(value){
+				return '<a class="hashtag">' + value + '</a>';
+			});
+
+			// mention
+			newData.content = newData.content.replace(/(@)\w+/g, function(value){
+				newData.mentions.push(value);
+				return '<a class="mention">' + value + '</a>';
+			});
+
+			// detect url
+			newData.content = newData.content.replace(this.urlRegex, function(value){
+				return '<a class="url">' + value + '</a>';
+			});
+
+			return newData;
+		} else if (type == 'create') {
+			if (item.newCommentData.original.trim().length == 0) {
+				this.alertService.success(this.translations.commentIsTooShort);
+			} else {
+				let formatedData = this.newComment('transformBeforeSend', null, item);
+				let dataCreate = {
+					type: 'create',
+					id: item.id,
+					sender: this.sessionData.current.id,
+					receiver: this.userData.id,
+					comment: formatedData.content,
+					comment_original: formatedData.original,
+					mentions: formatedData.mentions
+				}
+
+				this.photoDataService.comment(dataCreate)
+					.subscribe((res: any) => {
+						item.comments.list.unshift(res);
+						item.countComments++;
+						item.noData = false;
+
+						this.newComment('clear', null, item);
+					}, error => {
+						this.alertService.success(this.translations.anErrorHasOcurred);
+					});
+			}
+		}
+	}
+
 	// Comments Options
 	commentsOptions(type, item, comment){
 		switch (type) {
@@ -333,9 +381,11 @@ export class PhotosShowPhotoComponent implements OnInit {
 				comment.type = !comment.addRemove ? "add" : "remove";
 
 				let data = {
-					user: this.sessionData.current.id,
+					sender: this.sessionData.current.id,
+					receiver: this.userData.id,
 					type: comment.type,
-					id: comment.id
+					comment: comment.id,
+					id: item.id
 				}
 
 				this.photoDataService.comment(data)
@@ -351,5 +401,42 @@ export class PhotosShowPhotoComponent implements OnInit {
 				this.sessionService.setDataReport(item);
 				break;
 		}
+	}
+
+	// Caret position on contenteditable
+	getCaretPosition(element) {
+		let w3 = (typeof window.getSelection != "undefined") && true,
+			caretOffset = 0;
+
+		if (w3) {
+			let range = window.getSelection().getRangeAt(0);
+			let preCaretRange = range.cloneRange();
+			preCaretRange.selectNodeContents(element);
+			preCaretRange.setEnd(range.endContainer, range.endOffset);
+			caretOffset = preCaretRange.toString().length;
+		} else {
+			this.alertService.error(this.translations.tryToUseAnotherBrowser);
+		}
+
+		return caretOffset;
+	}
+
+	// Get current typing word on contenteditable
+	getCurrentWord(el, position) {
+		let word = '';
+
+		// Get content of div
+		let content = el.textContent;
+
+		// Check if clicked at the end of word
+		position = content[position] === ' ' ? position - 1 : position;
+
+		// Get the start and end index
+		let startPosition = content.lastIndexOf(' ', position);
+		startPosition = startPosition === content.length ? 0 : startPosition;
+		let endPosition = content.indexOf(' ', position);
+		endPosition = endPosition === -1 ? content.length : endPosition;
+
+		return content.substring(startPosition + 1, endPosition);
 	}
 }

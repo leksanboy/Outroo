@@ -381,15 +381,12 @@
 		$sql = "SELECT id, user, photo, comment, date
 				FROM z_photos_comments
 				WHERE id = $id";
-		$result = $conn->query($sql);
+		$result = $conn->query($sql)->fetch_assoc();
 
-		$data = array();
-		while($row = $result->fetch_assoc()) {
-			$row['user'] = userUsernameNameAvatar($row['user']);
-			$data = $row;
-		}
+		$result['user'] = userUsernameNameAvatar($result['user']);
+		$result['comment'] = trim($result['comment']) ? html_entity_decode($result['comment'], ENT_QUOTES) : null;
 
-		return $data;
+		return $result;
 		$conn->close();
 	}
 
@@ -446,19 +443,19 @@
 	function getIdNameContentMediaCommentFromPhotoById($id, $commentId){
 		global $conn;
 
-		$sql = "SELECT id, name, mimetype, duration 
-				FROM z_photos
-				WHERE id = $id";
+		$sql = "SELECT p.id, p.name, p.mimetype, p.duration
+				FROM z_photos_favorites f
+					INNER JOIN z_photos p ON p.id = f.photo
+				WHERE f.id = '$id'";
 		$result = $conn->query($sql)->fetch_assoc();
 
-		// $result['content'] = html_entity_decode($result['content'], ENT_QUOTES);
 		$result['comment'] = ($commentId ? getPhotoComment($commentId) : null);
 
 		// Media
 		if(strrpos($result['mimetype'], "image") !== false)
-			$result['media'] = $result['name'] ? './assets/media/photos/thumbnails/'.$result['name'] : null;
+			$result['media'] = ($result['name'] ? './assets/media/photos/thumbnails/'.$result['name'] : null);
 		else if(strrpos($result['mimetype'], "video") !== false)
-			$result['media'] = $result['name'] ? './assets/media/videos/thumbnails/'.$result['name'] : null;
+			$result['media'] = ($result['name'] ? './assets/media/videos/thumbnails/'.$result['name'] : null);
 		else
 			$result['media'] = null;
 

@@ -74,26 +74,25 @@
 						</div>
 					</div>
 
-					<div class="boxComments" *ngIf="data.current.disabledComments">
-						<div class="comments">
+					<div class="boxComments">
+						<div class="comments" *ngIf="data.current.disabledComments">
 							<div class="new" *ngIf="sessionData.current.id">
 								<div class="avatar">
 									<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>
 								</div>
-								<form>
-									<mat-form-field floatPlaceholder="never">
-										<textarea matInput matTextareaAutosize rows="1" placeholder="{{translations.writeComment}}" [(ngModel)]="data.current.newComment" name="comment"></textarea>
-									</mat-form-field>
-								</form>
+								<div class="richComment">
+									<div class="highlights" [innerHTML]="data.current.newCommentData.transformed"></div>
+									<div class="origin" contenteditable="plaintext-only" [textContent]="data.current.newCommentData.onBackground" (input)="newComment('writingChanges', $event.target.innerText, data.current)" (keyup)="newComment('keyCode', $event, data.current)" (keydown)="newComment('keyCode', $event, data.current)" (mouseup)="newComment('keyCode', $event, data.current)"></div>
+								</div>
 								<div class="actions">
-									<button mat-button type="submit" [disabled]="data.current.newComment.length == 0" (click)="newComment('create')">
-										{{translations.send}}
+									<button mat-icon-button type="submit" (click)="newComment('create', $event, data.current)">
+										<mat-icon>send</mat-icon>
 									</button>
 								</div>
 							</div>
 
 							<ul>
-								<li *ngFor="let c of data.comments.list" [ngClass]="{'remove': c.addRemove}">
+								<li *ngFor="let c of data.current.comments.list" [ngClass]="{'remove': c.addRemove}">
 									<a class="avatar" routerLink="/{{c.user.username}}">
 										<img [src]="c.user.avatar ? c.user.avatarUrl : environment.avatar"/>
 									</a>
@@ -101,7 +100,7 @@
 										<div class="name">
 											<a class="username" routerLink="/{{c.user.username}}">{{c.user.username}}</a>
 											<span class="date"> · {{c.date | timeago}}</span>
-											<div class="actions">
+											<div class="actions" *ngIf="sessionData.current.id">
 												<button mat-icon-button [matMenuTriggerFor]="optionsComments"><mat-icon>more_vert</mat-icon></button>
 												<mat-menu #optionsComments="matMenu">
 													<button mat-menu-item (click)="commentsOptions('addRemove', data.current, c)" *ngIf="c.user.id == sessionData.current.id">{{c.addRemove ? translations.add : translations.remove}}</button>
@@ -109,28 +108,30 @@
 												</mat-menu>
 											</div>
 										</div>
-										<div class="content">{{c.comment}}</div>
+										<div class="container">
+											<span [innerHtml]="c.comment | safeHtml"></span>
+										</div>
 									</div>
 								</li>
 							</ul>
 
-							<div class="loadingData" *ngIf="loadingData">
+							<div class="loadingData" *ngIf="data.current.loadingData">
 								<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 							</div>
-							<div class="noData" *ngIf="noData">{{translations.noComments}}</div>
-							<div class="loadMore" *ngIf="loadMoreData">
-								<button mat-fab (click)="defaultComments('more', null)" *ngIf="!loadingMoreData">
+							<div class="noData" *ngIf="data.current.noData">
+								{{translations.noComments}}
+							</div>
+							<div class="loadMore" *ngIf="data.current.loadMoreData">
+								<button mat-fab (click)="defaultComments('more', data.current)" *ngIf="!data.current.loadingMoreData">
 									<mat-icon>add</mat-icon>
 								</button>
-								<mat-progress-spinner mode="indeterminate" *ngIf="loadingMoreData"></mat-progress-spinner>
+								<mat-progress-spinner mode="indeterminate" *ngIf="data.current.loadingMoreData"></mat-progress-spinner>
 							</div>
 						</div>
-					</div>
 
-					<div class="noData" *ngIf="!data.current.disabledComments">
-						<mat-icon>lock_outline</mat-icon>
-						<br>
-						{{translations.commentsDisabled}}
+						<div class="noData" *ngIf="!data.current.disabledComments">
+							{{translations.commentsDisabled}}
+						</div>
 					</div>
 				</div>
 			</div>

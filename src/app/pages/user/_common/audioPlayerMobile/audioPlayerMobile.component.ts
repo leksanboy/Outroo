@@ -16,14 +16,14 @@ import { environment } from '../../../../../environments/environment';
 	selector: 'audioPlayerMobile',
 	templateUrl: './audioPlayerMobile.component.html',
 	animations: [
-		trigger('showFromBottomAnimation', [
+		trigger('showFromBottomAnimation',[
 			transition(':enter', [
-				style({transform: 'translateY(100%)', 'opacity': 0}),
+				style({transform: 'translateY(100%)', 'opacity': 1}),
 				animate('200ms', style({'transform': 'translateY(0)', '-webkit-transform': 'translateY(0)', 'opacity': 1}))
 			]),
 			transition(':leave', [
 				style({transform: 'translateY(0)', 'opacity': 1}),
-				animate('600ms', style({'transform': 'translateY(100%)', '-webkit-transform': 'translateY(100%)', 'opacity': 0}))
+				animate('500ms', style({'transform': 'translateY(100%)', '-webkit-transform': 'translateY(100%)', 'opacity': 1}))
 			])
 		])
 	]
@@ -36,7 +36,8 @@ export class AudioPlayerMobileComponent implements OnInit, OnDestroy, AfterViewI
 	public activePlayer: any;
 	public noData: boolean;
 	public audio: any;
-	public showPalyer: any;
+	public showPlayer: boolean;
+	public showPlayerAnimation: boolean;
 	public _previousHTMLStyles: any = { top: '', left: '' };
 	public _previousScrollPosition: any;
 
@@ -72,13 +73,14 @@ export class AudioPlayerMobileComponent implements OnInit, OnDestroy, AfterViewI
 		            root.classList.add('cdk-global-scrollblock');
 
 					// Data
-					this.document.body.classList.add('blurBackground');
-					this.showPalyer = true;
+					this.showPlayer = true;
+					setTimeout(() => {
+						this.showPlayerAnimation = true;
+					}, 100);
 					this.sessionData = res.sessionData;
 					this.translations = res.translations;
 					this.audioPlayerData = res.data;
 					this.audio = res.audio;
-					
 				}
 			});
 	}
@@ -91,7 +93,7 @@ export class AudioPlayerMobileComponent implements OnInit, OnDestroy, AfterViewI
 		let self = this;
 		
 		// Auto progress bar
-		if (this.showPalyer) {
+		if (this.showPlayer) {
 			this.audio.addEventListener('timeupdate', function() {
 				let countDown = Math.round(self.audio.duration - self.audio.currentTime);
 				self.audioPlayerData.current.time = self.formatTime(self.audio.currentTime);
@@ -255,7 +257,9 @@ export class AudioPlayerMobileComponent implements OnInit, OnDestroy, AfterViewI
         body.style['scrollBehavior'] = previousBodyScrollBehavior;
 
 		// Data
-		this.showPalyer = false;
-		this.document.body.classList.remove('blurBackground');
+		this.showPlayerAnimation = false;
+		setTimeout(() => {
+			this.showPlayer = false;
+		}, 500);
 	}
 }

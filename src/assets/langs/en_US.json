@@ -154,5 +154,6 @@
 	"acceptFollowingRequest": "Accepted your request",
 	"mentionOnPhoto": "Mention you on photo",
 	"mentionOnCommentOnPhoto": "Mention you on comment on photo",
-	"sendMessage": "Message"
+	"sendMessage": "Message",
+	"close": "Close"
 }

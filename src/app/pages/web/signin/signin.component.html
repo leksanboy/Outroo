@@ -30,11 +30,7 @@
 						<mat-hint align="end">{{Password.value.length}}/100</mat-hint>
 					</mat-form-field>
 
-					<div class="g-recaptcha" data-sitekey="6LdjARYUAAAAAPDX4mmmCFvaWpqpaPpbbIk6gg2r" data-callback="verifyCallbackReCaptcha"></div>
-
-					<!-- <ngx-recaptcha2 (success)="handleSuccess($event)"></ngx-recaptcha2> -->
-					<!-- <ng2-google-recaptcha [siteKey]="recaptchaSiteKey" (onCaptchaComplete)="onCaptchaComplete($event)"></ng2-google-recaptcha> -->
-					<!-- <ngx-recaptcha2 (success)="handleSuccess($event)"></ngx-recaptcha2> -->
+					<div class="reCaptcha" id="reCaptcha_element"></div>
 
 					<div class="buttons">
 						<button mat-raised-button type="submit">

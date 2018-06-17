@@ -22,5 +22,6 @@ export const environment = {
 	pathVideos: './assets/media/videos/',
 	pathAudios: './assets/media/audios/',
 	language: 1,
-	mobile: checkIfMobile
+	mobile: checkIfMobile,
+	reCaptcha: '6LdjARYUAAAAAPDX4mmmCFvaWpqpaPpbbIk6gg2r'
 };

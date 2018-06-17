@@ -48,29 +48,7 @@
 									<mat-icon>check</mat-icon>
 								</button>
 							</div>
-
-							<!-- <div class="status">
-								<button mat-icon-button (click)="uploadFiles(3, i)" *ngIf="x.status=='clear'">
-									<mat-icon>clear</mat-icon>
-								</button>
-								<div class="progress" *ngIf="x.status=='progress'">
-									<mat-progress-spinner mode="determinate" [value]="x.progress"></mat-progress-spinner>
-									<div class="value">{{x.progress}}%</div>
-								</div>
-								<div class="icon" *ngIf="x.status=='completed'">
-									<mat-icon>check</mat-icon>
-								</div>
-								<div class="icon" *ngIf="x.status=='error'">
-									<mat-icon>cloud_off</mat-icon>
-								</div>
-							</div> -->
 						</div>
-
-						<!-- <div class="category">
-							<div class="size" *ngIf="x.sizeBig">{{x.sizeBig}}</div>
-							<mat-icon class="redColor" *ngIf="x.category=='unknown'">error_outline</mat-icon>
-							<mat-icon class="whiteColor" *ngIf="x.category=='video'">videocam</mat-icon>
-						</div> -->
 					</li>
 				</ul>
 
@@ -93,7 +71,6 @@
 
 			<ul *ngIf="dataDefault.list.length > 0" [ngClass]="{noPadding: userData.id != sessionData.current.id}">
 				<li mat-ripple *ngFor="let x of dataDefault.list; let i=index;" [ngClass]="{'remove': x.addRemoveSession}">
-					<!-- <a class="image" routerLink="/{{userData.username}}/photos/{{x.name}}" (click)="show(x, i)"> -->
 					<a class="image" (click)="show(x, i)">
 						<div class="img" [ngStyle]="{'background-image': 'url(' + (x.mimetype.indexOf('image') !== -1 ? environment.pathPhotos : environment.pathVideos) + 'thumbnails/' + x.name + ')'}"></div>
 						<div class="category">

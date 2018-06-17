@@ -9,6 +9,7 @@ import { AlertService } from '../../../../app/core/services/alert/alert.service'
 import { UserDataService } from '../../../../app/core/services/user/userData';
 
 declare var ga: Function;
+declare var grecaptcha: any;
 
 @Component({
 	selector: 'app-signin',
@@ -21,6 +22,7 @@ export class SigninComponent implements OnInit {
 	public submitLoading: boolean;
 	public showPassword: boolean;
 	public recaptcha: boolean;
+	public reCaptchaExists: boolean;
 
 	constructor(
 		private _fb: FormBuilder,
@@ -31,7 +33,28 @@ export class SigninComponent implements OnInit {
 		private userDataService: UserDataService
 	) {
 		// reCaptcha
-		window['verifyCallbackReCaptcha'] = this.verifyReCaptcha.bind(this);
+		let self = this;
+		window['onloadCallback'] = function() {
+			// Unset recaptcha message
+			self.reCaptchaExists = true;
+
+			// Get data
+			grecaptcha.render('reCaptcha_element', {
+				'sitekey' : self.environment.reCaptcha,
+				'callback': (res: string) => { 
+								self.verifyReCaptcha(res);
+							},
+				'expired-callback': () => {
+					self.verifyReCaptcha(null);
+				}
+			});
+		};
+
+		// Reload page, check if not exists to show reCaptcha
+		setTimeout(() => {
+			if (!this.reCaptchaExists)
+				this.alertService.success('Please reload the page, thanks!');
+		}, 1200);
 	}
 
 	ngOnInit() {
@@ -53,9 +76,8 @@ export class SigninComponent implements OnInit {
 		this.userDataService.logout();
 	}
 
-	verifyReCaptcha(ev){
-		if (ev)
-			this.recaptcha = true;
+	verifyReCaptcha(data){
+		this.recaptcha = data ? true : false;
 	}
 
 	submit(ev: Event) {
@@ -77,8 +99,9 @@ export class SigninComponent implements OnInit {
 						// show error message
 						this.alertService.success('Email or Password is incorrenct');
 
-						// reset recaptcha
+						// reset reCaptcha
 						this.recaptcha = false;
+						grecaptcha.reset();
 					}
 				);
 		} else {

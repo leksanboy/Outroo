@@ -581,7 +581,6 @@ export class MainComponent implements OnInit, OnDestroy {
 			item.showCommentsBox = false;
 		} else {
 			item.showCommentsBox = true;
-			this.newComment('clear', null, item);
 
 			// Load comments
 			this.defaultComments('default', item);
@@ -594,10 +593,14 @@ export class MainComponent implements OnInit, OnDestroy {
 			item.noData = false;
 			item.loadMoreData = false;
 			item.loadingData = true;
-			item.comments.new = '';
+			item.comments = [];
 			item.comments.list = [];
 			item.rowsComments = 0;
 
+			// New comments set
+			this.newComment('clear', null, item);
+
+			// Data
 			let data = {
 				id: item.id,
 				rows: item.rowsComments,
@@ -755,7 +758,6 @@ export class MainComponent implements OnInit, OnDestroy {
 
 				this.publicationsDataService.comment(dataCreate)
 					.subscribe((res: any) => {
-						res = res.json();
 						item.comments.list.unshift(res);
 						item.countComments++;
 						item.noData = false;

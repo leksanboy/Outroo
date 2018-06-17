@@ -609,7 +609,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 				this.publicationsDataService.comment(dataCreate)
 					.subscribe((res: any) => {
-						res = res.json();
 						item.comments.list.unshift(res);
 						item.countComments++;
 						item.noData = false;

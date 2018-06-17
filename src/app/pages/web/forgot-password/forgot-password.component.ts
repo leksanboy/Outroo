@@ -9,6 +9,7 @@ import { AlertService } from '../../../../app/core/services/alert/alert.service'
 import { UserDataService } from '../../../../app/core/services/user/userData';
 
 declare var ga: Function;
+declare var grecaptcha: any;
 
 @Component({
 	selector: 'app-forgot-password',
@@ -23,6 +24,7 @@ export class ForgotPasswordComponent implements OnInit {
 	public pageStatus: string = 'default';
 	public email: string;
 	public recaptcha: boolean;
+	public reCaptchaExists: boolean;
 
 	constructor(
 		private titleService: Title,
@@ -32,8 +34,32 @@ export class ForgotPasswordComponent implements OnInit {
 		private userDataService: UserDataService,
 		private alertService: AlertService
 	) {
+		// // reCaptcha
+		// window['verifyCallbackReCaptcha'] = this.verifyReCaptcha.bind(this);
+
 		// reCaptcha
-		window['verifyCallbackReCaptcha'] = this.verifyReCaptcha.bind(this);
+		let self = this;
+		window['onloadCallback'] = function() {
+			// Unset recaptcha message
+			self.reCaptchaExists = true;
+
+			// Get data
+			grecaptcha.render('reCaptcha_element', {
+				'sitekey' : self.environment.reCaptcha,
+				'callback': (res: string) => { 
+								self.verifyReCaptcha(res);
+							},
+				'expired-callback': () => {
+					self.verifyReCaptcha(null);
+				}
+			});
+		};
+
+		// Reload page, check if not exists to show reCaptcha
+		setTimeout(() => {
+			if (!this.reCaptchaExists)
+				this.alertService.success('Please reload the page, thanks!');
+		}, 1200);
 	}
 
 	ngOnInit() {
@@ -54,9 +80,8 @@ export class ForgotPasswordComponent implements OnInit {
 		this.userDataService.logout();
 	}
 
-	verifyReCaptcha(ev){
-		if (ev)
-			this.recaptcha = true;
+	verifyReCaptcha(data){
+		this.recaptcha = data ? true : false;
 	}
 
 	submit(ev: Event) {
@@ -80,8 +105,9 @@ export class ForgotPasswordComponent implements OnInit {
 						// show error message
 						this.alertService.success('Email does not exist');
 
-						// reset recaptcha
+						// reset reCaptcha
 						this.recaptcha = false;
+						grecaptcha.reset();
 					}
 				);
 		} else {

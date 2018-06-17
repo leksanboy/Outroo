@@ -3,7 +3,7 @@
 	$more = $_GET['rows']*$cuantity;
 	$id = $_GET['id'];
 
-	$sql = "SELECT id, user, date, comment
+	$sql = "SELECT id, user, comment, date
 			FROM z_photos_comments
 			WHERE photo = $id AND is_deleted = 0 
 			ORDER BY date DESC 
@@ -13,7 +13,7 @@
 	$data = array();
 	while($row = $result->fetch_assoc()) {
 		$row['user'] = userUsernameNameAvatar($row['user']);
-		$row['comment'] = html_entity_decode($row['comment'], ENT_QUOTES);
+		$row['comment'] = trim($row['comment']) ? html_entity_decode($row['comment'], ENT_QUOTES) : null;
 		$data[] = $row;
 	}
 
