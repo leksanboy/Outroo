@@ -821,7 +821,7 @@ body{
 							}
 
 							.actions{
-								margin: -12px -18px -12px 0;
+								margin: -12px -26px -12px 0;
 								box-sizing: border-box;
 								float: right;
 								height: 40px;
@@ -2687,7 +2687,7 @@ body{
 							height: 100%;
 
 							.panel{
-								padding: 12px 4px 12px 12px;
+								padding: 12px 2px 12px 18px;
 								box-sizing: border-box;
 								width: 100%;
 								float: left;
@@ -2735,10 +2735,17 @@ body{
 											}
 										}
 									}
+
+									.actions{
+										mat-icon{
+											font-size: 20px;
+										}
+									}
 								}
 
 								.analytics{
 									box-sizing: border-box;
+									margin: 6px 0 0;
 									display: flex;
 									width: 100%;
 									float: left;
@@ -5163,7 +5170,7 @@ body{
 							margin: 0;
 
 							.head{
-								padding: 6px 6px 6px 18px;
+								padding: 6px 2px 6px 18px;
 								box-sizing: border-box;
 								display: flex;
 								width: 100%;
@@ -5213,8 +5220,6 @@ body{
 								}
 
 								.actions{
-									padding: 0 2px 0 0;
-
 									mat-icon{
 										font-size: 20px;
 									}
@@ -5388,7 +5393,7 @@ body{
 											margin: 0;
 
 											.inner{
-												padding: 2px 9px 2px 18px;
+												padding: 2px 2px 2px 18px;
 												box-sizing: border-box;
 												align-items: center;
 												flex-direction: row;
@@ -5481,7 +5486,6 @@ body{
 													box-sizing: border-box;
 													height: 42px;
 													width: 42px;
-													margin: 0;
 
 													button{
 														height: 42px;
