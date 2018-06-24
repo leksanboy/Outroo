@@ -27,8 +27,8 @@ import { AlertService } from './core/services/alert/alert.service';
 import { AlertComponent } from './core/services/alert/alert.component';
 
 // Audio player mobile
-import { AudioPlayerMobileService } from './pages/user/_common/audioPlayerMobile/audioPlayerMobile.service';
-import { AudioPlayerMobileComponent } from './pages/user/_common/audioPlayerMobile/audioPlayerMobile.component';
+import { AudioPlayerMobileService } from './core/services/audioPlayerMobile/audioPlayerMobile.service';
+import { AudioPlayerMobileComponent } from './core/services/audioPlayerMobile/audioPlayerMobile.component';
 
 @NgModule({
 	declarations: [

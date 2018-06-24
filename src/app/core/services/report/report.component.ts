@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { environment } from '../../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
-import { AlertService } from '../../../../../app/core/services/alert/alert.service';
-import { UserDataService } from '../../../../../app/core/services/user/userData';
+import { AlertService } from '../alert/alert.service';
+import { UserDataService } from '../user/userData.service';
 
 @Component({
 	selector: 'app-report',

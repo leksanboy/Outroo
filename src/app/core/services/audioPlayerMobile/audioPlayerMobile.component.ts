@@ -4,13 +4,13 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { ViewportRuler } from '@angular/cdk/scrolling';
 
-import { AlertService } from '../../../../../app/core/services/alert/alert.service';
-import { AudioDataService } from '../../../../../app/core/services/user/audioData';
+import { AlertService } from '../alert/alert.service';
+import { AudioDataService } from '../user/audioData.service';
 import { AudioPlayerMobileService } from './audioPlayerMobile.service';
-import { PlayerService } from '../../../../../app/core/services/player/player.service';
-import { SessionService } from '../../../../../app/core/services/session/session.service';
+import { PlayerService } from '../player/player.service';
+import { SessionService } from '../session/session.service';
 
-import { environment } from '../../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 @Component({
 	selector: 'audioPlayerMobile',
@@ -38,6 +38,7 @@ export class AudioPlayerMobileComponent implements OnInit, OnDestroy, AfterViewI
 	public audio: any;
 	public showPlayer: boolean;
 	public showPlayerAnimation: boolean;
+	public rippleColor: string = 'rgba(255, 255, 255, .15)';
 	public _previousHTMLStyles: any = { top: '', left: '' };
 	public _previousScrollPosition: any;
 

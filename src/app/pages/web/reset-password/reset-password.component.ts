@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
-import { UserDataService } from '../../../../app/core/services/user/userData';
+import { UserDataService } from '../../../../app/core/services/user/userData.service';
 
 declare var ga: Function;
 declare var grecaptcha: any;
@@ -58,7 +58,7 @@ export class ResetPasswordComponent implements OnInit {
         // Reload page, check if not exists to show reCaptcha
         setTimeout(() => {
             if (!this.reCaptchaExists)
-                this.alertService.success('Please reload the page, thanks!');
+                this.alertService.warning('Please reload the page, thanks!');
         }, 1200);
         
         // Get url data
@@ -125,7 +125,7 @@ export class ResetPasswordComponent implements OnInit {
                             this.submitLoading = false;
 
                             // show error message
-        					this.alertService.success('Unexpected error has ocurred.');
+        					this.alertService.error('Unexpected error has ocurred');
 
                             // reset reCaptcha
                         this.recaptcha = false;
@@ -134,13 +134,13 @@ export class ResetPasswordComponent implements OnInit {
                     );
             } else {
                 this.submitLoading = false;
-                this.alertService.success('The fields not match, is incorrenct');
+                this.alertService.error('The fields not match, is incorrenct');
             }
         } else {
 			this.submitLoading = false;
 
 			// show error message
-			this.alertService.success('Complete all fields and reCAPTCHA');
+			this.alertService.error('Complete all fields and reCAPTCHA');
 		}
 	}
 

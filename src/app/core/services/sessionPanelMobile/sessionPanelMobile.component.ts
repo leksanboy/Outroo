@@ -1,9 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material';
+import { environment } from '../../../../environments/environment';
 
-import { environment } from '../../../../../environments/environment';
-
-import { SessionService } from '../../../../../app/core/services/session/session.service';
+import { SessionService } from '../session/session.service';
 
 @Component({
 	selector: 'app-sessionPanelMobile',

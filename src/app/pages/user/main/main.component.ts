@@ -3,18 +3,17 @@ import { Component, AfterViewInit, OnInit, OnDestroy, Inject, ElementRef, Render
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Location } from '@angular/common';
-// import 'rxjs/add/operator/filter';
 import { environment } from '../../../../environments/environment';
 
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
-import { AudioDataService } from '../../../../app/core/services/user/audioData';
-import { FollowsDataService } from '../../../../app/core/services/user/followsData';
+import { AudioDataService } from '../../../../app/core/services/user/audioData.service';
+import { FollowsDataService } from '../../../../app/core/services/user/followsData.service';
 import { MetaService } from '../../../../app/core/services/meta/meta.service';
-import { NotificationsDataService } from '../../../../app/core/services/user/notificationsData';
+import { NotificationsDataService } from '../../../../app/core/services/user/notificationsData.service';
 import { PlayerService } from '../../../../app/core/services/player/player.service';
-import { PublicationsDataService } from '../../../../app/core/services/user/publicationsData';
+import { PublicationsDataService } from '../../../../app/core/services/user/publicationsData.service';
 import { SessionService } from '../../../../app/core/services/session/session.service';
-import { UserDataService } from '../../../../app/core/services/user/userData';
+import { UserDataService } from '../../../../app/core/services/user/userData.service';
 
 import { MainNewPublicationComponent } from './newPublication/newPublication.component';
 import { MainShowAvatarComponent } from './showAvatar/showAvatar.component';
@@ -204,7 +203,7 @@ export class MainComponent implements OnInit, OnDestroy {
 		this.activePlayerInformation.unsubscribe();
 	}
 
-	// User Data of the Page
+	// User data of the page
 	siteUserData(id){
 		this.userDataService.getUserData(id)
 			.subscribe(res => {
@@ -258,12 +257,21 @@ export class MainComponent implements OnInit, OnDestroy {
 			});
 	}
 
-	// Get translations
-	getTranslations(lang){
-		this.userDataService.getTranslations(lang)
-			.subscribe(data => {
-				this.translations = data;
-			});
+	// Follow / Unfollow
+	followUnfollow(type, user){
+		if (type == 'follow')
+			user.status = user.private ? 'pending' : 'following';
+		else if (type == 'unfollow')
+			user.status = 'unfollow';
+
+		let data = {
+			type: user.status,
+			private: user.private,
+			sender: this.sessionData.current.id,
+			receiver: user.id
+		}
+
+		this.followsDataService.followUnfollow(data).subscribe();
 	}
 
 	// Show user images
@@ -288,21 +296,35 @@ export class MainComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	// Follow / Unfollow
-	followUnfollow(type, user){
-		if (type == 'follow')
-			user.status = user.private ? 'pending' : 'following';
-		else if (type == 'unfollow')
-			user.status = 'unfollow';
+	// New publication
+	newPublication(){
+		this.location.go('/' + this.sessionData.current.username + '#newPublication');
 
-		let data = {
-			type: user.status,
-			private: user.private,
-			sender: this.sessionData.current.id,
-			receiver: user.id
-		}
+		let config = {
+			disableClose: true,
+			data: {
+				sessionData: this.sessionData,
+				translations: this.translations
+			}
+		};
 
-		this.followsDataService.followUnfollow(data).subscribe();
+		let dialogRef = this.dialog.open( MainNewPublicationComponent, config);
+		dialogRef.afterClosed().subscribe((res: any) => {
+			this.location.go('/' + this.sessionData.current.username);
+
+			if (res){
+				this.dataDefault.list.unshift(res);
+				this.dataDefault.noData = false;
+			}
+		});
+	}
+
+	// Get translations
+	getTranslations(lang){
+		this.userDataService.getTranslations(lang)
+			.subscribe(data => {
+				this.translations = data;
+			});
 	}
 
 	// Default
@@ -343,7 +365,7 @@ export class MainComponent implements OnInit, OnDestroy {
 					}
 				}, error => {
 					this.dataDefault.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		} else if (type == 'more' && !this.dataDefault.noMore) {
 			this.dataDefault.loadingMoreData = true;
@@ -373,7 +395,7 @@ export class MainComponent implements OnInit, OnDestroy {
 					}, 600);
 				}, error => {
 					this.dataDefault.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		}
 	}
@@ -506,7 +528,7 @@ export class MainComponent implements OnInit, OnDestroy {
 						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title;
 						this.alertService.success(song + ' ' + this.translations.hasBeenAddedTo + ' ' + playlist.title);
 					}, error => {
-						this.alertService.success(this.translations.anErrorHasOcurred);
+						this.alertService.error(this.translations.anErrorHasOcurred);
 					});
 			break;
 			case("createPlaylist"):
@@ -521,29 +543,6 @@ export class MainComponent implements OnInit, OnDestroy {
 				this.sessionService.setDataReport(item);
 			break;
 		}
-	}
-
-	// New publication
-	newPublication(){
-		this.location.go('/' + this.sessionData.current.username + '#newPublication');
-
-		let config = {
-			disableClose: true,
-			data: {
-				sessionData: this.sessionData,
-				translations: this.translations
-			}
-		};
-
-		let dialogRef = this.dialog.open( MainNewPublicationComponent, config);
-		dialogRef.afterClosed().subscribe((res: any) => {
-			this.location.go('/' + this.sessionData.current.username);
-
-			if (res){
-				this.dataDefault.list.unshift(res);
-				this.dataDefault.noData = false;
-			}
-		});
 	}
 
 	// Like / Unlike
@@ -620,7 +619,7 @@ export class MainComponent implements OnInit, OnDestroy {
 					}
 				}, error => {
 					item.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		} else if (type == 'more') {
 			item.loadingMoreData = true;
@@ -643,7 +642,7 @@ export class MainComponent implements OnInit, OnDestroy {
 					}, 600);
 				}, error => {
 					item.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		}
 	}
@@ -743,7 +742,7 @@ export class MainComponent implements OnInit, OnDestroy {
 			return newData;
 		} else if (type == 'create') {
 			if (item.newCommentData.original.trim().length == 0) {
-				this.alertService.success(this.translations.commentIsTooShort);
+				this.alertService.warning(this.translations.commentIsTooShort);
 			} else {
 				let formatedData = this.newComment('transformBeforeSend', null, item);
 				let dataCreate = {
@@ -764,7 +763,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
 						this.newComment('clear', null, item);
 					}, error => {
-						this.alertService.success(this.translations.anErrorHasOcurred);
+						this.alertService.error(this.translations.anErrorHasOcurred);
 					});
 			}
 		}

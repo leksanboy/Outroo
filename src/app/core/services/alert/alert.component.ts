@@ -8,23 +8,16 @@ import { AlertService } from './alert.service';
 	selector: 'alert',
 	templateUrl: 'alert.component.html',
 	animations: [
-		trigger(
-			'myAnimation',
-			[
-				transition(
-					':enter', [
-						style({transform: 'translateY(100%)', opacity: 0}),
-						animate('300ms', style({transform: 'translateY(0)', 'opacity': 1}))
-					]
-				),
-				transition(
-					':leave', [
-						style({transform: 'translateY(0)', 'opacity': 1}),
-						animate('300ms', style({transform: 'translateY(100%)', 'opacity': 0}))
-					]
-				)
-			]
-		)
+		trigger('showFromTopAnimation',[
+			transition(':enter', [
+				style({transform: 'translateY(-100%)'}),
+				animate('200ms', style({'transform': 'translateY(0)', '-webkit-transform': 'translateY(0)'}))
+			]),
+			transition(':leave', [
+				style({transform: 'translateY(0)'}),
+				animate('500ms', style({'transform': 'translateY(-100%)', '-webkit-transform': 'translateY(-100%)'}))
+			])
+		])
 	]
 })
 
@@ -43,7 +36,8 @@ export class AlertComponent {
 					return;
 				}
 
-				this.alerts = []; // clear all for show only one
+				// clear all for show only one
+				this.alerts = [];
 				this.alerts.push(alert);
 
 				setTimeout(() => {

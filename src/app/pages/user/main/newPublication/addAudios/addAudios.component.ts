@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { environment } from '../../../../../../environments/environment';
 
-import { AudioDataService } from '../../../../../../app/core/services/user/audioData';
+import { AudioDataService } from '../../../../../../app/core/services/user/audioData.service';
 
 @Component({
 	selector: 'app-addAudios',

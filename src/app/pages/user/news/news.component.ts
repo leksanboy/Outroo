@@ -9,8 +9,8 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
 import { SessionService } from '../../../../app/core/services/session/session.service';
-import { UserDataService } from '../../../../app/core/services/user/userData';
-import { PublicationsDataService } from '../../../../app/core/services/user/publicationsData';
+import { UserDataService } from '../../../../app/core/services/user/userData.service';
+import { PublicationsDataService } from '../../../../app/core/services/user/publicationsData.service';
 
 import { MainShowPublicationComponent } from '../../../../app/pages/user/main/showPublication/showPublication.component';
 

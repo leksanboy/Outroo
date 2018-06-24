@@ -256,40 +256,46 @@
 		<ul>
 			<li>
 				<button mat-icon-button (click)="scrollTop()" routerLink="/home" routerLinkActive="selected">
-					<mat-icon>home</mat-icon>
+					<div class="home">
+						<div class="roof"></div>
+					</div>
 				</button>
 			</li>
 			<li>
 				<button mat-icon-button (click)="scrollTop()" routerLink="/news" routerLinkActive="selected">
-					<mat-icon>search</mat-icon>
+					<div class="search"></div>
 				</button>
 			</li>
 			<li>
-				<button mat-icon-button (click)="showPlayerMobile('toggle')" (press)="showPlayerMobile('toggle')" [ngClass]="{'activePlayer': showPlayer}" *ngIf="!audioPlayerData.loadingToPlay">
-					<mat-icon *ngIf="!audioPlayerData.playing">headset</mat-icon>
-					<div class='miniEqualizer' *ngIf="audioPlayerData.playing">
+				<button mat-icon-button (click)="showPlayerMobile('toggle')" (press)="showPlayerMobile('toggle')">
+					<div class='miniEqualizer' [ngClass]="{'active' : audioPlayerData.playing}" *ngIf="!audioPlayerData.loadingToPlay">
 						<div class='bar'></div>
 						<div class='bar'></div>
 						<div class='bar'></div>
 						<div class='bar'></div>
 						<div class='bar'></div>
 					</div>
-				</button>
-				<button mat-icon-button (click)="showPlayerMobile('toggle')" [ngClass]="{'activePlayer': showPlayer}" *ngIf="audioPlayerData.loadingToPlay">
-					<span class="loader">
+
+					<span class="loader" *ngIf="audioPlayerData.loadingToPlay">
 						<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 					</span>
 				</button>
 			</li>
 			<li>
 				<button mat-icon-button (click)="scrollTop()" routerLink="/notifications" routerLinkActive="selected">
-					<mat-icon>notifications</mat-icon>
-					<div class="pending" *ngIf="sessionData.current.countPendingNotifications">{{sessionData.current.countPendingNotifications}}</div>
+					<div class="notifications">
+						<div class="clapper"></div>
+						<div class="pending" *ngIf="sessionData.current.countPendingNotifications">
+							{{sessionData.current.countPendingNotifications}}
+						</div>
+					</div>
 				</button>
 			</li>
 			<li>
-				<button mat-icon-button (click)="scrollTop()" (press)="showSessionPanelFromBottomOnMobile()" routerLink="/{{sessionData.current.username}}" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">
-					<mat-icon>person</mat-icon>
+				<button mat-icon-button (click)="scrollTop()" (press)="showSessionPanelFromBottomOnMobile()" routerLink="/{{sessionData.current.username}}" routerLinkActive="selected">
+					<div class="avatar">
+						<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>
+					</div>
 				</button>
 			</li>
 		</ul>

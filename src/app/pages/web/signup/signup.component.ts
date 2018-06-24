@@ -6,7 +6,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
-import { UserDataService } from '../../../../app/core/services/user/userData';
+import { UserDataService } from '../../../../app/core/services/user/userData.service';
 
 declare var ga: Function;
 declare var grecaptcha: any;
@@ -59,7 +59,7 @@ export class SignupComponent implements OnInit {
 		// Reload page, check if not exists to show reCaptcha
 		setTimeout(() => {
 			if (!this.reCaptchaExists)
-				this.alertService.success('Please reload the page, thanks!');
+				this.alertService.warning('Please reload the page, thanks!');
 		}, 1200);
 	}
 
@@ -200,7 +200,7 @@ export class SignupComponent implements OnInit {
 			this.submitLoading = false;
 
 			// show success message
-			this.alertService.success('Complete all fields and reCAPTCHA');
+			this.alertService.error('Complete all fields and reCAPTCHA');
 		}
 	}
 
@@ -219,14 +219,14 @@ export class SignupComponent implements OnInit {
 						this.signinLoading = false;
 
 						// show error message
-						this.alertService.success('Unexpected error has ocurred.');
+						this.alertService.error('Unexpected error has ocurred');
 					}
 				);
 		} else {
 			this.signinLoading = false;
 
 			// show error message
-			this.alertService.success('Unexpected error has ocurred.');
+			this.alertService.error('The credentials are incorrect');
 		}
 	}
 }

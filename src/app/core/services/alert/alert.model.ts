@@ -1,11 +1,11 @@
 export class Alert {
-    type: AlertType;
+    type: string;
     message: string;
 }
 
-export enum AlertType {
-    Success,
-    Error,
-    Info,
-    Warning
-}
+// export enum AlertType {
+//     Success,
+//     Error,
+//     Warning,
+//     Info
+// }

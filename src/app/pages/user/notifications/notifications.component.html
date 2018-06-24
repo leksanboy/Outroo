@@ -156,12 +156,16 @@
 					<div class="uploadFilesBox">
 						<div class="button">
 							<button mat-raised-button (click)="showConversation('new', null)">
-								<div class="top">
-									<mat-icon>question_answer</mat-icon>
-									{{translations.newMessage}}
+								<div class="left">
+									<i label="cloud"></i>
 								</div>
-								<div class="bottom">
-									{{translations.newGroupConversation}}
+								<div class="right">
+									<div class="top">
+										{{translations.newMessage}}
+									</div>
+									<div class="bottom">
+										{{translations.newGroupConversation}}
+									</div>
 								</div>
 							</button>
 						</div>

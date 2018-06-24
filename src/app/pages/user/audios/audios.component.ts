@@ -10,8 +10,8 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
 import { PlayerService } from '../../../../app/core/services/player/player.service';
 import { SessionService } from '../../../../app/core/services/session/session.service';
-import { UserDataService } from '../../../../app/core/services/user/userData';
-import { AudioDataService } from '../../../../app/core/services/user/audioData';
+import { UserDataService } from '../../../../app/core/services/user/userData.service';
+import { AudioDataService } from '../../../../app/core/services/user/audioData.service';
 
 import { AudiosNewPlaylistComponent } from './newPlaylist/newPlaylist.component';
 import { AudiosShowPlaylistComponent } from './showPlaylist/showPlaylist.component';

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
-import { UserDataService } from '../../../../app/core/services/user/userData';
+import { UserDataService } from '../../../../app/core/services/user/userData.service';
 
 declare var ga: Function;
 declare var grecaptcha: any;
@@ -34,7 +34,7 @@ export class ForgotPasswordComponent implements OnInit {
 		private userDataService: UserDataService,
 		private alertService: AlertService
 	) {
-		// // reCaptcha
+		// reCaptcha
 		// window['verifyCallbackReCaptcha'] = this.verifyReCaptcha.bind(this);
 
 		// reCaptcha
@@ -58,7 +58,7 @@ export class ForgotPasswordComponent implements OnInit {
 		// Reload page, check if not exists to show reCaptcha
 		setTimeout(() => {
 			if (!this.reCaptchaExists)
-				this.alertService.success('Please reload the page, thanks!');
+				this.alertService.warning('Please reload the page, thanks!');
 		}, 1200);
 	}
 
@@ -103,7 +103,7 @@ export class ForgotPasswordComponent implements OnInit {
 						this.submitLoading = false;
 
 						// show error message
-						this.alertService.success('Email does not exist');
+						this.alertService.error('Email does not exist');
 
 						// reset reCaptcha
 						this.recaptcha = false;
@@ -114,7 +114,7 @@ export class ForgotPasswordComponent implements OnInit {
 			this.submitLoading = false;
 
 			// show success message
-			this.alertService.success("Complete the email and reCAPTCHA");
+			this.alertService.error("Complete the email and reCAPTCHA");
 		}
 	}
 }

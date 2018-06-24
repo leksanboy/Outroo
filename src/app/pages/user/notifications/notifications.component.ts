@@ -6,13 +6,13 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { environment } from '../../../../environments/environment';
 
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
-import { UserDataService } from '../../../../app/core/services/user/userData';
+import { UserDataService } from '../../../../app/core/services/user/userData.service';
 import { SessionService } from '../../../../app/core/services/session/session.service';
-import { NotificationsDataService } from '../../../../app/core/services/user/notificationsData';
-import { FollowsDataService } from '../../../../app/core/services/user/followsData';
-import { ChatDataService } from '../../../../app/core/services/user/chatData';
-import { PhotoDataService } from '../../../../app/core/services/user/photoData';
-import { PublicationsDataService } from '../../../../app/core/services/user/publicationsData';
+import { NotificationsDataService } from '../../../../app/core/services/user/notificationsData.service';
+import { FollowsDataService } from '../../../../app/core/services/user/followsData.service';
+import { ChatDataService } from '../../../../app/core/services/user/chatData.service';
+import { PhotoDataService } from '../../../../app/core/services/user/photoData.service';
+import { PublicationsDataService } from '../../../../app/core/services/user/publicationsData.service';
 
 import { PhotosShowPhotoComponent } from '../photos/showPhoto/showPhoto.component';
 import { MainShowPublicationComponent } from '../main/showPublication/showPublication.component';

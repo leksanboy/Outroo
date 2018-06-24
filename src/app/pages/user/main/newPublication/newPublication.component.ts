@@ -7,9 +7,9 @@ import { environment } from '../../../../../environments/environment';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { AlertService } from '../../../../../app/core/services/alert/alert.service';
-import { UserDataService } from '../../../../../app/core/services/user/userData';
-import { PublicationsDataService } from '../../../../../app/core/services/user/publicationsData';
-import { NotificationsDataService } from '../../../../../app/core/services/user/notificationsData';
+import { UserDataService } from '../../../../../app/core/services/user/userData.service';
+import { PublicationsDataService } from '../../../../../app/core/services/user/publicationsData.service';
+import { NotificationsDataService } from '../../../../../app/core/services/user/notificationsData.service';
 
 import { MainNewPublicationAddPhotosComponent } from './addPhotos/addPhotos.component';
 import { MainNewPublicationAddAudiosComponent } from './addAudios/addAudios.component';

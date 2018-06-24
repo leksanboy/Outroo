@@ -6,10 +6,10 @@ import { environment } from '../../../../../environments/environment';
 
 import { AlertService } from '../../../../../app/core/services/alert/alert.service';
 import { SessionService } from '../../../../../app/core/services/session/session.service';
-import { AudioDataService } from '../../../../../app/core/services/user/audioData';
+import { AudioDataService } from '../../../../../app/core/services/user/audioData.service';
 import { PlayerService } from '../../../../../app/core/services/player/player.service';
-import { PublicationsDataService } from '../../../../../app/core/services/user/publicationsData';
-import { NotificationsDataService } from '../../../../../app/core/services/user/notificationsData';
+import { PublicationsDataService } from '../../../../../app/core/services/user/publicationsData.service';
+import { NotificationsDataService } from '../../../../../app/core/services/user/notificationsData.service';
 
 import { TimeagoPipe } from '../../../../../app/core/pipes/timeago.pipe';
 import { SafeHtmlPipe } from '../../../../../app/core/pipes/safehtml.pipe';

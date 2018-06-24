@@ -2,16 +2,15 @@ import { DOCUMENT, Title } from '@angular/platform-browser';
 import { Component, OnInit, OnDestroy, Inject, ElementRef, Renderer } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Location } from '@angular/common';
-// import 'rxjs/add/operator/filter';
 import { environment } from '../../../../environments/environment';
 
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
-import { SessionService } from '../../../../app/core/services/session/session.service';
-import { UserDataService } from '../../../../app/core/services/user/userData';
-import { PublicationsDataService } from '../../../../app/core/services/user/publicationsData';
+import { AudioDataService } from '../../../../app/core/services/user/audioData.service';
+import { NotificationsDataService } from '../../../../app/core/services/user/notificationsData.service';
+import { PublicationsDataService } from '../../../../app/core/services/user/publicationsData.service';
 import { PlayerService } from '../../../../app/core/services/player/player.service';
-import { AudioDataService } from '../../../../app/core/services/user/audioData';
-import { NotificationsDataService } from '../../../../app/core/services/user/notificationsData';
+import { SessionService } from '../../../../app/core/services/session/session.service';
+import { UserDataService } from '../../../../app/core/services/user/userData.service';
 
 import { TimeagoPipe } from '../../../../app/core/pipes/timeago.pipe';
 import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
@@ -153,6 +152,23 @@ export class HomeComponent implements OnInit, OnDestroy {
 		this.activePlayerInformation.unsubscribe();
 	}
 
+	// Push Google Ad
+	pushAd(){
+		let ad = '<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5692822538817681" data-ad-slot="1635841852" data-ad-format="auto"></ins>';
+		let a = {
+			id: null,
+			contentTypeAd: true,
+			content: ad
+		}
+
+		setTimeout(() => {
+			let g = (window['adsbygoogle'] = window['adsbygoogle'] || []).push({});
+			if (g == 1) this.hideAd = true;
+		}, 100);
+
+		return a;
+	}
+
 	// Get translations
 	getTranslations(lang){
 		this.userDataService.getTranslations(lang)
@@ -179,7 +195,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 				user: user,
 				session: session,
 				rows: this.dataDefault.rows,
-				cuantity: environment.cuantity
+				cuantity: this.environment.cuantity
 			}
 
 			this.publicationsDataService.default(data)
@@ -190,16 +206,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 						this.dataDefault.noData = true;
 						this.dataDefault.noMore = true;
 					} else {
-						this.dataDefault.loadMoreData = (res.length < environment.cuantity) ? false : true;
+						this.dataDefault.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
 						this.dataDefault.noData = false;
 						this.dataDefault.list = res;
 
-						if (res.length < environment.cuantity)
+						if (res.length < this.environment.cuantity)
 							this.dataDefault.noMore = true;
 					}
 				}, error => {
 					this.dataDefault.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		} else if (type == 'more' && !this.dataDefault.noMore) {
 			this.dataDefault.loadingMoreData = true;
@@ -207,34 +223,29 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 			let data = {
 				type: 'home',
-				user: this.sessionData.current.id,
+				user: this.sessionData.id,
 				session: this.sessionData.current.id,
 				rows: this.dataDefault.rows,
-				cuantity: environment.cuantity
+				cuantity: this.environment.cuantity
 			}
 
 			this.publicationsDataService.default(data)
 				.subscribe(res => {
 					setTimeout(() => {
-						this.dataDefault.loadMoreData = (res.length < environment.cuantity) ? false : true;
+						this.dataDefault.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
 						this.dataDefault.loadingMoreData = false;
 
-						if (res.length > 0) {
-							// Push ad
-							this.dataDefault.list.push(this.pushAd());
-
-							// Push items
+						// Push items
+						if (res.length > 0)
 							for (let i in res)
-								if (res[i].urlVideo)
-									this.dataDefault.list.push(res[i]);
-						}
+								this.dataDefault.list.push(res[i]);
 
-						if (res.length < environment.cuantity)
+						if (res.length < this.environment.cuantity)
 							this.dataDefault.noMore = true;
 					}, 600);
 				}, error => {
 					this.dataDefault.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		}
 	}
@@ -282,21 +293,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 		urlExtension.toString();
 
 		switch (type) {
-			case "outhroo":
+			case "message":
 				item.type = 'publication';
 				this.sessionService.setDataShare(item);
-				break;
-			case "twitter":
-				window.open('https://twitter.com/intent/tweet?text=' + urlExtension, '_blank');
-				break;
-			case "whatsapp":
-				window.open('https://' + (this.environment.mobile ? 'api': 'web') + '.whatsapp.com/send?text=' + urlExtension, '_blank');
-				break;
-			case "facebook":
-				window.open('https://www.facebook.com/sharer/sharer.php?u=' + urlExtension, '_blank');
-				break;
-			case "email":
-				window.open('mailto:?body=' + urlExtension);
 				break;
 			case "copyLink":
 				let copyText: any = this.document.getElementById('hiddenInputForCopyLink');
@@ -305,43 +304,42 @@ export class HomeComponent implements OnInit, OnDestroy {
   				this.document.execCommand("Copy");
   				this.alertService.success(this.translations.copied);
 				break;
+			// case "twitter":
+			// 	window.open('https://twitter.com/intent/tweet?text=' + urlExtension, '_blank');
+			// 	break;
+			// case "whatsapp":
+			// 	window.open('https://' + (this.environment.mobile ? 'api': 'web') + '.whatsapp.com/send?text=' + urlExtension, '_blank');
+			// 	break;
+			// case "facebook":
+			// 	window.open('https://www.facebook.com/sharer/sharer.php?u=' + urlExtension, '_blank');
+			// 	break;
+			// case "email":
+			// 	window.open('mailto:?body=' + urlExtension);
+			// 	break;
 		}
-	}
-
-	// Push Google Ad
-	pushAd(){
-		let ad = '<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5692822538817681" data-ad-slot="1635841852" data-ad-format="auto"></ins>';
-		let a = {
-			id: null,
-			contentTypeAd: true,
-			content: ad
-		}
-
-		setTimeout(() => {
-			let g = (window['adsbygoogle'] = window['adsbygoogle'] || []).push({});
-			if (g == 1) this.hideAd = true;
-		}, 100);
-
-		return a;
 	}
 
 	// Play item song
 	playItem(data, item, key, type) {
-		if (this.audioPlayerData.key == key && this.audioPlayerData.type == type && this.audioPlayerData.postId == data.id) { // Play/Pause current
-			item.playing = !item.playing;
-			this.playerService.setPlayTrack(this.audioPlayerData);
-		} else { // Play new one
-			this.audioPlayerData.postId = data.id;
-			this.audioPlayerData.list = data.audios;
-			this.audioPlayerData.item = item;
-			this.audioPlayerData.key = key;
-			this.audioPlayerData.user = this.sessionData.current.id;
-			this.audioPlayerData.username = this.sessionData.current.username;
-			this.audioPlayerData.location = 'user';
-			this.audioPlayerData.type = type;
+		if (!this.sessionData.current.id) {
+		    this.alertService.success(this.translations.createAnAccountToListenSong);
+		} else {
+			if (this.audioPlayerData.key == key && this.audioPlayerData.type == type && this.audioPlayerData.postId == data.id) { // Play/Pause current
+				item.playing = !item.playing;
+				this.playerService.setPlayTrack(this.audioPlayerData);
+			} else { // Play new one
+				this.audioPlayerData.postId = data.id;
+				this.audioPlayerData.list = data.audios;
+				this.audioPlayerData.item = item;
+				this.audioPlayerData.key = key;
+				this.audioPlayerData.user = this.sessionData.id;
+				this.audioPlayerData.username = this.sessionData.username;
+				this.audioPlayerData.location = 'user';
+				this.audioPlayerData.type = type;
 
-			item.playing = true;
-			this.playerService.setData(this.audioPlayerData);
+				item.playing = true;
+				this.playerService.setData(this.audioPlayerData);
+			}
 		}
 	}
 
@@ -380,7 +378,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title;
 						this.alertService.success(song + ' ' + this.translations.hasBeenAddedTo + ' ' + playlist.title);
 					}, error => {
-						this.alertService.success(this.translations.anErrorHasOcurred);
+						this.alertService.error(this.translations.anErrorHasOcurred);
 					});
 			break;
 			case("createPlaylist"):
@@ -389,9 +387,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 			break;
 			case("share"):
 				alert("Working on Share with friends");
-			break;
-			case("search"):
-				alert("Working on Search similars");
 			break;
 			case("report"):
 				item.type = 'audio';
@@ -435,7 +430,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 			item.showCommentsBox = false;
 		} else {
 			item.showCommentsBox = true;
-			this.newComment('clear', null, item);
 
 			// Load comments
 			this.defaultComments('default', item);
@@ -448,10 +442,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 			item.noData = false;
 			item.loadMoreData = false;
 			item.loadingData = true;
-			item.comments.new = '';
+			item.comments = [];
 			item.comments.list = [];
 			item.rowsComments = 0;
 
+			// New comments set
+			this.newComment('clear', null, item);
+
+			// Data
 			let data = {
 				id: item.id,
 				rows: item.rowsComments,
@@ -471,7 +469,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 					}
 				}, error => {
 					item.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		} else if (type == 'more') {
 			item.loadingMoreData = true;
@@ -494,7 +492,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 					}, 600);
 				}, error => {
 					item.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		}
 	}
@@ -594,7 +592,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 			return newData;
 		} else if (type == 'create') {
 			if (item.newCommentData.original.trim().length == 0) {
-				this.alertService.success(this.translations.commentIsTooShort);
+				this.alertService.warning(this.translations.commentIsTooShort);
 			} else {
 				let formatedData = this.newComment('transformBeforeSend', null, item);
 				let dataCreate = {
@@ -615,7 +613,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 						this.newComment('clear', null, item);
 					}, error => {
-						this.alertService.success(this.translations.anErrorHasOcurred);
+						this.alertService.error(this.translations.anErrorHasOcurred);
 					});
 			}
 		}
@@ -629,9 +627,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 				comment.type = !comment.addRemove ? "add" : "remove";
 
 				let data = {
-					user: this.sessionData.current.id,
+					sender: this.sessionData.current.id,
+					receiver: item.user.id,
 					type: comment.type,
-					id: comment.id
+					comment: comment.id,
+					id: item.id
 				}
 
 				this.publicationsDataService.comment(data)

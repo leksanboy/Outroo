@@ -8,9 +8,9 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
 import { SessionService } from '../../../../app/core/services/session/session.service';
-import { UserDataService } from '../../../../app/core/services/user/userData';
-import { FollowsDataService } from '../../../../app/core/services/user/followsData';
-import { NotificationsDataService } from '../../../../app/core/services/user/notificationsData';
+import { UserDataService } from '../../../../app/core/services/user/userData.service';
+import { FollowsDataService } from '../../../../app/core/services/user/followsData.service';
+import { NotificationsDataService } from '../../../../app/core/services/user/notificationsData.service';
 
 declare var ga: Function;
 

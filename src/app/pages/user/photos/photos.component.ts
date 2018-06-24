@@ -6,9 +6,9 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { environment } from '../../../../environments/environment';
 
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
-import { UserDataService } from '../../../../app/core/services/user/userData';
+import { UserDataService } from '../../../../app/core/services/user/userData.service';
 import { SessionService } from '../../../../app/core/services/session/session.service';
-import { PhotoDataService } from '../../../../app/core/services/user/photoData';
+import { PhotoDataService } from '../../../../app/core/services/user/photoData.service';
 
 import { PhotosShowPhotoComponent } from './showPhoto/showPhoto.component';
 

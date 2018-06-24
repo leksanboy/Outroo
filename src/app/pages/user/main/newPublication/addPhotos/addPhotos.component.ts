@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { environment } from '../../../../../../environments/environment';
 
-import { PhotoDataService } from '../../../../../../app/core/services/user/photoData';
+import { PhotoDataService } from '../../../../../../app/core/services/user/photoData.service';
 
 @Component({
 	selector: 'app-addPhotos',

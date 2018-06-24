@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { environment } from '../../../../../environments/environment';
 
 import { AlertService } from '../../../../../app/core/services/alert/alert.service';
-import { UserDataService } from '../../../../../app/core/services/user/userData';
+import { UserDataService } from '../../../../../app/core/services/user/userData.service';
 
 declare var Cropper: any;
 

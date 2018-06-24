@@ -36,12 +36,15 @@ $pageMaxWidth: 600px;
 $modalWidth: 720px;
 
 /*Images*/
-$spriteImages: url('assets/images/sprite.png');
+$sprite: url('assets/images/sprite.png');
+$spriteAudios: url('assets/images/sprite_audios.png');
+$spriteImages: url('assets/images/sprite_images.png');
 
 /*Booleans*/
+$backgroundBlackColor: #070b17;
 $modalDialogColor: #1D242E;
 $fontBlackColor: #14181d;
-$backgroundBlackColor: #070b17;
+$yellowColor: #ff9800;
 $blackColor: #000000;
 $whiteColor: #FFFFFF;
 $greyColor: #9E9E9E;
@@ -91,6 +94,11 @@ body{
 	font-size: 15px;
 	padding: 0;
 	margin: 0;
+
+	.rippleButton{
+		width: 100px;
+		height: 48px;
+	}
 
 	/*Generic*/
 	*{
@@ -385,7 +393,7 @@ body{
 				height: 40px;
 
 				i{
-					background-image: $spriteImages;
+					background-image: $sprite;
 					background-repeat: no-repeat;
 					background-size: 144px;
 					margin: 8px 12px 0 0;
@@ -486,20 +494,18 @@ body{
 
 	/*Alert*/
 	.alertBox{
-		margin: 12px auto;
 		position: fixed;
-		z-index: 99999;
+		z-index: 1000;
 		width: 100%;
-		height: 0;
 		top: 56px;
+		left: 0;
 
 		.inner{
-			background-color: $whiteColor;
 			padding: 18px 36px 18px 18px;
 			max-width: $pageMaxWidth;
 			box-shadow: $shadowBox3;
 			box-sizing: border-box;
-			color: $fontBlackColor;
+			color: $whiteColor;
 			position: relative;
 			border-radius: 5px;
 			font-weight: bold;
@@ -507,15 +513,26 @@ body{
 			display: flex;
 			width: 96%;
 
+			&.success{
+				background-color: transparentize($blueColor, .1);
+			}
+
+			&.error{
+				background-color: transparentize($redColor, .1);
+			}
+
+			&.warning{
+				background-color: transparentize($yellowColor, .1);
+			}
+
 			.text{
 				line-height: 18px;
-				font-size: 14px;
 				width: 100%;
 			}
 
 			button{
 				position: absolute;
-				color: $greyColor;
+				color: $whiteColor;
 				background: none;
 				box-shadow: none;
 				margin: 7px;
@@ -669,8 +686,8 @@ body{
 
 	/*Comments box*/
 	.boxComments{
+		padding: 0 6px 18px 18px;
 		box-sizing: border-box;
-		padding: 0 18px 18px;
 		width: 100%;
 		float: left;
 
@@ -681,13 +698,13 @@ body{
 			.new{
 				background: transparentize($greyColor, .75);
 				box-sizing: border-box;
+				margin: 0 0 8px -6px;
 				position: relative;
 				border-radius: 5px;
-				margin: 0 0 8px 0;
 				display: flex;
 				padding: 6px;
-				float: left;
 				width: 100%;
+				float: left;
 
 				.avatar{
 					box-sizing: border-box;
@@ -760,8 +777,16 @@ body{
 						width: 24px;
 						margin: 0;
 
-						mat-icon{
-							color: $blueColor;
+						i{
+							background-color: $blueColor;
+							mask-position: -18px -90px;
+							mask-image: $spriteImages;
+							mask-repeat: no-repeat;
+							mask-size: 36px 108px;
+							display: block;
+							height: 18px;
+							width: 18px;
+							margin: 3px;
 						}
 					}
 				}
@@ -777,19 +802,19 @@ body{
 					border: none !important;
 					box-sizing: border-box;
 					position: relative;
+					padding: 0 0 8px 0;
 					list-style: none;
 					display: flex;
 					float: left;
 					width: 100%;
-					padding: 0;
 					margin: 0;
 
 					.avatar{
 						box-sizing: border-box;
+						margin: 4px 12px 0 0;
 						border-radius: 50%;
 						overflow: hidden;
 						min-width: 24px;
-						margin: 4px 0;
 						height: 24px;
 						width: 24px;
 
@@ -801,8 +826,8 @@ body{
 
 					.text{
 						box-sizing: border-box;
-						padding: 6px 12px;
 						width: 100%;
+						padding: 0;
 
 						.name{
 							.username{
@@ -821,19 +846,28 @@ body{
 							}
 
 							.actions{
-								margin: -12px -26px -12px 0;
 								box-sizing: border-box;
 								float: right;
-								height: 40px;
-								width: 40px;
+								height: 24px;
+								width: 24px;
 
 								button{
-									margin: 0;
+									margin: -3px 0 0 -5px !important;
+									border-radius: 50% !important;
+									padding: 0 !important;
+									height: 24px;
+									width: 24px;
 
-									mat-icon{
-										color: transparentize($greyColor, .5);
-										text-shadow: none;
-										font-size: 20px;
+									i{
+										background-color: $greyColor;
+										mask-image: $spriteImages;
+										mask-position: 0 -60px;
+										mask-repeat: no-repeat;
+										mask-size: 24px 72px;
+										margin: 0 0 0 6px;
+										display: block;
+										height: 12px;
+										width: 12px;
 									}
 								}
 							}
@@ -893,29 +927,54 @@ body{
 			button{
 				background: $fontBlackColor;
 				color: $whiteColor;
-				padding: 4px 0;
+				padding: 6px 0;
+				display: flex;
 				width: 100%;
 
-				.top{
-					display: inline-block;
-					font-size: 16px;
+				span{
+					margin: auto;
 
-					mat-icon{
-						margin: 4px 8px 0 0;
-						font-size: 24px;
+					.left{
+						border-right: 1px solid $greyColor;
+						padding: 2px 6px;
+						height: 32px;
+						width: 32px;
 						float: left;
+
+						i{
+							background-color: currentColor;
+							mask-position: -32px -96px;
+							mask-image: $spriteImages;
+							mask-repeat: no-repeat;
+							display: inline-block;
+							mask-size: 64px 192px;
+							height: 32px;
+							width: 32px;
+							margin: 0;
+						}
+
 					}
 
-					&.warning{
-						color: $redColor;
-					}
-				}
+					.right{
+						padding: 6px 6px 0;
+						text-align: left;
+						float: left;
 
-				.bottom{
-					margin: -5px 0 4px 0;
-					color: $greyColor;
-					line-height: 12px;
-					font-size: 12px;
+						.top{
+							line-height: 15px;
+							font-size: 15px;
+
+							&.warning{
+								color: $redColor;
+							}
+						}
+
+						.bottom{
+							color: $greyColor;
+							line-height: 10px;
+							font-size: 10px;
+						}
+					}
 				}
 			}
 		}
@@ -1329,7 +1388,7 @@ body{
 				font-weight: bold;
 
 				.logo{
-					background-image: $spriteImages;
+					background-image: $sprite;
 					background-repeat: no-repeat;
 					background-position: 0 0;
 					background-size: 144px;
@@ -2737,15 +2796,27 @@ body{
 									}
 
 									.actions{
-										mat-icon{
-											font-size: 20px;
+										button{
+											border-radius: 50% !important;
+
+											i{
+												background-color: $whiteColor;
+												mask-image: $spriteImages;
+												mask-position: 0 -70px;
+												mask-repeat: no-repeat;
+												mask-size: 28px 84px;
+												margin: 0 0 0 12px;
+												display: block;
+												height: 14px;
+												width: 14px;
+											}
 										}
 									}
 								}
 
 								.analytics{
 									box-sizing: border-box;
-									margin: 6px 0 0;
+									padding: 6px 0 0;
 									display: flex;
 									width: 100%;
 									float: left;
@@ -2757,14 +2828,34 @@ body{
 										float: left;
 
 										button{
-											mat-icon{
-												padding: 0 8px 0 0;
-												font-size: 28px;
+											span{
+												margin: 6px auto;
+												display: flex;
+												width: 24px;
+
+												i{
+													background-color: $whiteColor;
+													mask-image: $spriteImages;
+													mask-repeat: no-repeat;
+													mask-size: 48px 144px;
+													height: 24px;
+													width: 24px;
+													float: left;
+
+													&.comments{
+														mask-position: 0 -72px;	
+													}
+
+													&.like{
+														mask-position: 0 -48px;
+													}
+												}
 											}
 
 											&.active{
-												mat-icon{
-													color: $redColor;
+												span i.like{
+													background-color: $redColor;
+													mask-position: -24px -48px;
 												}
 											}
 										}
@@ -2774,7 +2865,6 @@ body{
 										text-overflow: ellipsis;
 										box-sizing: border-box;
 										white-space: nowrap;
-										font-weight: bold;
 										line-height: 40px;
 										overflow: hidden;
 										padding: 0 12px;
@@ -2783,7 +2873,7 @@ body{
 										float: left;
 
 										a{
-											color: $whiteColor;
+											font-weight: bold;
 
 											&:hover{
 												text-decoration: underline;
@@ -4237,7 +4327,7 @@ body{
 			}
 
 			.logo{
-				background-image: $spriteImages;
+				background-image: $sprite;
 				background-repeat: no-repeat;
 				background-position: 0 0;
 				background-size: 72px;
@@ -4519,7 +4609,7 @@ body{
 					z-index: -1;
 
 					.logo{
-						background-image: $spriteImages;
+						background-image: $sprite;
 						background-repeat: no-repeat;
 						background-position: 0 0;
 						background-size: 72px;
@@ -4982,15 +5072,17 @@ body{
 									height: 32px;
 
 									i{
-										filter: drop-shadow($shadowIcon1);
-										background-position: -40px -60px;
-										background-image: $spriteImages;
-										background-repeat: no-repeat;
-										background-size: 120px;
-										margin: 0 10px 1px 0;
+										/*filter: drop-shadow($shadowIcon1);*/
+										background-color: $whiteColor;
+										mask-image: $spriteImages;
+										mask-position: 0 -72px;
+										mask-repeat: no-repeat;
+										mask-size: 36px 108px;
+										margin: 0 10px 2px 0;
 										position: absolute;
-										height: 20px;
-										width: 20px;
+										height: 18px;
+										width: 18px;
+										float: left;
 										bottom: 0;
 										right: 0;
 									}
@@ -5023,16 +5115,30 @@ body{
 									float: right;
 									height: 30px;
 
-									mat-icon{
-										font-size: 16px;
-										height: 18px;
-										width: 16px;
+									span{
+										display: flex;
+
+										i{
+											background-color: $blackColor;
+											mask-position: -14px -56px;
+											mask-image: $spriteImages;
+											mask-repeat: no-repeat;
+											mask-size: 28px 84px;
+											margin: 8px 4px 0 0;
+											height: 14px;
+											width: 14px;
+											float: left;
+										}
 									}
 
 									&.active{
 										background-color: $blueColor;
 										border-color: $blueColor;
 										color: $whiteColor;
+
+										span i{
+											background-color: $whiteColor;
+										}
 									}
 								}
 							}
@@ -5043,7 +5149,7 @@ body{
 
 									.name{
 										i{
-											background-position: -40px -40px;
+											background-color: $blackColor;
 										}
 									}
 								}
@@ -5220,8 +5326,20 @@ body{
 								}
 
 								.actions{
-									mat-icon{
-										font-size: 20px;
+									button{
+										border-radius: 50% !important;
+
+										i{
+											background-color: $blackColor;
+											mask-image: $spriteImages;
+											mask-position: 0 -70px;
+											mask-repeat: no-repeat;
+											mask-size: 28px 84px;
+											margin: 0 0 0 12px;
+											display: block;
+											height: 14px;
+											width: 14px;
+										}
 									}
 								}
 							}
@@ -5572,37 +5690,35 @@ body{
 										display: flex;
 										float: left;
 
-										button span{
-											margin: 6px auto;
-											display: flex;
-											width: 24px;
-
-											mat-icon{
-												line-height: 28px;
-												font-size: 28px;
-												height: 28px;
-												width: 28px;
-											}
-
-											/*i{
-												background-image: $spriteImages;
-												background-repeat: no-repeat;
-												background-size: 144px;
-												height: 24px;
+										button{
+											span{
+												margin: 6px auto;
+												display: flex;
 												width: 24px;
 
-												&.comments{
-													background-position: -48px -122px;
-												}
+												i{
+													background-color: $blackColor;
+													mask-image: $spriteImages;
+													mask-repeat: no-repeat;
+													mask-size: 48px 144px;
+													height: 24px;
+													width: 24px;
+													float: left;
 
-												&.like{
-													background-position: -48px -96px;	
+													&.comments{
+														mask-position: 0 -72px;	
+													}
+
+													&.like{
+														mask-position: 0 -48px;
+													}
 												}
-											}*/
+											}
 
 											&.active{
-												i.like{
-													background: $redColor;
+												span i.like{
+													background-color: $redColor;
+													mask-position: -24px -48px;
 												}
 											}
 										}
@@ -5612,7 +5728,6 @@ body{
 										text-overflow: ellipsis;
 										box-sizing: border-box;
 										white-space: nowrap;
-										font-weight: bold;
 										line-height: 40px;
 										overflow: hidden;
 										padding: 0 12px;
@@ -5621,6 +5736,8 @@ body{
 										float: left;
 
 										a{
+											font-weight: bold;
+
 											&:hover{
 												text-decoration: underline;
 											}
@@ -6996,15 +7113,10 @@ body{
 			.pageUser{
 				.panel{
 					.dataBox{
-						.avatar{
-							background-color: $blackColor;
-							border-color: $blackColor;
-						}
-
-						.buttons{
-							button{
-								background: $whiteColor;
-								color: $fontBlackColor
+						.user{
+							.avatar{
+								background-color: $blackColor;
+								border-color: $blackColor;
 							}
 						}
 					}
@@ -7013,16 +7125,38 @@ body{
 				.content{
 					ul{
 						li{
-							.audios{
-								ul{
-									li{
-										&.default{
-											.image{
-												button{
-													mat-icon{
-														color: $whiteColor !important;
+							.head{
+								.actions{
+									button{
+										i{
+											background-color: $whiteColor;
+										}
+									}
+								}
+							}
+
+							.body{
+								.audios{
+									ul{
+										li{
+											&.default{
+												.image{
+													button{
+														mat-icon{
+															color: $whiteColor !important;
+														}
 													}
 												}
+											}
+										}
+									}
+								}
+
+								.analytics{
+									.buttonBox{
+										button span{
+											i{
+												background-color: $whiteColor;
 											}
 										}
 									}
@@ -7074,15 +7208,40 @@ body{
 
 		/*Mobile bottom nav*/
 		.bottomNav{
-			border-top: 1px solid transparentize($greyColor, .75);
 			background-color: $blackColor;
 
-			ul{
-				li{
-					button{
-						&.selected{
-							color: $whiteColor;
+			ul li button{
+				.home{
+					.roof{
+						&:before{
+							border-bottom-color: $blackColor;
 						}
+
+						&:after{
+							background-color: $blackColor;
+						}
+					}
+				}
+
+				.notifications{
+					&:after{
+						border-bottom-color: $blackColor;
+					}
+
+					.clapper:after{
+						background-color: $blackColor;
+					}
+
+					.pending{
+						color: $blackColor;
+					}
+				}
+
+				&.selected{ 
+					color: $whiteColor;
+
+					.avatar{
+						border-color: $whiteColor;
 					}
 				}
 			}
@@ -7713,7 +7872,20 @@ body{
 @media (max-width: 760px){
 	body{
 		.alertBox{
+			margin: 0;
 			top: 0;
+
+			.inner{
+				text-align: center;
+				border-radius: 0;
+				padding: 18px;
+    			width: 100%;
+    			margin: 0;
+
+    			button{
+    				display: none !important;
+    			}
+			}
 		}
 
 		.pageHomeBox{
@@ -7854,53 +8026,171 @@ body{
 					width: 100%;
 
 					button{
-						color: transparentize($greyColor, .5);
+						color: $greyColor;
 						border-radius: 0;
 						height: 48px;
 						width: 100%;
-
-						.mat-icon{
-							line-height: 28px;
-							font-size: 28px;
-							height: 28px;
-							width: 28px;
-						}
 
 						.mat-button-ripple-round{
 							border-radius: 0;
 						}
 
-						&.selected{
-							color: $fontBlackColor;
+						.home{
+							box-sizing: border-box;
+							position: relative;
+							margin: auto;
+							height: 24px;
+							width: 24px;
+
+							&:before{
+								content: '';
+								border: solid 1px currentColor;
+								border-radius: 0 0 0 3px;
+								box-sizing: border-box;
+								position: absolute;
+								border-top: none;
+								height: 11px;
+								width: 9px;
+								bottom: 0;
+								left: 1px;
+							}
+
+							&:after{
+								content: '';
+								border: solid 1px currentColor;
+								border-radius: 0 0 3px 0;
+								box-sizing: border-box;
+								position: absolute;
+								border-top: none;
+								height: 11px;
+								width: 9px;
+								left: 14px;
+								bottom: 0;
+							}
+
+							.roof{
+								border-bottom: 12px solid currentColor;
+								border-right: 14px solid transparent;
+								border-left: 14px solid transparent;
+								position: absolute;
+								left: -2px;
+								height: 0;
+								width: 0;
+								top: 1px;
+
+								&:before {
+									content: '';
+									border-bottom: 11px solid $whiteColor;
+									border-right: 13px solid transparent;
+									border-left: 13px solid transparent;
+									position: absolute;
+									left: -13px;
+									z-index: 1;
+									height: 0;
+									width: 0;
+									top: 1px;
+								}
+
+								&:after {
+									content: '';
+									border-bottom: 1px solid currentColor;
+									background-color: $whiteColor;
+									position: absolute;
+									height: 3px;
+									width: 6px;
+									z-index: 1;
+									left: -3px;
+									top: 11px;
+								}
+							}
 						}
 
-						&.activePlayer{
-							color: $redColor;
+						.search{
+							position: relative;
+							margin: auto;
+							height: 24px;
+							width: 24px;
+
+							&:before{
+								content: '';
+								border: solid 1px currentColor;
+								box-sizing: border-box;
+								border-radius: 100%;
+								position: absolute;
+								height: 18px;
+								width: 18px;
+								left: 3px;
+								top: 2px;
+							}
+
+							&:after{
+								content: '';
+								background-color: currentColor;
+								transform: rotate(-45deg);
+								position: absolute;
+								height: 7px;
+								width: 1px;
+								left: 20px;
+								top: 16px;
+							}
 						}
 
 						.miniEqualizer{
-							align-items: flex-end;
+							border: 1px solid $greyColor;
+							box-sizing: border-box;
+							align-items: center;
+							border-radius: 8px;
+							position: absolute;
+							padding: 0 3.5px;
 							display: flex;
 							margin: auto;
-							height: 16px;
-							width: 25px;
+							height: 24px;
+							width: 24px;
+							bottom: 0;
+							right: 0;
+							left: 0;
+							top: 0;
 
 							.bar{
-								border-radius: 1px 1px 0 0;
-								min-height: 4px;
+								background-color: $greyColor;
+								border-radius: 1px;
+								min-height: 2px;
 								margin: 0 0.5px;
-								width: 4px;
+								width: 2px;
 
-								 @for $i from 0 through 5{
-									&:nth-child(#{$i}){
-										background-color: $redColor;
-										animation: grow#{$i} #{random(700) + 1500}ms alternate infinite;
-									}
+								&:nth-child(1){
+									height: 6px;
+								}
 
-									@keyframes grow#{$i}{
-										@for $j from 0 through 10{
-											#{$j * 10}%{
-												height: #{random(16)}px;
+								&:nth-child(2){
+									height: 14px;
+								}
+
+								&:nth-child(3){
+									height: 6px;
+								}
+
+								&:nth-child(4){
+									height: 10px;
+								}
+
+								&:nth-child(5){
+									height: 6px;
+								}
+							}
+
+							&.active{
+								.bar{
+									@for $i from 0 through 5{
+										&:nth-child(#{$i}){
+											animation: grow#{$i} #{random(700) + 1500}ms alternate infinite;
+										}
+
+										@keyframes grow#{$i}{
+											@for $j from 0 through 10{
+												#{$j * 10}%{
+													height: #{random(16)}px;
+												}
 											}
 										}
 									}
@@ -7919,28 +8209,167 @@ body{
 									width: 24px !important;
 
 									circle{
-										stroke: $redColor !important;
+										stroke: transparentize($greyColor, .5) !important;
 									}
 								}
 							}
 						}
 
-						.pending{
-							background-color: $redColor;
-							margin: 8px 0 0 4px;
-							position: absolute;
-							border-radius: 8px;
-							color: $whiteColor;
-							text-align: center;
-							font-weight: bold;
-							line-height: 12px;
-							font-size: 10px;
-							min-width: 12px;
+						.notifications{
+							box-sizing: border-box;
+							position: relative;
+							margin: auto;
+							height: 24px;
+							width: 24px;
+
+							&:before{
+								content: '';
+								border: solid 1px currentColor;
+								border-radius: 14px 14px 0 0;
+								box-sizing: border-box;
+								border-bottom: none;
+								position: absolute;
+								height: 16px;
+								width: 16px;
+								left: 4px;
+								top: 3px;
+							}
+
+							&:after {
+								content: '';
+								border-bottom: solid 1px $whiteColor;
+								border-top: solid 1px currentColor;
+								position: absolute;
+								bottom: 3px;
+								width: 20px;
+								left: 2px;
+							}
+
+							.clapper{
+								border: solid 1px currentColor;
+								position: absolute;
+								border-radius: 50%;
+								height: 6px;
+								width: 6px;
+								left: 8px;
+								bottom: 0;
+
+								&:before {
+									content: '';
+									border: solid 1px currentColor;
+									box-sizing: border-box;
+									position: absolute;
+									border-radius: 50%;
+									left: 1.5px;
+									height: 3px;
+									width: 3px;
+									top: -16px;
+								}
+
+								&:after {
+									content: '';
+									background-color: $whiteColor;
+									position: absolute;
+									height: 6px;
+									bottom: 3px;
+									width: 10px;
+									left: -2px;
+								}
+							}
+
+							.pending{
+								background-color: $redColor;
+								margin: -8px 0 0 5px;
+								position: absolute;
+								border-radius: 8px;
+								color: $whiteColor;
+								text-align: center;
+								font-weight: bold;
+								line-height: 12px;
+								font-size: 10px;
+								min-width: 12px;
+								padding: 2px;
+								height: 12px;
+								z-index: -1;
+								left: 50%;
+								top: 0;
+							}
+						}
+
+						.avatar{
+							color: transparent;
+							border: 1px solid currentColor;
+							border-radius: 50%;
+							margin: auto;
 							padding: 2px;
-							height: 12px;
-							z-index: -1;
-							left: 50%;
-							top: 0;
+							height: 26px;
+							width: 26px;
+
+							img{
+								background-color: transparentize($greyColor, .5);
+								border-radius: 50%;
+								overflow: hidden;
+								height: 24px;
+								width: 24px;
+							}
+						}
+
+						&.selected{
+							color: $blackColor;
+
+							.home{
+								&:before,
+								&:after{
+									border-width: 2px;
+								}
+
+								.roof{
+									&:after {
+										border-bottom-width: 2px;
+										width: 8px;
+										left: -4px;
+										top: 10px;
+									}
+
+									&:before{
+										top: 2px;
+									}
+								}
+							}
+
+							.search{
+								&:before{
+									border-width: 2px;
+								}
+
+								&:after{
+									width: 2px;
+								}
+							}
+
+							.notifications{
+								&:before{
+									border-width: 2px;
+								}
+
+								&:after{
+									border-top-width: 2px;
+								}
+
+								.clapper{
+									border-width: 2px;
+									left: 7px;
+
+									&:before{
+										background-color: currentColor;
+										top: -15px;
+									}
+								}
+							}
+
+							.avatar{
+								border-color: $blackColor;
+							}
 						}
 					}
 				}
@@ -8108,7 +8537,7 @@ body{
 
 					.bottom{
 						justify-content: center;
-						padding: 24px 0 12px;
+						padding: 18px 0 12px;
 						align-items: center;
 						display: flex;
 						width: 100%;
@@ -8116,73 +8545,94 @@ body{
 
 						button{
 							border-radius: 50% !important;
-							color: $whiteColor;
 							background: none;
 							box-shadow: none;
 
-							&[disabled]{
-								background: transparent !important;
-
-								mat-icon{
-									color: $whiteColor;
+							&.disabled{
+								i{
+									background-color: $greyColor !important;
+									opacity: .5;
 								}
 							}
 
-							&:hover{
-								box-shadow: none;
-								background: none;
+							&.mat-accent{
+								color: #09f;
+							}
+
+							i{
+								background-color: $whiteColor;
+								mask-image: $spriteAudios;
+								mask-repeat: no-repeat;
+								display: block;
 							}
 
 							&.playPause{
-								background-color: $whiteColor;
-								box-shadow: $shadowBox1;
-								box-sizing: border-box;
 								height: 76px;
 								width: 76px;
 
-								&.noImage{
-									mat-icon{
-										color: $whiteColor;
-									}
-								}
+								i{
+									mask-size: 112px;
+									margin: 10px;
+									height: 56px;
+									width: 56px;
 
-								mat-icon{
-									color: $fontBlackColor;
-									line-height: 36px;
-									font-size: 36px;
-									height: 36px;
-									width: 36px;
+									&.play{
+										mask-position: 0 0px;
+									}
+
+									&.pause{
+										mask-position: -56px 0;
+									}
 								}
 							}
 
 							&.prev,
 							&.next{
-								margin: 4px 18px;
+								margin: 4px 6px 4px 32px;
+								height: 48px;
+								width: 48px;
 
-								mat-icon{
-									text-shadow: $shadowText1;
-									font-size: 36px;
-									height: 36px;
-									width: 36px;
-									padding: 0;
+								i{
+									mask-position: 0 -48px;
+									mask-size: 96px;
+									margin: 12px;
+									height: 24px;
+									width: 24px;
+								}
+							}
+
+							&.next{
+								margin: 4px 32px 4px 6px;
+
+								i{
+									mask-position: -24px -48px;
 								}
 							}
 
 							&.shuffle,
 							&.repeat{
 								margin: 4px 0;
+								height: 24px;
+								width: 24px;
 
-								mat-icon{
-									font-size: 24px;
-									height: 24px;
-									width: 24px;
+								i{
+									mask-position: -40px -40px;
+									mask-size: 80px;
+									height: 20px;
+									width: 20px;
+									margin: 2px;
 								}
 
 								&.active{
-									mat-icon{
-										color: $blueColor;
-										font-weight: bold;
+									i{
+										background: $blueColor;
 									}
+								}
+							}
+
+							&.repeat{
+								i{
+									mask-position: -60px -40px;
 								}
 							}
 						}

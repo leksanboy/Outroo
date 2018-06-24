@@ -1,5 +1,7 @@
-<div *ngFor="let x of alerts" class="alertBox" [@myAnimation]>
-	<div class="inner">
+<div *ngFor="let x of alerts" class="alertBox" [@showFromTopAnimation]>
+	<div class="inner" [ngClass]="{'success': x.type == 'success', 
+									'error': x.type == 'error',
+									'warning': x.type == 'warning'}">
 		<div class="text">{{x.message}}</div>
 		<button mat-mini-fab (click)="close(x)"><mat-icon>clear</mat-icon></button>
 	</div>

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
-import { UserDataService } from '../../../../app/core/services/user/userData';
+import { UserDataService } from '../../../../app/core/services/user/userData.service';
 
 declare var ga: Function;
 declare var grecaptcha: any;
@@ -53,7 +53,7 @@ export class SigninComponent implements OnInit {
 		// Reload page, check if not exists to show reCaptcha
 		setTimeout(() => {
 			if (!this.reCaptchaExists)
-				this.alertService.success('Please reload the page, thanks!');
+				this.alertService.warning('Please reload the page, thanks!');
 		}, 1200);
 	}
 
@@ -97,7 +97,7 @@ export class SigninComponent implements OnInit {
 						this.submitLoading = false;
 
 						// show error message
-						this.alertService.success('Email or Password is incorrenct');
+						this.alertService.error('Email or Password is incorrenct');
 
 						// reset reCaptcha
 						this.recaptcha = false;
@@ -108,7 +108,7 @@ export class SigninComponent implements OnInit {
 			this.submitLoading = false;
 
 			// show error message
-			this.alertService.success('Complete all fields and reCAPTCHA');
+			this.alertService.error('Complete all fields and reCAPTCHA');
 		}
 	}
 }

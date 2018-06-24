@@ -155,5 +155,6 @@
 	"mentionOnPhoto": "Mention you on photo",
 	"mentionOnCommentOnPhoto": "Mention you on comment on photo",
 	"sendMessage": "Message",
-	"close": "Close"
+	"close": "Close",
+	"restore": "Restore"
 }

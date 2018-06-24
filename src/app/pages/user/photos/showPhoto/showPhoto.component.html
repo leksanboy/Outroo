@@ -39,9 +39,11 @@
 								</a>
 							</div>
 							<div class="actions" *ngIf="sessionData.current.id">
-								<button mat-icon-button [matMenuTriggerFor]="optionsItem"><mat-icon>more_vert</mat-icon></button>
+								<button mat-icon-button [matMenuTriggerFor]="optionsItem">
+									<i label="more"></i>
+								</button>
 								<mat-menu #optionsItem="matMenu">
-									<button mat-menu-item (click)="itemOptions('remove', data.current); data.current.addRemoveSession=!data.current.addRemoveSession;" *ngIf="userData.id == sessionData.current.id">{{data.current.addRemoveSession ? translations.add : translations.remove}}</button>
+									<button mat-menu-item (click)="itemOptions('remove', data.current); data.current.addRemoveSession=!data.current.addRemoveSession;" *ngIf="userData.id == sessionData.current.id">{{data.current.addRemoveSession ? translations.restore : translations.remove}}</button>
 									<button mat-menu-item (click)="itemOptions('disableComments', data.current)" *ngIf="userData.id == sessionData.current.id">{{data.current.disabledComments ? translations.disableComments : translations.enableComments}}</button>
 									<button mat-menu-item (click)="itemOptions('share', data.current)">{{translations.share}}</button>
 									<button mat-menu-item (click)="itemOptions('report', data.current)">{{translations.report}}</button>
@@ -53,13 +55,13 @@
 						<div class="analytics">
 							<div class="buttonBox">
 								<button mat-icon-button>
-									<mat-icon>chat_bubble_outline</mat-icon>
+									<i class="comments"></i>
 								</button>
 								{{data.current.disabledComments ? data.current.countComments : ''}}
 							</div>
 							<div class="buttonBox">
 								<button mat-icon-button (click)="likeUnlike(data.current)" [ngClass]="{'active' : data.current.liked}">
-									<mat-icon>favorite_border</mat-icon>
+									<i class="like"></i>
 								</button>
 								{{data.current.countLikes}}
 							</div>
@@ -86,7 +88,7 @@
 								</div>
 								<div class="actions">
 									<button mat-icon-button type="submit" (click)="newComment('create', $event, data.current)">
-										<mat-icon>send</mat-icon>
+										<i label="send"></i>
 									</button>
 								</div>
 							</div>
@@ -101,7 +103,9 @@
 											<a class="username" routerLink="/{{c.user.username}}">{{c.user.username}}</a>
 											<span class="date"> · {{c.date | timeago}}</span>
 											<div class="actions" *ngIf="sessionData.current.id">
-												<button mat-icon-button [matMenuTriggerFor]="optionsComments"><mat-icon>more_vert</mat-icon></button>
+												<button mat-icon-button [matMenuTriggerFor]="optionsComments">
+													<i label="more"></i>
+												</button>
 												<mat-menu #optionsComments="matMenu">
 													<button mat-menu-item (click)="commentsOptions('addRemove', data.current, c)" *ngIf="c.user.id == sessionData.current.id">{{c.addRemove ? translations.add : translations.remove}}</button>
 													<button mat-menu-item (click)="commentsOptions('report', data.current, c)">{{translations.report}}</button>

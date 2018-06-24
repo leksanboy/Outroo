@@ -5,7 +5,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { environment } from '../../../../../environments/environment';
 
 import { AlertService } from '../../../../../app/core/services/alert/alert.service';
-import { AudioDataService } from '../../../../../app/core/services/user/audioData';
+import { AudioDataService } from '../../../../../app/core/services/user/audioData.service';
 
 declare var Cropper: any;
 

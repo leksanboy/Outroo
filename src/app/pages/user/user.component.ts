@@ -6,16 +6,17 @@ import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 
 import { AlertService } from '../../../app/core/services/alert/alert.service';
-import { AudioDataService } from '../../../app/core/services/user/audioData';
-import { AudioPlayerMobileService } from '../../../app/pages/user/_common/audioPlayerMobile/audioPlayerMobile.service';
-import { NotificationsDataService } from '../../../app/core/services/user/notificationsData';
+import { AudioDataService } from '../../../app/core/services/user/audioData.service';
+import { AudioPlayerMobileService } from '../../../app/core/services/audioPlayerMobile/audioPlayerMobile.service';
+import { NotificationsDataService } from '../../../app/core/services/user/notificationsData.service';
 import { PlayerService } from '../../../app/core/services/player/player.service';
 import { SessionService } from '../../../app/core/services/session/session.service';
-import { UserDataService } from '../../../app/core/services/user/userData';
+import { UserDataService } from '../../../app/core/services/user/userData.service';
+
+import { ReportComponent } from '../../../app/core/services/report/report.component';
+import { SessionPanelMobileComponent } from '../../../app/core/services/sessionPanelMobile/sessionPanelMobile.component';
 
 import { AudiosNewPlaylistComponent } from '../../../app/pages/user/audios/newPlaylist/newPlaylist.component';
-import { ReportComponent } from '../../../app/pages/user/_common/report/report.component';
-import { SessionPanelMobileComponent } from '../../../app/pages/user/_common/sessionPanelMobile/sessionPanelMobile.component';
 import { SettingsSessionComponent } from '../../../app/pages/user/settings/session/session.component';
 
 // import { ChatsocketService } from '../../../app/core/services/websocket/chat.service';

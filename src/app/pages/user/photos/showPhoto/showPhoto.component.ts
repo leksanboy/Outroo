@@ -4,8 +4,8 @@ import { Location } from '@angular/common';
 import { environment } from '../../../../../environments/environment';
 
 import { AlertService } from '../../../../../app/core/services/alert/alert.service';
-import { NotificationsDataService } from '../../../../../app/core/services/user/notificationsData';
-import { PhotoDataService } from '../../../../../app/core/services/user/photoData';
+import { NotificationsDataService } from '../../../../../app/core/services/user/notificationsData.service';
+import { PhotoDataService } from '../../../../../app/core/services/user/photoData.service';
 import { SessionService } from '../../../../../app/core/services/session/session.service';
 
 import { TimeagoPipe } from '../../../../../app/core/pipes/timeago.pipe';

@@ -155,5 +155,6 @@
 	"mentionOnPhoto": "Te ha mencionado en una foto",
 	"mentionOnCommentOnPhoto": "Te ha mencionado en el comentario de una foto",
 	"sendMessage": "Mensaje",
-	"close": "Cerrar"
+	"close": "Cerrar",
+	"restore": "Restaurar"
 }

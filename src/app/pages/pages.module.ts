@@ -52,19 +52,22 @@ import { SafeHtmlPipe } from '../core/pipes/safehtml.pipe';
 
 import { SwiperModule } from 'angular2-useful-swiper';
 
-import { UserDataService } from '../core/services/user/userData';
-import { AudioDataService } from '../core/services/user/audioData';
-import { PhotoDataService } from '../core/services/user/photoData';
-import { FollowsDataService } from '../core/services/user/followsData';
-import { PublicationsDataService } from '../core/services/user/publicationsData';
-import { NotificationsDataService } from '../core/services/user/notificationsData';
-import { ChatDataService } from '../core/services/user/chatData';
+import { UserDataService } from '../core/services/user/userData.service';
+import { AudioDataService } from '../core/services/user/audioData.service';
+import { PhotoDataService } from '../core/services/user/photoData.service';
+import { FollowsDataService } from '../core/services/user/followsData.service';
+import { PublicationsDataService } from '../core/services/user/publicationsData.service';
+import { NotificationsDataService } from '../core/services/user/notificationsData.service';
+import { ChatDataService } from '../core/services/user/chatData.service';
 
 import { SessionService } from '../core/services/session/session.service';
 import { PlayerService } from '../core/services/player/player.service';
 import { WebsocketService } from '../core/services/websocket/websocket.service';
 import { ChatsocketService } from '../core/services/websocket/chat.service';
 import { MetaService } from '../core/services/meta/meta.service';
+
+import { ReportComponent } from '../core/services/report/report.component';
+import { SessionPanelMobileComponent } from '../core/services/sessionPanelMobile/sessionPanelMobile.component';
 
 import { AudiosNewPlaylistComponent } from './user/audios/newPlaylist/newPlaylist.component';
 import { AudiosShowPlaylistComponent } from './user/audios/showPlaylist/showPlaylist.component';
@@ -74,12 +77,10 @@ import { MainNewPublicationAddAudiosComponent } from './user/main/newPublication
 import { MainShowPublicationComponent } from './user/main/showPublication/showPublication.component';
 import { MainShowAvatarComponent } from './user/main/showAvatar/showAvatar.component';
 import { NotificationsShowConversationComponent } from './user/notifications/showConversation/showConversation.component';
-import { ReportComponent } from './user/_common/report/report.component';
 import { PhotosShowPhotoComponent } from './user/photos/showPhoto/showPhoto.component';
 import { SettingsAvatarComponent } from './user/settings/avatar/avatar.component';
 import { SettingsBackgroundComponent } from './user/settings/background/background.component';
 import { SettingsSessionComponent } from './user/settings/session/session.component';
-import { SessionPanelMobileComponent } from './user/_common/sessionPanelMobile/sessionPanelMobile.component';
 
 @NgModule({
 	imports: [

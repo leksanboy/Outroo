@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { AlertService } from '../../app/core/services/alert/alert.service';
-import { UserDataService } from '../../app/core/services/user/userData';
+import { UserDataService } from '../../app/core/services/user/userData.service';
 
 declare var ga: Function;
 

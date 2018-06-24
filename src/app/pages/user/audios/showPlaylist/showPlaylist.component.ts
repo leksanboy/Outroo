@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { environment } from '../../../../../environments/environment';
 
 import { AlertService } from '../../../../../app/core/services/alert/alert.service';
-import { AudioDataService } from '../../../../../app/core/services/user/audioData';
+import { AudioDataService } from '../../../../../app/core/services/user/audioData.service';
 import { PlayerService } from '../../../../../app/core/services/player/player.service';
 
 @Component({

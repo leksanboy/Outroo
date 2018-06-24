@@ -7,9 +7,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { environment } from '../../../../../environments/environment';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-import { ChatDataService } from '../../../../../app/core/services/user/chatData';
-import { NotificationsDataService } from '../../../../../app/core/services/user/notificationsData';
-import { FollowsDataService } from '../../../../../app/core/services/user/followsData';
+import { ChatDataService } from '../../../../../app/core/services/user/chatData.service';
+import { NotificationsDataService } from '../../../../../app/core/services/user/notificationsData.service';
+import { FollowsDataService } from '../../../../../app/core/services/user/followsData.service';
 import { AlertService } from '../../../../../app/core/services/alert/alert.service';
 
 import { TimeagoPipe } from '../../../../../app/core/pipes/timeago.pipe';

@@ -26,12 +26,16 @@
 						<div class="uploadFilesBox" *ngIf="userData.id == sessionData.current.id">
 							<div class="button">
 								<button mat-raised-button (click)="uploadFile.click()" [disabled]="!dataFiles.actions">
-									<div class="top" [ngClass]="{'warning': dataFiles.list.length > 9}">
-										<mat-icon>cloud_upload</mat-icon>
-										{{translations.chooseFiles}} {{dataFiles.list.length}}/9
+									<div class="left" [ngClass]="{'warning': dataFiles.list.length > 9}">
+										<i label="cloud"></i>
 									</div>
-									<div class="bottom">
-										{{translations.maxSizePerFileAudios}}
+									<div class="right">
+										<div class="top">
+											{{translations.chooseFiles}} {{dataFiles.list.length}}/9
+										</div>
+										<div class="bottom">
+											{{translations.maxSizePerFileAudios}}
+										</div>
 									</div>
 								</button>
 

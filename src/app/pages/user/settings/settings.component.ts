@@ -1,7 +1,7 @@
 import { DOCUMENT, DomSanitizer, Title } from '@angular/platform-browser';
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Md5 } from 'ts-md5/dist/md5';
@@ -10,7 +10,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
 import { SessionService } from '../../../../app/core/services/session/session.service';
-import { UserDataService } from '../../../../app/core/services/user/userData';
+import { UserDataService } from '../../../../app/core/services/user/userData.service';
 
 import { SettingsAvatarComponent } from './avatar/avatar.component';
 import { SettingsBackgroundComponent } from './background/background.component';
@@ -40,7 +40,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 	constructor(
 		@Inject(DOCUMENT) private document: Document,
 		private router: Router,
-		// private _fb: FormBuilder,
+		private _fb: FormBuilder,
 		public dialog: MatDialog,
 		private location: Location,
 		private titleService: Title,
@@ -116,21 +116,24 @@ export class SettingsComponent implements OnInit, OnDestroy {
 		this.validatorOldPassword = null;
 
 		// Personal data form
-		this.actionFormPersonalData = new FormGroup({
-			theme: new FormControl(data.theme),
-			private: new FormControl(data.private),
-			username: new FormControl(data.username, [Validators.required]),
-			name: new FormControl(data.name, [Validators.required]),
-			language: new FormControl(data.language, [Validators.required])
+		this.actionFormPersonalData = this._fb.group({
+			theme: [data.theme],
+			private: [data.private],
+			username: [data.username, [Validators.required]],
+			name: [data.name, [Validators.required]],
+			language: [data.language, [Validators.required]]
 		});
 
 		// Dark theme
 		this.actionFormPersonalData.get('theme').valueChanges
 			.subscribe(val => {
-				if (val)
+				if (val) {
 					this.document.body.classList.add('darkTheme');
-				else
+					this.alertService.success(this.translations.darkThemeEnabled);
+				} else {
 					this.document.body.classList.remove('darkTheme');
+					this.alertService.success(this.translations.darkThemeDisabled);
+				}
 
 				let data = {
 					id: this.sessionData.current.id,
@@ -142,11 +145,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
 						setTimeout(() => {
 							this.sessionData = this.userDataService.getSessionData();
 							this.sessionService.setDataTheme(this.sessionData);
-
-							if (val)
-								this.alertService.success(this.translations.darkThemeEnabled);
-							else
-								this.alertService.success(this.translations.darkThemeDisabled);
 						}, 1000);
 					}, error => {
 						this.alertService.error(this.translations.anErrorHasOcurred);
@@ -156,6 +154,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
 		// Private account
 		this.actionFormPersonalData.get('private').valueChanges
 			.subscribe(val => {
+				if (val)
+					this.alertService.success(this.translations.privateAccountEnabled);
+				else
+					this.alertService.success(this.translations.privateAccountDisabled);
+							
 				let data = {
 					id: this.sessionData.current.id,
 					private: this.actionFormPersonalData.get('private').value
@@ -166,11 +169,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
 						setTimeout(() => {
 							this.sessionData = this.userDataService.getSessionData();
 							this.sessionService.setData(this.sessionData);
-
-							if (val)
-								this.alertService.success(this.translations.privateAccountEnabled);
-							else
-								this.alertService.success(this.translations.privateAccountDisabled);
 						}, 1000);
 					}, error => {
 						this.alertService.error(this.translations.anErrorHasOcurred);
@@ -216,10 +214,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
 			});
 
 		// Password data form
-		this.actionFormPasswordData = new FormGroup({
-			oldPassword: new FormControl('', [Validators.required]),
-			newPassword: new FormControl('', [Validators.required]),
-			confirmPassword: new FormControl('', [Validators.required])
+		this.actionFormPasswordData = this._fb.group({
+			oldPassword: [''],
+			newPassword: [''],
+			confirmPassword: ['']
 		});
 
 		// New password
@@ -456,24 +454,35 @@ export class SettingsComponent implements OnInit, OnDestroy {
 	submitPassword() {
 		this.savePasswordDataLoading = true;
 
-		let data = {
-			id: this.sessionData.current.id,
-			oldPassword: this.actionFormPasswordData.get('oldPassword').value,
-			newPassword: this.actionFormPasswordData.get('newPassword').value
+		if (this.actionFormPasswordData.get('oldPassword').value.trim().length > 0 &&
+			this.actionFormPasswordData.get('newPassword').value.trim().length > 0 &&
+			this.actionFormPasswordData.get('confirmPassword').value.trim().length > 0
+		) {
+			let data = {
+				id: this.sessionData.current.id,
+				oldPassword: this.actionFormPasswordData.get('oldPassword').value,
+				newPassword: this.actionFormPasswordData.get('newPassword').value
+			}
+
+			this.userDataService.updatePassword(data)
+				.subscribe(res => {
+					setTimeout(() => {
+						this.validatorOldPassword = 'done';
+						this.savePasswordDataLoading = false;
+						this.alertService.success(this.translations.passwordChanged);
+					}, 1000);
+				}, error => {
+					this.validatorOldPassword = 'bad';
+					this.savePasswordDataLoading = false;
+					this.alertService.error(this.translations.oldPasswordIncorrect);
+				});
+		} else {
+			this.savePasswordDataLoading = false;
+
+			// show error message
+			this.alertService.error('Complete all fields');
 		}
 
-		this.userDataService.updatePassword(data)
-			.subscribe(res => {
-				setTimeout(() => {
-					this.validatorOldPassword = 'done';
-					this.savePasswordDataLoading = false;
-					this.alertService.success(this.translations.passwordChanged);
-				}, 1000);
-			}, error => {
-				this.validatorOldPassword = 'bad';
-				this.savePasswordDataLoading = false;
-				this.alertService.error(this.translations.oldPasswordIncorrect);
-			});
 	}
 
 	// Add more sessions
