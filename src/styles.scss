@@ -936,7 +936,7 @@ body{
 
 					.left{
 						border-right: 1px solid $greyColor;
-						padding: 2px 6px;
+						padding: 2px 12px 0 0;
 						height: 32px;
 						width: 32px;
 						float: left;
@@ -956,7 +956,7 @@ body{
 					}
 
 					.right{
-						padding: 6px 6px 0;
+						padding: 6px 0 0 12px;
 						text-align: left;
 						float: left;
 
@@ -8320,19 +8320,22 @@ body{
 							.home{
 								&:before,
 								&:after{
-									border-width: 2px;
+									/*border-width: 2px;*/
+									background-color: currentColor;
 								}
 
 								.roof{
 									&:after {
-										border-bottom-width: 2px;
+										/*border-bottom-width: 2px;
 										width: 8px;
 										left: -4px;
-										top: 10px;
+										top: 10px;*/
+										background-color: currentColor;
 									}
 
 									&:before{
-										top: 2px;
+										/*top: 2px;*/
+										border-bottom-color: currentColor;
 									}
 								}
 							}
@@ -8349,7 +8352,8 @@ body{
 
 							.notifications{
 								&:before{
-									border-width: 2px;
+									background-color: currentColor;
+									/*border-width: 2px;*/
 								}
 
 								&:after{
@@ -8357,12 +8361,18 @@ body{
 								}
 
 								.clapper{
-									border-width: 2px;
-									left: 7px;
+									background-color: currentColor;
+									border-color: $whiteColor;
+									/*border-width: 2px;*/
+									/*left: 7px;*/
 
 									&:before{
 										background-color: currentColor;
-										top: -15px;
+										/*top: -15px;*/
+									}
+
+									&:after{
+										background-color: currentColor;
 									}
 								}
 							}
