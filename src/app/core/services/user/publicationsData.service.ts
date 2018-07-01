@@ -104,7 +104,7 @@ export class PublicationsDataService {
 
 	getDataByName(data: any) {
 		let url = environment.url + 'assets/api/publications/getDataByName.php';
-		let params =	'?name=' + data.name;
+		let params =	'?name=' + data;
 
 		return this.http.get(url + params)
 			.pipe(map((res: Response) => { 

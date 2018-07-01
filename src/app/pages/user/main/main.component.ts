@@ -253,7 +253,7 @@ export class MainComponent implements OnInit, OnDestroy {
 				}
 
 				// Set visitor
-				this.userDataService.setVisitor(data).subscribe();
+				this.userDataService.setVisitor(data);
 			});
 	}
 
@@ -271,7 +271,7 @@ export class MainComponent implements OnInit, OnDestroy {
 			receiver: user.id
 		}
 
-		this.followsDataService.followUnfollow(data).subscribe();
+		this.followsDataService.followUnfollow(data);
 	}
 
 	// Show user images
@@ -412,7 +412,7 @@ export class MainComponent implements OnInit, OnDestroy {
 					user: this.sessionData.current.id
 				}
 
-				this.publicationsDataService.addRemove(dataAddRemove).subscribe();
+				this.publicationsDataService.addRemove(dataAddRemove);
 				break;
 			case "disableComments":
 				item.disabledComments = !item.disabledComments;
@@ -423,7 +423,7 @@ export class MainComponent implements OnInit, OnDestroy {
 					user: this.sessionData.current.id
 				}
 
-				this.publicationsDataService.enableDisableComments(dataDisableComments).subscribe();
+				this.publicationsDataService.enableDisableComments(dataDisableComments);
 				break;
 			case "report":
 				item.type = 'publication';
@@ -570,7 +570,7 @@ export class MainComponent implements OnInit, OnDestroy {
 				type: item.liked ? 'like' : 'unlike'
 			}
 
-			this.publicationsDataService.likeUnlike(data).subscribe();
+			this.publicationsDataService.likeUnlike(data);
 		}
 	}
 

@@ -19,7 +19,6 @@
 		}
 
 		return $data;
-		$conn->close();
 	}
 
 	// Time format for videos
@@ -62,7 +61,6 @@
 		$sql = "INSERT INTO z_logins (user, browser, ip_address)
 				VALUES ($id, '$browser', '$ipAddress')";
 		$result = $conn->query($sql);
-		$conn->close();
 	}
 
 	// Get user id by username
@@ -80,7 +78,6 @@
 			$result = "";
 
 		return $result;
-		$conn->close();
 	}
 
 	// Get user name by id
@@ -93,7 +90,6 @@
 		$result = $conn->query($sql)->fetch_assoc();
 
 		return html_entity_decode($result['name'], ENT_QUOTES);
-		$conn->close();
 	}
 
 	// Get user username by id
@@ -106,7 +102,6 @@
 		$result = $conn->query($sql)->fetch_assoc();
 
 		return $result['username'];
-		$conn->close();
 	}
 
 	// Get user avatar by id
@@ -119,7 +114,6 @@
 		$result = $conn->query($sql)->fetch_assoc();
 
 		return $result['avatar'];
-		$conn->close();
 	}
 
 	// Get user avatar by id
@@ -132,7 +126,6 @@
 		$result = $conn->query($sql)->fetch_assoc();
 
 		return $result['password'];
-		$conn->close();
 	}
 
 	// Get user data by id
@@ -163,7 +156,6 @@
 		}
 
 		return $data;
-		$conn->close();
 	}
 
 	// Get user triplete data by id
@@ -179,7 +171,6 @@
 		$result['avatarUrl'] = $result['avatar'] ? ('./assets/media/user/'.$result['id'].'/avatar/'.$result['avatar']) : '';
 
 		return $result;
-		$conn->close();
 	}
 
 	// Get user private
@@ -194,7 +185,6 @@
 		$result['private'] = $result['private'] ? true : false;
 
 		return $result['private'];
-		$conn->close();
 	}
 
 	// Check if I'm following my follower
@@ -214,7 +204,6 @@
 			$result = 'unfollow';
 
 		return $result;
-		$conn->close();
 	}
 
 	// Count following
@@ -228,7 +217,6 @@
 		$result = $conn->query($sql);
 
 		return $result->num_rows;
-		$conn->close();
 	}
 
 	// Count followers
@@ -243,7 +231,6 @@
 		$result = $conn->query($sql);
 
 		return $result->num_rows;
-		$conn->close();
 	}
 
 	// Count photos
@@ -257,7 +244,6 @@
 		$result = $conn->query($sql);
 
 		return $result->num_rows;
-		$conn->close();
 	}
 
 	// Count audios
@@ -271,7 +257,6 @@
 		$result = $conn->query($sql);
 
 		return $result->num_rows;
-		$conn->close();
 	}
 
 	////////////
@@ -293,7 +278,6 @@
 		$result['original_artist'] = html_entity_decode($result['original_artist'], ENT_QUOTES);
 
 		return $result;
-		$conn->close();
 	}
 
 	// Get inserted playlist
@@ -313,7 +297,6 @@
 		}
 
 		return $data;
-		$conn->close();
 	}
 
 	// Get playlists
@@ -335,7 +318,6 @@
 		}
 
 		return $data;
-		$conn->close();
 	}
 
 	////////////
@@ -352,7 +334,6 @@
 		$result = $conn->query($sql)->fetch_assoc();
 
 		return $result;
-		$conn->close();
 	}
 
 	// Check if I liked photo
@@ -371,7 +352,6 @@
 			$result = false;
 
 		return $result;
-		$conn->close();
 	}
 
 	// Get inserted comment in photo
@@ -387,7 +367,6 @@
 		$result['comment'] = trim($result['comment']) ? html_entity_decode($result['comment'], ENT_QUOTES) : null;
 
 		return $result;
-		$conn->close();
 	}
 
 	// Get photo likers
@@ -409,7 +388,6 @@
 		}
 
 		return $data;
-		$conn->close();
 	}
 
 	// Count likes photo
@@ -422,7 +400,6 @@
 		$result = $conn->query($sql);
 
 		return $result->num_rows;
-		$conn->close();
 	}
 
 	// Count comments photo
@@ -436,7 +413,6 @@
 		$result = $conn->query($sql);
 
 		return $result->num_rows;
-		$conn->close();
 	}
 
 	// Get photo data for notification
@@ -460,7 +436,6 @@
 			$result['media'] = null;
 
 		return $result;
-		$conn->close();
 	}
 
 	//////////////////
@@ -508,7 +483,6 @@
 		}
 
 		return $result;
-		$conn->close();
 	}
 
 	// Count likes publication
@@ -521,7 +495,6 @@
 		$result = $conn->query($sql);
 
 		return $result->num_rows;
-		$conn->close();
 	}
 
 	// Count comments publication
@@ -535,7 +508,6 @@
 		$result = $conn->query($sql);
 
 		return $result->num_rows;
-		$conn->close();
 	}
 
 	// Check if I liked a publication
@@ -554,7 +526,6 @@
 			$result = false;
 
 		return $result;
-		$conn->close();
 	}
 
 	// Get inserted comment in publication
@@ -570,7 +541,6 @@
 		$result['comment'] = trim($result['comment']) ? html_entity_decode($result['comment'], ENT_QUOTES) : null;
 
 		return $result;
-		$conn->close();
 	}
 
 	// Get inserted comment in publication
@@ -592,7 +562,6 @@
 		}
 
 		return $data;
-		$conn->close();
 	}
 
 	// Upload audio files on publications
@@ -605,7 +574,6 @@
 		$insertedId = $conn->insert_id;
 
 		return $insertedId;
-		$conn->close();
 	}
 
 	// Upload photo & video files on publications
@@ -618,7 +586,6 @@
 		$insertedId = $conn->insert_id;
 
 		return $insertedId;
-		$conn->close();
 	}
 
 	// Get publication data for notification
@@ -653,7 +620,6 @@
 			}
 
 		return $result;
-		$conn->close();
 	}
 
 	///////////////////
@@ -671,7 +637,6 @@
 		$result = $conn->query($sql);
 
 		return true;
-		$conn->close();
 	}
 
 	// Insert notification
@@ -825,7 +790,6 @@
 		}
 
 		return $data;
-		$conn->close();
 	}
 
 	// Get conversation
@@ -853,7 +817,6 @@
 		}
 
 		return array_reverse($data);
-		$conn->close();
 	}
 
 	// Get last inserted comment
@@ -870,7 +833,6 @@
 		$result['content'] = trim($result['content']) ? html_entity_decode($result['content'], ENT_QUOTES) : null;
 
 		return $result['content'];
-		$conn->close();
 	}
 
 	// Get inserted comment in conversation
@@ -886,6 +848,5 @@
 		$result['content'] = trim($result['content']) ? html_entity_decode($result['content'], ENT_QUOTES) : null;
 
 		return $result;
-		$conn->close();
 	}
 ?>

@@ -269,7 +269,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 				sender: item.user.id
 			}
 
-			this.followsDataService.followUnfollow(data).subscribe();
+			this.followsDataService.followUnfollow(data);
 		} else if (type == 'follow') { 
 			// When you start following someone who follow you
 			item.statusFollowing = item.private ? 'pending' : 'following';
@@ -281,7 +281,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 				sender: this.sessionData.current.id
 			}
 
-			this.followsDataService.followUnfollow(data).subscribe();
+			this.followsDataService.followUnfollow(data);
 		} else if (type == 'unfollow') { 
 			// Stop following
 			item.statusFollowing = 'unfollow';
@@ -293,7 +293,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 				sender: this.sessionData.current.id
 			}
 
-			this.followsDataService.followUnfollow(data).subscribe();
+			this.followsDataService.followUnfollow(data);
 		}
 	}
 
@@ -326,9 +326,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 					});
 				});
 		} else if (item.url == 'publications') {
-			let data = {
-				name: item.name
-			}
+			let data = item.contentData.name;
 
 			this.publicationsDataService.getDataByName(data)
 				.subscribe((res: any) => {
@@ -341,7 +339,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 							translations: this.translations,
 							sessionData: this.sessionData,
 							userData: (res ? res.user : null),
-							item: (res ? res.data : null)
+							item: (res ? res : null)
 						}
 					};
 
@@ -366,7 +364,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	// 			// 	user: this.sessionData.current.id
 	// 			// }
 
-	// 			// this.chatDataService.addRemove(dataSession).subscribe();
+	// 			// this.chatDataService.addRemove(dataSession);
 	// 		break;
 	// 		case("report"):
 	// 			alert("Working on report");
@@ -460,7 +458,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 					user: this.sessionData.current.id
 				}
 
-				this.chatDataService.addRemove(dataSession).subscribe();
+				this.chatDataService.addRemove(dataSession);
 			break;
 			case("report"):
 				item.type = 'chat';

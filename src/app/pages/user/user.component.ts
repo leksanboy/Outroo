@@ -501,7 +501,7 @@ export class UserComponent implements AfterViewInit {
 			user: user
 		}
 
-		this.audioDataService.updateReplays(data).subscribe();
+		this.audioDataService.updateReplays(data);
 	}
 
 	// Audio player on background screen

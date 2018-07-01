@@ -256,7 +256,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 					user: this.sessionData.current.id
 				}
 
-				this.publicationsDataService.addRemove(dataAddRemove).subscribe();
+				this.publicationsDataService.addRemove(dataAddRemove);
 				break;
 			case "disableComments":
 				item.disabledComments = !item.disabledComments;
@@ -267,7 +267,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 					user: this.sessionData.current.id
 				}
 
-				this.publicationsDataService.enableDisableComments(dataDisableComments).subscribe();
+				this.publicationsDataService.enableDisableComments(dataDisableComments);
 				break;
 			case "report":
 				item.type = 'publication';
@@ -414,7 +414,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 				type: item.liked ? 'like' : 'unlike'
 			}
 
-			this.publicationsDataService.likeUnlike(data).subscribe();
+			this.publicationsDataService.likeUnlike(data);
 		}
 	}
 

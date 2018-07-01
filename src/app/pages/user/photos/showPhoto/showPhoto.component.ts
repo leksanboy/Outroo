@@ -50,7 +50,7 @@ export class PhotosShowPhotoComponent implements OnInit {
 		    	this.location.go('/' + this.userData.username + '/photos/' + this.data.current.name.split('.')[0]);
 
 	    	// Check if photo is liked
-	    	this.checkLike();
+	    	this.checkLike(this.data.current.id, this.sessionData.current.id);
 	    	
 	    	// Update replays
 	    	this.updateReplays(this.data.current.id, this.sessionData.current.id);
@@ -65,7 +65,7 @@ export class PhotosShowPhotoComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		// No init
+		// not in use
 	}
 
     // Prev/Next
@@ -84,7 +84,7 @@ export class PhotosShowPhotoComponent implements OnInit {
 		this.location.go('/' + this.userData.username + '/photos/' + this.data.current.name.split('.')[0]);
 
     	// Check if photo is liked
-    	this.checkLike();
+    	this.checkLike(this.data.current.id, this.sessionData.current.id);
 
     	// Update replays
     	this.updateReplays(this.data.current.id, this.sessionData.current.id);
@@ -106,7 +106,7 @@ export class PhotosShowPhotoComponent implements OnInit {
 			user: user
 		}
 
-		this.photoDataService.updateReplays(data).subscribe();
+		this.photoDataService.updateReplays(data);
 	}
 
 	// Item Options
@@ -121,7 +121,7 @@ export class PhotosShowPhotoComponent implements OnInit {
 					user: this.sessionData.current.id
 				}
 
-				this.photoDataService.addRemove(dataAddRemove).subscribe();
+				this.photoDataService.addRemove(dataAddRemove);
 				break;
 			case "disableComments":
 				item.disabledComments = !item.disabledComments;
@@ -132,7 +132,7 @@ export class PhotosShowPhotoComponent implements OnInit {
 					user: this.sessionData.current.id
 				}
 
-				this.photoDataService.enableDisableComments(dataDisableComments).subscribe();
+				this.photoDataService.enableDisableComments(dataDisableComments);
 				break;
 			case "share":
 				alert("Working on Share");
@@ -148,10 +148,10 @@ export class PhotosShowPhotoComponent implements OnInit {
 	}
 
 	// Check like
-	checkLike(){
+	checkLike(id, user){
 		let data = {
-			id: this.data.current.id,
-			user: this.sessionData.current.id
+			id: id,
+			user: user
 		}
 
 		this.photoDataService.checkLike(data)
@@ -186,7 +186,7 @@ export class PhotosShowPhotoComponent implements OnInit {
 				type: item.liked ? 'like' : 'unlike'
 			}
 
-			this.photoDataService.likeUnlike(data).subscribe();
+			this.photoDataService.likeUnlike(data);
 		}
 	}
 

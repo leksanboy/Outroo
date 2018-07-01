@@ -2241,6 +2241,86 @@ body{
 						height: 100%;
 						float: left;
 
+						.urlVideo{
+							box-sizing: border-box;
+							width: 100%;
+							float: left;
+							padding: 0;
+
+							.embedResponsive{
+								padding-top: 56.25%;
+								position: relative;
+								overflow: hidden;
+							    display: block;
+								width: 100%;
+								margin: 0;
+
+							    .image{
+							    	position: absolute;
+							    	height: 100%;
+							    	width: 100%;
+							    	top: 0;
+
+							    	.img{
+										background-position: center 50%;
+										background-repeat: no-repeat;
+										transform: translate(0px);
+										box-sizing: border-box;
+										background-size: cover;
+										display: inline-block;
+										height: 100%;
+										width: 100%;
+									}
+
+									.play{
+										background: $whiteColor;
+										box-shadow: $shadowBox2;
+										margin: -21px 0 0 -32px;
+										border-radius: 7px;
+										position: absolute;
+										text-align: center;
+										height: 42px;
+										width: 64px;
+										left: 50%;
+										top: 50%;
+
+										mat-icon{
+											color: $fontBlackColor;
+											font-size: 30px;
+											margin: 6px 0;
+											height: 30px;
+											width: 30px;
+										}
+									}
+
+									.type{
+										background-color: $whiteColor;
+										box-shadow: $shadowBox2;
+										color: $fontBlackColor;
+										border-radius: 5px;
+										position: absolute;
+										line-height: 10px;
+										font-weight: bold;
+										padding: 4px 8px;
+										font-size: 10px;
+										margin: 12px;
+										bottom: 0;
+										right: 0;
+									}
+								}
+
+								iframe{
+									position: absolute;
+									height: 100%;
+									width: 100%;
+									border: 0;
+									bottom: 0;
+									left: 0;
+									top: 0;
+								}
+							}
+						}
+
 						.photos{
 							width: 100%;
 							float: left;
@@ -2250,6 +2330,7 @@ body{
 							}
 
 							video{
+								max-height: 360px;
 								width: 100%;
 							}
 
@@ -2355,48 +2436,60 @@ body{
 								}
 
 								.textContainer{
+									padding: 12px 12px 12px 0;
 									word-break: break-word;
 									box-sizing: border-box;
-									padding: 12px 0;
 									width: 100%;
 									float: left;
+
+									a{
+										color: $blueColor;
+										cursor: pointer;
+
+										&:hover{
+											text-decoration: underline;
+										}
+									}
 								}
 
 								.audios{
+									width: 100%;
+									float: left;
+
 									ul{
+										margin: 6px 0 0;
 										float: left;
 										width: 100%;
 										padding: 0;
-										margin: 0;
 
 										li{
-											background: 0 0;
-											margin: 6px 0 0;
+											transition: .15s;
 											display: flex;
 											border: none;
 											padding: 0;
+											margin: 0;
 
 											.inner{
 												box-sizing: border-box;
-												padding: 4px 0 4px 0;
 												align-items: center;
 												flex-direction: row;
 												position: relative;
 												margin: 0 0 4px;
+												padding: 2px 0;
 												display: flex;
 												width: 100%;
 
 												&:hover{
-													background-color: transparentize($whiteColor, .95);
+													background-color: transparentize($fontBlackColor, .95);
 												}
 
 												.image{
-													width: 40px;
+													width: 42px;
 
 													button{
 														overflow: hidden;
-														height: 40px;
-														width: 40px;
+														height: 42px;
+														width: 42px;
 														margin: 0;
 
 														img{
@@ -2423,7 +2516,7 @@ body{
 												.text{
 													justify-content: space-between;
 													box-sizing: border-box;
-													line-height: 40px;
+													line-height: 42px;
 													overflow: hidden;
 													display: flex;
 													width: 100%;
@@ -2441,9 +2534,9 @@ body{
 														.title{
 															text-overflow: ellipsis;
 															white-space: nowrap;
-															padding: 4px 0 2px;
 															line-height: 15px;
 															overflow: hidden;
+															padding: 4px 0;
 														}
 
 														.artist{
@@ -2457,8 +2550,8 @@ body{
 													}
 
 													.duration{
-														color: transparentize($whiteColor, .5);
 														padding: 0 6px 0 0;
+														color: $greyColor;
 														text-align: right;
 														font-size: 14px;
 														max-width: 75px;
@@ -2468,15 +2561,16 @@ body{
 
 												.actions{
 													box-sizing: border-box;
-													height: 40px;
-													width: 40px;
-													margin: 0;
+													height: 42px;
+													width: 42px;
 
 													button{
+														height: 42px;
+														width: 42px;
 														margin: 0;
 
 														mat-icon{
-															color: transparentize($whiteColor, .5);
+															color: $greyColor;
 															text-shadow: none;
 															font-size: 20px;
 
@@ -2488,8 +2582,21 @@ body{
 												}
 											}
 
+											.ad{
+												box-sizing: border-box;
+												padding: 18px;
+												width: 100%;
+												float: left;
+
+												.box{
+													width: 100%;
+													float: left;
+												}
+											}
+
 											&.active{
 												.inner{
+													background-color: transparentize($fontBlackColor, .95);
 													color: $blueColor;
 												}
 
@@ -2507,9 +2614,21 @@ body{
 												.image{
 													button{
 														mat-icon{
-															color: $whiteColor;
+															color: $fontBlackColor;
 															text-shadow: 0 0;
 														}
+													}
+												}
+											}
+
+											&.remove{
+												filter: grayscale(100%);
+												opacity: .5;
+
+												.text{
+													.title,
+													.artist{
+														text-decoration: line-through;
 													}
 												}
 											}

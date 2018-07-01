@@ -1056,7 +1056,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 					id: item.id
 				}
 
-				this.audioDataService.publicPrivate(dataPPS).subscribe();
+				this.audioDataService.publicPrivate(dataPPS);
 			break;
 			case("addRemoveSession"):
 				item.type = item.addRemoveSession ? "add" : "remove";

@@ -130,7 +130,7 @@ export class NotificationsShowConversationComponent implements OnInit, AfterView
 					user: this.data.session.id
 				}
 
-				this.chatDataService.addRemove(dataAddRemove).subscribe();
+				this.chatDataService.addRemove(dataAddRemove);
 				break;
 			case "report":
 				alert("Working on Report");
