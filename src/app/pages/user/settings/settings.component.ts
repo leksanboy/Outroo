@@ -27,7 +27,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
 	public sessionData: any = [];
 	public translations: any = [];
 	public activeRouter: any;
-	public activeRouterExists: any;
 	public actionFormPersonalData: any;
 	public actionFormPasswordData: any;
 	public savePersonalDataLoading: boolean;
@@ -64,9 +63,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
 		this.activeRouter = this.router.events
 			.subscribe(event => {
 				if(event instanceof NavigationEnd) {
-					// Run page on routing
-					this.activeRouterExists = true;
-
 					// Go top of page on change user
 					window.scrollTo(0, 0);
 
@@ -85,13 +81,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		// Run page on reload page
-		if (!this.activeRouterExists) {
-			this.location.go('/settings');
-
-			// Set froms
-			this.setForms(this.sessionData.current);
-		}
+		// not in use
 	}
 
 	ngOnDestroy() {

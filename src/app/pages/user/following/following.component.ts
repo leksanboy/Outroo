@@ -24,8 +24,6 @@ export class FollowingComponent implements OnInit, OnDestroy {
 	public userData: any = [];
 	public translations: any = [];
 	public activeRouter: any;
-	public activeRouterExists: any;
-	// public activeSession: any;
 	public deniedAccessOnlySession: boolean;
 	public actionFormSearch: FormGroup;
 	public data: any = {
@@ -79,9 +77,6 @@ export class FollowingComponent implements OnInit, OnDestroy {
 		this.activeRouter = this.router.events
 			.subscribe(event => {
 				if(event instanceof NavigationEnd) {
-					// Run page on routing
-					this.activeRouterExists = true;
-
 					// Go top of page on change user
 					window.scrollTo(0, 0);
 
@@ -128,19 +123,6 @@ export class FollowingComponent implements OnInit, OnDestroy {
 			.subscribe(val => {	
 				(val.length > 0) ? this.search('default') : this.search('clear');
 			});
-
-		// Run page on reload page
-		if (!this.activeRouterExists) {
-			// Get url data
-			let urlData: any = this.activatedRoute.snapshot.params.id;
-
-			// Get user data
-			this.siteUserData(urlData);
-
-			// Load default
-			if (this.sessionData)
-				this.default('default', urlData, this.sessionData.current.id);
-		}
 	}
 
 	ngOnDestroy() {

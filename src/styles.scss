@@ -1,7 +1,7 @@
 /*
 Project: Outhroo,
 Author: Sasá Rafalsky,
-Version: 1.0.0
+Version: 0.0.7
 */
 
 /*Material default styles*/
@@ -35,8 +35,10 @@ Version: 1.0.0
 $pageMaxWidth: 600px;
 $modalWidth: 720px;
 
+/*Icon width on bottom icons*/
+$iconWidth: 1px;
+
 /*Images*/
-$sprite: url('assets/images/sprite.png');
 $spriteAudios: url('assets/images/sprite_audios.png');
 $spriteImages: url('assets/images/sprite_images.png');
 
@@ -59,7 +61,7 @@ $shadowBox3: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12),
 $shadowText1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 $shadowText2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 $shadowIcon1: 0 1px 2px rgba(0,0,0,0.24);
-$shadowBoxBottomNav: 0 -2px 4px -2px rgba(0, 0, 0, .02), 0 -4px 5px 0 rgba(0, 0, 0, .01), 0 -1px 10px -2px rgba(0, 0, 0, .006);
+$shadowBoxBottom: 0 -2px 4px -2px rgba(0, 0, 0, .02), 0 -4px 5px 0 rgba(0, 0, 0, .01), 0 -1px 10px -2px rgba(0, 0, 0, .006);
 
 /*Keyframes*/
 @keyframes scale{
@@ -391,40 +393,6 @@ body{
 			button{
 				line-height: 40px;
 				height: 40px;
-
-				i{
-					background-image: $sprite;
-					background-repeat: no-repeat;
-					background-size: 144px;
-					margin: 8px 12px 0 0;
-					height: 24px;
-					float: left;
-					width: 24px;
-				}
-
-				&.twitter i{
-					background-position: 0 -120px;
-				}
-
-				&.whatsapp i{
-					background-position: -24px -96px;
-				}
-
-				&.facebook i{
-					background-position: -24px -120px;
-				}
-
-				&.email i{
-					background-position: -48px 0;
-				}
-
-				&.copyLink i{
-					background-position: -48px -24px;
-				}
-
-				&.outhroo i{
-					background-position: 0 -96px;
-				}
 			}
 		}
 
@@ -875,6 +843,7 @@ body{
 
 						.container{
 							word-break: break-all;
+							padding: 0 12px 0 0;
 
 							a{
 								color: $blueColor;
@@ -956,7 +925,7 @@ body{
 					}
 
 					.right{
-						padding: 6px 0 0 12px;
+						padding: 4px 0 0 12px;
 						text-align: left;
 						float: left;
 
@@ -972,6 +941,7 @@ body{
 						.bottom{
 							color: $greyColor;
 							line-height: 10px;
+							padding: 2px 0 0;
 							font-size: 10px;
 						}
 					}
@@ -1388,11 +1358,12 @@ body{
 				font-weight: bold;
 
 				.logo{
-					background-image: $sprite;
-					background-repeat: no-repeat;
-					background-position: 0 0;
-					background-size: 144px;
-					margin: 24px auto 24px;
+					background-color: $blackColor;
+					mask-image: $spriteImages;
+					mask-repeat: no-repeat;
+					mask-size: 48px 144px;
+					display: inline-block;
+					mask-position: 0 0;
 					height: 48px;
 					width: 48px;
 				}
@@ -2828,6 +2799,12 @@ body{
 										float: left;
 
 										button{
+											transition: .2s;
+
+											&:active{
+												transform: scale(.8);
+											}
+											
 											span{
 												margin: 6px auto;
 												display: flex;
@@ -4327,12 +4304,12 @@ body{
 			}
 
 			.logo{
-				background-image: $sprite;
-				background-repeat: no-repeat;
-				background-position: 0 0;
-				background-size: 72px;
-				margin: 16px auto;
-				cursor: pointer;
+				background-color: $blackColor;
+				mask-image: $spriteImages;
+				mask-repeat: no-repeat;
+				display: inline-block;
+				mask-size: 24px 72px;
+				mask-position: 0 0;
 				height: 24px;
 				width: 24px;
 			}
@@ -4609,13 +4586,13 @@ body{
 					z-index: -1;
 
 					.logo{
-						background-image: $sprite;
-						background-repeat: no-repeat;
-						background-position: 0 0;
-						background-size: 72px;
+						background-color: $blackColor;
+						mask-image: $spriteImages;
+						mask-repeat: no-repeat;
 						display: inline-block;
+						mask-size: 24px 72px;
+						mask-position: 0 0;
 						margin: 16px 0 0;
-						cursor: pointer;
 						height: 24px;
 						width: 24px;
 					}
@@ -5072,7 +5049,6 @@ body{
 									height: 32px;
 
 									i{
-										/*filter: drop-shadow($shadowIcon1);*/
 										background-color: $whiteColor;
 										mask-image: $spriteImages;
 										mask-position: 0 -72px;
@@ -5691,6 +5667,12 @@ body{
 										float: left;
 
 										button{
+											transition: .2s;
+
+											&:active{
+												transform: scale(.8);
+											}
+
 											span{
 												margin: 6px auto;
 												display: flex;
@@ -7054,7 +7036,7 @@ body{
 
 					.center{
 						.logo{
-							background-position: 0 -24px;
+							background-color: $whiteColor;
 						}
 					}
 				}
@@ -7251,7 +7233,7 @@ body{
 		.audioPlayerWeb{
 			border-top: 1px solid transparentize($greyColor, .75);
 			background-color: $blackColor;
-			box-shadow: $shadowBoxBottomNav;
+			box-shadow: $shadowBoxBottom;
 
 			.player{
 				mat-icon{
@@ -7390,7 +7372,7 @@ body{
 
 		.audioPlayerWeb{
 			border-top: 1px solid transparentize($greyColor, .75);
-			box-shadow: $shadowBoxBottomNav;
+			box-shadow: $shadowBoxBottom;
 			background-color: $whiteColor;
 			position: fixed;
 			width: 100%;
@@ -8002,7 +7984,7 @@ body{
 
 		.bottomNav{
 			border-top: 1px solid transparentize($greyColor, .75);
-			box-shadow: $shadowBoxBottomNav;
+			box-shadow: $shadowBoxBottom;
 			background-color: $whiteColor;
 			position: fixed;
 			display: flex;
@@ -8044,7 +8026,7 @@ body{
 
 							&:before{
 								content: '';
-								border: solid 1px currentColor;
+								border: solid $iconWidth currentColor;
 								border-radius: 0 0 0 3px;
 								box-sizing: border-box;
 								position: absolute;
@@ -8057,7 +8039,7 @@ body{
 
 							&:after{
 								content: '';
-								border: solid 1px currentColor;
+								border: solid $iconWidth currentColor;
 								border-radius: 0 0 3px 0;
 								box-sizing: border-box;
 								position: absolute;
@@ -8084,11 +8066,11 @@ body{
 									border-right: 13px solid transparent;
 									border-left: 13px solid transparent;
 									position: absolute;
+									top: $iconWidth;
 									left: -13px;
 									z-index: 1;
 									height: 0;
 									width: 0;
-									top: 1px;
 								}
 
 								&:after {
@@ -8113,7 +8095,7 @@ body{
 
 							&:before{
 								content: '';
-								border: solid 1px currentColor;
+								border: solid $iconWidth currentColor;
 								box-sizing: border-box;
 								border-radius: 100%;
 								position: absolute;
@@ -8128,15 +8110,15 @@ body{
 								background-color: currentColor;
 								transform: rotate(-45deg);
 								position: absolute;
+								width: $iconWidth;
 								height: 7px;
-								width: 1px;
 								left: 20px;
 								top: 16px;
 							}
 						}
 
 						.miniEqualizer{
-							border: 1px solid $greyColor;
+							border: $iconWidth solid $greyColor;
 							box-sizing: border-box;
 							align-items: center;
 							border-radius: 8px;
@@ -8224,7 +8206,7 @@ body{
 
 							&:before{
 								content: '';
-								border: solid 1px currentColor;
+								border: solid $iconWidth currentColor;
 								border-radius: 14px 14px 0 0;
 								box-sizing: border-box;
 								border-bottom: none;
@@ -8237,8 +8219,8 @@ body{
 
 							&:after {
 								content: '';
-								border-bottom: solid 1px $whiteColor;
-								border-top: solid 1px currentColor;
+								border-bottom: solid $iconWidth $whiteColor;
+								border-top: solid $iconWidth currentColor;
 								position: absolute;
 								bottom: 3px;
 								width: 20px;
@@ -8246,7 +8228,7 @@ body{
 							}
 
 							.clapper{
-								border: solid 1px currentColor;
+								border: solid $iconWidth currentColor;
 								position: absolute;
 								border-radius: 50%;
 								height: 6px;
@@ -8256,7 +8238,7 @@ body{
 
 								&:before {
 									content: '';
-									border: solid 1px currentColor;
+									border: solid $iconWidth currentColor;
 									box-sizing: border-box;
 									position: absolute;
 									border-radius: 50%;
@@ -8298,7 +8280,7 @@ body{
 
 						.avatar{
 							color: transparent;
-							border: 1px solid currentColor;
+							border: $iconWidth solid currentColor;
 							border-radius: 50%;
 							margin: auto;
 							padding: 2px;
@@ -8577,21 +8559,26 @@ body{
 							}
 
 							&.playPause{
+								transition: .2s;
 								height: 76px;
 								width: 76px;
 
+								&:active{
+									transform: scale(.8);
+								}
+
 								i{
-									mask-size: 112px;
-									margin: 10px;
-									height: 56px;
-									width: 56px;
+									mask-size: 48px 144px;
+									margin: 14px;
+									height: 48px;
+									width: 48px;
 
 									&.play{
-										mask-position: 0 0px;
+										mask-position: 0 0;
 									}
 
 									&.pause{
-										mask-position: -56px 0;
+										mask-position: 0 -48px;
 									}
 								}
 							}
@@ -8603,8 +8590,8 @@ body{
 								width: 48px;
 
 								i{
-									mask-position: 0 -48px;
-									mask-size: 96px;
+									mask-position: 0 -96px;
+									mask-size: 48px 144px;
 									margin: 12px;
 									height: 24px;
 									width: 24px;
@@ -8615,7 +8602,7 @@ body{
 								margin: 4px 32px 4px 6px;
 
 								i{
-									mask-position: -24px -48px;
+									mask-position: -24px -96px;
 								}
 							}
 
@@ -8626,8 +8613,8 @@ body{
 								width: 24px;
 
 								i{
-									mask-position: -40px -40px;
-									mask-size: 80px;
+									mask-position: 0 -100px;
+									mask-size: 40px 120px;
 									height: 20px;
 									width: 20px;
 									margin: 2px;
@@ -8642,7 +8629,7 @@ body{
 
 							&.repeat{
 								i{
-									mask-position: -60px -40px;
+									mask-position: -20px -100px;
 								}
 							}
 						}
@@ -8688,7 +8675,7 @@ body{
 							margin: 0;
 
 							.inner{
-								padding: 2px 9px 2px 18px;
+								padding: 2px 4px 2px 18px;
 								box-sizing: border-box;
 								align-items: center;
 								flex-direction: row;

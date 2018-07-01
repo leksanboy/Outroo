@@ -113,7 +113,7 @@ export class PhotoDataService {
 
 	getDataByName(data: any) {
 		let url = environment.url + 'assets/api/photos/getDataByName.php';
-		let params =	'?name=' + data.name;
+		let params =	'?name=' + data;
 
 		return this.http.get(url + params)
 			.pipe(map((res: Response) => { 

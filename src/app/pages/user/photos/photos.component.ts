@@ -23,8 +23,6 @@ export class PhotosComponent implements OnInit, OnDestroy {
 	public sessionData: any = [];
 	public translations: any = [];
 	public activeRouter: any;
-	public activeRouterExists: any;
-	// public activeSession: any;
 	public userData: any = [];
 	public dataDefault: any = {
 		list: [],
@@ -73,9 +71,6 @@ export class PhotosComponent implements OnInit, OnDestroy {
         this.activeRouter = this.router.events
 	        .subscribe(event => {
 				if(event instanceof NavigationEnd) {
-					// Run page on routing
-					this.activeRouterExists = true;
-
 					// Go top of page on change user
 					window.scrollTo(0, 0);
 
@@ -87,6 +82,10 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
 					// Load default
 					this.default('default', urlData.params.id);
+
+					// Open one photo on open photo and reloaded page
+			    	if (urlData.params.name)
+						this.showOne(urlData.params.name);
 			  	}
 			});
 
@@ -104,21 +103,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		// Run page on reload page
-		if (!this.activeRouterExists) {
-			// Get url data
-	    	let urlData: any = this.activatedRoute.snapshot;
-
-	    	// Open one photo on open photo and reloaded page
-	    	if (urlData.params.name)
-				this.showOne(urlData.params.name);
-
-			// Get user data
-			this.siteUserData(urlData.params.id);
-
-			// Load default
-			this.default('default', urlData.params.id);
-		}
+		// not in use
 	}
 
 	ngOnDestroy() {
@@ -223,9 +208,9 @@ export class PhotosComponent implements OnInit, OnDestroy {
 			disableClose: false,
 			data: {
 				comeFrom: 'photos',
+				translations: this.translations,
 				sessionData: this.sessionData,
 				userData: this.userData,
-				translations: this.translations,
 				item: item,
 				index: i,
 				list: this.dataDefault.list
@@ -235,15 +220,13 @@ export class PhotosComponent implements OnInit, OnDestroy {
 		// Open dialog
 		let dialogRef = this.dialog.open( PhotosShowPhotoComponent, config);
 		dialogRef.afterClosed().subscribe((result: any) => {
-			// this.location.go('/' + this.userData.username + '/photos');
+			this.location.go('/' + this.userData.username + '/photos');
 		});
 	}
 
 	// Show photo from url if is one
 	showOne(item) {
-		let data = {
-			name: item
-		}
+		let data = item + '.jpg';
 
 		this.photoDataService.getDataByName(data)
 			.subscribe((res: any) => {
@@ -251,8 +234,9 @@ export class PhotosComponent implements OnInit, OnDestroy {
 					disableClose: false,
 					data: {
 						comeFrom: 'photos',
-						session: this.sessionData.current,
-						user: (res ? res.user : null),
+						translations: this.translations,
+						sessionData: this.sessionData,
+						userData: (res ? res.user : null),
 						item: (res ? res.data : null),
 						index: null,
 						list: []
@@ -262,7 +246,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
 				// Open dialog
 				let dialogRef = this.dialog.open( PhotosShowPhotoComponent, config);
 				dialogRef.afterClosed().subscribe((result: any) => {
-					// this.location.go('/' + this.userData.username + '/photos');
+					this.location.go('/' + this.userData.username + '/photos');
 				});
 			});
 	}

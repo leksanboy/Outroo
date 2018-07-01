@@ -46,8 +46,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	public sessionData: any = [];
 	public translations: any = [];
 	public activeRouter: any;
-	public activeRouterExists: any;
-	// public activeSession: any;
 	public data: any = {
 		selectedIndex: 0
 	};
@@ -98,9 +96,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 		this.activeRouter = this.router.events
 			.subscribe(event => {
 				if(event instanceof NavigationEnd) {
-					// Run page on routing
-					this.activeRouterExists = true;
-
 					// Go top of page on change user
 					window.scrollTo(0, 0);
 
@@ -143,16 +138,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		// Run page on reload page
-		if (!this.activeRouterExists) {
-			this.location.go('/notifications');
-
-			// Load defaultNotifications
-			this.defaultNotifications('default', this.sessionData.current.id);
-
-			// Load defaultChats
-			this.defaultChats('default', this.sessionData.current.id);
-		}
+		// not in use
 	}
 
 	ngOnDestroy() {
@@ -314,9 +300,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	// Show photo from url if is one
 	showNotification(item) {
 		if (item.url == 'photos') {
-			let data = {
-				name: item.name
-			}
+			let data = item.contentData.name;
 
 			this.photoDataService.getDataByName(data)
 				.subscribe((res: any) => {
@@ -326,8 +310,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 						disableClose: false,
 						data: {
 							comeFrom: 'notifications',
-							session: this.sessionData.current,
-							user: (res ? res.user : null),
+							translations: this.translations,
+							sessionData: this.sessionData,
+							userData: (res ? res.user : null),
 							item: (res ? res.data : null),
 							index: null,
 							list: []
@@ -353,8 +338,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 						disableClose: false,
 						data: {
 							comeFrom: 'notifications',
-							session: this.sessionData.current,
-							user: (res ? res.user : null),
+							translations: this.translations,
+							sessionData: this.sessionData,
+							userData: (res ? res.user : null),
 							item: (res ? res.data : null)
 						}
 					};

@@ -29,7 +29,6 @@ export class AudiosComponent implements OnInit, OnDestroy {
 	public audioPlayerData: any = [];
 	public userData: any = [];
 	public activeRouter: any;
-	public activeRouterExists: any;
 	public activeSessionPlaylists: any;
 	public activePlayerInformation: any;
 	public actionFormSearch: FormGroup;
@@ -121,9 +120,6 @@ export class AudiosComponent implements OnInit, OnDestroy {
 		this.activeRouter = this.router.events
 			.subscribe(event => {
 				if(event instanceof NavigationEnd) {
-					// Run page on routing
-					this.activeRouterExists = true;
-
 					// Go top of page on change user
 					window.scrollTo(0, 0);
 
@@ -208,22 +204,6 @@ export class AudiosComponent implements OnInit, OnDestroy {
 			.subscribe(val => {	
 				(val.length > 0) ? this.search('default') : this.search('clear');
 			});
-
-		// Run page on reload page
-		if (!this.activeRouterExists) {
-			// Get url data
-			let urlData: any = this.activatedRoute.snapshot.params.id;
-
-			// Get user data
-			this.siteUserData(urlData);
-
-			// Load default
-			this.data.selectedIndex = 0;
-			this.default('default', urlData);
-			this.around('default');
-			this.top('default');
-			this.fresh('default');
-		}
 	}
 
 	ngOnDestroy() {

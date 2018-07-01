@@ -23,8 +23,8 @@ export class SettingsBackgroundComponent implements OnInit {
 	public saveLoading: boolean;
 
 	constructor(
-		public dialogRef: MatDialogRef<SettingsBackgroundComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
+		public dialogRef: MatDialogRef<SettingsBackgroundComponent>,
 		private alertService: AlertService,
 		private userDataService: UserDataService
 	) {

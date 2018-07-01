@@ -5,7 +5,7 @@
 	</div>
 
 	<div mat-dialog-content class="bodyPhotos">
-		<div class="container" *ngIf="!notExist">
+		<div class="container" *ngIf="!notExists">
 			<div class="left" [ngClass]="{'remove': data.current.addRemoveSession}">
 				<img *ngIf="data.current.mimetype.indexOf('image') !== -1" [src]="environment.pathPhotos + data.current.name">
 				<video *ngIf="data.current.mimetype.indexOf('video') !== -1" [src]="environment.pathVideos + data.current.name.split('.')[0] + '.mp4'" #videoPlayer></video>
@@ -141,9 +141,9 @@
 			</div>
 		</div>
 
-		<div class="container" *ngIf="notExist">
+		<div class="container" *ngIf="notExists">
 			<div class="noData">
-				{{translations.photoNotExist}}
+				{{translations.photoNotExists}}
 			</div>
 		</div>
 	</div>

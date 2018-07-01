@@ -1,5 +1,5 @@
 <?php include "../db.php";
-	$name = $_GET['name'].'.jpg';
+	$name = $_GET['name'];
 
 	$sql = "SELECT f.id, f.user, f.photo, p.name, f.date, f.disabled_comments, p.mimetype, p.duration
 			FROM z_photos_favorites f 

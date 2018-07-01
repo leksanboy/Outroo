@@ -28,7 +28,6 @@ export class NewsComponent implements OnInit, OnDestroy {
 	public sessionData: any = [];
 	public translations: any = [];
 	public activeRouter: any;
-	public activeRouterExists: any;
 	public activeSessionPlaylists: any;
 	public hideAd: boolean;
 	public actionFormSearch: FormGroup;
@@ -78,9 +77,6 @@ export class NewsComponent implements OnInit, OnDestroy {
 		this.activeRouter = this.router.events
 			.subscribe(event => {
 				if(event instanceof NavigationEnd) {
-					// Run page on routing
-					this.activeRouterExists = true;
-
 					// Go top of page on change user
 					window.scrollTo(0, 0);
 
@@ -130,10 +126,6 @@ export class NewsComponent implements OnInit, OnDestroy {
 			.subscribe(val => {
 				(val.length > 0) ? this.search('default') : this.search('clear');
 			});
-
-		// Run page on reload page
-		if (!this.activeRouterExists)
-			this.default('default', this.sessionData.current.id, this.sessionData.current.id);
 	}
 
 	ngOnDestroy() {

@@ -22,7 +22,7 @@ export class PhotosShowPhotoComponent implements OnInit {
 	public sessionData: any = [];
 	public userData: any = [];
 	public translations: any = [];
-	public notExist: boolean;
+	public notExists: boolean;
 	public searchBoxMentions: boolean;
 	public urlRegex: any = /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/g;
 
@@ -35,15 +35,15 @@ export class PhotosShowPhotoComponent implements OnInit {
 		private photoDataService: PhotoDataService,
 		private notificationsDataService: NotificationsDataService
 	) {
-		this.translations = this.data.translations;
-		this.sessionData = this.data.sessionData;
-		this.userData = this.data.userData;
-		this.data.current = this.data.item ? this.data.item : [];
-		this.data.list = this.data.list ? this.data.list : [];
+		this.translations = data.translations;
+		this.sessionData = data.sessionData;
+		this.userData = data.userData;
+		this.data.current = data.item ? data.item : [];
+		this.data.list = data.list ? data.list : [];
 
 		if (this.data.item) {
 			// Check if exists
-    		this.notExist = false;
+    		this.notExists = false;
 
 		    // Set url
 	    	if (this.data.comeFrom == 'photos')
@@ -60,7 +60,7 @@ export class PhotosShowPhotoComponent implements OnInit {
 
     	} else {
     		// Check if exists
-    		this.notExist = true;
+    		this.notExists = true;
     	}
 	}
 

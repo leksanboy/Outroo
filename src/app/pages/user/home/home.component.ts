@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 	public translations: any = [];
 	public audioPlayerData: any = [];
 	public activeRouter: any;
-	public activeRouterExists: any;
 	public activeSessionPlaylists: any;
 	public activePlayerInformation: any;
 	public hideAd: boolean;
@@ -81,9 +80,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 		this.activeRouter = this.router.events
 			.subscribe(event => {
 				if(event instanceof NavigationEnd) {
-					// Run page on routing
-					this.activeRouterExists = true;
-
 					// Go top of page on change user
 					window.scrollTo(0, 0);
 
@@ -141,9 +137,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit() {
-		// Run page on reload page
-		if (!this.activeRouterExists)
-			this.default('default', this.sessionData.current.id, this.sessionData.current.id);
+		// not in use
 	}
 
 	ngOnDestroy() {
