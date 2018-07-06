@@ -113,14 +113,14 @@
 
 						<div class="analytics">
 							<div class="buttonBox">
-								<button mat-icon-button>
-									<mat-icon>chat_bubble_outline</mat-icon>
+								<button mat-icon-button (click)="showComments('showHide', data.current)">
+									<i class="comments"></i>
 								</button>
 								{{data.current.disabledComments ? data.current.countComments : ''}}
 							</div>
 							<div class="buttonBox">
 								<button mat-icon-button (click)="likeUnlike(data.current)" [ngClass]="{'active' : data.current.liked}">
-									<mat-icon>favorite_border</mat-icon>
+									<i class="like"></i>
 								</button>
 								{{data.current.countLikes}}
 							</div>
@@ -130,12 +130,12 @@
 									<a routerLink="/{{l.username}}">{{l.username}}</a>
 									{{isLast ? '' : ', '}}
 								</span>
-								{{data.current.countLikes <= 2 ? 'liked this' : 'and more liked this'}}
+								{{data.current.countLikes <= 2 ? translations.likedThis : translations.andMoreLikedThis}}
 							</div>
 						</div>
 					</div>
 
-					<div class="boxComments">
+					<div class="boxComments" *ngIf="data.current.showCommentsBox">
 						<div class="comments" *ngIf="data.current.disabledComments">
 							<div class="new" *ngIf="sessionData.current.id">
 								<div class="avatar">

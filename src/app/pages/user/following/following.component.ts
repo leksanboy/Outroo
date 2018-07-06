@@ -141,7 +141,6 @@ export class FollowingComponent implements OnInit, OnDestroy {
 			.subscribe(res => {
 				// User data
 				this.userData = res;
-				console.log("userData", this.userData);
 
 				// Set Document title
 				this.titleService.setTitle(this.userData.name + ' - Following');
@@ -189,7 +188,7 @@ export class FollowingComponent implements OnInit, OnDestroy {
 			receiver: item.user.id
 		}
 
-		this.followsDataService.followUnfollow(data);
+		this.followsDataService.followUnfollow(data).subscribe();
 	}
 
 	// Default

@@ -95,8 +95,8 @@ export class SignupComponent implements OnInit {
 				let regex = /^[a-zA-Z0-9._-]+$/;
 
 				if (val != '' && regex.test(val)) {
-					this.userDataService.checkUsername(val).subscribe(
-						res => {
+					this.userDataService.checkUsername(val)
+						.subscribe(res => {
 							setTimeout(() => {
 								if (res) {
 									this.actionForm.controls['username'].setErrors({ validate: false });
@@ -106,8 +106,7 @@ export class SignupComponent implements OnInit {
 									this.validatorUsername = 'done';
 								}
 							}, 600);
-						}
-					);
+						});
 				} else {
 					this.actionForm.controls['username'].setErrors({ validate: false });
 					this.validatorUsername = 'bad';

@@ -15,7 +15,6 @@ export class ChatsocketService {
 
  //    	return this.webSocket.createObservableSocket('wss://outhroo.com/assets/api/socket_test.php?productId=1', openSubscriber)
  //        	.map(message => {
- //        		console.log("MSG:", message);
  //        		// JSON.parse(message);
  //        	});
 	// }

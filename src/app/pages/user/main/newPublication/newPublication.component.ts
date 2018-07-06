@@ -391,14 +391,11 @@ export class MainNewPublicationComponent implements OnInit {
 			this.searchBoxMentions = false;
 		} else {
 			if (event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40) {
-				// console.log("key navigation up-down-left-right");
 				this.searchBoxMentions = false;
 			} else {
 				this.publicationData.eventTarget = event.target;
 				let position = this.getCaretPosition(event.target);
-				// console.log("POS:", position);
 				let word = this.getCurrentWord(event.target, position);
-				// console.log("WORD:", word);
 				this.publicationData.lastTypedWord = {
 					word: word,
 					position: position
@@ -442,8 +439,6 @@ export class MainNewPublicationComponent implements OnInit {
 		let valid = (this.publicationData.original.length == 0 && // validate text
 					data.saveDisabled && // validate existing audios or photos
 					!data.urlVideo.exists) ? false : true; // validate youtube/vimeo url video
-
-		console.log("valid", valid);
 
 		return valid;
 	}
@@ -504,9 +499,6 @@ export class MainNewPublicationComponent implements OnInit {
 
 	// Add mention from mentions serch list
 	addSearchedMention(data){
-		// console.log("Mention:", data);
-		// console.log("Last typed word:", this.publicationData.lastTypedWord);
-		
 		this.publicationData.lastTypedWord.searched = '@'+data.user.username;
 		this.publicationData.onBackground = this.publicationData.original.replace(this.publicationData.lastTypedWord.word, '@' + data.user.username);
 		this.writingChanges(this.publicationData.onBackground);
@@ -537,8 +529,6 @@ export class MainNewPublicationComponent implements OnInit {
 			// Get data
 			this.publicationsDataService.urlVideoInformation(data)
 				.subscribe(res => {
-					console.log("urlVideoInformation:", res);
-
 					if (res) {
 						if (data.type === 'youtube')
 							this.data.urlVideo = {

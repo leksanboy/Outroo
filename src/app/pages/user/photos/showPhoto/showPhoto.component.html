@@ -54,7 +54,7 @@
 
 						<div class="analytics">
 							<div class="buttonBox">
-								<button mat-icon-button>
+								<button mat-icon-button (click)="showComments('showHide', data.current)">
 									<i class="comments"></i>
 								</button>
 								{{data.current.disabledComments ? data.current.countComments : ''}}
@@ -76,7 +76,7 @@
 						</div>
 					</div>
 
-					<div class="boxComments">
+					<div class="boxComments" *ngIf="data.current.showCommentsBox">
 						<div class="comments" *ngIf="data.current.disabledComments">
 							<div class="new" *ngIf="sessionData.current.id">
 								<div class="avatar">

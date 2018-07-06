@@ -45,7 +45,7 @@
 									<mat-progress-spinner mode="determinate" [value]="x.progress"></mat-progress-spinner>
 									<div class="value">{{x.progress}}%</div>
 								</div>
-								<button mat-icon-button *ngIf="x.status=='error'">
+								<button mat-icon-button matTooltip="{{translations.errorOnUpload}}" *ngIf="x.status=='error'">
 									<mat-icon>cloud_off</mat-icon>
 								</button>
 								<button mat-icon-button *ngIf="x.status=='completed'">
@@ -68,7 +68,7 @@
 
 					<button *ngIf="dataFiles.reload" mat-raised-button (click)="uploadFiles(5, $event)">
 						<mat-icon>autorenew</mat-icon>
-						{{translations.done}}
+						{{translations.refresh}}
 					</button>
 				</div>
 			</div>

@@ -157,5 +157,10 @@
 	"mentionOnCommentOnPhoto": "Te ha mencionado en el comentario de una foto",
 	"sendMessage": "Mensaje",
 	"close": "Cerrar",
-	"restore": "Restaurar"
+	"restore": "Restaurar",
+	"loadComments": "Cargar comentarios",
+	"refresh": "Refrescar",
+	"errorOnUpload": "Error en la subida",
+	"invalidFile": "Archivo no valido",
+	"fileSizeToBig": "Tamaña de archivo es demasiado grande"
 }

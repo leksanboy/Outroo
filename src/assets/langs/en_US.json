@@ -157,5 +157,10 @@
 	"mentionOnCommentOnPhoto": "Mention you on comment on photo",
 	"sendMessage": "Message",
 	"close": "Close",
-	"restore": "Restore"
+	"restore": "Restore",
+	"loadComments": "Load comments",
+	"refresh": "Refresh",
+	"errorOnUpload": "Error on upload",
+	"invalidFile": "Invalid file",
+	"fileSizeToBig": "File size is to big"
 }

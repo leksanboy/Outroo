@@ -235,24 +235,22 @@ export class NewsComponent implements OnInit, OnDestroy {
 		return a;
 	}
 
-	// Show photo from url if is one
+	// Show publication
 	show(item) {
-		let data = {
-			name: item.name
-		}
+		let data = item.name;
 
 		this.publicationsDataService.getDataByName(data)
 			.subscribe((res: any) => {
-				res.content = this.sanitizer.bypassSecurityTrustHtml(res.content);
 				this.location.go(this.router.url + '#publication');
 
 				let config = {
 					disableClose: false,
 					data: {
 						comeFrom: 'publications',
-						session: this.sessionData.current,
-						user: (res ? res.user : null),
-						item: (res ? res.data : null)
+						translations: this.translations,
+						sessionData: this.sessionData,
+						userData: (res ? res.user : null),
+						item: (res ? res : null)
 					}
 				};
 

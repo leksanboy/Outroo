@@ -240,7 +240,7 @@
 
 						<div class="analytics">
 							<div class="buttonBox">
-								<button mat-icon-button (click)="showComments(x)">
+								<button mat-icon-button (click)="showComments('showHide', x)">
 									<i class="comments"></i>
 								</button>
 								{{x.disabledComments ? x.countComments : ''}}
@@ -261,7 +261,7 @@
 						</div>
 
 						<div class="boxComments" *ngIf="x.showCommentsBox">
-							<div class="comments" *ngIf="x.disabledComments">
+							<div class="comments" *ngIf="x.disabledComments && x.loaded">
 								<div class="new" *ngIf="sessionData.current.id">
 									<div class="avatar">
 										<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>
@@ -319,6 +319,12 @@
 
 							<div class="noData" *ngIf="!x.disabledComments">
 								{{translations.commentsDisabled}}
+							</div>
+
+							<div class="loadComments" *ngIf="x.disabledComments && !x.loaded">
+								<button mat-raised-button (click)="showComments('load', x)">
+									{{translations.loadComments}}
+								</button>
 							</div>
 						</div>
 					</div>

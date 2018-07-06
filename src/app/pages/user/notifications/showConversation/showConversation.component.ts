@@ -79,8 +79,6 @@ export class NotificationsShowConversationComponent implements OnInit, AfterView
 		this.sessionData = this.data.sessionData;
 		this.chatData = this.data.chat;
 
-		console.log("CHAT DATA:", this.data);
-
 		// Check if is conversation and set avatars
 		if (this.data.comeFrom == 'new'){
 			this.data.active = 'default';
@@ -130,7 +128,7 @@ export class NotificationsShowConversationComponent implements OnInit, AfterView
 					user: this.data.session.id
 				}
 
-				this.chatDataService.addRemove(dataAddRemove);
+				this.chatDataService.addRemove(dataAddRemove).subscribe();
 				break;
 			case "report":
 				alert("Working on Report");
@@ -425,7 +423,6 @@ export class NotificationsShowConversationComponent implements OnInit, AfterView
 				this.searchBoxMentions = false;
 			} else {
 				if (event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40) {
-					// console.log("key navigation up-down-left-right");
 					this.searchBoxMentions = false;
 				} else {
 					item.newCommentData.eventTarget = event.target;

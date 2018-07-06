@@ -187,7 +187,7 @@ export class FollowersComponent implements OnInit, OnDestroy {
 			receiver: item.user.id
 		}
 
-		this.followsDataService.followUnfollow(data);
+		this.followsDataService.followUnfollow(data).subscribe();
 	}
 
 	// Default

@@ -269,7 +269,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 				sender: item.user.id
 			}
 
-			this.followsDataService.followUnfollow(data);
+			this.followsDataService.followUnfollow(data).subscribe();
 		} else if (type == 'follow') { 
 			// When you start following someone who follow you
 			item.statusFollowing = item.private ? 'pending' : 'following';
@@ -293,7 +293,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 				sender: this.sessionData.current.id
 			}
 
-			this.followsDataService.followUnfollow(data);
+			this.followsDataService.followUnfollow(data).subscribe();
 		}
 	}
 
@@ -458,7 +458,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 					user: this.sessionData.current.id
 				}
 
-				this.chatDataService.addRemove(dataSession);
+				this.chatDataService.addRemove(dataSession).subscribe();
 			break;
 			case("report"):
 				item.type = 'chat';

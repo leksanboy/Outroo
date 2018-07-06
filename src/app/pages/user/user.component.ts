@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/platform-browser';
 import { Component, AfterViewInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MatBottomSheet } from '@angular/material';
+import { MatDialog, MatBottomSheet } from '@angular/material';
 import { Location, PlatformLocation } from '@angular/common';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
@@ -53,17 +53,19 @@ export class UserComponent implements AfterViewInit {
 	public loadingMoreData: boolean;
 	public audio = new Audio();
 	public audioPlayerData: any = [];
+	public activeRouter: any;
+	public activeRouterExists: any;
 
 	constructor(
 		@Inject(DOCUMENT) private document: Document,
+		private router: Router,
 		public dialog: MatDialog,
 		private location: Location,
-		private platformLocation: PlatformLocation,
-		private router: Router,
+		private alertService: AlertService,
 		private playerService: PlayerService,
 		private sessionService: SessionService,
-		private alertService: AlertService,
 		private userDataService: UserDataService,
+		private platformLocation: PlatformLocation,
 		private audioDataService: AudioDataService,
 		private notificationsDataService: NotificationsDataService,
 		private audioPlayerMobileService: AudioPlayerMobileService,
@@ -501,7 +503,7 @@ export class UserComponent implements AfterViewInit {
 			user: user
 		}
 
-		this.audioDataService.updateReplays(data);
+		this.audioDataService.updateReplays(data).subscribe();
 	}
 
 	// Audio player on background screen
@@ -733,7 +735,7 @@ export class UserComponent implements AfterViewInit {
 	}
 
 	// Show panel from bottom on mobile
-	showSessionPanelFromBottomOnMobile(){
+	showSessionPanelFromBottom(){
 		this.showPlayer = false;
 
 		// Config
@@ -778,6 +780,21 @@ export class UserComponent implements AfterViewInit {
 	// Set session
 	setCurrentUser(data){
 		if (this.sessionData.current.id != data.id) {
+			// Dark/White theme
+			if (data.theme)
+				this.document.body.classList.add('darkTheme');
+			else
+				this.document.body.classList.remove('darkTheme');
+
+			// Get translations
+			this.getTranslations(data.language);
+
+			// Get pending notifications
+			this.notificationsDataService.pending(data.id)
+				.subscribe(res => {
+					data.countPendingNotifications = res;
+				});
+
 			// Set data
 			this.scrollTop();
 			this.sessionData.current = data;
@@ -785,9 +802,6 @@ export class UserComponent implements AfterViewInit {
 			this.userDataService.setSessionData('data', this.sessionData);
 			this.showSessions = false;
 			this.showChangeSessionOnMenu = false;
-
-			// Get translations
-			// this.getTranslations(data.language);
 
 			// Go to main page
 			this.router.navigate([data.username]);
@@ -856,14 +870,14 @@ export class UserComponent implements AfterViewInit {
 	openReport(data){
 		this.location.go(this.router.url + '#report');
 
-		if (data.type == 'publication') {
-		} else if (data.type == 'publicationComment') {
-		} else if (data.type == 'photo') {
-		} else if (data.type == 'photoComment') {
-		} else if (data.type == 'audio') {
-		} else if (data.type == 'audioPlaylist') {
-		} else if (data.type == 'chat') {
-		}
+		// if (data.type == 'publication') {
+		// } else if (data.type == 'publicationComment') {
+		// } else if (data.type == 'photo') {
+		// } else if (data.type == 'photoComment') {
+		// } else if (data.type == 'audio') {
+		// } else if (data.type == 'audioPlaylist') {
+		// } else if (data.type == 'chat') {
+		// }
 
 		console.log("openReport:", data);
 

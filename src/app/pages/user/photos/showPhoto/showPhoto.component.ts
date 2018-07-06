@@ -106,7 +106,7 @@ export class PhotosShowPhotoComponent implements OnInit {
 			user: user
 		}
 
-		this.photoDataService.updateReplays(data);
+		this.photoDataService.updateReplays(data).subscribe();
 	}
 
 	// Item Options
@@ -121,7 +121,7 @@ export class PhotosShowPhotoComponent implements OnInit {
 					user: this.sessionData.current.id
 				}
 
-				this.photoDataService.addRemove(dataAddRemove);
+				this.photoDataService.addRemove(dataAddRemove).subscribe();
 				break;
 			case "disableComments":
 				item.disabledComments = !item.disabledComments;
@@ -132,7 +132,7 @@ export class PhotosShowPhotoComponent implements OnInit {
 					user: this.sessionData.current.id
 				}
 
-				this.photoDataService.enableDisableComments(dataDisableComments);
+				this.photoDataService.enableDisableComments(dataDisableComments).subscribe();
 				break;
 			case "share":
 				alert("Working on Share");
@@ -186,7 +186,16 @@ export class PhotosShowPhotoComponent implements OnInit {
 				type: item.liked ? 'like' : 'unlike'
 			}
 
-			this.photoDataService.likeUnlike(data);
+			this.photoDataService.likeUnlike(data).subscribe();
+		}
+	}
+
+	// Show/hide comments box
+	showComments(type, item){
+		switch (type) {
+			case "showHide":
+				item.showCommentsBox = !item.showCommentsBox;
+				break;
 		}
 	}
 
@@ -300,7 +309,6 @@ export class PhotosShowPhotoComponent implements OnInit {
 				this.searchBoxMentions = false;
 			} else {
 				if (event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40) {
-					// console.log("key navigation up-down-left-right");
 					this.searchBoxMentions = false;
 				} else {
 					item.newCommentData.eventTarget = event.target;

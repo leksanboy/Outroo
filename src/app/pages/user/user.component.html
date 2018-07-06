@@ -292,7 +292,7 @@
 				</button>
 			</li>
 			<li>
-				<button mat-icon-button (click)="scrollTop()" (press)="showSessionPanelFromBottomOnMobile()" routerLink="/{{sessionData.current.username}}" routerLinkActive="selected">
+				<button mat-icon-button (click)="scrollTop()" (press)="showSessionPanelFromBottom()" routerLink="/{{sessionData.current.username}}" routerLinkActive="selected">
 					<div class="avatar">
 						<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>
 					</div>

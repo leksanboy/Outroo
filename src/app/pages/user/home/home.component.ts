@@ -414,19 +414,22 @@ export class HomeComponent implements OnInit, OnDestroy {
 				type: item.liked ? 'like' : 'unlike'
 			}
 
-			this.publicationsDataService.likeUnlike(data);
+			this.publicationsDataService.likeUnlike(data).subscribe();
 		}
 	}
 
 	// Show/hide comments box
-	showComments(item){
-		if (item.showCommentsBox) {
-			item.showCommentsBox = false;
-		} else {
-			item.showCommentsBox = true;
-
-			// Load comments
-			this.defaultComments('default', item);
+	showComments(type, item){
+		switch (type) {
+			case "showHide":
+				item.showCommentsBox = !item.showCommentsBox;
+				
+				if (item.disabledComments && !item.loaded)
+					this.defaultComments('default', item);
+				break;
+			case "load":
+				this.defaultComments('default', item);
+				break;
 		}
 	}
 
@@ -439,6 +442,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 			item.comments = [];
 			item.comments.list = [];
 			item.rowsComments = 0;
+			item.loaded = true;
 
 			// New comments set
 			this.newComment('clear', null, item);
@@ -540,7 +544,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 				this.searchBoxMentions = false;
 			} else {
 				if (event.keyCode === 37 || event.keyCode === 38 || event.keyCode === 39 || event.keyCode === 40) {
-					// console.log("key navigation up-down-left-right");
 					this.searchBoxMentions = false;
 				} else {
 					item.newCommentData.eventTarget = event.target;
