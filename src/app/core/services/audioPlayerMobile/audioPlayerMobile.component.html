@@ -73,13 +73,13 @@
 							</span>
 							<span *ngIf="audioPlayerData.current.user != sessionData.current.id || audioPlayerData.current.type != 'default'">
 								<button mat-icon-button [matMenuTriggerFor]="appMenu">
-									<mat-icon *ngIf="x.addRemoveOther" class="added">check</mat-icon>
-									<mat-icon *ngIf="!x.addRemoveOther">more_vert</mat-icon>
+									<mat-icon *ngIf="x.addRemoveUser" class="added">check</mat-icon>
+									<mat-icon *ngIf="!x.addRemoveUser">more_vert</mat-icon>
 								</button>
 							</span>
 							<mat-menu #appMenu="matMenu">
-								<button mat-menu-item (click)="itemOptions('addRemoveSession', x, null); x.addRemoveSession=!x.addRemoveSession;" *ngIf="audioPlayerData.current.user == sessionData.current.id && audioPlayerData.current.type == 'default'">{{x.addRemoveSession ? translations.add : translations.remove}}</button>
-								<button mat-menu-item (click)="itemOptions('addRemoveOther', x, null); x.addRemoveOther=!x.addRemoveOther;" *ngIf="audioPlayerData.current.user != sessionData.current.id || audioPlayerData.current.type != 'default'">{{!x.addRemoveOther ? translations.add : translations.remove}}</button>
+								<button mat-menu-item (click)="itemOptions('addRemoveSession', x, null)" *ngIf="audioPlayerData.current.user == sessionData.current.id && audioPlayerData.current.type == 'default'">{{x.addRemoveSession ? translations.add : translations.remove}}</button>
+								<button mat-menu-item (click)="itemOptions('addRemoveUser', x, null)" *ngIf="audioPlayerData.current.user != sessionData.current.id || audioPlayerData.current.type != 'default'">{{!x.addRemoveUser ? translations.add : translations.remove}}</button>
 								<button mat-menu-item [matMenuTriggerFor]="menuPlaylists" #trigger="matMenuTrigger">{{translations.addToPlaylist}}</button>
 								<button mat-menu-item (click)="itemOptions('share', x, null)">{{translations.share}}</button>
 								<button mat-menu-item (click)="itemOptions('report', x, null)">{{translations.report}}</button>

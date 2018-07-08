@@ -1,7 +1,12 @@
 <div class="dialogBox scrollable">
 	<div mat-dialog-title class="header">
-		<button mat-icon-button (click)="close($event)"><mat-icon>arrow_back</mat-icon></button>
-		<div class="text">{{translations.audios}} {{data.arrayAddedItems.length}}/10</div>
+		<button mat-icon-button (click)="close($event)">
+			<mat-icon>arrow_back</mat-icon>
+		</button>
+		<div class="text">
+			{{translations.audios}} 
+			{{data.arrayAddedItems.length}}/10
+		</div>
 		<div class="actions">
 			<button mat-raised-button type="submit" [disabled]="data.arrayAddedItems.length > 10 || data.arrayAddedItems.length < 1" (click)="submit($event)">
 				{{translations.ok}}

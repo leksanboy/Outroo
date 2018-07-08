@@ -570,12 +570,13 @@ body{
 
 						.mat-chip-list-wrapper{
 							align-items: inherit;
+							margin: 0;
 						}
 
 						mat-chip{
 							background: $whiteColor;
 							display: inline-block;
-							margin: 12px 8px 0 0;
+							margin: 6px 6px 0 0;
 							border-radius: 5px;
 							font-size: inherit;
 							line-height: 24px;
@@ -602,12 +603,13 @@ body{
 
 							mat-icon{
 								color: $fontBlackColor;
-								padding: 0;
+								padding: 3px;
 							}
 						}
 					}
 
 					input{
+						color: $whiteColor;
 						width: initial;
 						float: left;
 					}
@@ -1609,9 +1611,10 @@ body{
 						border-radius: 5px !important;
 						background-color: $blueColor;
 						color: $whiteColor;
-						margin: 10px 18px;
-						min-width: 36px;
-						height: 36px;
+						margin: 12px 18px;
+						line-height: 32px;
+						min-width: 32px;
+						height: 32px;
 						width: auto;
 					}
 				}
@@ -3560,14 +3563,6 @@ body{
 				width: $modalWidth;
 				min-height: 360px;
 
-				.searchBox{
-					.box{
-						input{
-							color: $whiteColor;
-						}
-					}
-				}
-
 				.container{
 					width: 100%;
 
@@ -3630,7 +3625,7 @@ body{
 								}
 
 								.bottom{
-									border: 1px solid $greyColor;
+									border: 1px solid transparentize($greyColor, .5);
 									border-radius: 24px;
 									overflow: hidden;
 									margin: 4px 0 0;
@@ -4012,6 +4007,7 @@ body{
 							padding: 4px 18px;
 							list-style: none;
 							margin: 0 0 4px;
+							cursor: pointer;
 							display: flex;
 							float: left;
 							width: 100%;
@@ -4038,26 +4034,30 @@ body{
 
 								.username{
 									word-break: break-all;
-									color: $whiteColor;
 									position: relative;
 									font-weight: bold;
 									line-height: 18px;
 									height: 18px;
 
-									.official{
-										font-weight: normal;
-										position: absolute;
-										color: $blueColor;
-										font-size: 18px;
-										height: 18px;
-										width: 18px;
-										margin: 0;
+									i{
+										background-color: currentColor;
+										mask-image: $spriteImages;
+										mask-position: 0 -48px;
+										mask-repeat: no-repeat;
+										display: inline-block;
+										mask-size: 24px 72px;
+										height: 12px;
+										width: 12px;
+										bottom: 0;
+										right: 0;
 									}
+								}
 
-									&:hover{
-										color: $blueColor;
-										cursor: pointer;
-									}
+								.name{
+									word-break: break-word;
+									color: $greyColor;
+									font-size: 14px;
+									float: left;
 								}
 							}
 
@@ -4068,67 +4068,6 @@ body{
 									padding: 0 12px;
 									margin: 5px 0;
 									min-width: 0;
-
-									&.active{
-										background-color: $blueColor;
-										border-color: $blueColor;
-										color: $whiteColor;
-									}
-								}
-							}
-						}
-					}
-
-					ul.searchUsersList{
-						padding: 12px 0 0;
-						float: left;
-						width: 100%;
-						margin: 0;
-
-						li{
-							box-sizing: border-box;
-							position: relative;
-							padding: 4px 12px;
-							list-style: none;
-							cursor: pointer;
-							margin: 0 0 4px;
-							display: flex;
-							float: left;
-							width: 100%;
-
-							.avatar{
-								box-sizing: border-box;
-								border-radius: 50%;
-								overflow: hidden;
-								min-width: 40px;
-								margin: 4px 0;
-								height: 40px;
-								width: 40px;
-
-								img{
-									height: 100%;
-									width: 100%;
-								}
-							}
-
-							.text{
-								box-sizing: border-box;
-								padding: 6px 12px;
-								width: 100%;
-
-								.username{
-									word-break: break-all;
-									color: $whiteColor;
-									font-weight: bold;
-								}
-							}
-
-							.actions{
-								height: 48px;
-
-								mat-icon{
-									color: $whiteColor;
-									padding: 12px;
 								}
 							}
 						}
@@ -4247,25 +4186,29 @@ body{
 				}
 
 				&.newChatComment{
-					background-color: #555;
+					border-top: 1px solid transparentize($greyColor, .75);
 					padding: 12px 18px;
 					height: inherit;
 
 					.new{
+						background: transparentize($greyColor, .75);
 						box-sizing: border-box;
-						margin: 0 0 8px 0;
+						position: relative;
+						border-radius: 5px;
 						display: flex;
-						float: left;
+						padding: 6px;
 						width: 100%;
+						float: left;
+						margin: 0;
 
 						.avatar{
 							box-sizing: border-box;
 							border-radius: 50%;
 							overflow: hidden;
 							min-width: 24px;
+							margin: 3px 0;
 							height: 24px;
 							width: 24px;
-							margin: 0;
 
 							img{
 								height: 100%;
@@ -4274,11 +4217,10 @@ body{
 						}
 
 						.richComment{
-							border-bottom: 1px solid $greyColor;
+							width: calc(100% - 48px);
 							box-sizing: border-box;
 							position: relative;
-							width: 100%;
-							float: left;
+							min-height: 30px;
 
 							.highlights{
 								box-sizing: border-box;
@@ -4317,19 +4259,29 @@ body{
 						}
 
 						.actions{
-							float: left;
+							margin: 3px 0;
+							height: 24px;
+							width: 24px;
 
 							button{
 								background-color: transparent;
 								text-transform: uppercase;
 								line-height: 24px;
-								padding: 0 8px;
-								height: 24px;
 								min-width: 0;
+								height: 24px;
+								width: 24px;
 								margin: 0;
 
-								mat-icon{
-									color: $blueColor;
+								i{
+									background-color: $blueColor;
+									mask-position: -18px -90px;
+									mask-image: $spriteImages;
+									mask-repeat: no-repeat;
+									mask-size: 36px 108px;
+									display: block;
+									height: 18px;
+									width: 18px;
+									margin: 3px;
 								}
 							}
 						}
@@ -5281,6 +5233,11 @@ body{
 							}
 
 							&.blackColors{
+								.avatar{
+									background-color: $blackColor;
+									border-color: $blackColor;
+								}
+
 								.text{
 									color: $blackColor;
 
@@ -5467,7 +5424,7 @@ body{
 										border-radius: 50% !important;
 
 										i{
-											background-color: $blackColor;
+											background-color: currentColor;
 											mask-image: $spriteImages;
 											mask-position: 0 -70px;
 											mask-repeat: no-repeat;
@@ -5897,6 +5854,10 @@ body{
 							&.remove{
 								filter: grayscale(100%);
 								opacity: .5;
+
+								.body{
+									pointer-events: none;
+								}
 							}
 						}
 					}
@@ -6052,14 +6013,17 @@ body{
 									line-height: 18px;
 									height: 18px;
 
-									.official{
-										font-weight: normal;
-										position: absolute;
-										color: $blueColor;
-										font-size: 18px;
-										height: 18px;
-										width: 18px;
-										margin: 0;
+									i{
+										background-color: currentColor;
+										mask-image: $spriteImages;
+										mask-position: 0 -48px;
+										mask-repeat: no-repeat;
+										display: inline-block;
+										mask-size: 24px 72px;
+										height: 12px;
+										width: 12px;
+										bottom: 0;
+										right: 0;
 									}
 
 									&:hover{
@@ -6515,9 +6479,9 @@ body{
 						margin: 0;
 
 						li{
+							padding: 4px 0 4px 18px;
 							box-sizing: border-box;
 							position: relative;
-							padding: 4px 18px;
 							list-style: none;
 							transition: .15s;
 							margin: 0 0 4px;
@@ -6550,7 +6514,7 @@ body{
 									width: 100%;
 
 									.name{
-										display: initial;
+										display: block;
 
 										.username{
 											word-break: break-all;
@@ -6585,8 +6549,8 @@ body{
 									}
 
 									button{
-										margin: 5px 0 5px 8px;
 										padding: 0 12px;
+										margin: 5px 0;
 										min-width: 0;
 
 										&.active{
@@ -6618,11 +6582,26 @@ body{
 									}
 
 									.actions{
-										display: flex;
-										width: 100%;
+										margin: 0 6px 0 0;
+										float: right;
 
 										button{
-											margin: 5px 0 0 6px;
+											border-radius: 50% !important;
+											height: 36px !important;
+											width: 36px !important;
+											margin: 0;
+
+											i{
+												background-color: currentColor;
+												mask-image: $spriteImages;
+												mask-position: 0 -70px;
+												mask-repeat: no-repeat;
+												mask-size: 28px 84px;
+												margin: 11px 0 0;
+												display: block;
+												height: 14px;
+												width: 14px;
+											}
 										}
 									}
 								}
@@ -6635,6 +6614,12 @@ body{
 							&.active{
 								background-color: transparentize($blueColor, .75);
 							}
+
+							&.remove{
+								text-decoration: line-through;
+								filter: grayscale(100%);
+								opacity: .5;
+							}
 						}
 					}
 
@@ -6645,7 +6630,7 @@ body{
 						margin: 0;
 
 						li{
-							padding: 4px 12px 4px 18px;
+							padding: 4px 4px 4px 18px;
 							box-sizing: border-box;
 							position: relative;
 							list-style: none;
@@ -6729,22 +6714,19 @@ body{
 							}
 
 							.actions{
-								box-sizing: border-box;
-								height: 40px;
-								width: 40px;
-								margin: 0;
-
 								button{
-									margin: 0;
+									border-radius: 50% !important;
 
-									mat-icon{
-										color: $greyColor;
-										text-shadow: none;
-										font-size: 20px;
-
-										&.added{
-											color: $blueColor !important;
-										}
+									i{
+										background-color: currentColor;
+										mask-image: $spriteImages;
+										mask-position: 0 -70px;
+										mask-repeat: no-repeat;
+										mask-size: 28px 84px;
+										margin: 0 0 0 12px;
+										display: block;
+										height: 14px;
+										width: 14px;
 									}
 								}
 							}
@@ -6758,15 +6740,9 @@ body{
 							}
 
 							&.remove{
+								text-decoration: line-through;
 								filter: grayscale(100%);
 								opacity: .5;
-
-								.text{
-									.title,
-									.artist{
-										text-decoration: line-through;
-									}
-								}
 							}
 						}
 					}
@@ -7104,7 +7080,7 @@ body{
 
 	/*Dark theme on user pages*/
 	&.darkTheme{
-		background-color: $backgroundBlackColor;
+		background: linear-gradient($blackColor, $backgroundBlackColor, $blackColor);
 		color: $whiteColor;
 
 		/*Links*/
@@ -7264,17 +7240,6 @@ body{
 			}
 
 			.pageUser{
-				.panel{
-					.dataBox{
-						.user{
-							.avatar{
-								background-color: $blackColor;
-								border-color: $blackColor;
-							}
-						}
-					}
-				}
-
 				.content{
 					ul{
 						li{
@@ -7344,16 +7309,12 @@ body{
 
 			.pageNotifications{
 				.content{
-					ul.chat{
-						li{
-							.avatarsGroup{
-								&.group{
-									.avatar{
-										border-color: $blackColor;
-									}
-								}
-							}
-						}
+					ul.notifications li .inner .operations .actions button i {
+						background-color: $whiteColor;
+					}
+
+					ul.chat li .avatarsGroup.group .avatar{
+						border-color: $blackColor;
 					}
 				}
 			}
@@ -7827,6 +7788,7 @@ body{
 					transform: rotate(-45deg);
 					margin: -9px 0 0 118px;
 					position: absolute;
+					z-index: -1;
 					height: 0;
 					width: 0;
 				}

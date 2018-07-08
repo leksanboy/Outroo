@@ -404,11 +404,11 @@ export class MainComponent implements OnInit, OnDestroy {
 	itemOptions(type, item){
 		switch (type) {
 			case "remove":
-				item.type = item.addRemoveSession ? "add" : "remove";
+				item.removeType = item.addRemoveSession ? "add" : "remove";
 
 				let dataAddRemove = {
 					id: item.id,
-					type: item.type,
+					type: item.removeType,
 					user: this.sessionData.current.id
 				}
 
@@ -485,11 +485,11 @@ export class MainComponent implements OnInit, OnDestroy {
 	itemAudiosOptions(type, item, playlist){
 		switch(type){
 			case("addRemoveUser"):
-				item.type = !item.addRemoveUser ? "add" : "remove";
+				item.removeType = !item.addRemoveUser ? "add" : "remove";
 
 				let dataOther = {
 					user: this.sessionData.current.id,
-					type: item.type,
+					type: item.removeType,
 					location: 'user',
 					id: item.insertedId,
 					song: item.id
@@ -501,11 +501,11 @@ export class MainComponent implements OnInit, OnDestroy {
 					});
 			break;
 			case("playlist"):
-				item.type = !item.addRemoveUser ? "add" : "remove";
+				item.removeType = !item.addRemoveUser ? "add" : "remove";
 
 				let dataP = {
 					user: this.sessionData.current.id,
-					type: item.type,
+					type: item.removeType,
 					location: 'playlist',
 					item: item.song,
 					playlist: playlist.idPlaylist

@@ -27,7 +27,6 @@
 		if ($row['url'] == 'followers') {
 			$row['statusFollowing'] = checkFollowingStatus($user, $row['sender']);
 			$row['private'] = checkUserPrivacy($row['sender']);
-			// $row['type'] = ($row['statusFollowing'] == 'unfollow' ? 'requestAccepted' : $row['type']);
 		}
 
 		// Photos

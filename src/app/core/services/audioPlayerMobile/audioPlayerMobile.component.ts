@@ -164,7 +164,8 @@ export class AudioPlayerMobileComponent implements OnInit, OnDestroy, AfterViewI
 	itemOptions(type, item, playlist){
 		switch(type){
 			case("addRemoveSession"):
-				item.type = item.addRemoveSession ? "add" : "remove";
+				item.addRemoveSession = !item.addRemoveSession;
+				item.type = item.addRemoveSession ? 'remove' : 'add';
 
 				let dataARS = {
 					user: this.sessionData.current.id,
@@ -183,7 +184,8 @@ export class AudioPlayerMobileComponent implements OnInit, OnDestroy, AfterViewI
 					});
 			break;
 			case("addRemoveUser"):
-				item.type = !item.addRemoveUser ? "add" : "remove";
+				item.addRemoveUser = !item.addRemoveUser;
+				item.type = item.addRemoveUser ? 'add' : 'remove';
 
 				let dataARO = {
 					user: this.sessionData.current.id,

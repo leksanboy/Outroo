@@ -1,8 +1,17 @@
 <div class="dialogBox">
 	<span *ngIf="data.comeFrom == 'new'">
 		<div mat-dialog-title class="header">
-			<button mat-icon-button (click)="dialogRef.close()"><mat-icon>arrow_back</mat-icon></button>
-			<div class="text">New chat</div>
+			<button mat-icon-button (click)="close()">
+				<mat-icon>arrow_back</mat-icon>
+			</button>
+			<div class="text">
+				{{translations.newMessage}}
+			</div>
+			<div class="actions">
+				<button mat-raised-button type="submit" [disabled]="data.users.length == 0" (click)="initNewChat()">
+					{{translations.next}}
+				</button>
+			</div>
 		</div>
 
 		<div mat-dialog-content class="bodyChat">
@@ -15,12 +24,12 @@
 
 								<div class="chips">
 									<mat-chip-list matPrefix>
-										<mat-chip *ngFor="let x of data.chatUsers">
+										<mat-chip *ngFor="let x of data.users" (click)="addUserToNewChat(x)">
 											<div class="avatar">
 												<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
 											</div>
 											<span class="name">{{x.user.username}}</span>
-											<mat-icon (click)="addUserToNewChat(x)">clear</mat-icon>
+											<mat-icon>clear</mat-icon>
 										</mat-chip>
 
 										<input type="text" placeholder="Search" formControlName="caption">
@@ -37,19 +46,22 @@
 
 				<div class="container">
 					<span *ngIf="data.active == 'default'">
-						<ul class="searchUsersList" *ngIf="dataDefault.list.length > 0">
+						<ul class="usersList" *ngIf="dataDefault.list.length > 0">
 							<li *ngFor="let x of dataDefault.list" (click)="addUserToNewChat(x);">
 								<div class="avatar">
 									<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
 								</div>
 								<div class="text">
-									<span class="username">{{x.user.username}}</span>
+									<span class="username">
+										{{x.user.username}}
+										<i *ngIf="x.user.official" matTooltip="{{translations.verifiedAccount}}"></i>
+									</span>
 									<br>
-									<span class="about">{{x.about.trim() ? x.about : x.user.name}}</span>
+									<span class="name">{{x.user.name}}</span>
 								</div>
 								<div class="actions">
-									<span *ngIf="x.added"><mat-icon>check_circle</mat-icon></span>
-									<span *ngIf="!x.added"><mat-icon>radio_button_unchecked</mat-icon></span>
+									<mat-icon *ngIf="x.added">check_circle</mat-icon>
+									<mat-icon *ngIf="!x.added">radio_button_unchecked</mat-icon>
 								</div>
 							</li>
 						</ul>
@@ -57,11 +69,11 @@
 						<div class="loadingData" *ngIf="dataDefault.loadingData">
 							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 						</div>
-						<div class="noData" *ngIf="dataDefault.noData">No data</div>
+						<div class="noData" *ngIf="dataDefault.noData">{{translations.noData}}</div>
 					</span>
 
 					<span *ngIf="data.active == 'search'">
-						<ul class="searchUsersList" *ngIf="dataSearch.list.length > 0">
+						<ul class="usersList" *ngIf="dataSearch.list.length > 0">
 							<li *ngFor="let x of dataSearch.list" (click)="addUserToNewChat(x);">
 								<div class="avatar">
 									<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
@@ -92,20 +104,15 @@
 				</div>
 			</div>
 		</div>
-
-		<div mat-dialog-actions class="buttons">
-			<button mat-button type="button" [disabled]="data.chatUsers.length == 0" (click)="initNewChat()">
-				<mat-progress-spinner mode="indeterminate" *ngIf="saveLoading"></mat-progress-spinner>
-				Init Chat
-			</button>
-		</div>
 	</span>
 
 	<span *ngIf="!showUsers && data.comeFrom == 'conversation'">
 		<div mat-dialog-title class="header">
-			<button mat-icon-button (click)="dialogRef.close()"><mat-icon>arrow_back</mat-icon></button>
+			<button mat-icon-button (click)="close()">
+				<mat-icon>arrow_back</mat-icon>
+			</button>
 			<div class="text">
-				<span *ngFor="let u of chatData.users | slice: 0:5; let isLast = last;">
+				<span *ngFor="let u of data.users | slice: 0:5; let isLast = last;">
 					<span class="username">
 						{{u.user.username}}{{isLast ? '' : ', '}}
 					</span>
@@ -118,10 +125,10 @@
 
 		<div mat-dialog-content class="bodyChat" #conversationContainer>
 			<div class="container">
-				<ul class="conversationList" *ngIf="chatData.conversation.length > 0">
-					<li *ngFor="let x of chatData.conversation; let i = index;" [ngClass]="{'me': sessionData.current.id == x.user.id}" [@showFromBottomAnimation]>
+				<ul class="conversationList" *ngIf="data.list.length > 0">
+					<li *ngFor="let x of data.list; let i = index;" [ngClass]="{'me': sessionData.current.id == x.user.id}" [@showFromBottomAnimation]>
 						<div class="box">
-							<div class="top" *ngIf="!((i > 0) && (x.user.id == chatData.conversation[i-1].user.id))">
+							<div class="top" *ngIf="!((i > 0) && (x.user.id == data.list[i-1].user.id))">
 								<a class="avatar" routerLink="/{{x.user.username}}">
 									<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
 								</a>
@@ -188,7 +195,7 @@
 					</li>
 				</ul>
 
-				<div class="noData" *ngIf="chatData.conversation.length == 0">No data</div>
+				<div class="noData" *ngIf="data.list.length == 0">No data</div>
 			</div>
 		</div>
 
@@ -198,12 +205,12 @@
 					<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>
 				</div>
 				<div class="richComment">
-					<div class="highlights" [innerHTML]="data.newCommentData.transformed"></div>
-					<div class="origin" contenteditable="plaintext-only" [textContent]="data.newCommentData.onBackground" (input)="newComment('writingChanges', $event.target.innerText, data)" (keyup)="newComment('keyCode', $event, data)" (keydown)="newComment('keyCode', $event, data)" (mouseup)="newComment('keyCode', $event, data)"></div>
+					<div class="highlights" [innerHTML]="data.current.newCommentData.transformed"></div>
+					<div class="origin" contenteditable="plaintext-only" [textContent]="data.current.newCommentData.onBackground" (input)="newComment('writingChanges', $event.target.innerText, data.current)" (keyup)="newComment('keyCode', $event, data.current)" (keydown)="newComment('keyCode', $event, data.current)" (mouseup)="newComment('keyCode', $event, data.current)"></div>
 				</div>
 				<div class="actions">
-					<button mat-icon-button type="submit" (click)="newComment('create', $event, data)">
-						<mat-icon>send</mat-icon>
+					<button mat-icon-button type="submit" (click)="newComment('create', $event, data.current)">
+						<i label="send"></i>
 					</button>
 				</div>
 			</div>
@@ -212,56 +219,32 @@
 
 	<span *ngIf="showUsers">
 		<div mat-dialog-title class="header">
-			<button mat-icon-button (click)="showUsers=!showUsers"><mat-icon>arrow_back</mat-icon></button>
-			<div class="text">Details</div>
+			<button mat-icon-button (click)="showUsers=!showUsers">
+				<mat-icon>arrow_back</mat-icon>
+			</button>
+			<div class="text">
+				{{translations.details}}
+			</div>
 		</div>
 
 		<div mat-dialog-content class="bodyChat">
 			<div class="container">
 				<ul class="usersList">
-					<li *ngFor="let x of chatData.users; let i=index;">
+					<li *ngFor="let x of data.users; let i=index;">
 						<a class="avatar" routerLink="/{{x.user.username}}">
 							<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
 						</a>
 						<a class="text" routerLink="/{{x.user.username}}">
 							<span class="username">
 								{{x.user.username}}
-								<mat-icon mat-icon class="official" *ngIf="x.official" matTooltip="Verified account">check_circle</mat-icon>
+								<i *ngIf="x.user.official" matTooltip="{{translations.verifiedAccount}}"></i>
 							</span>
 							<br>
 							<span class="about">{{x.user.name}}</span>
 						</a>
-						<!-- <div class="actions" *ngIf="x.user.id != data.session.id">
-							<button mat-button class="border" *ngIf="x.status == 'none'" (click)="followUnfollow('follow', x)">
-								Follow
-							</button>
-							<button mat-button class="border" *ngIf="x.status == 'pending'" [matMenuTriggerFor]="cancelRequest">
-								Pending
-							</button>
-							<button mat-button *ngIf="x.status == 'following'" class="active" [matMenuTriggerFor]="stopFollowing">
-								Following
-							</button>
-							<mat-menu #cancelRequest="matMenu" yPosition="below" xPosition="before" class="removeBox">
-								<button mat-menu-item disabled>
-									Cancel request
-								</button>
-								<div class="buttons">
-									<button mat-menu-item>No</button>
-									<button mat-menu-item (click)="followUnfollow('cancel', x)">Yes</button>
-								</div>
-							</mat-menu>
-							<mat-menu #stopFollowing="matMenu" yPosition="below" xPosition="before" class="removeBox">
-								<button mat-menu-item disabled>
-									Stop following
-									<br>
-									{{x.user.username}}?
-								</button>
-								<div class="buttons">
-									<button mat-menu-item>No</button>
-									<button mat-menu-item (click)="followUnfollow('cancel', x)">Yes</button>
-								</div>
-							</mat-menu>
-						</div> -->
+						<div class="actions">
+							<mat-icon>clear</mat-icon>
+						</div>
 					</li>
 				</ul>
 			</div>

@@ -162,5 +162,8 @@
 	"refresh": "Refresh",
 	"errorOnUpload": "Error on upload",
 	"invalidFile": "Invalid file",
-	"fileSizeToBig": "File size is to big"
+	"fileSizeToBig": "File size is to big",
+	"details": "Details",
+	"next": "Next",
+	"createdSuccessfully": "Created successfully"
 }

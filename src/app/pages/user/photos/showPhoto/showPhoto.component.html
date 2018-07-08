@@ -43,7 +43,7 @@
 									<i label="more"></i>
 								</button>
 								<mat-menu #optionsItem="matMenu">
-									<button mat-menu-item (click)="itemOptions('remove', data.current); data.current.addRemoveSession=!data.current.addRemoveSession;" *ngIf="userData.id == sessionData.current.id">{{data.current.addRemoveSession ? translations.restore : translations.remove}}</button>
+									<button mat-menu-item (click)="itemOptions('remove', data.current)" *ngIf="userData.id == sessionData.current.id">{{data.current.addRemoveSession ? translations.restore : translations.remove}}</button>
 									<button mat-menu-item (click)="itemOptions('disableComments', data.current)" *ngIf="userData.id == sessionData.current.id">{{data.current.disabledComments ? translations.disableComments : translations.enableComments}}</button>
 									<button mat-menu-item (click)="itemOptions('share', data.current)">{{translations.share}}</button>
 									<button mat-menu-item (click)="itemOptions('report', data.current)">{{translations.report}}</button>
@@ -76,7 +76,7 @@
 						</div>
 					</div>
 
-					<div class="boxComments" *ngIf="data.current.showCommentsBox">
+					<div class="boxComments" *ngIf="!data.current.showCommentsBox">
 						<div class="comments" *ngIf="data.current.disabledComments">
 							<div class="new" *ngIf="sessionData.current.id">
 								<div class="avatar">

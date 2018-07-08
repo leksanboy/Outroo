@@ -98,11 +98,11 @@ export class AudiosShowPlaylistComponent implements OnInit {
 	itemOptions(type, item, playlist){
 		switch(type){
 			case("addRemoveSession"):
-				item.type = item.addRemoveSession ? "add" : "remove";
+				item.removeType = item.addRemoveSession ? "add" : "remove";
 				
 				let dataARS = {
 					user: this.data.sessionData.current.id,
-					type: item.type,
+					type: item.removeType,
 					subtype: 'session',
 					location: 'playlist',
 					id: item.id
@@ -118,11 +118,11 @@ export class AudiosShowPlaylistComponent implements OnInit {
 					});
 			break;
 			case("addRemoveUser"):
-				item.type = !item.addRemoveUser ? "add" : "remove";
+				item.removeType = !item.addRemoveUser ? "add" : "remove";
 				
 				let dataARO = {
 					user: this.data.sessionData.current.id,
-					type: item.type,
+					type: item.removeType,
 					location: 'user',
 					id: item.insertedId,
 					item: item.song
@@ -138,11 +138,11 @@ export class AudiosShowPlaylistComponent implements OnInit {
 					});
 			break;
 			case("playlist"):
-				item.type = !item.addRemoveUser ? "add" : "remove";
+				item.removeType = !item.addRemoveUser ? "add" : "remove";
 				
 				let dataP = {
 					user: this.data.sessionData.current.id,
-					type: item.type,
+					type: item.removeType,
 					location: 'playlist',
 					item: item.song,
 					playlist: playlist.idPlaylist

@@ -40,7 +40,6 @@ export class NotificationsShowConversationComponent implements OnInit, AfterView
 	public environment: any = environment;
 	public translations: any = [];
 	public sessionData: any = [];
-	public chatData: any = [];
 	public actionFormSearch: FormGroup;
 	public dataDefault: any = {
 		list: [],
@@ -72,37 +71,45 @@ export class NotificationsShowConversationComponent implements OnInit, AfterView
 		private followsDataService: FollowsDataService,
 		private notificationsDataService: NotificationsDataService,
 		private alertService: AlertService
-	) { }
+	) {
+		this.translations = data.translations;
+		this.sessionData = data.sessionData;
+		this.data.current = data.item ? data.item : [];
+		this.data.list = [];
+		this.data.users = [];
+		this.data.new = false;
 
-	ngOnInit() {
-		this.translations = this.data.translations;
-		this.sessionData = this.data.sessionData;
-		this.chatData = this.data.chat;
+		// New comments set
+		this.newComment('clear', null, this.data.current);
 
-		// Check if is conversation and set avatars
+		// Check if is new or conversation
 		if (this.data.comeFrom == 'new'){
 			this.data.active = 'default';
-			this.data.chatUsers = [];
 
 			// Get default following users list
-			this.default(this.data.session);
-		} else if (this.data.comeFrom == 'conversation'){
-			this.newComment('clear', null, this.data);
-		}
+			this.defaultUsers();
 
-		// Search
-		this.actionFormSearch = this._fb.group({
-			caption: ['']
-		});
-
-		// Search/Reset
-		this.actionFormSearch.controls["caption"].valueChanges
-			.pipe(
-				debounceTime(400),
-				distinctUntilChanged())
-			.subscribe(val => {
-				(val.length > 0) ? this.search('default') : this.search('clear');
+			// Search
+			this.actionFormSearch = this._fb.group({
+				caption: ['']
 			});
+
+			// Search/Reset
+			this.actionFormSearch.controls["caption"].valueChanges
+				.pipe(
+					debounceTime(400),
+					distinctUntilChanged())
+				.subscribe(val => {
+					(val.length > 0) ? this.search('default') : this.search('clear');
+				});
+		} else if (this.data.comeFrom == 'conversation'){
+			this.data.list = data.item.conversation ? data.item.conversation : [];
+			this.data.users = data.item.users ? data.item.users : [];
+		}
+	}
+
+	ngOnInit() {
+		// not in use
 	}
 
 	ngAfterViewChecked() {
@@ -116,35 +123,12 @@ export class NotificationsShowConversationComponent implements OnInit, AfterView
 		} catch(err) { }
 	}
 
-	// Item Options
-	itemOptions(type: any, item: any){
-		switch (type) {
-			case "remove":
-				item.typeRemove = item.addRemoveSession ? "add" : "remove";
-
-				let dataAddRemove = {
-					id: item.id,
-					type: item.typeRemove,
-					user: this.data.session.id
-				}
-
-				this.chatDataService.addRemove(dataAddRemove).subscribe();
-				break;
-			case "report":
-				alert("Working on Report");
-				break;
-			case "close":
-				this.dialogRef.close();
-				break;
-		}
-	}
-
 	/////////
 	// NEW //
 	/////////
 
 	// Default
-	default(data: any){
+	defaultUsers(){
 		this.dataDefault = {
 			list: [],
 			rows: 0,
@@ -154,26 +138,26 @@ export class NotificationsShowConversationComponent implements OnInit, AfterView
 			loadingMoreData: false
 		}
 
-		let d = {
-			user: data.username,
-			session: data.id,
+		let data = {
+			user: this.sessionData.current.username,
+			session: this.sessionData.current.id,
 			type: 'following',
 			rows: this.dataDefault.rows,
 			cuantity: environment.cuantity
 		}
 
-		this.followsDataService.default(d)
-				.subscribe(res => {
-					this.dataDefault.loadingData = false;
+		this.followsDataService.default(data)
+			.subscribe(res => {
+				this.dataDefault.loadingData = false;
 
-					if (res.length == 0) {
-						this.dataDefault.noData = true;
-					} else {
-						res.length < environment.cuantity ? this.dataDefault.loadMoreData = false : this.dataDefault.loadMoreData = true;
-						this.dataDefault.noData = false;
-						this.dataDefault.list = res;
-					}
-				});
+				if (res.length == 0) {
+					this.dataDefault.noData = true;
+				} else {
+					res.length < environment.cuantity ? this.dataDefault.loadMoreData = false : this.dataDefault.loadMoreData = true;
+					this.dataDefault.noData = false;
+					this.dataDefault.list = res;
+				}
+			});
 	}
 
 	// Search
@@ -191,35 +175,43 @@ export class NotificationsShowConversationComponent implements OnInit, AfterView
 			}
 
 			let data = {
-				session: this.data.session.id,
+				session: this.sessionData.current.id,
+				user: this.sessionData.current.id,
 				caption: this.actionFormSearch.get('caption').value,
 				cuantity: environment.cuantity
 			}
 
 			this.followsDataService.search(data)
-					.subscribe(res => {
-						setTimeout(() => {
-							this.dataSearch.loadingData = false;
+				.subscribe(res => {
+					setTimeout(() => {
+						this.dataSearch.loadingData = false;
 
-							if (res.length == 0) {
-								this.dataSearch.noData = true;
+						if (res.length == 0) {
+							this.dataSearch.noData = true;
+							this.dataSearch.noMore = true;
+						} else {
+							this.dataSearch.loadMoreData = (res.length < environment.cuantity) ? false : true;
+							this.dataSearch.noData = false;
+							
+							// validate added
+							for(let i in res)
+								for(let u in this.data.users)
+									if (res[i].id == this.data.users[u].user.id)
+										res[i].added = true;
+
+							this.dataSearch.list = res;
+
+							if (res.length < environment.cuantity)
 								this.dataSearch.noMore = true;
-							} else {
-								this.dataSearch.loadMoreData = (res.length < environment.cuantity) ? false : true;
-								this.dataSearch.noData = false;
-								this.dataSearch.list = res;
-
-								if (res.length < environment.cuantity)
-									this.dataSearch.noMore = true;
-							}
-						}, 600);
-					});
+						}
+					}, 600);
+				});
 		} else if (type == 'more' && !this.dataSearch.noMore) {
 			this.dataSearch.loadingMoreData = true;
 			this.dataSearch.rows++;
 
 			let data = {
-				session: this.data.session.id,
+				session: this.sessionData.current.id,
 				caption: this.actionFormSearch.get('caption').value,
 				rows: this.dataSearch.rows,
 				cuantity: environment.cuantity
@@ -246,101 +238,21 @@ export class NotificationsShowConversationComponent implements OnInit, AfterView
 		}
 	}
 
-	// // Search
-	// search(type: any){
-	// 	if (type == 'default') {
-	// 		this.data.active = 'search';
-	// 		this.dataSearch = {
-	// 			list: [],
-	// 			rows: 0,
-	// 			noData: false,
-	// 			loadingData: true,
-	// 			loadMoreData: false,
-	// 			loadingMoreData: false
-	// 		}
-    //
-	// 		let data = {
-	// 			session: this.data.session.id,
-	// 			caption: this.actionFormSearch.get('caption').value,
-	// 			cuantity: environment.cuantity
-	// 		}
-    //
-	// 		this.followsDataService.search(data)
-	// 			.subscribe(res => {
-	// 				setTimeout(() => {
-	// 					this.dataSearch.loadingData = false;
-    //
-	// 					if (res.length == 0) {
-	// 						this.dataSearch.noData = true;
-	// 					} else {
-	// 						res.length < environment.cuantity ? this.dataSearch.loadMoreData = false : this.dataSearch.loadMoreData = true;
-	// 						for (let c in this.data.chatUsers)
-	// 							if (this.data.chatUsers[c].id == res[i].id)
-	// 								res[i].added = true;
-	// 					}
-    //
-	// 						this.dataSearch.noData = false;
-	// 						this.dataSearch.list = res;
-	// 					}
-	// 				}, 600);
-	// 			});
-	// 	} else if (type == 'more') {
-	// 		this.dataSearch.loadingMoreData = true;
-	// 		this.dataSearch.rows++;
-    //
-	// 		let data = {
-	// 			caption: this.actionFormSearch.get('caption').value,
-	// 			rows: this.dataSearch.rows,
-	// 			cuantity: environment.cuantity
-	// 		}
-    //
-	// 		this.followsDataService.search(data)
-	// 			.subscribe(res => {
-	// 				setTimeout(() => {
-	// 					this.dataSearch.loadingMoreData = false;
-    //
-	// 					// Push items
-	// 					if (res.length > 0)
-	// 						for (let i in res) {
-	// 							for (let c in this.data.chatUsers)
-	// 								if (this.data.chatUsers[c].id == res[i].id)
-	// 									res[i].added = true;
-    //
-	// 							this.dataSearch.list.push(res[i]);
-	// 						}
-    //
-	// 					res.length < environment.cuantity ? this.dataSearch.loadMoreData = false : this.dataSearch.loadMoreData = true;
-	// 				}, 600);
-	// 			});
-	// 	} else if (type == 'clear') {
-	// 		this.data.active = 'default';
-	// 		this.actionFormSearch.get('caption').setValue('');
-    //
-	// 		for (let i in this.dataDefault.list)
-	// 			this.dataDefault.list[i].added = false;
-    //
-	// 		for (let i in this.dataDefault.list)
-	// 			for (let c in this.data.chatUsers)
-	// 				if (this.data.chatUsers[c].id == this.dataDefault.list[i].id)
-	// 					this.dataDefault.list[i].added = true;
-	// 	}
-	// }
-
 	// Add to new chat
 	addUserToNewChat(item){
 		item.added = !item.added;
 
-		if (this.data.chatUsers.length > 0) {
-			for (let i in this.data.chatUsers) {
-				if (this.data.chatUsers[i].id == item.id){
-					this.data.chatUsers.splice(i, 1);
+		if (this.data.users.length > 0) {
+			for (let i in this.data.users) {
+				if (this.data.users[i].id == item.id){
+					this.data.users.splice(i, 1);
 					return false;
 				}
 			}
 
-			this.data.chatUsers.push(item);
+			this.data.users.push(item);
 		} else {
-			this.data.chatUsers.push(item);
+			this.data.users.push(item);
 		}
 	}
 
@@ -348,13 +260,13 @@ export class NotificationsShowConversationComponent implements OnInit, AfterView
 		this.saveLoading = true;
 		let list = [];
 
-		for (let i in this.data.chatUsers)
-			list.push(this.data.chatUsers[i].id);
+		for (let i in this.data.users)
+			list.push(this.data.users[i].id);
 
-		list.push(this.data.session.id);
+		list.push(this.sessionData.current.id);
 
 		let data = {
-			sender: this.data.session.id,
+			sender: this.sessionData.current.id,
 			receivers: list
 		}
 
@@ -362,17 +274,17 @@ export class NotificationsShowConversationComponent implements OnInit, AfterView
 			.subscribe((res: any) => {
 				this.saveLoading = false;
 				this.data.comeFrom = 'conversation';
-				this.chatData = [];
-				this.chatData.id = res;
-				this.chatData.users = this.data.chatUsers;
-				this.chatData.conversation = [];
-				this.data.newComment = '';
+				this.data.current.id = res;
+				this.data.new = true;
 			}, error => {
 				this.saveLoading = false;
-				this.alertService.error('An error has ocurred');
+				this.alertService.error(this.translations.anErrorHasOcurred);
 			});
 	}
 
+	//////////////////
+	// CONVERSATION //
+	//////////////////
 
 	// New comment
 	newComment(type, event, item){
@@ -426,6 +338,13 @@ export class NotificationsShowConversationComponent implements OnInit, AfterView
 					this.searchBoxMentions = false;
 				} else {
 					item.newCommentData.eventTarget = event.target;
+					let position = this.getCaretPosition(event.target);
+					let word = this.getCurrentWord(event.target, position);
+					
+					item.newCommentData.lastTypedWord = {
+						word: word,
+						position: position
+					};
 				}
 			}
 		} else if (type == 'checkPlaceholder') {
@@ -466,7 +385,7 @@ export class NotificationsShowConversationComponent implements OnInit, AfterView
 				let formatedData = this.newComment('transformBeforeSend', null, item);
 				let dataCreate = {
 					type: 'create',
-					chat: this.chatData.id,
+					chat: this.data.current.id,
 					user: this.sessionData.current.id,
 					content: formatedData.content,
 					content_original: formatedData.original
@@ -474,10 +393,60 @@ export class NotificationsShowConversationComponent implements OnInit, AfterView
 
 				this.chatDataService.comment(dataCreate)
 					.subscribe((res: any) => {
-						this.chatData.conversation.push(res);
+						this.data.list.push(res);
+						item.noData = false;
+
 						this.newComment('clear', null, item);
+					}, error => {
+						this.alertService.error(this.translations.anErrorHasOcurred);
 					});
 			}
 		}
+	}
+
+	// Caret position on contenteditable
+	getCaretPosition(element) {
+		let w3 = (typeof window.getSelection != "undefined") && true,
+			caretOffset = 0;
+
+		if (w3) {
+			let range = window.getSelection().getRangeAt(0);
+			let preCaretRange = range.cloneRange();
+			preCaretRange.selectNodeContents(element);
+			preCaretRange.setEnd(range.endContainer, range.endOffset);
+			caretOffset = preCaretRange.toString().length;
+		} else {
+			this.alertService.error(this.translations.tryToUseAnotherBrowser);
+		}
+
+		return caretOffset;
+	}
+
+	// Get current typing word on contenteditable
+	getCurrentWord(el, position) {
+		let word = '';
+
+		// Get content of div
+		let content = el.textContent;
+
+		// Check if clicked at the end of word
+		position = content[position] === ' ' ? position - 1 : position;
+
+		// Get the start and end index
+		let startPosition = content.lastIndexOf(' ', position);
+		startPosition = startPosition === content.length ? 0 : startPosition;
+		let endPosition = content.indexOf(' ', position);
+		endPosition = endPosition === -1 ? content.length : endPosition;
+
+		return content.substring(startPosition + 1, endPosition);
+	}
+
+	// Close dialog
+	close(){
+		// On close check if is new so then add to the list on component page
+		if (this.data.list.length > 0)
+			this.data.last = this.data.list[this.data.list.length-1].content;
+
+		this.dialogRef.close(this.data);
 	}
 }

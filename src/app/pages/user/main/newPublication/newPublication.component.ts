@@ -550,6 +550,16 @@ export class MainNewPublicationComponent implements OnInit {
 								thumbnail: res.thumbnail_large,
 								iframe: res.iframe
 							}
+						else
+							this.data.urlVideo = {
+								exists: true,
+								url: data.url,
+								type: 'Other',
+								title: null,
+								channel: null,
+								thumbnail: null,
+								iframe: null
+							}
 					} else {
 						this.data.urlVideo = [];
 						this.data.urlVideo.exists = false;

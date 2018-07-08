@@ -4,7 +4,7 @@
 			<mat-tab-group mat-stretch-tabs [(selectedIndex)]="data.selectedIndex">
 				<mat-tab label="{{translations.notifications}}">
 					<ul class="notifications" *ngIf="dataNotifications.list.length > 0">
-						<li mat-ripple *ngFor="let x of dataNotifications.list" [ngClass]="{'active': x.status == 0}">
+						<li mat-ripple *ngFor="let x of dataNotifications.list" [ngClass]="{'active': x.status == 0, 'remove': x.addRemoveSession}">
 							<a class="avatar" routerLink="/{{x.user.username}}">
 								<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
 							</a>
@@ -68,6 +68,17 @@
 											</div>
 										</mat-menu>
 									</span>
+
+									<div class="actions">
+										<button mat-icon-button [matMenuTriggerFor]="optionsItem">
+											<i label="more"></i>
+										</button>
+										
+										<mat-menu #optionsItem="matMenu">
+											<button mat-menu-item (click)="itemOptions('remove', x)">{{x.addRemoveSession ? translations.restore : translations.remove}}</button>
+											<button mat-menu-item (click)="itemOptions('report', x)">{{translations.report}}</button>
+										</mat-menu>
+									</div>
 								</div>
 							</div>
 
@@ -98,6 +109,17 @@
 								<div class="operations">
 									<div class="image" *ngIf="x.contentData.media" (click)="showNotification(x)">
 										<div class="img" [ngStyle]="{'background-image': 'url(' + x.contentData.media + ')'}"></div>
+									</div>
+
+									<div class="actions">
+										<button mat-icon-button [matMenuTriggerFor]="optionsItem">
+											<i label="more"></i>
+										</button>
+										
+										<mat-menu #optionsItem="matMenu">
+											<button mat-menu-item (click)="itemOptions('remove', x)">{{x.addRemoveSession ? translations.restore : translations.remove}}</button>
+											<button mat-menu-item (click)="itemOptions('report', x)">{{translations.report}}</button>
+										</mat-menu>
 									</div>
 								</div>
 							</div>
@@ -134,6 +156,17 @@
 								<div class="operations">
 									<div class="image" *ngIf="x.contentData.media" (click)="showNotification(x)">
 										<div class="img" [ngStyle]="{'background-image': 'url(' + x.contentData.media + ')'}"></div>
+									</div>
+
+									<div class="actions">
+										<button mat-icon-button [matMenuTriggerFor]="optionsItem">
+											<i label="more"></i>
+										</button>
+										
+										<mat-menu #optionsItem="matMenu">
+											<button mat-menu-item (click)="itemOptions('remove', x)">{{x.addRemoveSession ? translations.restore : translations.remove}}</button>
+											<button mat-menu-item (click)="itemOptions('report', x)">{{translations.report}}</button>
+										</mat-menu>
 									</div>
 								</div>
 							</div>

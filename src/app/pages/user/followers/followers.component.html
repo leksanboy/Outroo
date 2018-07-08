@@ -31,7 +31,7 @@
 								<a class="text" routerLink="/{{x.user.username}}">
 									<span class="username">
 										{{x.user.username}}
-										<mat-icon mat-icon class="official" *ngIf="x.official" matTooltip="Verified account">check_circle</mat-icon>
+										<i *ngIf="x.user.official" matTooltip="{{translations.verifiedAccount}}"></i>
 									</span>
 									<br>
 									<span class="name">{{x.user.name}}</span>
@@ -98,7 +98,7 @@
 							<a class="text" routerLink="/{{x.user.username}}">
 								<span class="username">
 									{{x.user.username}}
-									<mat-icon mat-icon class="official" *ngIf="x.official" matTooltip="Verified account">check_circle</mat-icon>
+									<i *ngIf="x.user.official" matTooltip="{{translations.verifiedAccount}}"></i>
 								</span>
 								<br>
 								<span class="name">{{x.user.name}}</span>

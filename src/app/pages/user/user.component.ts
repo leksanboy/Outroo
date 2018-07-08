@@ -598,11 +598,12 @@ export class UserComponent implements AfterViewInit {
 	itemAudiosOptions(type, item, playlist){
 		switch(type){
 			case("addRemoveSession"):
-				item.type = item.addRemoveSession ? "add" : "remove";
+				item.addRemoveSession = !item.addRemoveSession;
+				item.removeType = item.addRemoveSession ? 'remove' : 'add';
 
 				let dataARS = {
 					user: this.sessionData.current.id,
-					type: item.type,
+					type: item.removeType,
 					location: 'session',
 					id: item.id
 				}
@@ -613,15 +614,16 @@ export class UserComponent implements AfterViewInit {
 							text = !item.addRemoveSession ? ' has been added successfully' : ' has been removed';
 						this.alertService.success(song + text);
 					}, error => {
-						this.alertService.success('An error has ocurred');
+						this.alertService.error(this.translations.anErrorHasOcurred);
 					});
 			break;
 			case("addRemoveUser"):
-				item.type = !item.addRemoveUser ? "add" : "remove";
+				item.addRemoveUser = !item.addRemoveUser;
+				item.removeType = item.addRemoveUser ? 'add' : 'remove';
 
 				let dataARO = {
 					user: this.sessionData.current.id,
-					type: item.type,
+					type: item.removeType,
 					location: 'user',
 					id: item.insertedId,
 					item: item.song
@@ -633,15 +635,15 @@ export class UserComponent implements AfterViewInit {
 							text = item.addRemoveUser ? ' has been added successfully' : ' has been removed';
 						this.alertService.success(song + text);
 					}, error => {
-						this.alertService.success('An error has ocurred');
+						this.alertService.error(this.translations.anErrorHasOcurred);
 					});
 			break;
 			case("playlist"):
-				item.type = !item.addRemoveUser ? "add" : "remove";
+				item.removeType = !item.addRemoveUser ? "add" : "remove";
 
 				let dataP = {
 					user: this.sessionData.current.id,
-					type: item.type,
+					type: item.removeType,
 					location: 'playlist',
 					item: item.song,
 					playlist: playlist.idPlaylist
@@ -652,7 +654,7 @@ export class UserComponent implements AfterViewInit {
 						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title;
 						this.alertService.success(song + ' has been added to ' + playlist.title);
 					}, error => {
-						this.alertService.success('An error has ocurred');
+						this.alertService.error(this.translations.anErrorHasOcurred);
 					});
 			break;
 			case("createPlaylist"):
@@ -674,7 +676,7 @@ export class UserComponent implements AfterViewInit {
 						this.sessionData.current.playlists.unshift(res);
 						this.sessionData = this.userDataService.setSessionData('update', this.sessionData.current);
 						this.sessionService.setDataPlaylists(this.sessionData);
-						this.alertService.success('Created successfully');
+						this.alertService.success(this.translations.createdSuccessfully);
 					}
 				});
 			break;
@@ -852,7 +854,7 @@ export class UserComponent implements AfterViewInit {
 						this.alertService.success('Dark theme disabled');
 				}, 1000);
 			}, error => {
-				this.alertService.error('An error has ocurred');
+				this.alertService.error(this.translations.anErrorHasOcurred);
 			});
 	}
 

@@ -248,15 +248,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 	itemOptions(type, item){
 		switch (type) {
 			case "remove":
-				item.type = item.addRemoveSession ? "add" : "remove";
+				item.addRemoveSession = !item.addRemoveSession;
+				item.removeType = item.addRemoveSession ? 'remove' : 'add';
 
 				let dataAddRemove = {
 					id: item.id,
-					type: item.type,
+					type: item.removeType,
 					user: this.sessionData.current.id
 				}
 
-				this.publicationsDataService.addRemove(dataAddRemove);
+				this.publicationsDataService.addRemove(dataAddRemove).subscribe();
 				break;
 			case "disableComments":
 				item.disabledComments = !item.disabledComments;
@@ -267,7 +268,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 					user: this.sessionData.current.id
 				}
 
-				this.publicationsDataService.enableDisableComments(dataDisableComments);
+				this.publicationsDataService.enableDisableComments(dataDisableComments).subscribe();
 				break;
 			case "report":
 				item.type = 'publication';
@@ -298,18 +299,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   				this.document.execCommand("Copy");
   				this.alertService.success(this.translations.copied);
 				break;
-			// case "twitter":
-			// 	window.open('https://twitter.com/intent/tweet?text=' + urlExtension, '_blank');
-			// 	break;
-			// case "whatsapp":
-			// 	window.open('https://' + (this.environment.mobile ? 'api': 'web') + '.whatsapp.com/send?text=' + urlExtension, '_blank');
-			// 	break;
-			// case "facebook":
-			// 	window.open('https://www.facebook.com/sharer/sharer.php?u=' + urlExtension, '_blank');
-			// 	break;
-			// case "email":
-			// 	window.open('mailto:?body=' + urlExtension);
-			// 	break;
 		}
 	}
 
@@ -341,11 +330,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 	itemAudiosOptions(type, item, playlist){
 		switch(type){
 			case("addRemoveUser"):
-				item.type = !item.addRemoveUser ? "add" : "remove";
+				item.addRemoveUser = !item.addRemoveUser;
+				item.removeType = item.addRemoveUser ? 'add' : 'remove';
 
 				let dataOther = {
 					user: this.sessionData.current.id,
-					type: item.type,
+					type: item.removeType,
 					location: 'user',
 					id: item.insertedId,
 					song: item.id
@@ -357,11 +347,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 					});
 			break;
 			case("playlist"):
-				item.type = !item.addRemoveUser ? "add" : "remove";
+				item.removeType = !item.addRemoveUser ? "add" : "remove";
 
 				let dataP = {
 					user: this.sessionData.current.id,
-					type: item.type,
+					type: item.removeType,
 					location: 'playlist',
 					item: item.song,
 					playlist: playlist.idPlaylist
@@ -621,7 +611,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 		switch (type) {
 			case "addRemove":
 				comment.addRemove = !comment.addRemove;
-				comment.type = !comment.addRemove ? "add" : "remove";
+				comment.type = comment.addRemove ? 'add' : 'remove';
 
 				let data = {
 					sender: this.sessionData.current.id,

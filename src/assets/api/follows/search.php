@@ -21,7 +21,6 @@
 		$row['user'] = userUsernameNameAvatar($row['id']);
 		$row['about'] = html_entity_decode($row['about'], ENT_QUOTES);
 		$row['status'] = checkFollowingStatus($session, $row['id']);
-		$row['official'] = $row['official'] ? true : false;
 		$row['private'] = $row['private'] ? true : false;
 		$data[] = $row;
 	}

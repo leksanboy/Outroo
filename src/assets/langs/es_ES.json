@@ -162,5 +162,8 @@
 	"refresh": "Refrescar",
 	"errorOnUpload": "Error en la subida",
 	"invalidFile": "Archivo no valido",
-	"fileSizeToBig": "Tamaña de archivo es demasiado grande"
+	"fileSizeToBig": "Tamaña de archivo es demasiado grande",
+	"details": "Detalles",
+	"next": "Siguiente",
+	"createdSuccessfully": "Creado con exito"
 }

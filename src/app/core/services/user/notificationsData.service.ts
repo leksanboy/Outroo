@@ -45,4 +45,17 @@ export class NotificationsDataService {
 				return res.json() 
 			}));
 	}
+
+	addRemove(data: any) {
+		let url = environment.url + 'assets/api/notifications/addRemove.php';
+		let params = data;
+
+		let headers = new Headers();
+		headers.append('Content-Type', 'application/json');
+
+		return this.http.post(url, params, { headers: headers })
+			.pipe(map((res: Response) => { 
+				return res.json() 
+			}));
+	}
 }

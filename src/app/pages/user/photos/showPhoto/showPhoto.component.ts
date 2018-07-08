@@ -113,7 +113,8 @@ export class PhotosShowPhotoComponent implements OnInit {
 	itemOptions(type, item){
 		switch (type) {
 			case "remove":
-				item.typeRemove = item.addRemoveSession ? "add" : "remove";
+				item.addRemoveSession = !item.addRemoveSession;
+				item.typeRemove = item.addRemoveSession ? 'remove' : 'add';
 
 				let dataAddRemove = {
 					id: item.id,

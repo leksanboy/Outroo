@@ -6,7 +6,7 @@
 	$sql = "SELECT c.id
 			FROM z_chat c
 				INNER JOIN z_chat_users u ON c.id = u.chat
-			WHERE u.user = $user AND u.is_deleted = 0
+			WHERE u.user = $user AND u.is_deleted = 0 AND c.initialized = 1 
 			ORDER BY c.date DESC
 			LIMIT $more, $cuantity";
 	$result = $conn->query($sql);

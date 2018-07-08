@@ -186,11 +186,11 @@ export class MainShowPublicationComponent implements OnInit {
 	itemAudiosOptions(type, item, playlist){
 		switch(type){
 			case("addRemoveUser"):
-				item.type = !item.addRemoveUser ? "add" : "remove";
+				item.removeType = !item.addRemoveUser ? "add" : "remove";
 
 				let dataOther = {
 					user: this.data.session.id,
-					type: item.type,
+					type: item.removeType,
 					location: 'user',
 					id: item.insertedId,
 					song: item.id
@@ -202,11 +202,11 @@ export class MainShowPublicationComponent implements OnInit {
 					});
 			break;
 			case("playlist"):
-				item.type = !item.addRemoveUser ? "add" : "remove";
+				item.removeType = !item.addRemoveUser ? "add" : "remove";
 
 				let dataP = {
 					user: this.data.session.id,
-					type: item.type,
+					type: item.removeType,
 					location: 'playlist',
 					item: item.song,
 					playlist: playlist.idPlaylist

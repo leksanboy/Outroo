@@ -23,19 +23,6 @@ import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
 
 declare var ga: Function;
 
-// [OK] TODO: Ver las notificaciones de las publicaciones en modalDialog (showPublication);
-// [OK] TODO: Revisar la pagina de fotos cuando es una foto (recargar la pagina con una foto abierta).
-// [OK] TODO: Mirar lo de Private account aceptar la petición en (notifications, user).
-// [OK] TODO: Link a href en photos; mirar como esta en VK.
-// [OK] TODO: En user.component poner el detect de url para setting/pending/home/news para hacer redirect a index.
-// [-] TODO: Capar el boton de likes y parecidos a 5-6 click despues deshabilitar el boton para siempre.
-// [-] TODO: Ver la pagina de user sin tener sesion.
-// [-] TODO: Compartir en twitter.
-
-// [·] TODO: Terminar el chat sin websocket.
-// [·] TODO: Mirar lo del websocket.
-// [·] TODO: Al borrar un comentario quitar tambien la notificacion.
-
 @Component({
 	selector: 'app-notifications',
 	templateUrl: './notifications.component.html',
@@ -352,27 +339,27 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	// // Item options: add/remove, share, search, report
-	// itemOptionsNotifications(type, item){
-	// 	switch(type){
-	// 		case("addRemoveSession"):
-	// 			// item.type = item.addRemoveSession ? "add" : "remove";
+	// Item options
+	itemOptions(type, item){
+		switch (type) {
+			case "remove":
+				item.addRemoveSession = !item.addRemoveSession;
+				item.removeType = item.addRemoveSession ? 'remove' : 'add';
 
-	// 			// let dataSession = {
-	// 			// 	id: item.id,
-	// 			// 	type: item.type,
-	// 			// 	user: this.sessionData.current.id
-	// 			// }
+				let dataAddRemove = {
+					id: item.id,
+					type: item.removeType,
+					user: this.sessionData.current.id
+				}
 
-	// 			// this.chatDataService.addRemove(dataSession);
-	// 		break;
-	// 		case("report"):
-	// 			alert("Working on report");
-	// 			// item.type = 'notification';
-	// 			// this.sessionService.setDataReport(item);
-	// 		break;
-	// 	}
-	// }
+				this.notificationsDataService.addRemove(dataAddRemove).subscribe();
+				break;
+			case "report":
+				item.type = 'notification';
+				this.sessionService.setDataReport(item);
+				break;
+		}
+	}
 
 	// Default
 	defaultChats(type, user) {
@@ -450,11 +437,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	itemOptionsChat(type, item){
 		switch(type){
 			case("addRemoveSession"):
-				item.type = item.addRemoveSession ? "add" : "remove";
+				item.removeType = item.addRemoveSession ? "add" : "remove";
 
 				let dataSession = {
 					id: item.id,
-					type: item.type,
+					type: item.removeType,
 					user: this.sessionData.current.id
 				}
 
@@ -474,9 +461,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 		let config = {
 			disableClose: false,
 			data: {
-				chat: data,
 				sessionData: this.sessionData,
 				translations: this.translations,
+				item: data,
 				comeFrom: type
 			}
 		};
@@ -484,6 +471,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 		// Open dialog
 		let dialogRef = this.dialog.open( NotificationsShowConversationComponent, config);
 		dialogRef.afterClosed().subscribe((result: any) => {
+			// Check if is new chat with content
+			if (result.new && result.list.length > 0)
+				this.dataChats.list.unshift(result);
+			else if (result.list.length > 0)
+				data.last = result.last;
+			
+			// Set url
 			this.location.go('/notifications');
 		});
 	}

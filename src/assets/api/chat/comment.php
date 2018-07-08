@@ -11,6 +11,11 @@
 	$contentOriginal = htmlspecialchars($data['content_original'], ENT_QUOTES);
 
 	if ($type == "create") {
+		$sql = "UPDATE z_chat
+				SET initialized = 1, ip_address = '$ipAddress' 
+				WHERE id = $chat";
+		$result = $conn->query($sql);
+
 		$sql = "INSERT INTO z_chat_conversation (chat, user, content, content_original, ip_address)
 				VALUES ($chat, $user, '$content', '$contentOriginal', '$ipAddress')";
 		$result = $conn->query($sql);
