@@ -142,6 +142,6 @@
 	Options -Indexes
 
 	# ·> Returns 403, if you access .php file in url
-	#RewriteCond %{HTTP_REFERER} !^https://(www\.)?outhroo [NC]
-	#RewriteCond %{HTTP_REFERER} !^https://(www\.)?outhroo.*$ [NC]
-	#RewriteRule \.(php)$ - [F]
+	RewriteCond %{HTTP_REFERER} !^https://(www\.)?outhroo [NC]
+	RewriteCond %{HTTP_REFERER} !^https://(www\.)?outhroo.*$ [NC]
+	RewriteRule \.(php)$ - [F]

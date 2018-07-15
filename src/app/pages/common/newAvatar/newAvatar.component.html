@@ -1,0 +1,51 @@
+<div class="dialogBox">
+	<div mat-dialog-title class="header">
+		<div class="back">
+			<button mat-icon-button (click)="close()">
+				<mat-icon>arrow_back</mat-icon>
+			</button>
+		</div>
+		<div class="text">
+			{{data.comeFrom == 'avatar' ? translations.changeAvatar : translations.changeBackground}}
+		</div>
+	</div>
+
+	<div mat-dialog-content class="bodyCropper">
+		<div class="image">
+			<img *ngIf="data.comeFrom == 'avatar'" (load)="imageLoad()" [src]="sessionData.current.avatarCropper ? sessionData.current.avatarCropper : environment.avatar" #imageSrc>
+			
+			<img *ngIf="data.comeFrom == 'background'" (load)="imageLoad()" [src]="sessionData.current.backgroundCropper ? sessionData.current.backgroundCropper : environment.background" #imageSrc>
+		</div>
+
+		<div class="panel">
+	        <button mat-raised-button type="button" (click)="cropperFunctions('zoomIn')">
+	        	<mat-icon>zoom_in</mat-icon>
+	        </button>
+	        <button mat-raised-button type="button" (click)="cropperFunctions('zoomOut')">
+	        	<mat-icon>zoom_out</mat-icon>
+	        </button>
+	        <button mat-raised-button type="button" (click)="cropperFunctions('rotateLeft')">
+	        	<mat-icon>rotate_left</mat-icon>
+	        </button>
+	        <button mat-raised-button type="button" (click)="cropperFunctions('rotateRight')">
+	        	<mat-icon>rotate_right</mat-icon>
+	        </button>
+	        <button mat-raised-button type="button" (click)="cropperFunctions('flipHorizontal')">
+	        	<mat-icon>swap_horiz</mat-icon>
+	        </button>
+	        <button mat-raised-button type="button" (click)="cropperFunctions('flipVertical')">
+	        	<mat-icon>swap_vert</mat-icon>
+	        </button>
+	    </div>
+	</div>
+
+	<div mat-dialog-actions class="buttons">
+		<button mat-raised-button type="button" (click)="cropperFunctions('close')">
+			{{translations.cancel}}
+		</button>
+		<button mat-raised-button type="submit" (click)="cropperFunctions('crop')">
+			<mat-progress-spinner mode="indeterminate" *ngIf="saveLoading"></mat-progress-spinner>
+			{{translations.save}}
+		</button>
+	</div>
+</div>

@@ -18,6 +18,7 @@
 		$result = $conn->query($sql);
 
 		var_dump(http_response_code(204));
+		
 		$conn->close();
 	} else if ($location == "user") { // Add/Remove
 		if ($type == 'add') {
@@ -27,6 +28,7 @@
 			$insertedId = $conn->insert_id;
 
 			echo $insertedId;
+			
 			$conn->close();
 		} else if ($type == 'remove') {
 			$sql = "UPDATE z_audios_favorites
@@ -35,6 +37,7 @@
 			$result = $conn->query($sql);
 
 			var_dump(http_response_code(204));
+			
 			$conn->close();
 		}
 	} else if ($location == "playlist") { // Add/Remove
@@ -45,6 +48,7 @@
 			$insertedId = $conn->insert_id;
 
 			echo $insertedId;
+			
 			$conn->close();
 		} else if ($type == 'remove') {
 			$sql = "UPDATE z_audios_playlist_songs
@@ -53,6 +57,7 @@
 			$result = $conn->query($sql);
 
 			var_dump(http_response_code(204));
+			
 			$conn->close();
 		}
 	}

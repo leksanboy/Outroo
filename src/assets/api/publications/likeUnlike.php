@@ -20,7 +20,10 @@
 			"receiver" 	=> $receiver,
 			"id" 		=> $id
 		);
-		generateNotification($notification);
+
+		// Check to not notificate myself
+		if ($sender != $receiver)
+			generateNotification($notification);
 		
 		var_dump(http_response_code(204));
 		$conn->close();
@@ -37,9 +40,13 @@
 			"receiver" 	=> $receiver,
 			"id" 		=> $id
 		);
-		generateNotification($notification);
+
+		// Check to not notificate myself
+		if ($sender != $receiver)
+			generateNotification($notification);
 
 		var_dump(http_response_code(204));
+		
 		$conn->close();
 	}
 ?>

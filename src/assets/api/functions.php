@@ -3,6 +3,43 @@
 	// COMMON //
 	////////////
 
+	// Validate every call to api
+	function validateAccess(){
+		foreach (getallheaders() as $name => $value) {
+			if ($name == 'Authorization') {
+				$validate = checkUserAuthorization($value);
+			}
+		}
+	};
+
+	// Call all time to validate
+	validateAccess();
+
+	// Check if session with authorization token exists
+	function checkUserAuthorization($data){
+		global $conn;
+
+		if ($data == '0xQ3s1RVrSRpWtcN') {
+			$result = true;
+		} else {
+			$data = explode('xQ3s1RVrSR', $data);
+			$user = $data[0];
+			$authentication = $data[1];
+
+			$sql = "SELECT id
+					FROM z_logins
+					WHERE user = $user 
+						AND authorization = '$authentication'";
+			$result = $conn->query($sql);
+
+			// Close all ACCESS
+			if ($result->num_rows == 0){
+				$conn->close();
+				exit;
+			}
+		}
+	}
+
 	// Get languages
 	function getLanguages(){
 		global $conn;
@@ -52,15 +89,20 @@
 	//////////
 
 	// Get user id by username
-	function userLoginActivity($id, $ipAddress){
+	function userLoginActivity($user, $ipAddress){
 		global $conn;
 
 		// Browser
 		$browser = $_SERVER['HTTP_USER_AGENT'];
 
-		$sql = "INSERT INTO z_logins (user, browser, ip_address)
-				VALUES ($id, '$browser', '$ipAddress')";
+		// Authorization
+		$authorization = generateRandomString(23*3);
+
+		$sql = "INSERT INTO z_logins (user, authorization, browser, ip_address)
+				VALUES ($user, '$authorization', '$browser', '$ipAddress')";
 		$result = $conn->query($sql);
+
+		return $authorization;
 	}
 
 	// Get user id by username

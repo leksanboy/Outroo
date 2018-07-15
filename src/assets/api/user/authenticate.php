@@ -11,10 +11,6 @@
 	else // login page
 		$password = md5($data['password']);
 
-	// ·> Localhost signin
-	// $username = 1;
-	// $password = md5(1);
-
 	// Log in and return session data
 	$sql = "SELECT id, username, name, avatar, background, email, about, language, theme, official, private, reset_password as rp
 			FROM z_users
@@ -34,10 +30,9 @@
 		$result['countFollowers'] = countUserFollowers($result['id']);
 		$result['countPhotos'] = countUserPhotos($result['id']);
 		$result['countAudios'] = countUserAudios($result['id']);
-		$result['url'] = "https://outhroo.com/";
 
 		// Set user activity
-		userLoginActivity($result['id'], $ipAddress);
+		$result['authorization'] = userLoginActivity($result['id'], $ipAddress);
 
 		// Get Device
 		$device = $_SERVER['HTTP_USER_AGENT'];

@@ -23,7 +23,7 @@ import { environment } from '../../../../environments/environment';
 			]),
 			transition(':leave', [
 				style({transform: 'translateY(0)', 'opacity': 1}),
-				animate('500ms', style({'transform': 'translateY(100%)', '-webkit-transform': 'translateY(100%)', 'opacity': 1}))
+				animate('400ms', style({'transform': 'translateY(100%)', '-webkit-transform': 'translateY(100%)', 'opacity': 1}))
 			])
 		])
 	]
@@ -226,9 +226,6 @@ export class AudioPlayerMobileComponent implements OnInit, OnDestroy, AfterViewI
 			case("createPlaylist"):
 				let data = 'create';
 				this.sessionService.setDataCreatePlaylist(data);
-			break;
-			case("share"):
-				alert("Working on Share with friends");
 			break;
 			case("report"):
 				item.type = 'audio';

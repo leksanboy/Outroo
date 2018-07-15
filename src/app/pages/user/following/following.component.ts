@@ -127,7 +127,6 @@ export class FollowingComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.activeRouter.unsubscribe();
-		// this.activeSession.unsubscribe();
 	}
 
 	// Go back
@@ -229,9 +228,9 @@ export class FollowingComponent implements OnInit, OnDestroy {
 					}
 				}, error => {
 					this.dataDefault.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
-		} else if (type == 'more' && !this.dataDefault.noMore) {
+		} else if (type == 'more' && !this.dataDefault.noMore && !this.dataDefault.loadingMoreData) {
 			this.dataDefault.loadingMoreData = true;
 			this.dataDefault.rows++;
 
@@ -259,7 +258,7 @@ export class FollowingComponent implements OnInit, OnDestroy {
 					}, 600);
 				}, error => {
 					this.dataDefault.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		}
 	}
@@ -305,9 +304,9 @@ export class FollowingComponent implements OnInit, OnDestroy {
 					}, 600);
 				}, error => {
 					this.dataSearch.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
-		} else if (type == 'more' && !this.dataSearch.noMore) {
+		} else if (type == 'more' && !this.dataSearch.noMore && !this.dataSearch.loadingMoreData) {
 			this.dataSearch.loadingMoreData = true;
 			this.dataSearch.rows++;
 
@@ -335,7 +334,7 @@ export class FollowingComponent implements OnInit, OnDestroy {
 					}, 600);
 				}, error => {
 					this.dataSearch.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		} else if (type == 'clear') {
 			this.data.active = 'default';

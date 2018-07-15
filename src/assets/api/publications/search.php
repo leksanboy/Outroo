@@ -1,3 +1,3 @@
 <?php include "../db.php";
-	var_dump(http_response_code(200));
+	var_dump(http_response_code(777));
 ?>

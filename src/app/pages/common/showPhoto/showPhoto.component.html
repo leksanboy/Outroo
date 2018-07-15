@@ -1,0 +1,180 @@
+<div class="dialogBox">
+	<div mat-dialog-title class="header headerMobile">
+		<div class="back">
+			<button mat-icon-button (click)="close()">
+				<mat-icon>arrow_back</mat-icon>
+			</button>
+		</div>
+		<div class="text">
+			{{data.comeFrom == 'photos' ? translations.photos : translations.notifications}}
+		</div>
+	</div>
+
+	<div mat-dialog-content class="bodyPhotos">
+		<div class="container" *ngIf="!notExists">
+			<div class="left" [ngClass]="{'remove': data.current.addRemoveSession}">
+				<div class="user">
+					<a class="avatar" routerLink="/{{userData.username}}">
+						<img [src]="userData.avatar ? userData.avatarUrl : environment.avatar"/>
+					</a>
+					<div class="text">
+						<div class="name">
+							<a class="username" routerLink="/{{userData.username}}">{{userData.username}}</a>
+							<span class="date">{{data.current.date | timeago}}</span>
+						</div>
+					</div>
+					<div class="actions" *ngIf="sessionData.current.id">
+						<button mat-icon-button [matMenuTriggerFor]="optionsItem">
+							<i label="more"></i>
+						</button>
+						<mat-menu #optionsItem="matMenu">
+							<button mat-menu-item (click)="itemOptions('remove', data.current)" *ngIf="userData.id == sessionData.current.id">{{data.current.addRemoveSession ? translations.restore : translations.remove}}</button>
+							<button mat-menu-item (click)="itemOptions('disableComments', data.current)" *ngIf="userData.id == sessionData.current.id">{{data.current.disabledComments ? translations.disableComments : translations.enableComments}}</button>
+							<button mat-menu-item (click)="itemOptions('report', data.current)">{{translations.report}}</button>
+							<button mat-menu-item (click)="itemOptions('close', null)">{{translations.close}}</button>
+						</mat-menu>
+					</div>
+				</div>
+				
+				<div class="image">
+					<img *ngIf="data.current.mimetype.indexOf('image') !== -1" [src]="environment.pathPhotos + data.current.name">
+					<video *ngIf="data.current.mimetype.indexOf('video') !== -1" [src]="environment.pathVideos + data.current.name.split('.')[0] + '.mp4'" #videoPlayer></video>
+
+					<span *ngIf="data.current.type=='video'">
+						<div class="playPause" (click)="playVideo('play')" *ngIf="!data.current.playButton">
+							<mat-icon>play_arrow</mat-icon>
+						</div>
+					</span>
+					<span *ngIf="data.list.length > 1">
+						<div class="prev" (click)="prevNext('prev')">
+							<mat-icon>chevron_left</mat-icon>
+						</div>
+						<div class="next" (click)="prevNext('next')">
+							<mat-icon>chevron_right</mat-icon>
+						</div>
+					</span>
+				</div>
+			</div>
+
+			<div class="right">
+				<div class="box">
+					<div class="panel">
+						<div class="user">
+							<a class="avatar" routerLink="/{{userData.username}}">
+								<img [src]="userData.avatar ? userData.avatarUrl : environment.avatar"/>
+							</a>
+							<div class="text">
+								<a class="name" routerLink="/{{userData.username}}">
+									<span class="username">{{userData.username}}</span>
+									<span class="date">{{data.current.date | timeago}}</span>
+								</a>
+							</div>
+							<div class="actions" *ngIf="sessionData.current.id">
+								<button mat-icon-button [matMenuTriggerFor]="optionsItem">
+									<i label="more"></i>
+								</button>
+								<mat-menu #optionsItem="matMenu">
+									<button mat-menu-item (click)="itemOptions('remove', data.current)" *ngIf="userData.id == sessionData.current.id">{{data.current.addRemoveSession ? translations.restore : translations.remove}}</button>
+									<button mat-menu-item (click)="itemOptions('disableComments', data.current)" *ngIf="userData.id == sessionData.current.id">{{data.current.disabledComments ? translations.disableComments : translations.enableComments}}</button>
+									<button mat-menu-item (click)="itemOptions('report', data.current)">{{translations.report}}</button>
+									<button mat-menu-item (click)="itemOptions('close', null)">{{translations.close}}</button>
+								</mat-menu>
+							</div>
+						</div>
+
+						<div class="analytics">
+							<div class="buttonBox">
+								<button mat-icon-button (click)="showComments('showHide', data.current)">
+									<i class="comments"></i>
+								</button>
+								{{data.current.disabledComments ? data.current.countComments : ''}}
+							</div>
+							<div class="buttonBox">
+								<button mat-icon-button (click)="likeUnlike(data.current)" [ngClass]="{'active' : data.current.liked}">
+									<i class="like"></i>
+								</button>
+								{{data.current.countLikes}}
+							</div>
+
+							<div class="likers" *ngIf="data.current.countLikes > 0">
+								<span *ngFor="let l of data.current.likers; let isLast = last">
+									<a routerLink="/{{l.username}}">{{l.username}}</a>
+									{{isLast ? '' : ', '}}
+								</span>
+								{{data.current.countLikes <= 2 ? translations.likedThis : translations.andMoreLikedThis}}
+							</div>
+						</div>
+					</div>
+
+					<div class="boxComments" *ngIf="!data.current.showCommentsBox">
+						<div class="comments" *ngIf="data.current.disabledComments">
+							<div class="new" *ngIf="sessionData.current.id">
+								<div class="avatar">
+									<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>
+								</div>
+								<div class="richComment">
+									<div class="highlights" [innerHTML]="data.current.newCommentData.transformed"></div>
+									<div class="origin" contenteditable="plaintext-only" [textContent]="data.current.newCommentData.onBackground" (input)="newComment('writingChanges', $event.target.innerText, data.current)" (keyup)="newComment('keyCode', $event, data.current)" (keydown)="newComment('keyCode', $event, data.current)" (mouseup)="newComment('keyCode', $event, data.current)"></div>
+								</div>
+								<div class="actions">
+									<button mat-icon-button type="submit" (click)="newComment('create', $event, data.current)">
+										<i label="send"></i>
+									</button>
+								</div>
+							</div>
+
+							<ul>
+								<li *ngFor="let c of data.current.comments.list" [ngClass]="{'remove': c.addRemove}">
+									<a class="avatar" routerLink="/{{c.user.username}}">
+										<img [src]="c.user.avatar ? c.user.avatarUrl : environment.avatar"/>
+									</a>
+									<div class="text">
+										<div class="name">
+											<a class="username" routerLink="/{{c.user.username}}">{{c.user.username}}</a>
+											<span class="date">{{c.date | timeago}}</span>
+											<div class="actions" *ngIf="sessionData.current.id">
+												<button mat-icon-button [matMenuTriggerFor]="optionsComments">
+													<i label="more"></i>
+												</button>
+												<mat-menu #optionsComments="matMenu">
+													<button mat-menu-item (click)="commentsOptions('addRemove', data.current, c)" *ngIf="c.user.id == sessionData.current.id">{{c.addRemove ? translations.add : translations.remove}}</button>
+													<button mat-menu-item (click)="commentsOptions('report', data.current, c)">{{translations.report}}</button>
+												</mat-menu>
+											</div>
+										</div>
+										<div class="container">
+											<span [innerHtml]="c.comment | safeHtml"></span>
+										</div>
+									</div>
+								</li>
+							</ul>
+
+							<div class="loadingData" *ngIf="data.current.loadingData">
+								<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+							</div>
+							<div class="noData" *ngIf="data.current.noData">
+								{{translations.noComments}}
+							</div>
+							<div class="loadMore" *ngIf="data.current.loadMoreData">
+								<button mat-fab (click)="defaultComments('more', data.current)" *ngIf="!data.current.loadingMoreData">
+									<mat-icon>add</mat-icon>
+								</button>
+								<mat-progress-spinner mode="indeterminate" *ngIf="data.current.loadingMoreData"></mat-progress-spinner>
+							</div>
+						</div>
+
+						<div class="noData" *ngIf="!data.current.disabledComments">
+							{{translations.commentsDisabled}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container" *ngIf="notExists">
+			<div class="noData">
+				{{translations.photoNotExists}}
+			</div>
+		</div>
+	</div>
+</div>

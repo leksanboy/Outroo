@@ -13,8 +13,8 @@ import { SessionService } from '../../../../app/core/services/session/session.se
 import { UserDataService } from '../../../../app/core/services/user/userData.service';
 import { AudioDataService } from '../../../../app/core/services/user/audioData.service';
 
-import { AudiosNewPlaylistComponent } from './newPlaylist/newPlaylist.component';
-import { AudiosShowPlaylistComponent } from './showPlaylist/showPlaylist.component';
+import { NewPlaylistComponent } from '../../../../app/pages/common/newPlaylist/newPlaylist.component';
+import { ShowPlaylistComponent } from '../../../../app/pages/common/showPlaylist/showPlaylist.component';
 
 declare var ga: Function;
 
@@ -288,6 +288,9 @@ export class AudiosComponent implements OnInit, OnDestroy {
 							if ((res.length-1) >= this.audioPlayerData.key)
 								this.dataDefault.list[this.audioPlayerData.key] = this.audioPlayerData.item;
 					}
+				}, error => {
+					this.dataDefault.loadingData = false;
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 
 			// Get playlists
@@ -298,7 +301,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 
 					this.dataDefault.playlists = res;
 				});
-		} else if (type == 'more' && !this.dataDefault.noMore) {
+		} else if (type == 'more' && !this.dataDefault.noMore && !this.dataDefault.loadingMoreData) {
 			this.dataDefault.loadingMoreData = true;
 			this.dataDefault.rows++;
 
@@ -333,6 +336,9 @@ export class AudiosComponent implements OnInit, OnDestroy {
 						if (res.length < environment.cuantity)
 							this.dataDefault.noMore = true;
 					}, 600);
+				}, error => {
+					this.dataDefault.loadingData = false;
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		}
 	}
@@ -378,8 +384,11 @@ export class AudiosComponent implements OnInit, OnDestroy {
 									this.dataAround.list[this.audioPlayerData.key] = this.audioPlayerData.item;
 						}
 					}, 600);
+				}, error => {
+					this.dataAround.loadingData = false;
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
-		} else if (type == 'more' && !this.dataAround.noMore) {
+		} else if (type == 'more' && !this.dataAround.noMore && !this.dataAround.loadingMoreData) {
 			this.dataAround.loadingMoreData = true;
 			this.dataAround.rows++;
 
@@ -413,6 +422,9 @@ export class AudiosComponent implements OnInit, OnDestroy {
 						if (res.length < environment.cuantity)
 							this.dataAround.noMore = true;
 					}, 600);
+				}, error => {
+					this.dataAround.loadingData = false;
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		}
 	}
@@ -458,8 +470,11 @@ export class AudiosComponent implements OnInit, OnDestroy {
 									this.dataTop.list[this.audioPlayerData.key] = this.audioPlayerData.item;
 						}
 					}, 600);
+				}, error => {
+					this.dataTop.loadingData = false;
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
-		} else if (type == 'more' && !this.dataTop.noMore) {
+		} else if (type == 'more' && !this.dataTop.noMore && !this.dataTop.loadingMoreData) {
 			this.dataTop.loadingMoreData = true;
 			this.dataTop.rows++;
 
@@ -493,6 +508,9 @@ export class AudiosComponent implements OnInit, OnDestroy {
 						if (res.length < environment.cuantity)
 							this.dataTop.noMore = true;
 					}, 600);
+				}, error => {
+					this.dataTop.loadingData = false;
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		}
 	}
@@ -538,8 +556,11 @@ export class AudiosComponent implements OnInit, OnDestroy {
 									this.dataFresh.list[this.audioPlayerData.key] = this.audioPlayerData.item;
 						}
 					}, 600);
+				}, error => {
+					this.dataFresh.loadingData = false;
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
-		} else if (type == 'more' && !this.dataFresh.noMore) {
+		} else if (type == 'more' && !this.dataFresh.noMore && !this.dataFresh.loadingMoreData) {
 			this.dataFresh.loadingMoreData = true;
 			this.dataFresh.rows++;
 
@@ -573,6 +594,9 @@ export class AudiosComponent implements OnInit, OnDestroy {
 						if (res.length < environment.cuantity)
 							this.dataFresh.noMore = true;
 					}, 600);
+				}, error => {
+					this.dataFresh.loadingData = false;
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		}
 	}
@@ -619,8 +643,11 @@ export class AudiosComponent implements OnInit, OnDestroy {
 									this.dataSearch.list[this.audioPlayerData.key] = this.audioPlayerData.item;
 						}
 					}, 600);
+				}, error => {
+					this.dataSearch.loadingData = false;
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
-		} else if (type == 'more' && !this.dataSearch.noMore) {
+		} else if (type == 'more' && !this.dataSearch.noMore && !this.dataSearch.loadingMoreData) {
 			this.dataSearch.loadingMoreData = true;
 			this.dataSearch.rows++;
 
@@ -654,6 +681,9 @@ export class AudiosComponent implements OnInit, OnDestroy {
 						if (res.length < environment.cuantity)
 							this.dataSearch.noMore = true;
 					}, 600);
+				}, error => {
+					this.dataSearch.loadingData = false;
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		} else if (type == 'clear') {
 			this.data.active = 'default';
@@ -873,7 +903,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	// Item options: add/remove, share, search, report
+	// Item options
 	itemOptions(type, item, playlist){
 		switch(type){
 			case("addRemoveSession"):
@@ -894,7 +924,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 					}, error => {
 						this.alertService.error(this.translations.anErrorHasOcurred);
 					});
-			break;
+				break;
 			case("addRemoveUser"):
 				item.removeType = !item.addRemoveUser ? "add" : "remove";
 
@@ -914,7 +944,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 					}, error => {
 						this.alertService.error(this.translations.anErrorHasOcurred);
 					});
-			break;
+				break;
 			case("playlist"):
 				item.removeType = !item.addRemoveUser ? "add" : "remove";
 
@@ -933,14 +963,11 @@ export class AudiosComponent implements OnInit, OnDestroy {
 					}, error => {
 						this.alertService.error(this.translations.anErrorHasOcurred);
 					});
-			break;
-			case("share"):
-				alert("Working on Share with friends");
-			break;
+				break;
 			case("report"):
 				item.type = 'audio';
 				this.sessionService.setDataReport(item);
-			break;
+				break;
 		}
 	}
 
@@ -956,7 +983,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 			}
 		};
 
-		let dialogRef = this.dialog.open(AudiosNewPlaylistComponent, config);
+		let dialogRef = this.dialog.open(NewPlaylistComponent, config);
 		dialogRef.afterClosed().subscribe((res: any) => {
 			this.location.go('/' + this.userData.username + '/audios');
 
@@ -981,7 +1008,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 			}
 		};
 
-		let dialogRef = this.dialog.open(AudiosShowPlaylistComponent, config);
+		let dialogRef = this.dialog.open(ShowPlaylistComponent, config);
 		dialogRef.afterClosed().subscribe((res: string) => {
 			this.location.go('/' + this.userData.username + '/audios');
 		});
@@ -1016,7 +1043,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 		this.sessionService.setDataPlaylists(this.sessionData);
 	}
 
-	// Item options: add/remove, share, search, report
+	// Item options
 	itemOptionsPlaylist(type, item, index){
 		switch(type){
 			case("edit"):
@@ -1033,7 +1060,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 					}
 				};
 
-				let dialogRef = this.dialog.open(AudiosNewPlaylistComponent, config);
+				let dialogRef = this.dialog.open(NewPlaylistComponent, config);
 				dialogRef.afterClosed().subscribe((res: any) => {
 					this.location.go('/' + this.userData.username + '/audios');
 
@@ -1046,7 +1073,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 						this.updatePlaylist('edit', data);
 					}
 				});
-			break;
+				break;
 			case("publicPrivateSession"):
 				item.type = item.private ? "public" : "private";
 
@@ -1057,7 +1084,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 				}
 
 				this.audioDataService.publicPrivate(dataPPS).subscribe();
-			break;
+				break;
 			case("addRemoveSession"):
 				item.type = item.addRemoveSession ? "add" : "remove";
 				item.removed = item.addRemoveSession ? false : true;
@@ -1073,7 +1100,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 					.subscribe((res: any) => {
 						this.updatePlaylist('addRemoveSession', null);
 					});
-			break;
+				break;
 			case("addRemoveUser"):
 				item.type = !item.addRemoveUser ? "add" : "remove";
 				item.removed = !item.addRemoveUser ? false : true;
@@ -1095,14 +1122,11 @@ export class AudiosComponent implements OnInit, OnDestroy {
 						item.insertedPlaylist =  item.insertedPlaylist ? item.item.insertedPlaylist : res.json();
 						this.updatePlaylist('addRemoveUser', item);
 					});
-			break;
-			case("share"):
-				alert("Working on Share with friends");
-			break;
+				break;
 			case("report"):
 				item.type = 'audioPlaylist';
 				this.sessionService.setDataReport(item);
-			break;
+				break;
 		}
 	}
 }

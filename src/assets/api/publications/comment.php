@@ -29,7 +29,10 @@
 			"id" 		=> $id,
 			"comment" 	=> $insertedId
 		);
-		generateNotification($notification);
+		
+		// Check to not notificate myself
+		if ($sender != $receiver)
+			generateNotification($notification);
 
 		// Notificate mentioned friends on comment
 		foreach($mentionsNotificate as $row){
@@ -45,7 +48,9 @@
 					"comment" 	=> $insertedId
 				);
 				
-				generateNotification($notification);
+				// Check to not notificate myself
+				if ($sender != $receiver)
+					generateNotification($notification);
 			}
 		}
 		
@@ -69,9 +74,10 @@
 			"id" 		=> $id,
 			"comment" 	=> $comment
 		);
-		generateNotification($notification);
 
+		generateNotification($notification);
 		var_dump(http_response_code(204));
+		
 		$conn->close();
 	}
 ?>

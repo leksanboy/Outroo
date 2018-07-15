@@ -15,11 +15,11 @@
 									</div>
 								</div>
 							</div>
-							<input type="file" hidden (change)="openBackground(1, $event)" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff" #backgroundFile>
+							<input type="file" hidden (change)="openAvatar('background', 'upload', $event)" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff" #backgroundFile>
 
 							<mat-menu #backgroundOneOptions="matMenu" [overlapTrigger]="false" xPosition="before">
 								<button mat-menu-item (click)="backgroundFile.click()">{{translations.uploadPhoto}}</button>
-								<button mat-menu-item (click)="openBackground(2, $event)">{{translations.removePhoto}}</button>
+								<button mat-menu-item (click)="openAvatar('background', 'remove', $event)">{{translations.removePhoto}}</button>
 								<button mat-menu-item>{{translations.cancel}}</button>
 							</mat-menu>
 
@@ -29,11 +29,11 @@
 
 									<div class="layer"><mat-icon>image</mat-icon></div>
 								</div>
-								<input type="file" hidden (change)="openAvatar(1, $event)" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff" #avatarFile>
+								<input type="file" hidden (change)="openAvatar('avatar', 'upload', $event)" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff" #avatarFile>
 
 								<mat-menu #avatarOptions="matMenu" [overlapTrigger]="false">
 									<button mat-menu-item (click)="avatarFile.click()">{{translations.uploadPhoto}}</button>
-									<button mat-menu-item (click)="openAvatar(2, $event)">{{translations.removePhoto}}</button>
+									<button mat-menu-item (click)="openAvatar('avatar', 'remove', $event)">{{translations.removePhoto}}</button>
 									<button mat-menu-item>{{translations.cancel}}</button>
 								</mat-menu>
 							</div>

@@ -8,7 +8,7 @@
 	$result = $conn->query($sql);
 
 	$status = ($result->num_rows == 0) ? false : true;
-
 	echo json_encode($status);
+	
 	$conn->close();
 ?>

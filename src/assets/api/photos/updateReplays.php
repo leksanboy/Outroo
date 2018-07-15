@@ -8,5 +8,8 @@
 	$sql = "INSERT INTO z_photos_replays (user, photo, ip_address)
 			VALUES ($user, $id, '$ipAddress')";
 	$result = $conn->query($sql);
+
+	var_dump(http_response_code(204));
+	
 	$conn->close();
 ?>

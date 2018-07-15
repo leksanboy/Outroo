@@ -27,8 +27,9 @@
 			$row['countAudios'] = countUserAudios($id);
 			$data = $row;
 		}
-
+		
 		echo json_encode($data);
+
 		$conn->close();
 	} else {
 		echo json_encode('');

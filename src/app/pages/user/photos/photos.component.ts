@@ -10,7 +10,7 @@ import { UserDataService } from '../../../../app/core/services/user/userData.ser
 import { SessionService } from '../../../../app/core/services/session/session.service';
 import { PhotoDataService } from '../../../../app/core/services/user/photoData.service';
 
-import { PhotosShowPhotoComponent } from './showPhoto/showPhoto.component';
+import {ShowPhotoComponent } from '../../../../app/pages/common/showPhoto/showPhoto.component';
 
 declare var ga: Function;
 
@@ -174,8 +174,11 @@ export class PhotosComponent implements OnInit, OnDestroy {
 						if (res.length < environment.cuantity)
 							this.dataDefault.noMore = true;
 					}
+				}, error => {
+					this.dataDefault.loadingData = false;
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
-		} else if (type == 'more' && !this.dataDefault.noMore) {
+		} else if (type == 'more' && !this.dataDefault.noMore && !this.dataDefault.loadingMoreData) {
 			this.dataDefault.loadingMoreData = true;
 			this.dataDefault.rows++;
 
@@ -198,6 +201,9 @@ export class PhotosComponent implements OnInit, OnDestroy {
 						if (res.length < environment.cuantity)
 							this.dataDefault.noMore = true;
 					}, 600);
+				}, error => {
+					this.dataDefault.loadingData = false;
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		}
 	}
@@ -218,7 +224,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
 		};
 
 		// Open dialog
-		let dialogRef = this.dialog.open( PhotosShowPhotoComponent, config);
+		let dialogRef = this.dialog.open(ShowPhotoComponent, config);
 		dialogRef.afterClosed().subscribe((result: any) => {
 			this.location.go('/' + this.userData.username + '/photos');
 		});
@@ -244,7 +250,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
 				};
 
 				// Open dialog
-				let dialogRef = this.dialog.open( PhotosShowPhotoComponent, config);
+				let dialogRef = this.dialog.open(ShowPhotoComponent, config);
 				dialogRef.afterClosed().subscribe((result: any) => {
 					this.location.go('/' + this.userData.username + '/photos');
 				});

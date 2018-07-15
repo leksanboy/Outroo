@@ -121,7 +121,6 @@
 												<button mat-menu-item (click)="itemOptionsPlaylist('addRemoveUser', x, i); x.addRemoveUser=!x.addRemoveUser;" *ngIf="userData.id != sessionData.current.id">{{!x.addRemoveUser ? translations.add : translations.remove}}</button>
 												<button mat-menu-item (click)="itemOptionsPlaylist('edit', x, i)" *ngIf="userData.id == sessionData.current.id">{{translations.edit}}</button>
 												<button mat-menu-item (click)="itemOptionsPlaylist('publicPrivateSession', x, i); x.private=!x.private;" *ngIf="userData.id == sessionData.current.id">{{!x.private ? translations.doPrivate : translations.doPublic}}</button>
-												<button mat-menu-item (click)="itemOptionsPlaylist('share', x, i)">{{translations.share}}</button>
 												<button mat-menu-item (click)="itemOptionsPlaylist('report', x, i)">{{translations.report}}</button>
 											</mat-menu>
 										</div>
@@ -169,7 +168,6 @@
 											<button mat-menu-item (click)="itemOptions('addRemoveSession', x, null); x.addRemoveSession=!x.addRemoveSession;" *ngIf="userData.id == sessionData.current.id">{{x.addRemoveSession ? translations.add : translations.remove}}</button>
 											<button mat-menu-item (click)="itemOptions('addRemoveUser', x, null); x.addRemoveUser=!x.addRemoveUser;" *ngIf="userData.id != sessionData.current.id">{{!x.addRemoveUser ? translations.add : translations.remove}}</button>
 											<button mat-menu-item [matMenuTriggerFor]="menuPlaylists" #trigger="matMenuTrigger">{{translations.addToPlaylist}}</button>
-											<button mat-menu-item (click)="itemOptions('share', x, null)">{{translations.share}}</button>
 											<button mat-menu-item (click)="itemOptions('report', x, null)">{{translations.report}}</button>
 										</mat-menu>
 										<mat-menu #menuPlaylists="matMenu">
@@ -226,7 +224,6 @@
 										<mat-menu #appMenu="matMenu">
 											<button mat-menu-item (click)="itemOptions('addRemoveUser', x, null); x.addRemoveUser=!x.addRemoveUser;">{{!x.addRemoveUser ? translations.add : translations.remove}}</button>
 											<button mat-menu-item [matMenuTriggerFor]="menuPlaylists" #trigger="matMenuTrigger">{{translations.addToPlaylist}}</button>
-											<button mat-menu-item (click)="itemOptions('share', x, null)">{{translations.share}}</button>
 											<button mat-menu-item (click)="itemOptions('report', x, null)">{{translations.report}}</button>
 										</mat-menu>
 										<mat-menu #menuPlaylists="matMenu">
@@ -283,7 +280,6 @@
 										<mat-menu #appMenu="matMenu">
 											<button mat-menu-item (click)="itemOptions('addRemoveUser', x, null); x.addRemoveUser=!x.addRemoveUser;">{{!x.addRemoveUser ? translations.add : translations.remove}}</button>
 											<button mat-menu-item [matMenuTriggerFor]="menuPlaylists" #trigger="matMenuTrigger">{{translations.addToPlaylist}}</button>
-											<button mat-menu-item (click)="itemOptions('share', x, null)">{{translations.share}}</button>
 											<button mat-menu-item (click)="itemOptions('report', x, null)">{{translations.report}}</button>
 										</mat-menu>
 										<mat-menu #menuPlaylists="matMenu">
@@ -340,7 +336,6 @@
 										<mat-menu #appMenu="matMenu">
 											<button mat-menu-item (click)="itemOptions('addRemoveUser', x, null); x.addRemoveUser=!x.addRemoveUser;">{{!x.addRemoveUser ? translations.add : translations.remove}}</button>
 											<button mat-menu-item [matMenuTriggerFor]="menuPlaylists" #trigger="matMenuTrigger">{{translations.addToPlaylist}}</button>
-											<button mat-menu-item (click)="itemOptions('share', x, null)">{{translations.share}}</button>
 											<button mat-menu-item (click)="itemOptions('report', x, null)">{{translations.report}}</button>
 										</mat-menu>
 										<mat-menu #menuPlaylists="matMenu">
@@ -399,7 +394,6 @@
 								<mat-menu #appMenu="matMenu">
 									<button mat-menu-item (click)="itemOptions('addRemoveUser', x, null); x.addRemoveUser=!x.addRemoveUser;">{{!x.addRemoveUser ? translations.add : translations.remove}}</button>
 									<button mat-menu-item [matMenuTriggerFor]="menuPlaylists" #trigger="matMenuTrigger">{{translations.addToPlaylist}}</button>
-									<button mat-menu-item (click)="itemOptions('share', x, null)">{{translations.share}}</button>
 									<button mat-menu-item (click)="itemOptions('report', x, null)">{{translations.report}}</button>
 								</mat-menu>
 								<mat-menu #menuPlaylists="matMenu">

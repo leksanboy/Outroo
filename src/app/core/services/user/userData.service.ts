@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { HeadersService } from '../headers/headers.service';
 
 @Injectable()
 export class UserDataService {
 
 	constructor(
-		private http: Http
+		private http: Http,
+		private headersService: HeadersService
 	) { }
 
 	// Translations
@@ -48,10 +51,7 @@ export class UserDataService {
 			password: password
 		};
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				this.setSessionData('login', res.json());
 				return res.json() 
@@ -65,10 +65,7 @@ export class UserDataService {
 			password: password
 		};
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return res.json() 
 			}));
@@ -97,10 +94,12 @@ export class UserDataService {
 			};
 
 			for (let i in oldData.sessions)
-				if (oldData.sessions[i].id == data.id)
+				if (oldData.sessions[i].id == data.id){
+					data.authorization = oldData.sessions[i].authorization;
 					storageUpdateData.sessions.push(data);
-				else
+				} else {
 					storageUpdateData.sessions.push(oldData.sessions[i]);
+				}
 
 			localStorage.setItem('userData_Outhroo', JSON.stringify(storageUpdateData));
 			return JSON.parse(localStorage.getItem('userData_Outhroo'));
@@ -111,17 +110,14 @@ export class UserDataService {
 
 	getSessionData() {
 		let data = JSON.parse(localStorage.getItem('userData_Outhroo'));
-		// data.current.translations = this.getLanguage(data.current.language)
-		// 	.subscribe(res => {
-		// 		data.current.translations = res;
-		// 	});
 
 		return data;
 	}
 
 	getUserData(id) {
 		let url = environment.url + 'assets/api/user/getUser.php';
-		let params = '?id=' + id;
+		let params = 	'&id=' + id;
+		params = params.replace('&', '?');
 
 		return this.http.get(url + params)
 			.pipe(map((res: Response) => { 
@@ -134,10 +130,7 @@ export class UserDataService {
 		let url = environment.url + 'assets/api/user/updateData.php';
 		let params = data;
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return this.setSessionData('update', res.json());
 			}));
@@ -150,10 +143,7 @@ export class UserDataService {
 			theme: data.theme
 		};
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return this.setSessionData('update', res.json());
 			}));
@@ -166,10 +156,7 @@ export class UserDataService {
 			private: data.private
 		};
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return this.setSessionData('update', res.json());
 			}));
@@ -179,10 +166,7 @@ export class UserDataService {
 		let url = environment.url + 'assets/api/user/updatePassword.php';
 		let params = data;
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return res.json() 
 			}));
@@ -195,10 +179,7 @@ export class UserDataService {
 			avatar: data.image
 		};
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return this.setSessionData('update', res.json());
 			}));
@@ -211,10 +192,7 @@ export class UserDataService {
 			background: data.image
 		};
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return this.setSessionData('update', res.json());
 			}));
@@ -223,7 +201,8 @@ export class UserDataService {
 	// Web pages
 	checkUsername(username) {
 		let url = environment.url + 'assets/api/user/checkUsername.php';
-		let params = '?username=' + username;
+		let params = 	'&username=' + username;
+		params = params.replace('&', '?');
 
 		return this.http.get(url + params)
 			.pipe(map((res: Response) => { 
@@ -233,7 +212,8 @@ export class UserDataService {
 
 	checkEmail(email) {
 		let url = environment.url + 'assets/api/user/checkEmail.php';
-		let params = '?email=' + email;
+		let params = 	'&email=' + email;
+		params = params.replace('&', '?');
 
 		return this.http.get(url + params)
 			.pipe(map((res: Response) => { 
@@ -245,10 +225,7 @@ export class UserDataService {
 		let url = environment.url + 'assets/api/user/confirmEmail.php';
 		let params = data;
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return res.json() 
 			}));
@@ -258,10 +235,7 @@ export class UserDataService {
 		let url = environment.url + 'assets/api/user/createAccount.php';
 		let params = data;
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return res.json() 
 			}));
@@ -269,7 +243,8 @@ export class UserDataService {
 
 	forgotPassword(email) {
 		let url = environment.url + 'assets/api/user/forgotPassword.php';
-		let params = '?email=' + email;
+		let params = 	'&email=' + email;
+		params = params.replace('&', '?');
 
 		return this.http.get(url + params)
 			.pipe(map((res: Response) => { 
@@ -281,10 +256,7 @@ export class UserDataService {
 		let url = environment.url + 'assets/api/user/resetPassword.php';
 		let params = data;
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return res.json() 
 			}));
@@ -294,10 +266,7 @@ export class UserDataService {
 		let url = environment.url + 'assets/api/user/updateResetPassword.php';
 		let params = data;
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return res.json() 
 			}));
@@ -307,10 +276,7 @@ export class UserDataService {
 		let url = environment.url + 'assets/api/user/setVisitor.php';
 		let params = data;
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return res.json() 
 			}));
@@ -324,10 +290,7 @@ export class UserDataService {
 		let url = environment.url + 'assets/api/user/supportQuestion.php';
 		let params = data;
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return res.json() 
 			}));
@@ -337,10 +300,7 @@ export class UserDataService {
 		let url = environment.url + 'assets/api/user/report.php';
 		let params = data;
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return res.json() 
 			}));
@@ -348,8 +308,9 @@ export class UserDataService {
 
 	searchMentions(data){
 		let url = environment.url + 'assets/api/user/searchMentions.php';
-		let params = '?caption=' + data.caption + 
-					'&cuantity=' + data.cuantity;
+		let params = 	'&caption=' + data.caption + 
+						'&cuantity=' + data.cuantity;
+		params = params.replace('&', '?');
 
 		return this.http.get(url + params)
 			.pipe(map((res: Response) => { 

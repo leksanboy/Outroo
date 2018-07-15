@@ -6,6 +6,8 @@ import * as moment from 'moment/moment';
 	name: 'timeago'
 })
 export class TimeagoPipe implements PipeTransform {
+    public prefix: string = ' · ';
+    
 	transform(value: any, args?: any): any {
         moment.updateLocale('en', {
             relativeTime : {
@@ -26,7 +28,7 @@ export class TimeagoPipe implements PipeTransform {
             }
         });
 
-        let time = moment(moment.parseZone(value)).fromNow();
+        let time = this.prefix + moment(moment.parseZone(value)).fromNow();
         return time;
 	}
 }

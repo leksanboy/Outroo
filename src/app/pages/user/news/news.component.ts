@@ -12,16 +12,17 @@ import { SessionService } from '../../../../app/core/services/session/session.se
 import { UserDataService } from '../../../../app/core/services/user/userData.service';
 import { PublicationsDataService } from '../../../../app/core/services/user/publicationsData.service';
 
-import { MainShowPublicationComponent } from '../../../../app/pages/user/main/showPublication/showPublication.component';
+import { ShowPublicationComponent } from '../../../../app/pages/common/showPublication/showPublication.component';
 
 import { TimeagoPipe } from '../../../../app/core/pipes/timeago.pipe';
+import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
 
 declare var ga: Function;
 
 @Component({
 	selector: 'app-news',
 	templateUrl: './news.component.html',
-	providers: [ TimeagoPipe ]
+	providers: [ TimeagoPipe, SafeHtmlPipe ]
 })
 export class NewsComponent implements OnInit, OnDestroy {
 	public environment: any = environment;
@@ -133,6 +134,22 @@ export class NewsComponent implements OnInit, OnDestroy {
 		this.activeSessionPlaylists.unsubscribe();
 	}
 
+	// Push Google Ad
+	pushAd(){
+		let ad = '<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5692822538817681" data-ad-slot="1635841852" data-ad-format="auto"></ins>';
+		let a = {
+			contentTypeAd: true,
+			content: ad
+		}
+
+		setTimeout(() => {
+			let g = (window['adsbygoogle'] = window['adsbygoogle'] || []).push({});
+			if (g == 1) this.hideAd = true;
+		}, 100);
+
+		return a;
+	}
+
 	// Get translations
 	getTranslations(lang){
 		this.userDataService.getTranslations(lang)
@@ -179,9 +196,9 @@ export class NewsComponent implements OnInit, OnDestroy {
 					}
 				}, error => {
 					this.dataDefault.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
-		} else if (type == 'more' && !this.dataDefault.noMore) {
+		} else if (type == 'more' && !this.dataDefault.noMore && !this.dataDefault.loadingMoreData) {
 			this.dataDefault.loadingMoreData = true;
 			this.dataDefault.rows++;
 
@@ -199,11 +216,12 @@ export class NewsComponent implements OnInit, OnDestroy {
 						this.dataDefault.loadMoreData = (res.length < environment.cuantity) ? false : true;
 						this.dataDefault.loadingMoreData = false;
 
+						// Push items
 						if (res.length > 0) {
-							// Push ad
+							// Ad
 							this.dataDefault.list.push(this.pushAd());
 
-							// Push items
+							// Items
 							for (let i in res)
 								this.dataDefault.list.push(res[i]);
 						}
@@ -213,26 +231,9 @@ export class NewsComponent implements OnInit, OnDestroy {
 					}, 600);
 				}, error => {
 					this.dataDefault.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		}
-	}
-
-	// Push Google Ad
-	pushAd(){
-		let ad = '<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5692822538817681" data-ad-slot="1635841852" data-ad-format="auto"></ins>';
-		let a = {
-			id: null,
-			contentTypeAd: true,
-			content: this.sanitizer.bypassSecurityTrustHtml(ad)
-		}
-
-		setTimeout(() => {
-			let g = (window['adsbygoogle'] = window['adsbygoogle'] || []).push({});
-			if (g == 1) this.hideAd = true;
-		}, 100);
-
-		return a;
 	}
 
 	// Show publication
@@ -255,7 +256,7 @@ export class NewsComponent implements OnInit, OnDestroy {
 				};
 
 				// Open dialog
-				let dialogRef = this.dialog.open( MainShowPublicationComponent, config);
+				let dialogRef = this.dialog.open(ShowPublicationComponent, config);
 				dialogRef.afterClosed().subscribe((result: any) => {
 					this.location.go(this.router.url);
 				});
@@ -302,9 +303,9 @@ export class NewsComponent implements OnInit, OnDestroy {
 					}, 600);
 				}, error => {
 					this.dataSearch.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
-		} else if (type == 'more' && !this.dataSearch.noMore) {
+		} else if (type == 'more' && !this.dataSearch.noMore && !this.dataSearch.loadingMoreData) {
 			this.dataSearch.loadingMoreData = true;
 			this.dataSearch.rows++;
 
@@ -331,7 +332,7 @@ export class NewsComponent implements OnInit, OnDestroy {
 					}, 600);
 				}, error => {
 					this.dataSearch.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		} else if (type == 'clear') {
 			this.data.active = 'default';

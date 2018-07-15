@@ -1,25 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { HeadersService } from '../headers/headers.service';
 
 @Injectable()
 export class PhotoDataService {
 
 	constructor(
-		private http: Http
+		private http: Http,
+		private headersService: HeadersService
 	) { }
 
 	default(data: any) {
 		let url = environment.url + 'assets/api/photos/default.php';
-		let params =	'?user=' + data.user + 
+		let params =	'&user=' + data.user + 
 						'&rows=' + data.rows +
 						'&cuantity=' + data.cuantity;
+		params = params.replace('&', '?');
 
-		return this.http.get(url + params)
+		return this.http.get(url + params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
-				return res.json() 
+				return res.json();
 			}));
 	}
 
@@ -27,12 +31,9 @@ export class PhotoDataService {
 		let url = environment.url + 'assets/api/photos/addRemove.php';
 		let params = data;
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
-				return res.json() 
+				return res.json();
 			}));
 	}
 
@@ -40,12 +41,9 @@ export class PhotoDataService {
 		let url = environment.url + 'assets/api/photos/enableDisableComments.php';
 		let params = data;
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
-				return res.json() 
+				return res.json();
 			}));
 	}
 
@@ -53,12 +51,9 @@ export class PhotoDataService {
 		let url = environment.url + 'assets/api/photos/updateReplays.php';
 		let params = data;
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
-				return res.json() 
+				return res.json();
 			}));
 	}
 
@@ -66,24 +61,22 @@ export class PhotoDataService {
 		let url = environment.url + 'assets/api/photos/comment.php';
 		let params = data;
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
-				return res.json() 
+				return res.json();
 			}));
 	}
 
 	comments(data: any) {
 		let url = environment.url + 'assets/api/photos/comments.php';
-		let params =	'?id=' + data.id + 
+		let params =	'&id=' + data.id + 
 						'&rows=' + data.rows + 
 						'&cuantity=' + data.cuantity;
+		params = params.replace('&', '?');
 
-		return this.http.get(url + params)
+		return this.http.get(url + params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
-				return res.json() 
+				return res.json();
 			}));
 	}
 
@@ -91,21 +84,19 @@ export class PhotoDataService {
 		let url = environment.url + 'assets/api/photos/likeUnlike.php';
 		let params = data;
 
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-
-		return this.http.post(url, params, { headers: headers })
+		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
-				return res.json() 
+				return res.json();
 			}));
 	}
 
 	checkLike(data: any) {
 		let url = environment.url + 'assets/api/photos/checkLike.php';
-		let params = 	'?id=' + data.id + 
+		let params = 	'&id=' + data.id + 
 						'&user=' + data.user;
+		params = params.replace('&', '?');
 
-		return this.http.get(url + params)
+		return this.http.get(url + params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return res.json() 
 			}));
@@ -113,9 +104,10 @@ export class PhotoDataService {
 
 	getDataByName(data: any) {
 		let url = environment.url + 'assets/api/photos/getDataByName.php';
-		let params =	'?name=' + data;
+		let params =	'&name=' + data;
+		params = params.replace('&', '?');
 
-		return this.http.get(url + params)
+		return this.http.get(url + params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return res.json() 
 			}));

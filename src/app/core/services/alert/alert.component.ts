@@ -15,7 +15,7 @@ import { AlertService } from './alert.service';
 			]),
 			transition(':leave', [
 				style({transform: 'translateY(0)'}),
-				animate('500ms', style({'transform': 'translateY(-100%)', '-webkit-transform': 'translateY(-100%)'}))
+				animate('200ms', style({'transform': 'translateY(-100%)', '-webkit-transform': 'translateY(-100%)'}))
 			])
 		])
 	]

@@ -150,7 +150,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 	pushAd(){
 		let ad = '<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5692822538817681" data-ad-slot="1635841852" data-ad-format="auto"></ins>';
 		let a = {
-			id: null,
 			contentTypeAd: true,
 			content: ad
 		}
@@ -211,13 +210,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 					this.dataDefault.loadingData = false;
 					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
-		} else if (type == 'more' && !this.dataDefault.noMore) {
+		} else if (type == 'more' && !this.dataDefault.noMore && !this.dataDefault.loadingMoreData) {
 			this.dataDefault.loadingMoreData = true;
 			this.dataDefault.rows++;
 
 			let data = {
 				type: 'home',
-				user: this.sessionData.id,
+				user: this.sessionData.current.id,
 				session: this.sessionData.current.id,
 				rows: this.dataDefault.rows,
 				cuantity: this.environment.cuantity
@@ -230,9 +229,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 						this.dataDefault.loadingMoreData = false;
 
 						// Push items
-						if (res.length > 0)
+						if (res.length > 0) {
+							// Ad
+							this.dataDefault.list.push(this.pushAd());
+
+							// Items
 							for (let i in res)
-								this.dataDefault.list.push(res[i]);
+								if (res[i].urlVideo)
+									this.dataDefault.list.push(res[i]);
+						}
 
 						if (res.length < this.environment.cuantity)
 							this.dataDefault.noMore = true;
@@ -279,25 +284,19 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 	// Share on social media
 	shareOn(type, item){
-		// If content text not exists then set YouTube/Vimeo title
-		if (item.urlVideo && !item.content_original)
-			item.content_original = item.urlVideo.title;
-		
-		// Generate extension and turn to string
-		let urlExtension = item.user.name + ' ' + this.environment.url + 'showPublication?n=' + item.name;
-		urlExtension.toString();
-
 		switch (type) {
 			case "message":
-				item.type = 'publication';
-				this.sessionService.setDataShare(item);
+				// If content text not exists then set YouTube/Vimeo title
+				if (item.urlVideo && !item.content_original)
+					item.content_original = item.urlVideo.title;
+				
+				item.comeFrom = 'share';
+				this.sessionService.setDataConversation(item);
 				break;
 			case "copyLink":
-				let copyText: any = this.document.getElementById('hiddenInputForCopyLink');
-				copyText.value = urlExtension;
-				copyText.select();
-  				this.document.execCommand("Copy");
-  				this.alertService.success(this.translations.copied);
+				let urlExtension = item.user.name + ' ' + this.environment.url + 'showPublication?n=' + item.name;
+				urlExtension.toString();
+				this.sessionService.setDataCopy(urlExtension);
 				break;
 		}
 	}
@@ -315,8 +314,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 				this.audioPlayerData.list = data.audios;
 				this.audioPlayerData.item = item;
 				this.audioPlayerData.key = key;
-				this.audioPlayerData.user = this.sessionData.id;
-				this.audioPlayerData.username = this.sessionData.username;
+				this.audioPlayerData.user = this.sessionData.current.id;
+				this.audioPlayerData.username = this.sessionData.current.username;
 				this.audioPlayerData.location = 'user';
 				this.audioPlayerData.type = type;
 
@@ -459,7 +458,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 					item.loadingData = false;
 					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
-		} else if (type == 'more') {
+		} else if (type == 'more' && !item.loadingMoreData) {
 			item.loadingMoreData = true;
 			item.rowsComments++;
 

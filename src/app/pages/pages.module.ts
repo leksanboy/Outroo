@@ -62,25 +62,26 @@ import { ChatDataService } from '../core/services/user/chatData.service';
 
 import { SessionService } from '../core/services/session/session.service';
 import { PlayerService } from '../core/services/player/player.service';
-import { WebsocketService } from '../core/services/websocket/websocket.service';
-import { ChatsocketService } from '../core/services/websocket/chat.service';
 import { MetaService } from '../core/services/meta/meta.service';
+import { HeadersService } from '../core/services/headers/headers.service';
 
-import { ReportComponent } from '../core/services/report/report.component';
+// import { WebsocketService } from '../core/services/websocket/websocket.service';
+// import { ChatsocketService } from '../core/services/websocket/chat.service';
+
+import { NewReportComponent } from '../pages/common/newReport/newReport.component';
 import { SessionPanelMobileComponent } from '../core/services/sessionPanelMobile/sessionPanelMobile.component';
 
-import { AudiosNewPlaylistComponent } from './user/audios/newPlaylist/newPlaylist.component';
-import { AudiosShowPlaylistComponent } from './user/audios/showPlaylist/showPlaylist.component';
-import { MainNewPublicationComponent } from './user/main/newPublication/newPublication.component';
-import { MainNewPublicationAddPhotosComponent } from './user/main/newPublication/addPhotos/addPhotos.component';
-import { MainNewPublicationAddAudiosComponent } from './user/main/newPublication/addAudios/addAudios.component';
-import { MainShowPublicationComponent } from './user/main/showPublication/showPublication.component';
-import { MainShowAvatarComponent } from './user/main/showAvatar/showAvatar.component';
-import { NotificationsShowConversationComponent } from './user/notifications/showConversation/showConversation.component';
-import { PhotosShowPhotoComponent } from './user/photos/showPhoto/showPhoto.component';
-import { SettingsAvatarComponent } from './user/settings/avatar/avatar.component';
-import { SettingsBackgroundComponent } from './user/settings/background/background.component';
-import { SettingsSessionComponent } from './user/settings/session/session.component';
+import { NewPublicationComponent } from './common/newPublication/newPublication.component';
+import { NewPublicationAddPhotosComponent } from './common/newPublication/addPhotos/addPhotos.component';
+import { NewPublicationAddAudiosComponent } from './common/newPublication/addAudios/addAudios.component';
+import { ShowAvatarComponent } from './common/showAvatar/showAvatar.component';
+import { ShowPublicationComponent } from './common/showPublication/showPublication.component';
+import { ShowConversationComponent } from './common/showConversation/showConversation.component';
+import { ShowPhotoComponent } from './common/showPhoto/showPhoto.component';
+import { NewPlaylistComponent } from './common/newPlaylist/newPlaylist.component';
+import { ShowPlaylistComponent } from './common/showPlaylist/showPlaylist.component';
+import { NewAvatarComponent } from './common/newAvatar/newAvatar.component';
+import { NewSessionComponent } from './common/newSession/newSession.component';
 
 @NgModule({
 	imports: [
@@ -172,35 +173,33 @@ import { SettingsSessionComponent } from './user/settings/session/session.compon
 		SafeHtmlPipe,
 		routableComponents,
 		PagesComponent,
-		MainNewPublicationComponent,
-		MainNewPublicationAddPhotosComponent,
-		MainNewPublicationAddAudiosComponent,
-		MainShowPublicationComponent,
-		MainShowAvatarComponent,
-		PhotosShowPhotoComponent,
-		SettingsAvatarComponent,
-		SettingsBackgroundComponent,
-		SettingsSessionComponent,
-		NotificationsShowConversationComponent,
-		ReportComponent,
-		AudiosNewPlaylistComponent,
-		AudiosShowPlaylistComponent,
+		NewPublicationComponent,
+		NewPublicationAddPhotosComponent,
+		NewPublicationAddAudiosComponent,
+		ShowPublicationComponent,
+		ShowAvatarComponent,
+		ShowPhotoComponent,
+		NewAvatarComponent,
+		NewSessionComponent,
+		ShowConversationComponent,
+		NewReportComponent,
+		NewPlaylistComponent,
+		ShowPlaylistComponent,
 		SessionPanelMobileComponent
 	],
 	entryComponents : [
-		MainNewPublicationComponent,
-		MainNewPublicationAddPhotosComponent,
-		MainNewPublicationAddAudiosComponent,
-		MainShowPublicationComponent,
-		MainShowAvatarComponent,
-		PhotosShowPhotoComponent,
-		SettingsAvatarComponent,
-		SettingsBackgroundComponent,
-		SettingsSessionComponent,
-		NotificationsShowConversationComponent,
-		ReportComponent,
-		AudiosNewPlaylistComponent,
-		AudiosShowPlaylistComponent,
+		NewPublicationComponent,
+		NewPublicationAddPhotosComponent,
+		NewPublicationAddAudiosComponent,
+		ShowPublicationComponent,
+		ShowAvatarComponent,
+		ShowPhotoComponent,
+		NewAvatarComponent,
+		NewSessionComponent,
+		ShowConversationComponent,
+		NewReportComponent,
+		NewPlaylistComponent,
+		ShowPlaylistComponent,
 		SessionPanelMobileComponent
 	],
 	providers: [
@@ -213,9 +212,10 @@ import { SettingsSessionComponent } from './user/settings/session/session.compon
 		ChatDataService,
 		SessionService,
 		PlayerService,
-		WebsocketService,
-		ChatsocketService,
-		MetaService
+		MetaService,
+		HeadersService,
+		// WebsocketService,
+		// ChatsocketService,
 	]
 })
 export class PagesModule { }

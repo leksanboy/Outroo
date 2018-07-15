@@ -88,11 +88,14 @@
 				"id" 		=> $insertedId
 			);
 			
-			generateNotification($notification);
+			// Check to not notificate myself
+			if ($sender != $receiver)
+				generateNotification($notification);
 		}
 	}
 
 	$inserted = getPublication($insertedId);
 	echo json_encode($inserted);
+	
 	$conn->close();
 ?>

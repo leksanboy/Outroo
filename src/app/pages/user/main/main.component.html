@@ -122,8 +122,6 @@
 		</div>
 
 		<div class="content" *ngIf="((userData.private && userData.status == 'following') || !userData.private || userData.status == 'following' || (userData.id == sessionData.current.id))">
-			<input type="hidden" value="" id="hiddenInputForCopyLink" class="hiddenInputForCopyLink">
-
 			<ul *ngIf="dataDefault.list.length > 0">
 				<li *ngFor="let x of dataDefault.list" [ngClass]="{'remove': x.addRemoveSession}">
 					<div class="head">
@@ -132,10 +130,10 @@
 						</a>
 						
 						<div class="text">
-							<a class="name" routerLink="/{{x.user.username}}">
-								<span class="username">{{x.user.username}}</span>
-								<span class="date"> · {{x.date | timeago}}</span>
-							</a>
+							<div class="name">
+								<a class="username" routerLink="/{{x.user.username}}">{{x.user.username}}</a>
+								<span class="date">{{x.date | timeago}}</span>
+							</div>
 						</div>
 						
 						<div class="actions" *ngIf="sessionData.current.id">
@@ -285,7 +283,7 @@
 										<div class="text">
 											<div class="name">
 												<a class="username" routerLink="/{{c.user.username}}">{{c.user.username}}</a>
-												<span class="date"> · {{c.date | timeago}}</span>
+												<span class="date">{{c.date | timeago}}</span>
 												<div class="actions" *ngIf="sessionData.current.id">
 													<button mat-icon-button [matMenuTriggerFor]="optionsComments">
 														<i label="more"></i>

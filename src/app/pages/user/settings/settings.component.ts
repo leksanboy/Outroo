@@ -12,9 +12,8 @@ import { AlertService } from '../../../../app/core/services/alert/alert.service'
 import { SessionService } from '../../../../app/core/services/session/session.service';
 import { UserDataService } from '../../../../app/core/services/user/userData.service';
 
-import { SettingsAvatarComponent } from './avatar/avatar.component';
-import { SettingsBackgroundComponent } from './background/background.component';
-import { SettingsSessionComponent } from './session/session.component';
+import { NewAvatarComponent } from '../../../../app/pages/common/newAvatar/newAvatar.component';
+import { NewSessionComponent } from '../../../../app/pages/common/newSession/newSession.component';
 
 declare var ga: Function;
 
@@ -257,87 +256,91 @@ export class SettingsComponent implements OnInit, OnDestroy {
 			});
 	}
 
-	// Change avatar
-	openAvatar(type, event) {
-		if (type == 1) { // upload
-			let file = event.target.files[0];
+	// Change avatar/background
+	openAvatar(type, action, event) {
+		switch (type) {
+			case "avatar":
+				if (action == 'upload') {
+					let file = event.target.files[0];
 
-			if (/^image\/\w+$/.test(file.type)) {
-				file = URL.createObjectURL(file);
-				this.sessionData.current.avatarCropper = this.sanitizer.bypassSecurityTrustUrl(file);
-				this.location.go('/settings#avatar');
+					if (/^image\/\w+$/.test(file.type)) {
+						file = URL.createObjectURL(file);
+						this.sessionData.current.avatarCropper = this.sanitizer.bypassSecurityTrustUrl(file);
+						this.location.go('/settings#avatar');
 
-				let config = {
-					disableClose: false,
-					data: {
-						sessionData: this.sessionData,
-						translations: this.translations
+						let config = {
+							disableClose: false,
+							data: {
+								sessionData: this.sessionData,
+								translations: this.translations,
+								comeFrom: 'avatar'
+							}
+						};
+
+						let dialogRef = this.dialog.open(NewAvatarComponent, config);
+						dialogRef.afterClosed().subscribe((res: string) => {
+							this.location.go('/settings');
+
+							if (res) {
+								this.sessionData = res;
+								this.sessionService.setData(this.sessionData);
+								this.alertService.success(this.translations.avatarChanged);
+							}
+						});
+					} else {
+						this.alertService.error(this.translations.selectedFileIsNotImage);
 					}
-				};
+				} else if (type == 'remove') {
+					this.sessionData.current.newAvatar = '';
+					this.userDataService.updateAvatar(this.sessionData.current)
+						.subscribe(res => {
+							this.sessionData = res;
+							this.sessionService.setData(this.sessionData);
+							this.alertService.success(this.translations.avatarRemoved);
+						});
+				}
+				break;
+			case "background":
+				if (action == 'upload') {
+					let file = event.target.files[0];
 
-				let dialogRef = this.dialog.open( SettingsAvatarComponent, config);
-				dialogRef.afterClosed().subscribe((res: string) => {
-					this.location.go('/settings');
+					if (/^image\/\w+$/.test(file.type)) {
+						file = URL.createObjectURL(file);
+						this.sessionData.current.backgroundCropper = this.sanitizer.bypassSecurityTrustUrl(file);
+						this.location.go('/settings#background');
 
-					if (res) {
-						this.sessionData = res;
-						this.sessionService.setData(this.sessionData);
-						this.alertService.success(this.translations.avatarChanged);
+						let config = {
+							disableClose: false,
+							data: {
+								sessionData: this.sessionData,
+								translations: this.translations,
+								comeFrom: 'background'
+							}
+						};
+
+						let dialogRef = this.dialog.open(NewAvatarComponent, config);
+						dialogRef.afterClosed().subscribe((res: string) => {
+							this.location.go('/settings');
+
+							if (res) {
+								this.sessionData = res;
+								this.sessionService.setData(this.sessionData);
+								this.alertService.success(this.translations.backgroundChanged);
+							}
+						});
+					} else {
+						this.alertService.error(this.translations.selectedFileIsNotImage);
 					}
-				});
-			} else {
-				this.alertService.error(this.translations.selectedFileIsNotImage);
-			}
-		} else if (type == 2) { // remove
-			this.sessionData.current.newAvatar = '';
-			this.userDataService.updateAvatar(this.sessionData.current)
-				.subscribe(res => {
-					this.sessionData = res;
-					this.sessionService.setData(this.sessionData);
-					this.alertService.success(this.translations.avatarRemoved);
-				});
-		}
-	}
-
-	// Change background
-	openBackground(type, event) {
-		if (type == 1) { // upload
-			let file = event.target.files[0];
-
-			if (/^image\/\w+$/.test(file.type)) {
-				file = URL.createObjectURL(file);
-				this.sessionData.current.backgroundCropper = this.sanitizer.bypassSecurityTrustUrl(file);
-				this.location.go('/settings#background');
-
-				let config = {
-					disableClose: false,
-					data: {
-						sessionData: this.sessionData,
-						translations: this.translations
-					}
-				};
-
-				let dialogRef = this.dialog.open( SettingsBackgroundComponent, config);
-				dialogRef.afterClosed().subscribe((res: string) => {
-					this.location.go('/settings');
-
-					if (res) {
-						this.sessionData = res;
-						this.sessionService.setData(this.sessionData);
-						this.alertService.success(this.translations.backgroundChanged);
-					}
-				});
-			} else {
-				this.alertService.error(this.translations.selectedFileIsNotImage);
-			}
-		} else if (type == 2) { // remove
-			this.sessionData.current.newBackground = '';
-			this.userDataService.updateBackground(this.sessionData.current)
-				.subscribe(res => {
-					this.sessionData = this.userDataService.getSessionData();
-					this.sessionService.setData(this.sessionData);
-					this.alertService.success(this.translations.backgroundRemoved);
-				});
+				} else if (type == 'remove') {
+					this.sessionData.current.newBackground = '';
+					this.userDataService.updateBackground(this.sessionData.current)
+						.subscribe(res => {
+							this.sessionData = this.userDataService.getSessionData();
+							this.sessionService.setData(this.sessionData);
+							this.alertService.success(this.translations.backgroundRemoved);
+						});
+				}
+				break;
 		}
 	}
 

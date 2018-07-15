@@ -7,5 +7,6 @@
 	$result = $conn->query($sql);
 
 	echo $result->num_rows;
+	
 	$conn->close();
 ?>

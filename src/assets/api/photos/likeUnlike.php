@@ -20,9 +20,13 @@
 			"receiver" 	=> $receiver,
 			"id" 		=> $id
 		);
-		generateNotification($notification);
+
+		// Check to not notificate myself
+		if ($sender != $receiver)
+			generateNotification($notification);
 		
 		var_dump(http_response_code(204));
+		
 		$conn->close();
 	} else if ($type == "unlike") { // Remove
 		$sql = "DELETE FROM z_photos_likes
@@ -37,9 +41,13 @@
 			"receiver" 	=> $receiver,
 			"id" 		=> $id
 		);
-		generateNotification($notification);
+		
+		// Check to not notificate myself
+		if ($sender != $receiver)
+			generateNotification($notification);
 
 		var_dump(http_response_code(204));
+		
 		$conn->close();
 	}
 ?>

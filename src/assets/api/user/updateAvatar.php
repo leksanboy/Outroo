@@ -35,5 +35,6 @@
 	// get user data
 	$userData = userData($id);
 	echo json_encode($userData);
+	
 	$conn->close();
 ?>

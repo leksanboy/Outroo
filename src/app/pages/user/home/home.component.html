@@ -1,8 +1,6 @@
 <div class="innerBodyContent">
 	<div class="pageUser">
 		<div class="content home">
-			<input type="hidden" value="" id="hiddenInputForCopyLink" class="hiddenInputForCopyLink">
-
 			<ul *ngIf="dataDefault.list.length > 0">
 				<li *ngFor="let x of dataDefault.list" [ngClass]="{'remove': x.addRemoveSession}">
 					<span *ngIf="!x.contentTypeAd">
@@ -14,7 +12,7 @@
 							<div class="text">
 								<a class="name" routerLink="/{{x.user.username}}">
 									<span class="username">{{x.user.username}}</span>
-									<span class="date"> · {{x.date | timeago}}</span>
+									<span class="date">{{x.date | timeago}}</span>
 								</a>
 							</div>
 							
@@ -140,78 +138,80 @@
 							</div>
 
 							<div class="boxComments" *ngIf="x.showCommentsBox">
-							<div class="comments" *ngIf="x.disabledComments && x.loaded">
-								<div class="new" *ngIf="sessionData.current.id">
-									<div class="avatar">
-										<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>
+								<div class="comments" *ngIf="x.disabledComments && x.loaded">
+									<div class="new" *ngIf="sessionData.current.id">
+										<div class="avatar">
+											<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>
+										</div>
+										<div class="richComment">
+											<div class="highlights" [innerHTML]="x.newCommentData.transformed"></div>
+											<div class="origin" contenteditable="plaintext-only" [textContent]="x.newCommentData.onBackground" (input)="newComment('writingChanges', $event.target.innerText, x)" (keyup)="newComment('keyCode', $event, x)" (keydown)="newComment('keyCode', $event, x)" (mouseup)="newComment('keyCode', $event, x)"></div>
+										</div>
+										<div class="actions">
+											<button mat-icon-button type="submit" (click)="newComment('create', $event, x)">
+												<i label="send"></i>
+											</button>
+										</div>
 									</div>
-									<div class="richComment">
-										<div class="highlights" [innerHTML]="x.newCommentData.transformed"></div>
-										<div class="origin" contenteditable="plaintext-only" [textContent]="x.newCommentData.onBackground" (input)="newComment('writingChanges', $event.target.innerText, x)" (keyup)="newComment('keyCode', $event, x)" (keydown)="newComment('keyCode', $event, x)" (mouseup)="newComment('keyCode', $event, x)"></div>
-									</div>
-									<div class="actions">
-										<button mat-icon-button type="submit" (click)="newComment('create', $event, x)">
-											<i label="send"></i>
-										</button>
-									</div>
-								</div>
 
-								<ul>
-									<li *ngFor="let c of x.comments.list" [ngClass]="{'remove': c.addRemove}">
-										<a class="avatar" routerLink="/{{c.user.username}}">
-											<img [src]="c.user.avatar ? c.user.avatarUrl : environment.avatar"/>
-										</a>
-										<div class="text">
-											<div class="name">
-												<a class="username" routerLink="/{{c.user.username}}">{{c.user.username}}</a>
-												<span class="date"> · {{c.date | timeago}}</span>
-												<div class="actions" *ngIf="sessionData.current.id">
-													<button mat-icon-button [matMenuTriggerFor]="optionsComments">
-														<i label="more"></i>
-													</button>
-													<mat-menu #optionsComments="matMenu">
-														<button mat-menu-item (click)="commentsOptions('addRemove', x, c)" *ngIf="c.user.id == sessionData.current.id">{{c.addRemove ? translations.add : translations.remove}}</button>
-														<button mat-menu-item (click)="commentsOptions('report', x, c)">{{translations.report}}</button>
-													</mat-menu>
+									<ul>
+										<li *ngFor="let c of x.comments.list" [ngClass]="{'remove': c.addRemove}">
+											<a class="avatar" routerLink="/{{c.user.username}}">
+												<img [src]="c.user.avatar ? c.user.avatarUrl : environment.avatar"/>
+											</a>
+											<div class="text">
+												<div class="name">
+													<a class="username" routerLink="/{{c.user.username}}">{{c.user.username}}</a>
+													<span class="date">{{c.date | timeago}}</span>
+													<div class="actions" *ngIf="sessionData.current.id">
+														<button mat-icon-button [matMenuTriggerFor]="optionsComments">
+															<i label="more"></i>
+														</button>
+														<mat-menu #optionsComments="matMenu">
+															<button mat-menu-item (click)="commentsOptions('addRemove', x, c)" *ngIf="c.user.id == sessionData.current.id">{{c.addRemove ? translations.add : translations.remove}}</button>
+															<button mat-menu-item (click)="commentsOptions('report', x, c)">{{translations.report}}</button>
+														</mat-menu>
+													</div>
+												</div>
+												<div class="container">
+													<span [innerHtml]="c.comment | safeHtml"></span>
 												</div>
 											</div>
-											<div class="container">
-												<span [innerHtml]="c.comment | safeHtml"></span>
-											</div>
-										</div>
-									</li>
-								</ul>
+										</li>
+									</ul>
 
-								<div class="loadingData" *ngIf="x.loadingData">
-									<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+									<div class="loadingData" *ngIf="x.loadingData">
+										<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+									</div>
+									<div class="noData" *ngIf="x.noData">
+										{{translations.noComments}}
+									</div>
+									<div class="loadMore" *ngIf="x.loadMoreData">
+										<button mat-fab (click)="defaultComments('more', x)" *ngIf="!x.loadingMoreData">
+											<mat-icon>add</mat-icon>
+										</button>
+										<mat-progress-spinner mode="indeterminate" *ngIf="x.loadingMoreData"></mat-progress-spinner>
+									</div>
 								</div>
-								<div class="noData" *ngIf="x.noData">
-									{{translations.noComments}}
+
+								<div class="noData" *ngIf="!x.disabledComments">
+									{{translations.commentsDisabled}}
 								</div>
-								<div class="loadMore" *ngIf="x.loadMoreData">
-									<button mat-fab (click)="defaultComments('more', x)" *ngIf="!x.loadingMoreData">
-										<mat-icon>add</mat-icon>
+
+								<div class="loadComments" *ngIf="x.disabledComments && !x.loaded">
+									<button mat-raised-button (click)="showComments('load', x)">
+										{{translations.loadComments}}
 									</button>
-									<mat-progress-spinner mode="indeterminate" *ngIf="x.loadingMoreData"></mat-progress-spinner>
 								</div>
 							</div>
-
-							<div class="noData" *ngIf="!x.disabledComments">
-								{{translations.commentsDisabled}}
-							</div>
-
-							<div class="loadComments" *ngIf="x.disabledComments && !x.loaded">
-								<button mat-raised-button (click)="showComments('load', x)">
-									{{translations.loadComments}}
-								</button>
-							</div>
-						</div>
 						</div>
 					</span>
 
 					<div class="ad" *ngIf="x.contentTypeAd">
-						<div class="box" [innerHtml]="x.content | safeHtml"></div>
-						<div class="disableAdBlock" *ngIf="hideAd">{{translations.disableAdBlock}}</div>
+						<div class="adContent" [innerHtml]="x.content | safeHtml"></div>
+						<div class="disableAdBlock" *ngIf="hideAd">
+							{{translations.disableAdBlock}}
+						</div>
 					</div>
 				</li>
 			</ul>

@@ -12,7 +12,7 @@
 	// create image
 	if ($background) {
 		$pathBackground = '/var/www/html/assets/media/user/'.$id.'/background/'.$name;
-		$background = explode(",",$background);
+		$background = explode(",", $background);
 		$background = str_replace(' ', '+', $background[1]);
 		$background = base64_decode($background);
 		file_put_contents($pathBackground, $background);
@@ -35,5 +35,6 @@
 	// get user data
 	$userData = userData($id);
 	echo json_encode($userData);
+	
 	$conn->close();
 ?>

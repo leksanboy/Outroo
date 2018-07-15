@@ -141,6 +141,7 @@
     		);
 
 			echo json_encode($data);
+			
 			$conn->close();
 		} else {
 			var_dump(http_response_code(400));

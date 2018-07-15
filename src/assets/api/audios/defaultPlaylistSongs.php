@@ -7,14 +7,19 @@
 			WHERE s.playlist = $id AND s.is_deleted = 0";
 	$result = $conn->query($sql);
 
-	$data = array();
-	while($row = $result->fetch_assoc()) {
-		$row['title'] = html_entity_decode($row['title'], ENT_QUOTES);
-		$row['original_title'] = html_entity_decode($row['original_title'], ENT_QUOTES);
-		$row['original_artist'] = html_entity_decode($row['original_artist'], ENT_QUOTES);
-		$data[] = $row;
+	if ($result->num_rows > 0) {
+		$data = array();
+		while($row = $result->fetch_assoc()) {
+			$row['title'] = html_entity_decode($row['title'], ENT_QUOTES);
+			$row['original_title'] = html_entity_decode($row['original_title'], ENT_QUOTES);
+			$row['original_artist'] = html_entity_decode($row['original_artist'], ENT_QUOTES);
+			$data[] = $row;
+		}
+
+		echo json_encode($data);
+	} else {
+		var_dump(http_response_code(204));
 	}
 
-	echo json_encode($data);
 	$conn->close();
 ?>

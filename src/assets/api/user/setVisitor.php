@@ -10,5 +10,6 @@
 	$result = $conn->query($sql);
 
 	var_dump(http_response_code(204));
+	
 	$conn->close();
 ?>

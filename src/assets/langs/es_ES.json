@@ -165,5 +165,6 @@
 	"fileSizeToBig": "Tamaña de archivo es demasiado grande",
 	"details": "Detalles",
 	"next": "Siguiente",
-	"createdSuccessfully": "Creado con exito"
+	"createdSuccessfully": "Creado con exito",
+	"sentSuccessfully": "Enviado correctamente"
 }

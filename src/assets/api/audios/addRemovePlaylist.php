@@ -19,6 +19,7 @@
 		$conn->query($sql);
 	
 		var_dump(http_response_code(204));
+		
 		$conn->close();
 	} else if ($location == "user") { // Add/Remove
 		if (!$insertedPlaylist) {
@@ -34,8 +35,8 @@
 							WHERE s.playlist = $id AND s.is_deleted = 0";
 			$conn->query($sqlSongs);
 
-			// var_dump(http_response_code(204));
 			echo $insertedId;
+			
 			$conn->close();
 		} else {
 			$status = ($type == 'remove') ? 1 : 0;
@@ -46,6 +47,7 @@
 			$conn->query($sql);
 
 			echo $insertedPlaylist;
+			
 			$conn->close();
 		}
 	}

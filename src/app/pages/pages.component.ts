@@ -67,7 +67,7 @@ export class PagesComponent implements OnInit {
 					this.submitLoading = false;
 
 					// show error message
-					this.alertService.success('Email or Password is incorrenct.');
+					this.alertService.error('Email or Password is incorrenct.');
 				}
 			);
 	}

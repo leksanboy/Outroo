@@ -15,8 +15,8 @@ import { PublicationsDataService } from '../../../../app/core/services/user/publ
 import { SessionService } from '../../../../app/core/services/session/session.service';
 import { UserDataService } from '../../../../app/core/services/user/userData.service';
 
-import { MainNewPublicationComponent } from './newPublication/newPublication.component';
-import { MainShowAvatarComponent } from './showAvatar/showAvatar.component';
+import { NewPublicationComponent } from '../../../../app/pages/common/newPublication/newPublication.component';
+import { ShowAvatarComponent } from '../../../../app/pages/common/showAvatar/showAvatar.component';
 
 import { TimeagoPipe } from '../../../../app/core/pipes/timeago.pipe';
 import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
@@ -290,7 +290,7 @@ export class MainComponent implements OnInit, OnDestroy {
 			}
 		};
 
-		let dialogRef = this.dialog.open(MainShowAvatarComponent, config);
+		let dialogRef = this.dialog.open(ShowAvatarComponent, config);
 		dialogRef.afterClosed().subscribe((res: any) => {
 			this.location.go('/' + this.userData.username);
 		});
@@ -308,7 +308,7 @@ export class MainComponent implements OnInit, OnDestroy {
 			}
 		};
 
-		let dialogRef = this.dialog.open( MainNewPublicationComponent, config);
+		let dialogRef = this.dialog.open(NewPublicationComponent, config);
 		dialogRef.afterClosed().subscribe((res: any) => {
 			this.location.go('/' + this.sessionData.current.username);
 
@@ -367,7 +367,7 @@ export class MainComponent implements OnInit, OnDestroy {
 					this.dataDefault.loadingData = false;
 					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
-		} else if (type == 'more' && !this.dataDefault.noMore) {
+		} else if (type == 'more' && !this.dataDefault.noMore && !this.dataDefault.loadingMoreData) {
 			this.dataDefault.loadingMoreData = true;
 			this.dataDefault.rows++;
 
@@ -434,25 +434,19 @@ export class MainComponent implements OnInit, OnDestroy {
 
 	// Share on social media
 	shareOn(type, item){
-		// If content text not exists then set YouTube/Vimeo title
-		if (item.urlVideo && !item.content_original)
-			item.content_original = item.urlVideo.title;
-		
-		// Generate extension and turn to string
-		let urlExtension = item.user.name + ' ' + this.environment.url + 'showPublication?n=' + item.name;
-		urlExtension.toString();
-
 		switch (type) {
 			case "message":
-				item.type = 'publication';
-				this.sessionService.setDataShare(item);
+				// If content text not exists then set YouTube/Vimeo title
+				if (item.urlVideo && !item.content_original)
+					item.content_original = item.urlVideo.title;
+
+				item.comeFrom = 'share';
+				this.sessionService.setDataConversation(item);
 				break;
 			case "copyLink":
-				let copyText: any = this.document.getElementById('hiddenInputForCopyLink');
-				copyText.value = urlExtension;
-				copyText.select();
-  				this.document.execCommand("Copy");
-  				this.alertService.success(this.translations.copied);
+				let urlExtension = item.user.name + ' ' + this.environment.url + 'showPublication?n=' + item.name;
+				urlExtension.toString();
+				this.sessionService.setDataCopy(urlExtension);
 				break;
 		}
 	}
@@ -523,12 +517,13 @@ export class MainComponent implements OnInit, OnDestroy {
 				let data = 'create';
 				this.sessionService.setDataCreatePlaylist(data);
 			break;
-			case("share"):
-				alert("Working on Share with friends");
-			break;
 			case("report"):
 				item.type = 'audio';
 				this.sessionService.setDataReport(item);
+			break;
+			case("share"):
+				item.comeFrom = 'share';
+				this.sessionService.setDataConversation(item);
 			break;
 		}
 	}
@@ -613,7 +608,7 @@ export class MainComponent implements OnInit, OnDestroy {
 					item.loadingData = false;
 					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
-		} else if (type == 'more') {
+		} else if (type == 'more' && !item.loadingMoreData) {
 			item.loadingMoreData = true;
 			item.rowsComments++;
 

@@ -18,15 +18,20 @@
 				LIMIT $more, $cuantity";
 		$result = $conn->query($sql);
 
-		$data = array();
-		while($row = $result->fetch_assoc()) {
-			$row['user'] = userUsernameNameAvatar($row['id']);
-			$row['status'] = checkFollowingStatus($session, $row['id']);
-			$row['private'] = $row['private'] ? true : false;
-			$data[] = $row;
+		if ($result->num_rows > 0) {
+			$data = array();
+			while($row = $result->fetch_assoc()) {
+				$row['user'] = userUsernameNameAvatar($row['id']);
+				$row['status'] = checkFollowingStatus($session, $row['id']);
+				$row['private'] = $row['private'] ? true : false;
+				$data[] = $row;
+			}
+
+			echo json_encode($data);
+		} else {
+			var_dump(http_response_code(204));
 		}
 
-		echo json_encode($data);
 		$conn->close();
 	} else if ($type == 'followers') {
 		$sql = "SELECT u.id, u.private 
@@ -39,15 +44,20 @@
 				LIMIT $more, $cuantity";
 		$result = $conn->query($sql);
 
-		$data = array();
-		while($row = $result->fetch_assoc()) {
-			$row['user'] = userUsernameNameAvatar($row['id']);
-			$row['status'] = checkFollowingStatus($session, $row['id']);
-			$row['private'] = $row['private'] ? true : false;
-			$data[] = $row;
+		if ($result->num_rows > 0) {
+			$data = array();
+			while($row = $result->fetch_assoc()) {
+				$row['user'] = userUsernameNameAvatar($row['id']);
+				$row['status'] = checkFollowingStatus($session, $row['id']);
+				$row['private'] = $row['private'] ? true : false;
+				$data[] = $row;
+			}
+
+			echo json_encode($data);
+		} else {
+			var_dump(http_response_code(204));
 		}
 
-		echo json_encode($data);
 		$conn->close();
 	}
 ?>

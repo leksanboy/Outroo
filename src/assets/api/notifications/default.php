@@ -15,31 +15,36 @@
 			LIMIT $more, $cuantity";
 	$result = $conn->query($sql);
 
-	$data = array();
-	while($row = $result->fetch_assoc()) {
-		$row['user'] = userUsernameNameAvatar($row['sender']);
+	if ($result->num_rows > 0) {
+		$data = array();
+		while($row = $result->fetch_assoc()) {
+			$row['user'] = userUsernameNameAvatar($row['sender']);
 
-		// Upgrade status
-		if ($row['status'] == '0')
-			updateNotificationStatus($row['id']);
+			// Upgrade status
+			if ($row['status'] == '0')
+				updateNotificationStatus($row['id']);
 
-		// Followers
-		if ($row['url'] == 'followers') {
-			$row['statusFollowing'] = checkFollowingStatus($user, $row['sender']);
-			$row['private'] = checkUserPrivacy($row['sender']);
+			// Followers
+			if ($row['url'] == 'followers') {
+				$row['statusFollowing'] = checkFollowingStatus($user, $row['sender']);
+				$row['private'] = checkUserPrivacy($row['sender']);
+			}
+
+			// Photos
+			if ($row['url'] == 'photos')
+				$row['contentData'] = getIdNameContentMediaCommentFromPhotoById($row['page'], $row['comment']);
+
+			// Publications
+			if ($row['url'] == 'publications')
+				$row['contentData'] = getIdNameContentMediaCommentFromPublicationById($row['page'], $row['comment']);
+
+			$data[] = $row;
 		}
 
-		// Photos
-		if ($row['url'] == 'photos')
-			$row['contentData'] = getIdNameContentMediaCommentFromPhotoById($row['page'], $row['comment']);
-
-		// Publications
-		if ($row['url'] == 'publications')
-			$row['contentData'] = getIdNameContentMediaCommentFromPublicationById($row['page'], $row['comment']);
-
-		$data[] = $row;
+		echo json_encode($data);
+	} else {
+		var_dump(http_response_code(204));
 	}
-
-	echo json_encode($data);
+	
 	$conn->close();
 ?>

@@ -13,11 +13,11 @@ import { PlayerService } from '../../../app/core/services/player/player.service'
 import { SessionService } from '../../../app/core/services/session/session.service';
 import { UserDataService } from '../../../app/core/services/user/userData.service';
 
-import { ReportComponent } from '../../../app/core/services/report/report.component';
 import { SessionPanelMobileComponent } from '../../../app/core/services/sessionPanelMobile/sessionPanelMobile.component';
-
-import { AudiosNewPlaylistComponent } from '../../../app/pages/user/audios/newPlaylist/newPlaylist.component';
-import { SettingsSessionComponent } from '../../../app/pages/user/settings/session/session.component';
+import { NewReportComponent } from '../../../app/pages/common/newReport/newReport.component';
+import { NewPlaylistComponent } from '../../../app/pages/common/newPlaylist/newPlaylist.component';
+import { NewSessionComponent } from '../../../app/pages/common/newSession/newSession.component';
+import { ShowConversationComponent } from '../../../app/pages/common/showConversation/showConversation.component';
 
 // import { ChatsocketService } from '../../../app/core/services/websocket/chat.service';
 
@@ -222,23 +222,28 @@ export class UserComponent implements AfterViewInit {
 					this.openReport(data);
 				});
 
-			// Get share
-			this.sessionService.getDataShare()
+			// Get conversation
+			this.sessionService.getDataConversation()
 				.subscribe(data => {
-					alert("SHARE");
-					// this.openShare(data);
+					this.openConversation(data);
+				});
+
+			// Get copy to clipboard
+			this.sessionService.getDataCopy()
+				.subscribe(data => {
+					this.copyToClipboard(data);
 				});
 
 			// Pressed back
 			this.platformLocation.onPopState(() => {
 				this.location.go(this.router.url);
 				this.showSessions = false;
-		        this.showPlayer = false;
-		    });
+				this.showPlayer = false;
+			});
 		}
 	}
 
-	// Audios player · document ready -> audio addEventListener
+	// Audios player - document ready -> audio addEventListener
 	ngAfterViewInit() {
 		let self = this;
 
@@ -594,7 +599,7 @@ export class UserComponent implements AfterViewInit {
 		}
 	}
 
-	// Item options: add/remove, share, search, report
+	// Item audios options
 	itemAudiosOptions(type, item, playlist){
 		switch(type){
 			case("addRemoveSession"):
@@ -668,7 +673,7 @@ export class UserComponent implements AfterViewInit {
 					}
 				}
 
-				let dialogRef = this.dialog.open( AudiosNewPlaylistComponent, config);
+				let dialogRef = this.dialog.open(NewPlaylistComponent, config);
 				dialogRef.afterClosed().subscribe((res: any) => {
 					this.location.go(this.router.url);
 
@@ -680,11 +685,9 @@ export class UserComponent implements AfterViewInit {
 					}
 				});
 			break;
-			case("share"):
-				alert("Working on Share with friends");
-			break;
 			case("report"):
-				alert("Working on Report");
+				item.type = 'audio';
+				this.sessionService.setDataReport(item);
 			break;
 		}
 	}
@@ -768,7 +771,7 @@ export class UserComponent implements AfterViewInit {
 			}
 		}
 
-		let dialogRef = this.dialog.open( SettingsSessionComponent, config);
+		let dialogRef = this.dialog.open(NewSessionComponent, config);
 		dialogRef.afterClosed().subscribe((res: string) => {
 			this.location.go(this.router.url);
 
@@ -798,7 +801,6 @@ export class UserComponent implements AfterViewInit {
 				});
 
 			// Set data
-			this.scrollTop();
 			this.sessionData.current = data;
 			this.sessionService.setData(this.sessionData);
 			this.userDataService.setSessionData('data', this.sessionData);
@@ -807,6 +809,9 @@ export class UserComponent implements AfterViewInit {
 
 			// Go to main page
 			this.router.navigate([data.username]);
+
+			// AutoScroll top
+			this.scrollTop();
 
 			// Alert message
 			this.alertService.success(this.translations.accountChangedTo + ' @' + data.username);
@@ -886,13 +891,68 @@ export class UserComponent implements AfterViewInit {
 		let config = {
 			disableClose: false,
 			data: {
+				sessionData: this.sessionData,
+				translations: this.translations,
 				item: data
 			}
 		}
 
-		let dialogRef = this.dialog.open(ReportComponent, config);
+		let dialogRef = this.dialog.open(NewReportComponent, config);
 		dialogRef.afterClosed().subscribe((res: string) => {
 			this.location.go(this.router.url);
 		});
+	}
+
+	// Conversation
+	openConversation(data){
+		/* Open conversation if is closed because on the other hand we set on dataList new conversation 
+		or last inserted comment on one conversation */
+		if (!data.close) {
+			this.location.go(this.router.url + '#' + data.comeFrom);
+			console.log("openConversation:", data);
+
+			let config = {
+				disableClose: false,
+				data: {
+					sessionData: this.sessionData,
+					translations: this.translations,
+					item: data,
+					comeFrom: data.comeFrom
+				}
+			}
+
+			let dialogRef = this.dialog.open(ShowConversationComponent, config);
+			dialogRef.afterClosed().subscribe((res: any) => {
+				// Check if is new chat with content or last insered comment
+				if (res.close)
+					this.sessionService.setDataConversation(res);
+				
+				// Set url
+				this.location.go(this.router.url);
+			});
+		}
+	}
+
+	// Copy to clipboard
+	copyToClipboard(data){
+		const el = this.document.createElement('textarea');		// Create a <textarea> element
+		el.value = data;										// Set its value to the string that you want copied
+		el.setAttribute('readonly', '');						// Make it readonly to be tamper-proof
+		el.style.position = 'absolute';                 
+		el.style.left = '-9999px';								// Move outside the screen to make it invisible
+		this.document.body.appendChild(el);						// Append the <textarea> element to the document
+		const selected =            
+			this.document.getSelection().rangeCount > 0			// Check if there is any content selected previously
+				? this.document.getSelection().getRangeAt(0)	// Store selection if found
+				: false;										// Mark as false to know no selection existed before
+		el.select();											// Select the <textarea> content
+		this.document.execCommand('copy');						// Copy - only works as a result of a user action (e.g. click events)
+		this.document.body.removeChild(el);						// Remove the <textarea> element
+		if (selected) {											// If a selection existed before copying
+			this.document.getSelection().removeAllRanges();		// Unselect everything on the HTML document
+			this.document.getSelection().addRange(selected);	// Restore the original selection
+		}
+
+		this.alertService.success(this.translations.copied);
 	}
 }

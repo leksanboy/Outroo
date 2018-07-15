@@ -29,9 +29,13 @@
 			"receiver" 	=> $receiver,
 			"id" 		=> $receiver
 		);
-		generateNotification($notification);
+		
+		// Check to not notificate myself
+		if ($sender != $receiver)
+			generateNotification($notification);
 
 		var_dump(http_response_code(204));
+		
 		$conn->close();
 	} else if ($type == "following") { // Follow normal
 		$status = 0;
@@ -55,7 +59,10 @@
 			"receiver" 	=> $receiver,
 			"id" 		=> $receiver
 		);
-		generateNotification($notification);
+		
+		// Check to not notificate myself
+		if ($sender != $receiver)
+			generateNotification($notification);
 
 		var_dump(http_response_code(204));
 		$conn->close();
@@ -74,7 +81,10 @@
 			"sender" 	=> $sender,
 			"receiver" 	=> $receiver
 		);
-		generateNotification($notification);
+		
+		// Check to not notificate myself
+		if ($sender != $receiver)
+			generateNotification($notification);
 
 		var_dump(http_response_code(204));
 		$conn->close();
@@ -94,11 +104,14 @@
 			"receiver" 	=> $receiver,
 			"id" 		=> $receiver
 		);
-		generateNotification($notification);
+		
+		// Check to not notificate myself
+		if ($sender != $receiver)
+			generateNotification($notification);
 
-		// var_dump(http_response_code(204));
 		$followingStatus = checkFollowingStatus($receiver, $sender);
 		echo json_encode($followingStatus);
+		
 		$conn->close();
 	} else if ($type == "decline") { // Decline request
 		$sql = "UPDATE z_following
@@ -115,9 +128,13 @@
 			"sender" 	=> $sender,
 			"receiver" 	=> $receiver
 		);
-		generateNotification($notification);
+		
+		// Check to not notificate myself
+		if ($sender != $receiver)
+			generateNotification($notification);
 
 		var_dump(http_response_code(204));
+		
 		$conn->close();
 	}
 ?>

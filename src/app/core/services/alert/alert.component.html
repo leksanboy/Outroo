@@ -1,4 +1,4 @@
-<div *ngFor="let x of alerts" class="alertBox" [@showFromTopAnimation]>
+<div *ngFor="let x of alerts" class="alertBox" [@showFromTopAnimation] (click)="close(x)">
 	<div class="inner" [ngClass]="{'success': x.type == 'success', 
 									'error': x.type == 'error',
 									'warning': x.type == 'warning'}">

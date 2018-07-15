@@ -14,9 +14,9 @@ import { ChatDataService } from '../../../../app/core/services/user/chatData.ser
 import { PhotoDataService } from '../../../../app/core/services/user/photoData.service';
 import { PublicationsDataService } from '../../../../app/core/services/user/publicationsData.service';
 
-import { PhotosShowPhotoComponent } from '../photos/showPhoto/showPhoto.component';
-import { MainShowPublicationComponent } from '../main/showPublication/showPublication.component';
-import { NotificationsShowConversationComponent } from './showConversation/showConversation.component';
+import { ShowPhotoComponent } from '../../../../app/pages/common/showPhoto/showPhoto.component';
+import { ShowPublicationComponent } from '../../../../app/pages/common/showPublication/showPublication.component';
+import { ShowConversationComponent } from '../../../../app/pages/common/showConversation/showConversation.component';
 
 import { TimeagoPipe } from '../../../../app/core/pipes/timeago.pipe';
 import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
@@ -33,6 +33,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	public sessionData: any = [];
 	public translations: any = [];
 	public activeRouter: any;
+	public activeConversation: any;
 	public data: any = {
 		selectedIndex: 0
 	};
@@ -102,6 +103,21 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 				}
 			});
 
+		// Get conversation
+		this.activeConversation = this.sessionService.getDataConversation()
+			.subscribe(data => {
+				console.log("getDataConversation:", data);
+
+				// Check if is new chat with content
+				if (data.close)
+					if (data.new && data.list.length > 0)
+						this.dataChats.list.unshift(data);
+					else if (data.list.length > 0)
+						for (let i in this.dataChats.list)
+							if(this.dataChats.list[i].id == data.item.id)
+								this.dataChats.list[i].last = data.last;
+			});
+
 		// Load more on scroll on bottom
 		window.onscroll = (event) => {
 			let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
@@ -130,7 +146,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.activeRouter.unsubscribe();
-		// this.activeSession.unsubscribe();
+		this.activeConversation.unsubscribe();
 	}
 
 	// Get translations
@@ -184,9 +200,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 					}
 				}, error => {
 					this.dataNotifications.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
-		} else if (type == 'more' && !this.dataNotifications.noMore) {
+		} else if (type == 'more' && !this.dataNotifications.noMore && !this.dataNotifications.loadingMoreData) {
 			this.dataNotifications.loadingMoreData = true;
 			this.dataNotifications.rows++;
 
@@ -219,7 +235,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 					}, 600);
 				}, error => {
 					this.dataNotifications.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		}
 	}
@@ -307,7 +323,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 					};
 
 					// Open dialog
-					let dialogRef = this.dialog.open( PhotosShowPhotoComponent, config);
+					let dialogRef = this.dialog.open(ShowPhotoComponent, config);
 					dialogRef.afterClosed().subscribe((result: any) => {
 						this.location.go(this.router.url);
 					});
@@ -331,7 +347,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 					};
 
 					// Open dialog
-					let dialogRef = this.dialog.open( MainShowPublicationComponent, config);
+					let dialogRef = this.dialog.open(ShowPublicationComponent, config);
 					dialogRef.afterClosed().subscribe((result: any) => {
 						this.location.go(this.router.url);
 					});
@@ -340,7 +356,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	}
 
 	// Item options
-	itemOptions(type, item){
+	itemOptionsNotification(type, item){
 		switch (type) {
 			case "remove":
 				item.addRemoveSession = !item.addRemoveSession;
@@ -397,9 +413,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 					}
 				}, error => {
 					this.dataChats.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
-		} else if (type == 'more' && !this.dataChats.noMore) {
+		} else if (type == 'more' && !this.dataChats.noMore && !this.dataChats.loadingMoreData) {
 			this.dataChats.loadingMoreData = true;
 			this.dataChats.rows++;
 
@@ -416,28 +432,25 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 						this.dataChats.loadingMoreData = false;
 
 						if (res.length > 0)
-							for (let i in res) {
-								if (res[i].conversation)
-									res[i].last = res[i].conversation[res[i].conversation.length-1];
-
+							for (let i in res)
 								this.dataChats.list.push(res[i]);
-							}
 
 						if (res.length < environment.cuantity)
 							this.dataChats.noMore = true;
 					}, 600);
 				}, error => {
 					this.dataChats.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		}
 	}
 
-	// Item options: add/remove, share, search, report
+	// Item options
 	itemOptionsChat(type, item){
 		switch(type){
-			case("addRemoveSession"):
-				item.removeType = item.addRemoveSession ? "add" : "remove";
+			case("remove"):
+				item.addRemoveSession = !item.addRemoveSession;
+				item.removeType = item.addRemoveSession ? 'remove' : 'add';
 
 				let dataSession = {
 					id: item.id,
@@ -456,29 +469,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
 	// Open conversation
 	showConversation(type, data) {
-		this.location.go('/notifications#' + type);
+		if (type == 'new')
+			data = [];
+		
+		data.comeFrom = type;
+		data.close = false;
 
-		let config = {
-			disableClose: false,
-			data: {
-				sessionData: this.sessionData,
-				translations: this.translations,
-				item: data,
-				comeFrom: type
-			}
-		};
-
-		// Open dialog
-		let dialogRef = this.dialog.open( NotificationsShowConversationComponent, config);
-		dialogRef.afterClosed().subscribe((result: any) => {
-			// Check if is new chat with content
-			if (result.new && result.list.length > 0)
-				this.dataChats.list.unshift(result);
-			else if (result.list.length > 0)
-				data.last = result.last;
-			
-			// Set url
-			this.location.go('/notifications');
-		});
+		this.sessionService.setDataConversation(data);
 	}
 }

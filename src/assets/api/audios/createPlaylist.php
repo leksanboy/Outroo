@@ -14,7 +14,7 @@
 		$imageName = generateRandomString(23);
 		$imageNameJpg = $imageName.'.jpg';
 		$imagePath = '/var/www/html/assets/media/audios/covers/'.$imageNameJpg;
-		$image = explode(",",$image);
+		$image = explode(',', $image);
 		$image = str_replace(' ', '+', $image[1]);
 		$image = base64_decode($image);
 		file_put_contents($imagePath, $image);
@@ -28,6 +28,7 @@
 
 		$inserted = getPlaylist($insertedId);
 		echo json_encode($inserted);
+		
 		$conn->close();
 	} else if ($type == 'update') {
 		if ($subtype == 'updateTitle') {
@@ -38,6 +39,7 @@
 
 			$inserted = getPlaylist($id);
 			echo json_encode($inserted);
+			
 			$conn->close();
 		} else if ($subtype == 'updateTitleImage') {
 			$sql = "UPDATE z_audios_playlist
@@ -47,6 +49,7 @@
 
 			$inserted = getPlaylist($id);
 			echo json_encode($inserted);
+			
 			$conn->close();
 		} else if ($subtype == 'updateNewImage') {
 			$sql = "UPDATE z_audios_playlist
@@ -56,6 +59,7 @@
 
 			$inserted = getPlaylist($id);
 			echo json_encode($inserted);
+			
 			$conn->close();
 		}
 	}

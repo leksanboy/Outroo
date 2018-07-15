@@ -11,7 +11,8 @@ export class SessionService {
     private subjectSetDataAddAccount = new Subject<any>();
     private subjectSetDataTheme = new Subject<any>();
     private subjectSetDataReport = new Subject<any>();
-    private subjectSetDataShare = new Subject<any>();
+    private subjectSetDataConversation = new Subject<any>();
+    private subjectSetDataCopy = new Subject<any>();
 
     setData(data: string) {
         this.subjectSetData.next(data);
@@ -69,11 +70,19 @@ export class SessionService {
         return this.subjectSetDataReport.asObservable();
     }
 
-    setDataShare(data: any) {
-        this.subjectSetDataShare.next(data);
+    setDataConversation(data: any) {
+        this.subjectSetDataConversation.next(data);
     }
 
-    getDataShare(): Observable<any> {
-        return this.subjectSetDataShare.asObservable();
+    getDataConversation(): Observable<any> {
+        return this.subjectSetDataConversation.asObservable();
+    }
+
+    setDataCopy(data: any) {
+        this.subjectSetDataCopy.next(data);
+    }
+
+    getDataCopy(): Observable<any> {
+        return this.subjectSetDataCopy.asObservable();
     }
 }

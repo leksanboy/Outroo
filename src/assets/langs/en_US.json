@@ -9,7 +9,7 @@
 	"forgotPassword": "Forgot password?",
 	"dontHaveAnAccount": "Don't have an account?",
 	"myAccount": "My account",
-	"changeAccount": "Change account",
+	"changeAccount": "Switch account",
 	"changeLanguage": "Change language",
 	"setAnotherAccount":"Set another account",
 	"leaveSite": "are you sure to leave the site?",
@@ -165,5 +165,6 @@
 	"fileSizeToBig": "File size is to big",
 	"details": "Details",
 	"next": "Next",
-	"createdSuccessfully": "Created successfully"
+	"createdSuccessfully": "Created successfully",
+	"sentSuccessfully": "Sent successfully"
 }

@@ -29,8 +29,13 @@
 							<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>
 						</div>
 						<div class="data">
-							<div class="name">{{sessionData.current.name}}</div>
-							<div class="user">@{{sessionData.current.username}}</div>
+							<div class="name">
+								{{sessionData.current.name}}
+								<i *ngIf="sessionData.current.official" matTooltip="{{translations.verifiedAccount}}"></i>
+							</div>
+							<div class="user">
+								@{{sessionData.current.username}}
+							</div>
 						</div>
 					</div>
 					<div class="bottom">
@@ -388,7 +393,6 @@
 									<button mat-menu-item (click)="itemAudiosOptions('addRemoveSession', x, null)" *ngIf="audioPlayerData.current.user == sessionData.current.id && audioPlayerData.current.type == 'default'">{{x.addRemoveSession ? translations.add : translations.remove}}</button>
 									<button mat-menu-item (click)="itemAudiosOptions('addRemoveUser', x, null)" *ngIf="audioPlayerData.current.user != sessionData.current.id || audioPlayerData.current.type != 'default'">{{!x.addRemoveUser ? translations.add : translations.remove}}</button>
 									<button mat-menu-item [matMenuTriggerFor]="menuPlaylists" #trigger="matMenuTrigger">{{translations.addToPlaylist}}</button>
-									<button mat-menu-item (click)="itemAudiosOptions('share', x, null)">{{translations.share}}</button>
 									<button mat-menu-item (click)="itemAudiosOptions('report', x, null)">{{translations.report}}</button>
 								</mat-menu>
 								<mat-menu #menuPlaylists="matMenu">
