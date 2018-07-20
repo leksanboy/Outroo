@@ -510,6 +510,13 @@ export class SettingsComponent implements OnInit, OnDestroy {
 			data: data
 		}
 
+		for (var i in this.sessionData.sessions)
+			if (this.sessionData.sessions[i].id == data.id)
+				this.sessionData.sessions.splice(i, 1);
+
 		this.sessionService.setDataAddAccount(dCS);
+		this.sessionData = this.userDataService.getSessionData();
+
+		console.log("CLOSE SESS SET:", this.sessionData);
 	}
 }

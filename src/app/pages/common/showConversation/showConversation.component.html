@@ -201,7 +201,9 @@
 					</li>
 				</ul>
 
-				<div class="noData" *ngIf="data.list.length == 0">No data</div>
+				<div class="noData" *ngIf="data.list.length == 0">
+					{{translations.writeSomething}}
+				</div>
 			</div>
 		</div>
 
@@ -268,7 +270,7 @@
 			</div>
 			<div class="actions">
 				<button mat-raised-button type="submit" [disabled]="data.users.length == 0" (click)="sendShared()">
-					{{translations.send}} sep.
+					{{data.users.length == 1 ? translations.send : translations.sendSepareted}}
 				</button>
 			</div>
 		</div>

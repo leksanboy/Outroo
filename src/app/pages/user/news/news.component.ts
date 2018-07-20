@@ -36,7 +36,6 @@ export class NewsComponent implements OnInit, OnDestroy {
 	public dataDefault: any = {
 		list: [],
 		rows: 0,
-		noData: false,
 		loadingData: true,
 		loadMoreData: false,
 		loadingMoreData: false
@@ -44,7 +43,6 @@ export class NewsComponent implements OnInit, OnDestroy {
 	public dataSearch: any = {
 		list: [],
 		rows: 0,
-		noData: false,
 		loadingData: true,
 		loadMoreData: false,
 		loadingMoreData: false
@@ -164,7 +162,6 @@ export class NewsComponent implements OnInit, OnDestroy {
 			this.dataDefault = {
 				list: [],
 				rows: 0,
-				noData: false,
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
@@ -176,22 +173,29 @@ export class NewsComponent implements OnInit, OnDestroy {
 				user: user,
 				session: session,
 				rows: this.dataDefault.rows,
-				cuantity: environment.cuantity*3
+				cuantity: this.environment.cuantity*6
 			}
 
 			this.publicationsDataService.default(data)
 				.subscribe(res => {
 					this.dataDefault.loadingData = false;
 
-					if (res.length == 0) {
-						this.dataDefault.noData = true;
+					if (!res || res.length == 0) {
 						this.dataDefault.noMore = true;
 					} else {
-						this.dataDefault.loadMoreData = (res.length < environment.cuantity) ? false : true;
-						this.dataDefault.noData = false;
-						this.dataDefault.list = res;
+						this.dataDefault.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
+						// this.dataDefault.list = res;
 
-						if (res.length < environment.cuantity)
+						for (let i in res) {
+							// Push items
+							this.dataDefault.list.push(res[i]);
+
+							// Push add
+							if (i == '30' || i == '60')
+								this.dataDefault.list.push(this.pushAd());
+						}
+
+						if (!res || res.length < this.environment.cuantity)
 							this.dataDefault.noMore = true;
 					}
 				}, error => {
@@ -207,26 +211,29 @@ export class NewsComponent implements OnInit, OnDestroy {
 				user: this.sessionData.current.id,
 				session: this.sessionData.current.id,
 				rows: this.dataDefault.rows,
-				cuantity: environment.cuantity*3
+				cuantity: this.environment.cuantity*6
 			}
 
 			this.publicationsDataService.default(data)
 				.subscribe(res => {
+					console.log("RES:", res);
+
 					setTimeout(() => {
-						this.dataDefault.loadMoreData = (res.length < environment.cuantity) ? false : true;
+						this.dataDefault.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 						this.dataDefault.loadingMoreData = false;
 
-						// Push items
-						if (res.length > 0) {
-							// Ad
-							this.dataDefault.list.push(this.pushAd());
-
-							// Items
-							for (let i in res)
+						if (!res || res.length > 0) {
+							for (let i in res){
+								// Push items
 								this.dataDefault.list.push(res[i]);
+
+								// Push add
+								if (i == '30' || i == '60')
+									this.dataDefault.list.push(this.pushAd());
+							}
 						}
 
-						if (res.length < environment.cuantity)
+						if (!res || res.length < this.environment.cuantity)
 							this.dataDefault.noMore = true;
 					}, 600);
 				}, error => {
@@ -270,7 +277,6 @@ export class NewsComponent implements OnInit, OnDestroy {
 			this.dataSearch = {
 				list: [],
 				rows: 0,
-				noData: false,
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
@@ -290,14 +296,12 @@ export class NewsComponent implements OnInit, OnDestroy {
 						this.dataSearch.loadingData = false;
 
 						if (res.length == 0) {
-							this.dataSearch.noData = true;
 							this.dataSearch.noMore = true;
 						} else {
-							this.dataSearch.loadMoreData = (res.length < environment.cuantity) ? false : true;
-							this.dataSearch.noData = false;
+							this.dataSearch.loadMoreData = (!res || res.length < environment.cuantity) ? false : true;
 							this.dataSearch.list = res;
 
-							if (res.length < environment.cuantity)
+							if (!res || res.length < environment.cuantity)
 								this.dataSearch.noMore = true;
 						}
 					}, 600);
@@ -319,7 +323,7 @@ export class NewsComponent implements OnInit, OnDestroy {
 			this.publicationsDataService.search(data)
 				.subscribe(res => {
 					setTimeout(() => {
-						this.dataSearch.loadMoreData = (res.length < environment.cuantity) ? false : true;
+						this.dataSearch.loadMoreData = (!res || res.length < environment.cuantity) ? false : true;
 						this.dataSearch.loadingMoreData = false;
 
 						// Push items
@@ -327,7 +331,7 @@ export class NewsComponent implements OnInit, OnDestroy {
 							for (let i in res)
 								this.dataSearch.list.push(res[i]);
 
-						if (res.length < environment.cuantity)
+						if (!res || res.length < environment.cuantity)
 							this.dataSearch.noMore = true;
 					}, 600);
 				}, error => {

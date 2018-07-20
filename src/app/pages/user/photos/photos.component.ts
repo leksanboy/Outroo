@@ -27,7 +27,6 @@ export class PhotosComponent implements OnInit, OnDestroy {
 	public dataDefault: any = {
 		list: [],
 		rows: 0,
-		noData: false,
 		loadingData: true,
 		loadMoreData: false,
 		loadingMoreData: false
@@ -146,7 +145,6 @@ export class PhotosComponent implements OnInit, OnDestroy {
 			this.dataDefault = {
 				list: [],
 				rows: 0,
-				noData: false,
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
@@ -163,15 +161,13 @@ export class PhotosComponent implements OnInit, OnDestroy {
 				.subscribe(res => {
 					this.dataDefault.loadingData = false;
 
-					if (res.length == 0) {
-						this.dataDefault.noData = true;
+					if (!res || res.length == 0) {
 						this.dataDefault.noMore = true;
 					} else {
-						this.dataDefault.loadMoreData = (res.length < environment.cuantity) ? false : true;
-						this.dataDefault.noData = false;
+						this.dataDefault.loadMoreData = (!res || res.length < environment.cuantity) ? false : true;
 						this.dataDefault.list = res;
 
-						if (res.length < environment.cuantity)
+						if (!res || res.length < environment.cuantity)
 							this.dataDefault.noMore = true;
 					}
 				}, error => {
@@ -191,14 +187,15 @@ export class PhotosComponent implements OnInit, OnDestroy {
 			this.photoDataService.default(data)
 				.subscribe(res => {
 					setTimeout(() => {
-						this.dataDefault.loadMoreData = (res.length < environment.cuantity) ? false : true;
+						this.dataDefault.loadMoreData = (!res || res.length < environment.cuantity) ? false : true;
 						this.dataDefault.loadingMoreData = false;
 
-						if (res.length > 0)
+						// Push items
+						if (!res || res.length > 0)
 							for (let i in res)
 								this.dataDefault.list.push(res[i]);
 
-						if (res.length < environment.cuantity)
+						if (!res || res.length < environment.cuantity)
 							this.dataDefault.noMore = true;
 					}, 600);
 				}, error => {

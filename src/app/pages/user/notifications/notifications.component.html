@@ -176,7 +176,7 @@
 					<div class="loadingData" *ngIf="dataNotifications.loadingData">
 						<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 					</div>
-					<div class="noData" *ngIf="dataNotifications.noData">{{translations.noData}}</div>
+					<div class="noData" *ngIf="dataNotifications.list.length == 0 && !dataNotifications.loadingData">{{translations.noData}}</div>
 					<div class="loadMore" *ngIf="dataNotifications.loadMoreData">
 						<button mat-fab (click)="defaultNotifications('more', null)" *ngIf="!dataNotifications.loadingMoreData">
 							<mat-icon>add</mat-icon>
@@ -242,7 +242,7 @@
 					<div class="loadingData" *ngIf="dataChats.loadingData">
 						<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 					</div>
-					<div class="noData" *ngIf="dataChats.noData">{{translations.noData}}</div>
+					<div class="noData" *ngIf="dataChats.list.length == 0 && !dataChats.loadingData">{{translations.noData}}</div>
 					<div class="loadMore" *ngIf="dataChats.loadMoreData">
 						<button mat-fab (click)="defaultChats('more', null)" *ngIf="!dataChats.loadingMoreData">
 							<mat-icon>add</mat-icon>

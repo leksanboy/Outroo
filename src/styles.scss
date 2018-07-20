@@ -3442,7 +3442,7 @@ body{
 
 							.box{
 								padding: 0 18px;
-								max-width: 70%;
+								max-width: 80%;
 
 								.top{
 									padding: 4px 0;
@@ -3497,12 +3497,13 @@ body{
 									}
 
 									.publication{
+										box-sizing: border-box;
 										display: block;
 										float: left;
 
 										.user{
 											box-sizing: border-box;
-											padding: 9px 12px;
+											padding: 12px;
 											display: flex;
 											width: 100%;
 											float: left;
@@ -3511,9 +3512,9 @@ body{
 												box-sizing: border-box;
 												border-radius: 50%;
 												overflow: hidden;
-												min-width: 24px;
-												height: 24px;
-												width: 24px;
+												min-width: 32px;
+												height: 32px;
+												width: 32px;
 
 												img{
 													height: 100%;

@@ -813,27 +813,6 @@
 	// CHAT //
 	//////////
 
-	// Get conversation users
-	function getChatConversationUsers($id){
-		global $conn;
-
-		$sql = "SELECT user
-				FROM z_chat_users
-				WHERE chat = $id 
-					AND is_deleted = 0
-				ORDER BY date DESC
-				LIMIT 100";
-		$result = $conn->query($sql);
-
-		$data = array();
-		while($row = $result->fetch_assoc()) {
-			$row['user'] = userUsernameNameAvatar($row['user']);
-			$data[] = $row;
-		}
-
-		return $data;
-	}
-
 	// Get conversation
 	function getChatConversation($id){
 		global $conn;
@@ -859,6 +838,22 @@
 		}
 
 		return array_reverse($data);
+	}
+
+	// Get conversation users
+	function getChatConversationUsers($id){
+		global $conn;
+
+		$sql = "SELECT user
+				FROM z_chat_users
+				WHERE chat = $id 
+					AND is_deleted = 0
+				ORDER BY date DESC
+				LIMIT 100";
+		$result = $conn->query($sql)->fetch_assoc();
+		$result['user'] = userUsernameNameAvatar($result['user']);
+
+		return $result['user'];
 	}
 
 	// Get last inserted comment

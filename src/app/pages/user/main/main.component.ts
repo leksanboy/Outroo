@@ -247,9 +247,9 @@ export class MainComponent implements OnInit, OnDestroy {
 				// Check if following
 				if (this.sessionData) {
 					this.followsDataService.checkFollowing(data)
-					.subscribe(res => {
-						this.userData.status = res;
-					});
+						.subscribe(res => {
+							this.userData.status = res;
+						});
 				}
 
 				// Set visitor
@@ -352,15 +352,15 @@ export class MainComponent implements OnInit, OnDestroy {
 				.subscribe(res => {
 					this.dataDefault.loadingData = false;
 
-					if (res.length == 0) {
+					if (!res || res.length == 0) {
 						this.dataDefault.noData = true;
 						this.dataDefault.noMore = true;
 					} else {
-						this.dataDefault.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
+						this.dataDefault.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 						this.dataDefault.noData = false;
 						this.dataDefault.list = res;
 
-						if (res.length < this.environment.cuantity)
+						if (!res || res.length < this.environment.cuantity)
 							this.dataDefault.noMore = true;
 					}
 				}, error => {
@@ -382,15 +382,15 @@ export class MainComponent implements OnInit, OnDestroy {
 			this.publicationsDataService.default(data)
 				.subscribe(res => {
 					setTimeout(() => {
-						this.dataDefault.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
+						this.dataDefault.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 						this.dataDefault.loadingMoreData = false;
 
 						// Push items
-						if (res.length > 0)
+						if (!res || res.length > 0)
 							for (let i in res)
 								this.dataDefault.list.push(res[i]);
 
-						if (res.length < this.environment.cuantity)
+						if (!res || res.length < this.environment.cuantity)
 							this.dataDefault.noMore = true;
 					}, 600);
 				}, error => {
@@ -597,11 +597,11 @@ export class MainComponent implements OnInit, OnDestroy {
 				.subscribe(res => {
 					item.loadingData = false;
 
-					if (res.length == 0) {
+					if (!res || res.length == 0) {
 						item.noData = true;
 					} else {
 						item.noData = false;
-						item.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
+						item.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 						item.comments.list = res;
 					}
 				}, error => {
@@ -622,10 +622,12 @@ export class MainComponent implements OnInit, OnDestroy {
 				.subscribe(res => {
 					setTimeout(() => {
 						item.loadingMoreData = false;
-						item.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
+						item.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 
-						for (let i in res)
-							item.comments.list.push(res[i]);
+						// Push items
+						if (!res || res.length > 0)
+							for (let i in res)
+								item.comments.list.push(res[i]);
 					}, 600);
 				}, error => {
 					item.loadingData = false;

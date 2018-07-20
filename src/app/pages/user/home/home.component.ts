@@ -35,7 +35,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 	public dataDefault: any = {
 		list: [],
 		rows: 0,
-		noData: false,
 		loadingData: true,
 		loadMoreData: false,
 		loadingMoreData: false
@@ -176,7 +175,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 			this.dataDefault = {
 				list: [],
 				rows: 0,
-				noData: false,
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
@@ -188,22 +186,28 @@ export class HomeComponent implements OnInit, OnDestroy {
 				user: user,
 				session: session,
 				rows: this.dataDefault.rows,
-				cuantity: this.environment.cuantity
+				cuantity: this.environment.cuantity*3
 			}
 
 			this.publicationsDataService.default(data)
 				.subscribe(res => {
 					this.dataDefault.loadingData = false;
 
-					if (res.length == 0) {
-						this.dataDefault.noData = true;
+					if (!res || res.length == 0) {
 						this.dataDefault.noMore = true;
 					} else {
-						this.dataDefault.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
-						this.dataDefault.noData = false;
-						this.dataDefault.list = res;
+						this.dataDefault.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 
-						if (res.length < this.environment.cuantity)
+						for (let i in res) {
+							// Push items
+							this.dataDefault.list.push(res[i]);
+
+							// Push add
+							if (i == (Math.round(res.length*3/5)).toString())
+								this.dataDefault.list.push(this.pushAd());
+						}
+
+						if (!res || res.length < this.environment.cuantity)
 							this.dataDefault.noMore = true;
 					}
 				}, error => {
@@ -219,27 +223,27 @@ export class HomeComponent implements OnInit, OnDestroy {
 				user: this.sessionData.current.id,
 				session: this.sessionData.current.id,
 				rows: this.dataDefault.rows,
-				cuantity: this.environment.cuantity
+				cuantity: this.environment.cuantity*3
 			}
 
 			this.publicationsDataService.default(data)
 				.subscribe(res => {
 					setTimeout(() => {
-						this.dataDefault.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
+						this.dataDefault.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 						this.dataDefault.loadingMoreData = false;
 
-						// Push items
-						if (res.length > 0) {
-							// Ad
-							this.dataDefault.list.push(this.pushAd());
+						if (!res || res.length > 0) {
+							for (let i in res){
+								// Push items
+								this.dataDefault.list.push(res[i]);
 
-							// Items
-							for (let i in res)
-								if (res[i].urlVideo)
-									this.dataDefault.list.push(res[i]);
+								// Push add
+								if (i == (Math.round(res.length*3/5)).toString())
+									this.dataDefault.list.push(this.pushAd());
+							}
 						}
 
-						if (res.length < this.environment.cuantity)
+						if (!res || res.length < this.environment.cuantity)
 							this.dataDefault.noMore = true;
 					}, 600);
 				}, error => {
@@ -451,7 +455,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 						item.noData = true;
 					} else {
 						item.noData = false;
-						item.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
+						item.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 						item.comments.list = res;
 					}
 				}, error => {
@@ -472,10 +476,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 				.subscribe(res => {
 					setTimeout(() => {
 						item.loadingMoreData = false;
-						item.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
+						item.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 
-						for (let i in res)
-							item.comments.list.push(res[i]);
+						// Push items
+						if (!res || res.length > 0)
+							for (let i in res)
+								item.comments.list.push(res[i]);
 					}, 600);
 				}, error => {
 					item.loadingData = false;

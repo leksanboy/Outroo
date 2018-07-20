@@ -332,7 +332,7 @@
 			<div class="loadingData" *ngIf="dataDefault.loadingData">
 				<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 			</div>
-			<div class="noData" *ngIf="dataDefault.noData">{{translations.noData}}</div>
+			<div class="noData" *ngIf="dataDefault.noData && !dataDefault.loadingData">{{translations.noData}}</div>
 			<div class="loadMore" *ngIf="dataDefault.loadMoreData">
 				<button mat-fab (click)="default('more', null, null)" *ngIf="!dataDefault.loadingMoreData">
 					<mat-icon>add</mat-icon>

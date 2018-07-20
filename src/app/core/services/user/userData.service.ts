@@ -105,6 +105,8 @@ export class UserDataService {
 			return JSON.parse(localStorage.getItem('userData_Outhroo'));
 		} else if (type == 'data') {
 			localStorage.setItem('userData_Outhroo', JSON.stringify(data));
+
+			return JSON.parse(localStorage.getItem('userData_Outhroo'));
 		}
 	}
 

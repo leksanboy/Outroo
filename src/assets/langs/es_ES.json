@@ -116,7 +116,7 @@
 	"oldPasswordIncorrect": "La contraseña antigua es incorrecta",
 	"passwordChanged": "La contraseña ha sido actualizada",
 	"emailOrPasswordIncorrect": "Email o Contaseña son incorrectos",
-	"emailAlreadySigned": "Ya tiene la sesión iniciada con este email",
+	"emailAlreadySigned": "Ya existe una sesión con este email",
 	"createAnAccountToListenSong": "Create una cuenta para poder escuchar esta canción",
 	"hasBeenaddedSuccessfully": "ha sido añadido con exito",
 	"hasBeenRemoved": "ha sido eliminado",
@@ -166,5 +166,7 @@
 	"details": "Detalles",
 	"next": "Siguiente",
 	"createdSuccessfully": "Creado con exito",
-	"sentSuccessfully": "Enviado correctamente"
+	"sentSuccessfully": "Enviado correctamente",
+	"sendSepareted": "Enviar por separado",
+	"writeSomething": "Escribe algo..."
 }

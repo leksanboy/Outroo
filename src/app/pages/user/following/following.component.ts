@@ -215,7 +215,7 @@ export class FollowingComponent implements OnInit, OnDestroy {
 				.subscribe(res => {
 					this.dataDefault.loadingData = false;
 
-					if (res.length == 0) {
+					if (!res || res.length == 0) {
 						this.dataDefault.noData = true;
 						this.dataDefault.noMore = true;
 					} else {
@@ -223,7 +223,7 @@ export class FollowingComponent implements OnInit, OnDestroy {
 						this.dataDefault.noData = false;
 						this.dataDefault.list = res;
 
-						if (res.length < environment.cuantity)
+						if (!res || res.length < environment.cuantity)
 							this.dataDefault.noMore = true;
 					}
 				}, error => {
@@ -249,11 +249,11 @@ export class FollowingComponent implements OnInit, OnDestroy {
 						this.dataDefault.loadingMoreData = false;
 
 						// Push items
-						if (res.length > 0)
+						if (!res || res.length > 0)
 							for (let i in res)
 								this.dataDefault.list.push(res[i]);
 
-						if (res.length < environment.cuantity)
+						if (!res || res.length < environment.cuantity)
 							this.dataDefault.noMore = true;
 					}, 600);
 				}, error => {
@@ -290,7 +290,7 @@ export class FollowingComponent implements OnInit, OnDestroy {
 					setTimeout(() => {
 						this.dataSearch.loadingData = false;
 
-						if (res.length == 0) {
+						if (!res || res.length == 0) {
 							this.dataSearch.noData = true;
 							this.dataSearch.noMore = true;
 						} else {
@@ -298,7 +298,7 @@ export class FollowingComponent implements OnInit, OnDestroy {
 							this.dataSearch.noData = false;
 							this.dataSearch.list = res;
 
-							if (res.length < environment.cuantity)
+							if (!res || res.length < environment.cuantity)
 								this.dataSearch.noMore = true;
 						}
 					}, 600);
@@ -325,11 +325,11 @@ export class FollowingComponent implements OnInit, OnDestroy {
 						this.dataSearch.loadingMoreData = false;
 
 						// Push items
-						if (res.length > 0)
+						if (!res || res.length > 0)
 							for (let i in res)
 								this.dataSearch.list.push(res[i]);
 
-						if (res.length < environment.cuantity)
+						if (!res || res.length < environment.cuantity)
 							this.dataSearch.noMore = true;
 					}, 600);
 				}, error => {

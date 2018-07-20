@@ -259,11 +259,11 @@ export class ShowPublicationComponent implements OnInit {
 				.subscribe(res => {
 					item.loadingData = false;
 
-					if (res.length == 0) {
+					if (!res || res.length == 0) {
 						item.noData = true;
 					} else {
 						item.noData = false;
-						item.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
+						item.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 						item.comments.list = res;
 					}
 				}, error => {
@@ -284,10 +284,11 @@ export class ShowPublicationComponent implements OnInit {
 				.subscribe(res => {
 					setTimeout(() => {
 						item.loadingMoreData = false;
-						item.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
+						item.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 
-						for (let i in res)
-							item.comments.list.push(res[i]);
+						if (!res || res.length == 0)
+							for (let i in res)
+								item.comments.list.push(res[i]);
 					}, 600);
 				}, error => {
 					item.loadingData = false;

@@ -155,10 +155,6 @@ export class ShowConversationComponent implements OnInit, AfterViewChecked {
 		} catch(err) { }
 	}
 
-	/////////
-	// NEW //
-	/////////
-
 	// Default users
 	defaultUsers(){
 		this.dataUsers = {
@@ -216,7 +212,7 @@ export class ShowConversationComponent implements OnInit, AfterViewChecked {
 			.subscribe(res => {
 				this.dataChats.loadingData = false;
 
-				if (res.length == 0) {
+				if (!res || res.length == 0) {
 					this.dataChats.noData = true;
 					this.dataChats.noMore = true;
 				} else {
@@ -259,7 +255,7 @@ export class ShowConversationComponent implements OnInit, AfterViewChecked {
 					setTimeout(() => {
 						this.dataSearch.loadingData = false;
 
-						if (res.length == 0) {
+						if (!res || res.length == 0) {
 							this.dataSearch.noData = true;
 							this.dataSearch.noMore = true;
 						} else {
@@ -297,7 +293,7 @@ export class ShowConversationComponent implements OnInit, AfterViewChecked {
 						this.dataSearch.loadingMoreData = false;
 
 						// Push items
-						if (res.length > 0)
+						if (!res || res.length > 0)
 							for (let i in res)
 								this.dataSearch.list.push(res[i]);
 
@@ -512,7 +508,7 @@ export class ShowConversationComponent implements OnInit, AfterViewChecked {
 				let formatedData = this.newComment('transformBeforeSend', null, item);
 				let dataCreate = {
 					type: 'create',
-					chat: item.id,
+					chat: this.data.current.id,
 					user: this.sessionData.current.id,
 					content: formatedData.content,
 					content_original: formatedData.original,
@@ -579,7 +575,4 @@ export class ShowConversationComponent implements OnInit, AfterViewChecked {
 
 		this.dialogRef.close(this.data);
 	}
-
-	// TODO
-	// Add more person to conversaion(){ }
 }

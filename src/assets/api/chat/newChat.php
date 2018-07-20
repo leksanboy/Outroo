@@ -32,7 +32,7 @@
 		$result = $conn->query($sql);
 	}
 
-	echo json_encode($insertedId);
+	echo json_encode($insertedChatId);
 	
 	$conn->close();
 ?>

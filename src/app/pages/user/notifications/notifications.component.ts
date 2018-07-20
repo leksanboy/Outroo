@@ -40,7 +40,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	public dataNotifications: any = {
 		list: [],
 		rows: 0,
-		noData: false,
 		loadingData: true,
 		loadMoreData: false,
 		loadingMoreData: false
@@ -48,7 +47,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	public dataChats: any = {
 		list: [],
 		rows: 0,
-		noData: false,
 		loadingData: true,
 		loadMoreData: false,
 		loadingMoreData: false
@@ -106,8 +104,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 		// Get conversation
 		this.activeConversation = this.sessionService.getDataConversation()
 			.subscribe(data => {
-				console.log("getDataConversation:", data);
-
 				// Check if is new chat with content
 				if (data.close)
 					if (data.new && data.list.length > 0)
@@ -163,7 +159,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 			this.dataNotifications = {
 				list: [],
 				rows: 0,
-				noData: false,
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
@@ -180,12 +175,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 				.subscribe(res => {
 					this.dataNotifications.loadingData = false;
 
-					if (res.length == 0) {
-						this.dataNotifications.noData = true;
+					if (!res || res.length == 0) {
 						this.dataNotifications.noMore = true;
 					} else {
-						this.dataNotifications.loadMoreData = (res.length < environment.cuantity) ? false : true;
-						this.dataNotifications.noData = false;
+						this.dataNotifications.loadMoreData = (!res || res.length < environment.cuantity) ? false : true;
 
 						for (let i in res)
 							setTimeout(() => {
@@ -195,7 +188,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 						this.dataNotifications.list = res;
 						this.sessionService.setPendingNotifications('refresh');
 
-						if (res.length < environment.cuantity)
+						if (!res || res.length < environment.cuantity)
 							this.dataNotifications.noMore = true;
 					}
 				}, error => {
@@ -215,11 +208,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 			this.notificationsDataService.default(data)
 				.subscribe(res => {
 					setTimeout(() => {
-						this.dataNotifications.loadMoreData = (res.length < environment.cuantity) ? false : true;
+						this.dataNotifications.loadMoreData = (!res || res.length < environment.cuantity) ? false : true;
 						this.dataNotifications.loadingMoreData = false;
 
 						// Push items
-						if (res.length > 0)
+						if (!res || res.length > 0)
 							for (let i in res) {
 								setTimeout(() => {
 									res[i].status = 1;
@@ -230,7 +223,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
 						this.sessionService.setPendingNotifications('refresh');
 
-						if (res.length < environment.cuantity)
+						if (!res || res.length < environment.cuantity)
 							this.dataNotifications.noMore = true;
 					}, 600);
 				}, error => {
@@ -383,7 +376,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 			this.dataChats = {
 				list: [],
 				rows: 0,
-				noData: false,
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
@@ -400,15 +392,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 				.subscribe(res => {
 					this.dataChats.loadingData = false;
 
-					if (res.length == 0) {
-						this.dataChats.noData = true;
+					if (!res || res.length == 0) {
 						this.dataChats.noMore = true;
 					} else {
-						this.dataChats.loadMoreData = (res.length < environment.cuantity) ? false : true;
-						this.dataChats.noData = false;
+						this.dataChats.loadMoreData = (!res || res.length < environment.cuantity) ? false : true;
 						this.dataChats.list = res;
 
-						if (res.length < environment.cuantity)
+						if (!res || res.length < environment.cuantity)
 							this.dataChats.noMore = true;
 					}
 				}, error => {
@@ -428,14 +418,15 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 			this.chatDataService.default(data)
 				.subscribe(res => {
 					setTimeout(() => {
-						this.dataChats.loadMoreData = (res.length < environment.cuantity) ? false : true;
+						this.dataChats.loadMoreData = (!res || res.length < environment.cuantity) ? false : true;
 						this.dataChats.loadingMoreData = false;
 
-						if (res.length > 0)
+						// Push items
+						if (!res || res.length > 0)
 							for (let i in res)
 								this.dataChats.list.push(res[i]);
 
-						if (res.length < environment.cuantity)
+						if (!res || res.length < environment.cuantity)
 							this.dataChats.noMore = true;
 					}, 600);
 				}, error => {

@@ -166,5 +166,7 @@
 	"details": "Details",
 	"next": "Next",
 	"createdSuccessfully": "Created successfully",
-	"sentSuccessfully": "Sent successfully"
+	"sentSuccessfully": "Sent successfully",
+	"sendSepareted": "Send separated",
+	"writeSomething": "Write something..."
 }

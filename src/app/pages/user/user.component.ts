@@ -359,7 +359,7 @@ export class UserComponent implements AfterViewInit {
 			.subscribe(res => {
 				this.loadingData = false;
 
-				if (res.length == 0) {
+				if (!res || res.length == 0) {
 					this.noData = true;
 					this.audioPlayerData.current.title = "Upload or search some songs";
 				} else {
@@ -803,7 +803,7 @@ export class UserComponent implements AfterViewInit {
 			// Set data
 			this.sessionData.current = data;
 			this.sessionService.setData(this.sessionData);
-			this.userDataService.setSessionData('data', this.sessionData);
+			this.sessionData = this.userDataService.setSessionData('data', this.sessionData);
 			this.showSessions = false;
 			this.showChangeSessionOnMenu = false;
 
@@ -935,16 +935,16 @@ export class UserComponent implements AfterViewInit {
 
 	// Copy to clipboard
 	copyToClipboard(data){
-		const el = this.document.createElement('textarea');		// Create a <textarea> element
+		let el = this.document.createElement('textarea');		// Create a <textarea> element
+		let randId = Math.floor(Math.random() * 6) + 1;			// Random id
 		el.value = data;										// Set its value to the string that you want copied
 		el.setAttribute('readonly', '');						// Make it readonly to be tamper-proof
+		el.setAttribute('id', randId.toString());
 		el.style.position = 'absolute';                 
 		el.style.left = '-9999px';								// Move outside the screen to make it invisible
 		this.document.body.appendChild(el);						// Append the <textarea> element to the document
-		const selected =            
-			this.document.getSelection().rangeCount > 0			// Check if there is any content selected previously
-				? this.document.getSelection().getRangeAt(0)	// Store selection if found
-				: false;										// Mark as false to know no selection existed before
+		// Check if there is any content selected previously / Store selection if found / Mark as false to know no selection existed before
+		let selected = this.document.getSelection().rangeCount > 0 ? this.document.getSelection().getRangeAt(0) : false;
 		el.select();											// Select the <textarea> content
 		this.document.execCommand('copy');						// Copy - only works as a result of a user action (e.g. click events)
 		this.document.body.removeChild(el);						// Remove the <textarea> element
