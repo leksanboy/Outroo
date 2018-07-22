@@ -206,23 +206,26 @@
 
 					<ul class="chat" *ngIf="dataChats.list.length > 0">
 						<li mat-ripple *ngFor="let x of dataChats.list" [ngClass]="{remove: x.addRemoveSession}">
-							<div class="avatarsGroup" [ngClass]="{'group': x.users.length > 1}">
-								<div class="avatar" *ngFor="let u of x.users | slice: 0:2">
+							<div class="avatarsGroup" [ngClass]="{'group': x.users.excluded.length > 1}">
+								<div class="avatar" *ngFor="let u of x.users.excluded | slice: 0:2">
 									<img [src]="u.user.avatar ? u.user.avatarUrl : environment.avatar"/>
 								</div>
 							</div>
 
 							<div class="text" (click)="showConversation('conversation', x)">
 								<div class="name">
-									<span *ngFor="let u of x.users | slice: 0:5; let isLast = last;">
-										<span class="username">
-											{{u.user.username}}{{isLast ? '' : ', '}}
-										</span>
+									<span class="username" *ngFor="let u of x.users.excluded | slice: 0:3; let isLast = last;">
+										{{u.user.username}}{{isLast ? '' : ', '}}
 									</span>
-									<span class="date">{{x.date | timeago}}</span>
+									<span class="date">{{x.last.date | timeago}}</span>
 								</div>
 								<div class="container">
-									<span [innerHtml]="x.last | safeHtml"></span>
+									<span *ngIf="x.last.type == 'text'">
+										<span [innerHtml]="x.last.content | safeHtml"></span>
+									</span>
+									<span *ngIf="x.last.type == 'publication'">
+										<mat-icon>reply</mat-icon> {{translations.sharedPublicationWithYou}}
+									</span>
 								</div>
 							</div>
 

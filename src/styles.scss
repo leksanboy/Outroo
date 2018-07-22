@@ -36,7 +36,8 @@ $spriteImages: url('assets/images/sprite_images.png');
 
 /*Booleans*/
 $backgroundBlackColor: #050505;
-$backgroundWhiteColor: #fafafa;
+$backgroundWhiteColor: #fff;
+$headerWhiteColor: #fafafa;
 $modalDialogColor: #1D242E;
 $fontBlackColor: #14181d;
 $yellowColor: #ff9800;
@@ -2259,7 +2260,7 @@ body{
 									}
 
 									.date{
-										color: transparentize($whiteColor, .5);
+										color: $greyColor;
 										font-size: 13px;
 									}
 								}
@@ -2541,7 +2542,7 @@ body{
 											}
 
 											.date{
-												color: transparentize($whiteColor, .5);
+												color: $greyColor;
 												font-size: 13px;
 											}
 										}
@@ -3484,6 +3485,7 @@ body{
 
 								.bottom{
 									border: 1px solid transparentize($greyColor, .5);
+									background-color: $whiteColor;
 									border-radius: 24px;
 									overflow: hidden;
 									margin: 4px 0 0;
@@ -3496,322 +3498,334 @@ body{
 										padding: 12px;
 									}
 
-									.publication{
-										box-sizing: border-box;
-										display: block;
-										float: left;
-
-										.user{
-											box-sizing: border-box;
-											padding: 12px;
-											display: flex;
-											width: 100%;
-											float: left;
-
-											.avatar{
-												box-sizing: border-box;
-												border-radius: 50%;
-												overflow: hidden;
-												min-width: 32px;
-												height: 32px;
-												width: 32px;
-
-												img{
-													height: 100%;
-													width: 100%;
-												}
-											}
-
-											.name{
-												text-overflow: ellipsis;
-												box-sizing: border-box;
-												white-space: nowrap;
-												line-height: 24px;
-												overflow: hidden;
-												padding: 0 12px;
-												height: 24px;
-												width: 100%;
-											}
-										}
-
-										.urlVideo{
-											box-sizing: border-box;
-											width: 100%;
-											float: left;
-											padding: 0;
-
-											.embedResponsive{
-												padding-top: 56.25%;
-												position: relative;
-												overflow: hidden;
-											    display: block;
-												width: 100%;
-												margin: 0;
-
-											    .image{
-											    	position: absolute;
-											    	height: 100%;
-											    	width: 100%;
-											    	top: 0;
-
-											    	.img{
-														background-position: center 50%;
-														background-repeat: no-repeat;
-														transform: translate(0px);
-														box-sizing: border-box;
-														background-size: cover;
-														display: inline-block;
-														height: 100%;
-														width: 100%;
-													}
-
-													.play{
-														background: $whiteColor;
-														box-shadow: $shadowBox2;
-														margin: -21px 0 0 -32px;
-														border-radius: 7px;
-														position: absolute;
-														text-align: center;
-														height: 42px;
-														width: 64px;
-														left: 50%;
-														top: 50%;
-
-														mat-icon{
-															color: $fontBlackColor;
-															font-size: 30px;
-															margin: 6px 0;
-															height: 30px;
-															width: 30px;
-														}
-													}
-
-													.type{
-														background-color: $whiteColor;
-														box-shadow: $shadowBox2;
-														color: $fontBlackColor;
-														border-radius: 5px;
-														position: absolute;
-														line-height: 10px;
-														font-weight: bold;
-														padding: 4px 8px;
-														font-size: 10px;
-														margin: 12px;
-														bottom: 0;
-														right: 0;
-													}
-												}
-
-												iframe{
-													position: absolute;
-													height: 100%;
-													width: 100%;
-													border: 0;
-													bottom: 0;
-													left: 0;
-													top: 0;
-												}
-											}
-										}
-
-										.photos{
-											width: 100%;
-											float: left;
-
-											img{
-												width: 100%;
-											}
-										}
-
-										.textContainer{
-											word-break: break-word;
-											box-sizing: border-box;
-											padding: 6px 12px 12px;
-											font-size: 13px;
-											width: 100%;
-											float: left;
-										}
-
-										.audios{
-											ul{
-												margin: 6px 0 0;
-												float: left;
-												width: 100%;
-												padding: 0;
-
-												li{
-													transition: .15s;
-													display: flex;
-													border: none;
-													padding: 0;
-													margin: 0;
-
-													.inner{
-														padding: 2px 9px 2px 18px;
-														box-sizing: border-box;
-														align-items: center;
-														flex-direction: row;
-														position: relative;
-														margin: 0 0 4px;
-														display: flex;
-														width: 100%;
-
-														&:hover{
-															background-color: transparentize($fontBlackColor, .95);
-														}
-
-														.image{
-															width: 42px;
-
-															button{
-																overflow: hidden;
-																height: 42px;
-																width: 42px;
-																margin: 0;
-
-																img{
-																	position: absolute;
-																	height: 100%;
-																	width: 100%;
-																	left: 0;
-																	top: 0;
-																}
-
-																.mat-button-ripple-round{
-																	border-radius: 0;
-																}
-
-																mat-icon{
-																	text-shadow: 0 1px 5px transparentize($fontBlackColor, .25);
-																	color: $whiteColor;
-																	position: relative;
-																	z-index: 1;
-																}
-															}
-														}
-
-														.text{
-															justify-content: space-between;
-															box-sizing: border-box;
-															line-height: 42px;
-															overflow: hidden;
-															display: flex;
-															width: 100%;
-
-															.duration,
-															.titleArtist{
-																flex-direction: column;
-																box-sizing: border-box;
-																padding: 0 0 0 12px;
-																text-align: left;
-																overflow: hidden;
-																max-width: 80%;
-																display: flex;
-
-																.title{
-																	text-overflow: ellipsis;
-																	white-space: nowrap;
-																	line-height: 15px;
-																	overflow: hidden;
-																	padding: 4px 0;
-																}
-
-																.artist{
-																	text-overflow: ellipsis;
-																	white-space: nowrap;
-																	color: $greyColor;
-																	line-height: 13px;
-																	overflow: hidden;
-																	font-size: 13px;
-																}
-															}
-
-															.duration{
-																padding: 0 6px 0 0;
-																color: $greyColor;
-																text-align: right;
-																font-size: 14px;
-																max-width: 75px;
-																width: 75px;
-															}
-														}
-
-														.actions{
-															box-sizing: border-box;
-															height: 42px;
-															width: 42px;
-															margin: 0;
-
-															button{
-																height: 42px;
-																width: 42px;
-																margin: 0;
-
-																mat-icon{
-																	color: $greyColor;
-																	text-shadow: none;
-																	font-size: 20px;
-
-																	&.added{
-																		color: $blueColor !important;
-																	}
-																}
-															}
-														}
-													}
-
-													.ad{
-														box-sizing: border-box;
-														padding: 18px;
-														width: 100%;
-														float: left;
-
-														.box{
-															width: 100%;
-															float: left;
-														}
-													}
-
-													&.active{
-														.inner{
-															background-color: transparentize($fontBlackColor, .95);
-															color: $blueColor;
-														}
-
-														.text .titleArtist .artist{
-															color: transparentize($blueColor, .5);
-														}
-
-														.text .duration,
-														.actions button mat-icon{
-															color: $blueColor;
-														}
-													}
-
-													&.default{
-														.image{
-															button{
-																mat-icon{
-																	color: $fontBlackColor;
-																	text-shadow: 0 0;
-																}
-															}
-														}
-													}
-
-													&.remove{
-														filter: grayscale(100%);
-														opacity: .5;
-													}
-												}
-											}
-										}
-									}
-
 									.hashtag,
 									.mention,
 									.url{
 										color: $blueColor;
+									}
+								}
+							}
+
+							&.publication{
+								.box{
+									width: 80%;
+
+									.bottom{
+										.post{
+											box-sizing: border-box;
+											padding: 0 0 24px;
+											display: block;
+											width: 100%;
+											float: left;
+
+											.user{
+												box-sizing: border-box;
+												padding: 12px;
+												display: flex;
+												width: 100%;
+												float: left;
+
+												.avatar{
+													box-sizing: border-box;
+													border-radius: 50%;
+													overflow: hidden;
+													min-width: 32px;
+													height: 32px;
+													width: 32px;
+
+													img{
+														height: 100%;
+														width: 100%;
+													}
+												}
+
+												.name{
+													text-overflow: ellipsis;
+													box-sizing: border-box;
+													white-space: nowrap;
+													color: $blackColor;
+													line-height: 32px;
+													overflow: hidden;
+													padding: 0 12px;
+													height: 32px;
+													width: 100%;
+												}
+
+												.arrow{
+													float: left;
+
+													mat-icon{
+														color: $greyColor;
+														margin: 4px 0;
+													}
+												}
+											}
+
+											.urlVideo{
+												box-sizing: border-box;
+												width: 100%;
+												float: left;
+												padding: 0;
+
+												.embedResponsive{
+													padding-top: 56.25%;
+													position: relative;
+													overflow: hidden;
+												    display: block;
+													width: 100%;
+													margin: 0;
+
+												    .image{
+												    	position: absolute;
+												    	height: 100%;
+												    	width: 100%;
+												    	top: 0;
+
+												    	.img{
+															background-position: center 50%;
+															background-repeat: no-repeat;
+															transform: translate(0px);
+															box-sizing: border-box;
+															background-size: cover;
+															display: inline-block;
+															height: 100%;
+															width: 100%;
+														}
+
+														.play{
+															background: $whiteColor;
+															box-shadow: $shadowBox2;
+															margin: -21px 0 0 -32px;
+															border-radius: 7px;
+															position: absolute;
+															text-align: center;
+															height: 42px;
+															width: 64px;
+															left: 50%;
+															top: 50%;
+
+															mat-icon{
+																color: $fontBlackColor;
+																font-size: 30px;
+																margin: 6px 0;
+																height: 30px;
+																width: 30px;
+															}
+														}
+
+														.type{
+															background-color: $whiteColor;
+															box-shadow: $shadowBox2;
+															color: $fontBlackColor;
+															border-radius: 5px;
+															position: absolute;
+															line-height: 10px;
+															font-weight: bold;
+															padding: 4px 8px;
+															font-size: 10px;
+															margin: 12px;
+															bottom: 0;
+															right: 0;
+														}
+													}
+
+													iframe{
+														position: absolute;
+														height: 100%;
+														width: 100%;
+														border: 0;
+														bottom: 0;
+														left: 0;
+														top: 0;
+													}
+												}
+											}
+
+											.textContainer{
+												word-break: break-word;
+												box-sizing: border-box;
+												padding: 6px 12px 12px;
+												font-size: 13px;
+												width: 100%;
+												float: left;
+											}
+
+											.audios{
+												ul{
+													margin: 6px 0 0;
+													float: left;
+													width: 100%;
+													padding: 0;
+
+													li{
+														transition: .15s;
+														display: flex;
+														border: none;
+														padding: 0;
+														margin: 0;
+
+														.inner{
+															padding: 2px 9px 2px 12px;
+															box-sizing: border-box;
+															align-items: center;
+															flex-direction: row;
+															position: relative;
+															margin: 0 0 4px;
+															display: flex;
+															width: 100%;
+
+															&:hover{
+																background-color: transparentize($fontBlackColor, .95);
+															}
+
+															.image{
+																width: 42px;
+
+																button{
+																	overflow: hidden;
+																	height: 42px;
+																	width: 42px;
+																	margin: 0;
+
+																	img{
+																		position: absolute;
+																		height: 100%;
+																		width: 100%;
+																		left: 0;
+																		top: 0;
+																	}
+
+																	.mat-button-ripple-round{
+																		border-radius: 0;
+																	}
+
+																	mat-icon{
+																		text-shadow: 0 1px 5px transparentize($fontBlackColor, .25);
+																		color: $whiteColor;
+																		position: relative;
+																		z-index: 1;
+																	}
+																}
+															}
+
+															.text{
+																justify-content: space-between;
+																box-sizing: border-box;
+																line-height: 42px;
+																overflow: hidden;
+																display: flex;
+																width: 100%;
+																padding: 0;
+
+																.duration,
+																.titleArtist{
+																	flex-direction: column;
+																	box-sizing: border-box;
+																	padding: 0 0 0 12px;
+																	text-align: left;
+																	overflow: hidden;
+																	max-width: 80%;
+																	display: flex;
+
+																	.title{
+																		text-overflow: ellipsis;
+																		white-space: nowrap;
+																		line-height: 15px;
+																		overflow: hidden;
+																		padding: 4px 0;
+																	}
+
+																	.artist{
+																		text-overflow: ellipsis;
+																		white-space: nowrap;
+																		color: $greyColor;
+																		line-height: 13px;
+																		overflow: hidden;
+																		font-size: 13px;
+																	}
+																}
+
+																.duration{
+																	padding: 0 6px 0 0;
+																	color: $greyColor;
+																	text-align: right;
+																	font-size: 14px;
+																	max-width: 75px;
+																	width: 75px;
+																}
+															}
+
+															.actions{
+																box-sizing: border-box;
+																height: 42px;
+																width: 42px;
+																margin: 0;
+
+																button{
+																	height: 42px;
+																	width: 42px;
+																	margin: 0;
+
+																	mat-icon{
+																		color: $greyColor;
+																		text-shadow: none;
+																		font-size: 20px;
+
+																		&.added{
+																			color: $blueColor !important;
+																		}
+																	}
+																}
+															}
+														}
+
+														.ad{
+															box-sizing: border-box;
+															padding: 18px;
+															width: 100%;
+															float: left;
+
+															.box{
+																width: 100%;
+																float: left;
+															}
+														}
+
+														&.active{
+															.inner{
+																background-color: transparentize($fontBlackColor, .95);
+																color: $blueColor;
+															}
+
+															.text .titleArtist .artist{
+																color: transparentize($blueColor, .5);
+															}
+
+															.text .duration,
+															.actions button mat-icon{
+																color: $blueColor;
+															}
+														}
+
+														&.default{
+															.image{
+																button{
+																	mat-icon{
+																		color: $fontBlackColor;
+																		text-shadow: 0 0;
+																	}
+																}
+															}
+														}
+
+														&.remove{
+															filter: grayscale(100%);
+															opacity: .5;
+														}
+													}
+												}
+											}
+										}
 									}
 								}
 							}
@@ -3827,9 +3841,7 @@ body{
 									.bottom{
 										border: none;
 
-										.text,
-										.publication{
-											background-color: $whiteColor;
+										.text{
 											color: $fontBlackColor;
 										}
 									}
@@ -4209,7 +4221,8 @@ body{
 		width: 100%;
 
 		.header{
-			background: transparentize($whiteColor, .15);
+			border-bottom: 1px solid transparentize($greyColor, .75);
+			background: transparentize($headerWhiteColor, .15);
 			position: fixed;
 			display: block;
 			height: 56px;
@@ -4469,7 +4482,7 @@ body{
 			top: 0;
 
 			.head{
-				background-color: $whiteColor;
+				background-color: $headerWhiteColor;
 				box-shadow: $shadowBox0;
 				position: absolute;
 				height: 56px;
@@ -4605,6 +4618,19 @@ body{
 								font-size: 10px;
 								height: 12px;
 							}
+
+							&.selected{
+								mat-icon{
+									color: $redColor !important;
+								}
+							}
+
+							&:hover{
+								h4,
+								mat-icon{
+									color: $blackColor;
+								}
+							}
 						}
 
 						.user{
@@ -4673,18 +4699,10 @@ body{
 								}
 							}
 						}
-
-						.selected{
-							color: $redColor;
-
-							mat-icon{
-								color: $redColor;
-							}
-						}
 					}
 
 					&:hover{
-						background: transparentize($greyColor, .85);
+						background: transparentize($greyColor, .75);
 					}
 				}
 			}
@@ -6491,7 +6509,7 @@ body{
 
 							.text{
 								box-sizing: border-box;
-								padding: 6px 12px;
+								padding: 6px 12px 0;
 								width: 100%;
 
 								.name{
@@ -6502,7 +6520,7 @@ body{
 									}
 
 									.date{
-										color: transparentize($fontBlackColor, .5);
+										color: $greyColor;
 										font-size: 13px;
 									}
 								}
@@ -6510,7 +6528,16 @@ body{
 								.container{
 									word-break: break-word;
 									color: $greyColor;
+									padding: 2px 0 0;
 									font-size: 14px;
+
+									mat-icon{
+										margin: -2px 2px 0 -2px;
+										font-size: 18px;
+										height: 18px;
+										width: 18px;
+										float: left;
+									}
 								}
 							}
 
@@ -6999,8 +7026,23 @@ body{
 				}
 
 				.menuBox{
+					color: $whiteColor;
+
 					.menu{
 						.mat-nav-list{
+							.mat-list-item{
+								.pending{
+									color: $blackColor;
+								}
+
+								&:hover{
+									h4,
+									mat-icon{
+										color: $whiteColor;
+									}
+								}
+							}
+
 							.userMini{
 								.mat-list-item-content{
 									.avatar{
@@ -7016,14 +7058,6 @@ body{
 											color: $fontBlackColor;
 										}
 									}
-								}
-							}
-
-							.selected{
-								color: $redColor;
-
-								mat-icon{
-									color: $redColor;
 								}
 							}
 						}
@@ -7923,8 +7957,8 @@ body{
 
 		.bottomNav{
 			border-top: 1px solid transparentize($greyColor, .75);
+			background-color: $headerWhiteColor;
 			box-shadow: $shadowBoxBottom;
-			background-color: $whiteColor;
 			position: fixed;
 			display: flex;
 			height: 48px;

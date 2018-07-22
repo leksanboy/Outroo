@@ -186,7 +186,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 				user: user,
 				session: session,
 				rows: this.dataDefault.rows,
-				cuantity: this.environment.cuantity*3
+				cuantity: this.environment.cuantity
 			}
 
 			this.publicationsDataService.default(data)
@@ -223,7 +223,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 				user: this.sessionData.current.id,
 				session: this.sessionData.current.id,
 				rows: this.dataDefault.rows,
-				cuantity: this.environment.cuantity*3
+				cuantity: this.environment.cuantity
 			}
 
 			this.publicationsDataService.default(data)

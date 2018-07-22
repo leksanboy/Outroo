@@ -301,7 +301,7 @@ export class MainComponent implements OnInit, OnDestroy {
 		this.location.go('/' + this.sessionData.current.username + '#newPublication');
 
 		let config = {
-			disableClose: true,
+			disableClose: false,
 			data: {
 				sessionData: this.sessionData,
 				translations: this.translations

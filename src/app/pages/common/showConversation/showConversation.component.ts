@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Inject, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, Inject, AfterViewChecked } from '@angular/core';
 import { trigger, transition, style, animate, state } from '@angular/animations';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Location } from '@angular/common';
@@ -35,7 +35,7 @@ import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
 	],
 	providers: [ TimeagoPipe, SafeHtmlPipe ]
 })
-export class ShowConversationComponent implements OnInit, AfterViewChecked {
+export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewChecked {
 	@ViewChild('conversationContainer') private myScrollContainer: ElementRef;
 	public environment: any = environment;
 	public translations: any = [];
@@ -87,8 +87,6 @@ export class ShowConversationComponent implements OnInit, AfterViewChecked {
 		this.data.users = [];
 		this.data.new = false;
 
-		console.log("this.data", this.data);
-
 		// New comments set
 		this.newComment('clear', null, this.data.current);
 
@@ -118,6 +116,8 @@ export class ShowConversationComponent implements OnInit, AfterViewChecked {
 		} else if (this.data.comeFrom == 'share'){
 			this.data.active = 'default';
 
+			console.log("SHARE:", this.data);
+
 			// Get default following users list
 			this.defaultUsers();
 
@@ -142,6 +142,10 @@ export class ShowConversationComponent implements OnInit, AfterViewChecked {
 
 	ngOnInit() {
 		// not in use
+	}
+
+	ngOnDestroy() {
+		this.close();
 	}
 
 	ngAfterViewChecked() {
@@ -334,6 +338,8 @@ export class ShowConversationComponent implements OnInit, AfterViewChecked {
 		} else {
 			this.data.users.push(item);
 		}
+
+		console.log("this.data.users", this.data.users);
 	}
 
 	initNewChat(){
@@ -363,8 +369,6 @@ export class ShowConversationComponent implements OnInit, AfterViewChecked {
 	}
 
 	sendShared(){
-		console.log("LIST:", this.data.users);
-
 		for (let i in this.data.users) {
 			if (this.data.users[i].type == 'user') {
 				let list = [];
@@ -571,7 +575,11 @@ export class ShowConversationComponent implements OnInit, AfterViewChecked {
 		
 		// On close check if is new so then add to the list on component page
 		if (this.data.list.length > 0)
-			this.data.last = this.data.list[this.data.list.length-1].content;
+			this.data.last = {
+				content: this.data.list[this.data.list.length-1].content,
+				date: this.data.list[this.data.list.length-1].date,
+				type: this.data.list[this.data.list.length-1].type ? this.data.list[this.data.list.length-1].type : 'text'
+			};
 
 		this.dialogRef.close(this.data);
 	}

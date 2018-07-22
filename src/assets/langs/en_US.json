@@ -168,5 +168,9 @@
 	"createdSuccessfully": "Created successfully",
 	"sentSuccessfully": "Sent successfully",
 	"sendSepareted": "Send separated",
-	"writeSomething": "Write something..."
+	"writeSomething": "Write something...",
+
+	"sharePublicationWithYou" : "Shared you a publication",
+	"shareAudioWithYou" : "Shared you a song",
+	"sharePhotoWithYou" : "Shared you a photo"
 }

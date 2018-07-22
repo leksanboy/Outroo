@@ -83,7 +83,7 @@
 								<div class="text">
 									<span class="username">{{x.user.username}}</span>
 									<br>
-									<span class="about">{{x.about.trim() ? x.about : x.user.name}}</span>
+									<span class="name">{{x.about.trim() ? x.about : x.user.name}}</span>
 								</div>
 								<div class="actions">
 									<span *ngIf="x.added"><mat-icon>check_circle</mat-icon></span>
@@ -116,10 +116,8 @@
 				</button>
 			</div>
 			<div class="text">
-				<span *ngFor="let u of data.users | slice: 0:5; let isLast = last;">
-					<span class="username">
-						{{u.user.username}}{{isLast ? '' : ', '}}
-					</span>
+				<span class="username" *ngFor="let u of data.users.excluded | slice: 0:3; let isLast = last;">
+					{{u.user.username}}{{isLast ? '' : ', '}}
 				</span>
 			</div>
 			<div class="actions">
@@ -132,7 +130,7 @@
 		<div mat-dialog-content class="bodyChat" #conversationContainer>
 			<div class="container">
 				<ul class="conversationList" *ngIf="data.list.length > 0">
-					<li *ngFor="let x of data.list; let i = index;" [ngClass]="{'me': sessionData.current.id == x.user.id}" [@showFromBottomAnimation]>
+					<li *ngFor="let x of data.list; let i = index;" [ngClass]="{'me': sessionData.current.id == x.user.id, 'publication': x.type == 'publication'}" [@showFromBottomAnimation]>
 						<div class="box">
 							<div class="top" *ngIf="!((i > 0) && (x.user.id == data.list[i-1].user.id))">
 								<a class="avatar" routerLink="/{{x.user.username}}">
@@ -146,7 +144,7 @@
 							<div class="bottom">
 								<div class="text" *ngIf="x.type == 'text'" [innerHtml]="x.content | safeHtml"></div>
 
-								<div class="publication" *ngIf="x.type == 'publication'">
+								<div class="post" *ngIf="x.type == 'publication'">
 									<div class="user">
 										<div class="avatar">
 											<img [src]="x.publication.user.avatar ? x.publication.user.avatarUrl : environment.avatar"/>
@@ -154,11 +152,14 @@
 										<div class="name">
 											{{x.publication.user.username}}
 										</div>
+										<div class="arrow">
+											<mat-icon>keyboard_arrow_right</mat-icon>
+										</div>
 									</div>
 
 									<div class="urlVideo" *ngIf="x.publication.urlVideo">
 										<div class="embedResponsive">
-											<div class="image" (click)="x.publication.urlVideo.showVideo=!x.publication.urlVideo.showVideo" *ngIf="!x.publication.urlVideo.showVideo">
+											<div class="image" *ngIf="!x.publication.urlVideo.showVideo">
 												<div class="img" [ngStyle]="{'background-image': 'url(' + x.publication.urlVideo.thumbnail + ')'}"></div>
 												<div class="play"><mat-icon>play_arrow</mat-icon></div>
 												<div class="type">{{x.publication.urlVideo.type}}</div>
@@ -167,9 +168,12 @@
 										</div>
 									</div>
 
-									<div class="photos" *ngIf="x.publication.photos">
-										<img *ngIf="x.publication.photos[0].mimetype.indexOf('image') !== -1" [src]="environment.pathPhotos + x.publication.photos[0].name">
-										<video *ngIf="x.publication.photos[0].mimetype.indexOf('video') !== -1" [src]="environment.pathVideos + x.publication.photos[0].name.split('.')[0] + '.mp4'" controls></video>
+									<div class="urlVideo" *ngIf="x.publication.photos">
+										<div class="embedResponsive">
+											<div class="image">
+												<div class="img" [ngStyle]="{'background-image': 'url(' + environment.pathPhotos + x.publication.photos[0].name + ')'}"></div>
+											</div>
+										</div>
 									</div>
 
 									<div class="textContainer" *ngIf="x.publication.content" [innerHTML]="x.publication.content | safeHtml"></div>
@@ -240,7 +244,7 @@
 		<div mat-dialog-content class="bodyChat">
 			<div class="container">
 				<ul class="usersList">
-					<li *ngFor="let x of data.users; let i=index;">
+					<li *ngFor="let x of data.users.all; let i=index;">
 						<a class="avatar" routerLink="/{{x.user.username}}">
 							<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
 						</a>
@@ -250,7 +254,7 @@
 								<i *ngIf="x.user.official" matTooltip="{{translations.verifiedAccount}}"></i>
 							</a>
 							<br>
-							<span class="about">{{x.user.name}}</span>
+							<span class="name">{{x.user.name}}</span>
 						</div>
 					</li>
 				</ul>
@@ -270,7 +274,7 @@
 			</div>
 			<div class="actions">
 				<button mat-raised-button type="submit" [disabled]="data.users.length == 0" (click)="sendShared()">
-					{{data.users.length == 1 ? translations.send : translations.sendSepareted}}
+					{{data.users.length > 1 ? translations.sendSepareted : translations.send}}
 				</button>
 			</div>
 		</div>
@@ -295,14 +299,12 @@
 											</span>
 											
 											<span *ngIf="x.type == 'chat'">
-												<div class="avatar" *ngFor="let u of x.users | slice: 0:2">
+												<div class="avatar" *ngFor="let u of x.users.excluded | slice: 0:2">
 													<img [src]="u.user.avatar ? u.user.avatarUrl : environment.avatar"/>
 												</div>
 												
-												<span *ngFor="let u of x.users | slice: 0:3; let isLast = last;">
-													<span class="username">
-														{{u.user.username}}{{isLast ? '' : ', '}}
-													</span>
+												<span class="username" *ngFor="let u of x.users.excluded | slice: 0:3; let isLast = last;">
+													{{u.user.username}}{{isLast ? '' : ', '}}
 												</span>
 											</span>
 
@@ -325,20 +327,18 @@
 					<span *ngIf="data.active == 'default'">
 						<ul class="usersList" *ngIf="dataChats.list.length > 0">
 							<li mat-ripple *ngFor="let x of dataChats.list" (click)="addUserToNewChat('chat', x)">
-								<div class="avatarsGroup" [ngClass]="{'group': x.users.length > 1}">
-									<div class="avatar" *ngFor="let u of x.users | slice: 0:2">
+								<div class="avatarsGroup" [ngClass]="{'group': x.users.excluded.length > 1}">
+									<div class="avatar" *ngFor="let u of x.users.excluded | slice: 0:2">
 										<img [src]="u.user.avatar ? u.user.avatarUrl : environment.avatar"/>
 									</div>
 								</div>
 								<div class="text">
-									<span *ngFor="let u of x.users | slice: 0:3; let isLast = last;">
-										<span class="username">
-											{{u.user.username}}{{isLast ? '' : ', '}}
-										</span>
+									<span class="username" *ngFor="let u of x.users.excluded | slice: 0:3; let isLast = last;">
+										{{u.user.username}}{{isLast ? '' : ', '}}
 									</span>
 									<br>
 									<span class="name">
-										<span [innerHtml]="x.last | safeHtml"></span>
+										<span [innerHtml]="x.last.content | safeHtml"></span>
 									</span>
 								</div>
 								<div class="actions">
@@ -383,7 +383,7 @@
 								<div class="text">
 									<span class="username">{{x.user.username}}</span>
 									<br>
-									<span class="about">{{x.about.trim() ? x.about : x.user.name}}</span>
+									<span class="name">{{x.about.trim() ? x.about : x.user.name}}</span>
 								</div>
 								<div class="actions">
 									<span *ngIf="x.added"><mat-icon>check_circle</mat-icon></span>

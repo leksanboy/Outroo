@@ -102,11 +102,11 @@ export class UserDataService {
 				}
 
 			localStorage.setItem('userData_Outhroo', JSON.stringify(storageUpdateData));
-			return JSON.parse(localStorage.getItem('userData_Outhroo'));
+			return this.getSessionData();
 		} else if (type == 'data') {
 			localStorage.setItem('userData_Outhroo', JSON.stringify(data));
 
-			return JSON.parse(localStorage.getItem('userData_Outhroo'));
+			return this.getSessionData();
 		}
 	}
 

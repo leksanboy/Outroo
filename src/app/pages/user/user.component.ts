@@ -804,6 +804,7 @@ export class UserComponent implements AfterViewInit {
 			this.sessionData.current = data;
 			this.sessionService.setData(this.sessionData);
 			this.sessionData = this.userDataService.setSessionData('data', this.sessionData);
+			console.log("setCurrentUser", this.sessionData);
 			this.showSessions = false;
 			this.showChangeSessionOnMenu = false;
 
@@ -828,8 +829,14 @@ export class UserComponent implements AfterViewInit {
 				if (this.sessionData.sessions[i].id == data.id)
 					this.sessionData.sessions.splice(i, 1);
 
-			this.sessionData.current = this.sessionData.sessions[0];
+			if (data.id != this.sessionData.sessions[0].id)
+				this.sessionData.current = this.sessionData.sessions[0];
+
+			// Set different account and check if is not set and deleted
 			this.setCurrentUser(this.sessionData.current);
+
+			// Set session data
+			this.userDataService.setSessionData('data', this.sessionData);
 		}
 	}
 
@@ -909,7 +916,6 @@ export class UserComponent implements AfterViewInit {
 		or last inserted comment on one conversation */
 		if (!data.close) {
 			this.location.go(this.router.url + '#' + data.comeFrom);
-			console.log("openConversation:", data);
 
 			let config = {
 				disableClose: false,
@@ -923,6 +929,8 @@ export class UserComponent implements AfterViewInit {
 
 			let dialogRef = this.dialog.open(ShowConversationComponent, config);
 			dialogRef.afterClosed().subscribe((res: any) => {
+				console.log("Clsoe:", res);
+				
 				// Check if is new chat with content or last insered comment
 				if (res.close)
 					this.sessionService.setDataConversation(res);
