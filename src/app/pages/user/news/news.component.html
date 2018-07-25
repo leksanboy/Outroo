@@ -16,7 +16,7 @@
 			</div>
 
 			<span *ngIf="dataDefault.list.length > 0">
-				<div class="line" mat-ripple *ngFor="let line of dataDefault.list" [ngClass]="{'ad': line.contentTypeAd}">
+				<div class="line" *ngFor="let line of dataDefault.list" [ngClass]="{'ad': line.contentTypeAd}">
 					<ul *ngIf="!line.contentTypeAd">
 						<li mat-ripple *ngFor="let x of line">
 							<a class="image" (click)="show(x, i)">

@@ -149,6 +149,7 @@ export class ShowPublicationComponent implements OnInit {
 				break;
 			case "report":
 				item.type = 'photo';
+				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 				break;
 			case "close":
@@ -221,6 +222,7 @@ export class ShowPublicationComponent implements OnInit {
 				break;
 			case("report"):
 				item.type = 'audio';
+				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 				break;
 		}
@@ -443,6 +445,7 @@ export class ShowPublicationComponent implements OnInit {
 				break;
 			case "report":
 				item.type = 'photoComment';
+				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 				break;
 		}

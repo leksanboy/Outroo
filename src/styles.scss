@@ -3418,6 +3418,7 @@ body{
 
 			/*chat*/
 			.bodyChat{
+				overflow-x: hidden;
 				width: $modalWidth;
 				min-height: 360px;
 				padding: 18px 0 0;
@@ -3446,7 +3447,7 @@ body{
 								max-width: 80%;
 
 								.top{
-									padding: 4px 0;
+									padding: 4px 6px 4px 0;
 									display: flex;
 									width: 100%;
 
@@ -3485,7 +3486,6 @@ body{
 
 								.bottom{
 									border: 1px solid transparentize($greyColor, .5);
-									background-color: $whiteColor;
 									border-radius: 24px;
 									overflow: hidden;
 									margin: 4px 0 0;
@@ -3495,6 +3495,7 @@ body{
 										white-space: pre-line;
 										display: inline-block;
 										word-break: break-all;
+										line-height: 18px;
 										padding: 12px;
 									}
 
@@ -3506,14 +3507,29 @@ body{
 								}
 							}
 
+							.actions{
+								display: none;
+							}
+
+							&.me,
 							&.publication{
 								.box{
+									display: flex;
 									width: 80%;
 
 									.bottom{
+										background-color: $whiteColor;
+										color: $blackColor;
+										border: none;
+
+										.text{
+											padding: 12px 0 12px 12px;
+										}
+
 										.post{
 											box-sizing: border-box;
 											padding: 0 0 24px;
+											cursor: pointer;
 											display: block;
 											width: 100%;
 											float: left;
@@ -3543,7 +3559,6 @@ body{
 													text-overflow: ellipsis;
 													box-sizing: border-box;
 													white-space: nowrap;
-													color: $blackColor;
 													line-height: 32px;
 													overflow: hidden;
 													padding: 0 12px;
@@ -3673,10 +3688,6 @@ body{
 															margin: 0 0 4px;
 															display: flex;
 															width: 100%;
-
-															&:hover{
-																background-color: transparentize($fontBlackColor, .95);
-															}
 
 															.image{
 																width: 42px;
@@ -3826,6 +3837,35 @@ body{
 												}
 											}
 										}
+
+										.actions{
+											display: block;
+											margin: 3px 0;
+											float: right;
+
+											button{
+												border-radius: 50% !important;
+												height: 36px !important;
+												width: 36px !important;
+												margin: 0;
+
+												span{
+													display: inherit;
+
+													i{
+														background-color: $blackColor;
+														mask-image: $spriteImages;
+														mask-position: 0 -70px;
+														mask-repeat: no-repeat;
+														mask-size: 28px 84px;
+														margin: 11px 0 0;
+														display: block;
+														height: 14px;
+														width: 14px;
+													}
+												}
+											}
+										}
 									}
 								}
 							}
@@ -3834,15 +3874,16 @@ body{
 								flex-direction: row-reverse;
 
 								.box{
-									.top{
-										display: none;
-									}
+									display: initial;
+									width: initial;
+								}
+							}
 
+							&.publication{
+								.box{
 									.bottom{
-										border: none;
-
-										.text{
-											color: $fontBlackColor;
+										.actions{
+											margin: -3px -12px 0 0;
 										}
 									}
 								}
@@ -3942,19 +3983,32 @@ body{
 								.name{
 									word-break: break-word;
 									color: $greyColor;
+									padding: 2px 0 0;
 									font-size: 14px;
-									float: left;
+
+									mat-icon{
+										margin: -2px 2px 0 -2px;
+										font-size: 18px;
+										height: 18px;
+										width: 18px;
+										float: left;
+									}
 								}
 							}
 
 							.actions{
+								box-sizing: border-box;
 								height: 48px;
 
-								button{
+								mat-icon{
+									margin: 12px 0 0;
+								}
+
+								/*button{
 									padding: 0 12px;
 									margin: 5px 0;
 									min-width: 0;
-								}
+								}*/
 							}
 						}
 					}
@@ -5655,13 +5709,10 @@ body{
 								}
 							}
 
-							&.ad{
+							.ad{
 								background: none;
+								padding: 36px 0;
 								border: none;
-
-								.adContent{
-									margin: 18px 0;
-								}
 							}
 
 							&.remove{
@@ -8942,8 +8993,8 @@ body{
 									border: none;
 								}
 
-								.ad .adContent{
-									margin: 0;
+								.ad{
+									padding: 0;
 								}
 							}
 						}

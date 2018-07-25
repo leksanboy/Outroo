@@ -281,6 +281,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 				break;
 			case "report":
 				item.type = 'publication';
+				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 				break;
 		}
@@ -377,6 +378,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 			break;
 			case("report"):
 				item.type = 'audio';
+				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 			break;
 		}
@@ -636,6 +638,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 				break;
 			case "report":
 				item.type = 'publicationComment';
+				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 				break;
 		}

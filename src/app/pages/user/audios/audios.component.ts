@@ -966,6 +966,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 				break;
 			case("report"):
 				item.type = 'audio';
+				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 				break;
 		}
@@ -1125,6 +1126,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 				break;
 			case("report"):
 				item.type = 'audioPlaylist';
+				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 				break;
 		}

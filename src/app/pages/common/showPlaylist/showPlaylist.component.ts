@@ -160,6 +160,7 @@ export class ShowPlaylistComponent implements OnInit {
 			break;
 			case("report"):
 				item.type = 'playlist';
+				// item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 			break;
 		}

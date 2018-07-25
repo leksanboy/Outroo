@@ -687,6 +687,7 @@ export class UserComponent implements AfterViewInit {
 			break;
 			case("report"):
 				item.type = 'audio';
+				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 			break;
 		}

@@ -17,11 +17,11 @@
 							</div>
 							
 							<div class="actions" *ngIf="sessionData.current.id">
-								<button mat-icon-button [matMenuTriggerFor]="optionsItem">
+								<button mat-icon-button [matMenuTriggerFor]="itemOptions">
 									<i label="more"></i>
 								</button>
 								
-								<mat-menu #optionsItem="matMenu">
+								<mat-menu #itemOptions="matMenu">
 									<button mat-menu-item (click)="itemOptions('remove', x)" *ngIf="x.user.id == sessionData.current.id">{{x.addRemoveSession ? translations.restore : translations.remove}}</button>
 									<button mat-menu-item (click)="itemOptions('disableComments', x)" *ngIf="x.user.id == sessionData.current.id">{{x.disabledComments ? translations.disableComments : translations.enableComments}}</button>
 									<button mat-menu-item [matMenuTriggerFor]="menuShareSocial" #trigger="matMenuTrigger">{{translations.share}}</button>

@@ -70,11 +70,11 @@
 									</span>
 
 									<div class="actions">
-										<button mat-icon-button [matMenuTriggerFor]="optionsItem">
+										<button mat-icon-button [matMenuTriggerFor]="itemOptions">
 											<i label="more"></i>
 										</button>
 										
-										<mat-menu #optionsItem="matMenu">
+										<mat-menu #itemOptions="matMenu">
 											<button mat-menu-item (click)="itemOptionsNotification('remove', x)">{{x.addRemoveSession ? translations.restore : translations.remove}}</button>
 											<button mat-menu-item (click)="itemOptionsNotification('report', x)">{{translations.report}}</button>
 										</mat-menu>
@@ -112,11 +112,11 @@
 									</div>
 
 									<div class="actions">
-										<button mat-icon-button [matMenuTriggerFor]="optionsItem">
+										<button mat-icon-button [matMenuTriggerFor]="itemOptions">
 											<i label="more"></i>
 										</button>
 										
-										<mat-menu #optionsItem="matMenu">
+										<mat-menu #itemOptions="matMenu">
 											<button mat-menu-item (click)="itemOptionsNotification('remove', x)">{{x.addRemoveSession ? translations.restore : translations.remove}}</button>
 											<button mat-menu-item (click)="itemOptionsNotification('report', x)">{{translations.report}}</button>
 										</mat-menu>
@@ -159,11 +159,11 @@
 									</div>
 
 									<div class="actions">
-										<button mat-icon-button [matMenuTriggerFor]="optionsItem">
+										<button mat-icon-button [matMenuTriggerFor]="itemOptions">
 											<i label="more"></i>
 										</button>
 										
-										<mat-menu #optionsItem="matMenu">
+										<mat-menu #itemOptions="matMenu">
 											<button mat-menu-item (click)="itemOptionsNotification('remove', x)">{{x.addRemoveSession ? translations.restore : translations.remove}}</button>
 											<button mat-menu-item (click)="itemOptionsNotification('report', x)">{{translations.report}}</button>
 										</mat-menu>
@@ -230,11 +230,11 @@
 							</div>
 
 							<div class="actions">
-								<button mat-icon-button [matMenuTriggerFor]="optionsItem">
+								<button mat-icon-button [matMenuTriggerFor]="itemOptions">
 									<i label="more"></i>
 								</button>
 								
-								<mat-menu #optionsItem="matMenu">
+								<mat-menu #itemOptions="matMenu">
 									<button mat-menu-item (click)="itemOptionsChat('remove', x)">{{x.addRemoveSession ? translations.returnChat : translations.leaveChat}}</button>
 									<button mat-menu-item (click)="itemOptionsChat('report', x)">{{translations.report}}</button>
 								</mat-menu>

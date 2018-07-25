@@ -15,8 +15,8 @@
 		$data = array();
 		while($row = $result->fetch_assoc()) {
 			$row['users'] = getChatConversationUsers($row['id'], $user);
-			$row['list'] = getChatConversation($row['id']);
 			$row['last'] = getChatConversationLastComment($row['id']);
+			$row['list'] = [];
 			
 			$data[] = $row;
 		}

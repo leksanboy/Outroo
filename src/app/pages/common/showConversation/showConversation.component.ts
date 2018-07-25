@@ -1,16 +1,21 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, Inject, AfterViewChecked } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatChipsModule } from '@angular/material';
 import { trigger, transition, style, animate, state } from '@angular/animations';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Location } from '@angular/common';
-import { MatDialogRef, MAT_DIALOG_DATA, MatChipsModule } from '@angular/material';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
+
+import { ShowPublicationComponent } from '../../../../app/pages/common/showPublication/showPublication.component';
 
 import { ChatDataService } from '../../../../app/core/services/user/chatData.service';
 import { NotificationsDataService } from '../../../../app/core/services/user/notificationsData.service';
 import { FollowsDataService } from '../../../../app/core/services/user/followsData.service';
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
+import { PublicationsDataService } from '../../../../app/core/services/user/publicationsData.service';
+import { SessionService } from '../../../../app/core/services/session/session.service';
 
 import { TimeagoPipe } from '../../../../app/core/pipes/timeago.pipe';
 import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
@@ -41,6 +46,14 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 	public translations: any = [];
 	public sessionData: any = [];
 	public actionFormSearch: FormGroup;
+	public dataDefault: any = {
+		list: [],
+		rows: 0,
+		noData: false,
+		loadingData: true,
+		loadMoreData: false,
+		loadingMoreData: false
+	};
 	public dataUsers: any = {
 		list: [],
 		rows: 0,
@@ -73,18 +86,22 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 	constructor(
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		public dialogRef: MatDialogRef<ShowConversationComponent>,
-		private location: Location,
+		private router: Router,
+		public dialog: MatDialog,
 		private _fb: FormBuilder,
+		private location: Location,
+		private alertService: AlertService,
+		private sessionService: SessionService,
 		private chatDataService: ChatDataService,
 		private followsDataService: FollowsDataService,
-		private notificationsDataService: NotificationsDataService,
-		private alertService: AlertService
+		private publicationsDataService: PublicationsDataService,
+		private notificationsDataService: NotificationsDataService
 	) {
 		this.translations = data.translations;
 		this.sessionData = data.sessionData;
 		this.data.current = data.item ? data.item : [];
-		this.data.list = [];
 		this.data.users = [];
+		this.data.list = [];
 		this.data.new = false;
 
 		// New comments set
@@ -111,18 +128,12 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 					(val.length > 0) ? this.search('default') : this.search('clear');
 				});
 		} else if (this.data.comeFrom == 'conversation'){
-			this.data.list = data.item.list ? data.item.list : [];
 			this.data.users = data.item.users ? data.item.users : [];
+			
+			// Get default conversation
+			this.defaultConversation('default', data.item.id);
 		} else if (this.data.comeFrom == 'share'){
 			this.data.active = 'default';
-
-			console.log("SHARE:", this.data);
-
-			// Get default following users list
-			this.defaultUsers();
-
-			// Get default chats
-			this.defaultChats();
 
 			// Search
 			this.actionFormSearch = this._fb.group({
@@ -137,6 +148,12 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 				.subscribe(val => {
 					(val.length > 0) ? this.search('default') : this.search('clear');
 				});
+
+			// Get default following users list
+			this.defaultUsers();
+
+			// Get default chats
+			this.defaultChats();
 		}
 	}
 
@@ -149,7 +166,7 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 	}
 
 	ngAfterViewChecked() {
-		this.scrollToBottom();
+		// this.scrollToBottom();
 	}
 
 	// Auto scroll to bottom
@@ -157,6 +174,78 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 		try {
 			this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
 		} catch(err) { }
+	}
+
+	// Default
+	defaultConversation(type, id) {
+		if (type == 'default') {
+			this.dataDefault = {
+				list: [],
+				rows: 0,
+				noData: false,
+				loadingData: true,
+				loadMoreData: false,
+				loadingMoreData: false,
+				noMore: false
+			}
+
+			let data = {
+				id: id,
+				rows: this.dataDefault.rows,
+				cuantity: this.environment.cuantity
+			}
+
+			this.chatDataService.conversation(data)
+				.subscribe(res => {
+					this.dataDefault.loadingData = false;
+
+					if (!res || res.length == 0) {
+						this.dataDefault.noData = true;
+						this.dataDefault.noMore = true;
+					} else {
+						this.dataDefault.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
+						this.dataDefault.noData = false;
+						this.dataDefault.list = res;
+
+						if (!res || res.length < this.environment.cuantity)
+							this.dataDefault.noMore = true;
+
+						// Scroll to bottom
+						this.scrollToBottom();
+					}
+				}, error => {
+					this.dataDefault.loadingData = false;
+					this.alertService.error(this.translations.anErrorHasOcurred);
+				});
+		} else if (type == 'more' && !this.dataDefault.noMore && !this.dataDefault.loadingMoreData) {
+			this.dataDefault.loadingMoreData = true;
+			this.dataDefault.rows++;
+
+			let data = {
+				id: this.dataDefault.id,
+				rows: this.dataDefault.rows,
+				cuantity: this.environment.cuantity
+			}
+
+			this.chatDataService.conversation(data)
+				.subscribe(res => {
+					setTimeout(() => {
+						this.dataDefault.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
+						this.dataDefault.loadingMoreData = false;
+
+						// Push items
+						if (!res || res.length > 0)
+							for (let i in res)
+								this.dataDefault.list.push(res[i]);
+
+						if (!res || res.length < this.environment.cuantity)
+							this.dataDefault.noMore = true;
+					}, 600);
+				}, error => {
+					this.dataDefault.loadingData = false;
+					this.alertService.error(this.translations.anErrorHasOcurred);
+				});
+		}
 	}
 
 	// Default users
@@ -339,9 +428,10 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 			this.data.users.push(item);
 		}
 
-		console.log("this.data.users", this.data.users);
+		console.log("users:", this.data.users);
 	}
 
+	// Init new chat/conversation
 	initNewChat(){
 		this.saveLoading = true;
 		let list = [];
@@ -356,18 +446,31 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 			receivers: list
 		}
 
+		console.log("initNewChat:", this.data.users);
+
 		this.chatDataService.newChat(data)
 			.subscribe((res: any) => {
 				this.saveLoading = false;
 				this.data.comeFrom = 'conversation';
 				this.data.current.id = res;
 				this.data.new = true;
+				this.data.users.excluded = this.data.users;
+				this.dataDefault = {
+					list: [],
+					rows: 0,
+					noData: true,
+					loadingData: false,
+					loadMoreData: false,
+					loadingMoreData: false,
+					noMore: false
+				};
 			}, error => {
 				this.saveLoading = false;
 				this.alertService.error(this.translations.anErrorHasOcurred);
 			});
 	}
 
+	// Send shared
 	sendShared(){
 		for (let i in this.data.users) {
 			if (this.data.users[i].type == 'user') {
@@ -408,10 +511,6 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 		this.alertService.success(this.translations.sentSuccessfully);
 		this.close();
 	}
-
-	//////////////////
-	// CONVERSATION //
-	//////////////////
 
 	// New comment
 	newComment(type, event, item){
@@ -521,10 +620,14 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 
 				this.chatDataService.comment(dataCreate)
 					.subscribe((res: any) => {
-						this.data.list.push(res);
+						this.dataDefault.list.push(res);
 						item.noData = false;
 
+						// Clear comment box
 						this.newComment('clear', null, item);
+
+						// Scroll to bottom
+						this.scrollToBottom();
 					}, error => {
 						this.alertService.error(this.translations.anErrorHasOcurred);
 					});
@@ -569,17 +672,78 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 		return content.substring(startPosition + 1, endPosition);
 	}
 
+	// Show photo from url if is one
+	showShared(item) {
+		console.log("showShared", item);
+
+		if (item.type == 'publication') {
+			let data = item.publication.name;
+
+			this.publicationsDataService.getDataByName(data)
+				.subscribe((res: any) => {
+					this.location.go(this.router.url + '#publication');
+
+					let config = {
+						disableClose: false,
+						data: {
+							comeFrom: 'notifications',
+							translations: this.translations,
+							sessionData: this.sessionData,
+							userData: (res ? res.user : null),
+							item: (res ? res : null)
+						}
+					};
+
+					// Open dialog
+					let dialogRef = this.dialog.open(ShowPublicationComponent, config);
+					dialogRef.afterClosed().subscribe((result: any) => {
+						this.location.go(this.router.url);
+					});
+				});
+		} else if (item.type == 'photo') {
+			// code...
+		} else if (item.type == 'audio') {
+			// code...
+		}
+	}
+
+	// Item options
+	itemOptionsConversation(type, item){
+		switch (type) {
+			case "remove":
+				item.addRemoveSession = !item.addRemoveSession;
+				item.removeType = item.addRemoveSession ? 'remove' : 'add';
+
+				let dataAddRemove = {
+					id: item.id,
+					type: item.removeType,
+					user: this.sessionData.current.id
+				}
+
+				this.chatDataService.addRemoveComment(dataAddRemove).subscribe();
+				break;
+			case "report":
+				item.type = 'notification';
+				item.translations = this.translations;
+				this.sessionService.setDataReport(item);
+				break;
+		}
+	}
+
 	// Close dialog
 	close(){
 		this.data.close = true;
 		
 		// On close check if is new so then add to the list on component page
-		if (this.data.list.length > 0)
+		if (this.dataDefault.list.length > 0) {
+			this.data.list = this.dataDefault.list;
+
 			this.data.last = {
-				content: this.data.list[this.data.list.length-1].content,
-				date: this.data.list[this.data.list.length-1].date,
-				type: this.data.list[this.data.list.length-1].type ? this.data.list[this.data.list.length-1].type : 'text'
+				content: this.dataDefault.list[this.dataDefault.list.length-1].content,
+				date: this.dataDefault.list[this.dataDefault.list.length-1].date,
+				type: this.dataDefault.list[this.dataDefault.list.length-1].type ? this.dataDefault.list[this.dataDefault.list.length-1].type : 'text'
 			};
+		}
 
 		this.dialogRef.close(this.data);
 	}

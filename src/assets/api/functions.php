@@ -813,33 +813,6 @@
 	// CHAT //
 	//////////
 
-	// Get conversation
-	function getChatConversation($id){
-		global $conn;
-
-		$sql = "SELECT id, user, type, content, publication, date
-				FROM z_chat_conversation
-				WHERE chat = $id 
-					AND is_deleted = 0
-				ORDER BY date DESC
-				LIMIT 30";
-		$result = $conn->query($sql);
-
-		$data = array();
-		while($row = $result->fetch_assoc()) {
-			$row['user'] = userUsernameNameAvatar($row['user']);
-
-			if ($row['type'] == 'publication')
-				$row['publication'] = getPublication($row['publication']);
-			else
-				$row['content'] = trim($row['content']) ? html_entity_decode($row['content'], ENT_QUOTES) : null;
-
-			$data[] = $row;
-		}
-
-		return array_reverse($data);
-	}
-
 	// Get conversation users
 	function getChatConversationUsers($id, $user){
 		global $conn;

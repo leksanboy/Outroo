@@ -104,6 +104,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 		// Get conversation
 		this.activeConversation = this.sessionService.getDataConversation()
 			.subscribe(data => {
+				console.log("Close:", data);
+				
 				// Check if is new chat with content
 				if (data.close)
 					if (data.new && data.list.length > 0)
@@ -365,6 +367,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 				break;
 			case "report":
 				item.type = 'notification';
+				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 				break;
 		}
@@ -453,6 +456,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 			break;
 			case("report"):
 				item.type = 'chat';
+				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 			break;
 		}

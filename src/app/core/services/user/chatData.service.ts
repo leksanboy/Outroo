@@ -27,8 +27,31 @@ export class ChatDataService {
 			}));
 	}
 
+	conversation(data: any) {
+		let url = environment.url + 'assets/api/chat/conversation.php';
+		let params =	'&id=' + data.id +
+						'&rows=' + data.rows +
+						'&cuantity=' + data.cuantity;
+		params = params.replace('&', '?');
+
+		return this.http.get(url + params, this.headersService.getHeaders())
+			.pipe(map((res: Response) => { 
+				return res.json() 
+			}));
+	}
+
 	addRemove(data: any) {
 		let url = environment.url + 'assets/api/chat/addRemove.php';
+		let params = data;
+
+		return this.http.post(url, params, this.headersService.getHeaders())
+			.pipe(map((res: Response) => { 
+				return res.json() 
+			}));
+	}
+
+	addRemoveComment(data: any) {
+		let url = environment.url + 'assets/api/chat/addRemoveComment.php';
 		let params = data;
 
 		return this.http.post(url, params, this.headersService.getHeaders())

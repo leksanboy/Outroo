@@ -12,6 +12,7 @@ import { UserDataService } from '../../../core/services/user/userData.service';
 })
 export class NewReportComponent implements OnInit {
 	public environment: any = environment;
+	public translations: any = [];
 	public actionForm: FormGroup;
 	public saveLoading: boolean;
 	public inUse: boolean;
@@ -22,7 +23,9 @@ export class NewReportComponent implements OnInit {
 		private alertService: AlertService,
 		private userDataService: UserDataService,
 		private _fb: FormBuilder
-	) { }
+	) {
+		this.translations = this.data.translations;
+	}
 
 	ngOnInit() {
 		// Form
@@ -57,5 +60,10 @@ export class NewReportComponent implements OnInit {
 			// show error message
 			this.alertService.error('Completed the field');
 		}
+	}
+
+	// Close
+	close(){
+		this.dialogRef.close();
 	}
 }
