@@ -32,25 +32,14 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	public environment: any = environment;
 	public sessionData: any = [];
 	public translations: any = [];
-	public activeRouter: any;
-	public activeConversation: any;
+	public dataNotifications: any = [];
+	public dataChats: any = [];
 	public data: any = {
 		selectedIndex: 0
 	};
-	public dataNotifications: any = {
-		list: [],
-		rows: 0,
-		loadingData: true,
-		loadMoreData: false,
-		loadingMoreData: false
-	};
-	public dataChats: any = {
-		list: [],
-		rows: 0,
-		loadingData: true,
-		loadMoreData: false,
-		loadingMoreData: false
-	};
+	public activeRouter: any;
+	public activeConversation: any;
+	public activeLanguage: any;
 
 	constructor(
 		@Inject(DOCUMENT) private document: Document,
@@ -104,8 +93,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 		// Get conversation
 		this.activeConversation = this.sessionService.getDataConversation()
 			.subscribe(data => {
-				console.log("Close:", data);
-				
 				// Check if is new chat with content
 				if (data.close)
 					if (data.new && data.list.length > 0)
@@ -114,6 +101,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 						for (let i in this.dataChats.list)
 							if(this.dataChats.list[i].id == data.item.id)
 								this.dataChats.list[i].last = data.last;
+			});
+
+		// Get language
+		this.activeLanguage = this.sessionService.getDataLanguage()
+			.subscribe(data => {
+				let lang = data.current.language;
+				this.getTranslations(lang);
 			});
 
 		// Load more on scroll on bottom
@@ -145,6 +139,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		this.activeRouter.unsubscribe();
 		this.activeConversation.unsubscribe();
+		this.activeLanguage.unsubscribe();
 	}
 
 	// Get translations

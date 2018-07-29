@@ -40,8 +40,6 @@ export class NewSessionComponent implements OnInit {
 	submit(event: Event){
 		this.inUse = false;
 
-		console.log("event", event);
-
 		for (let i in this.sessionData.sessions)
 			if (this.actionForm.get('email').value == this.sessionData.sessions[i].email)
 				this.inUse = true;

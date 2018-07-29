@@ -16,11 +16,14 @@ import { AudioDataService } from '../../../../app/core/services/user/audioData.s
 import { NewPlaylistComponent } from '../../../../app/pages/common/newPlaylist/newPlaylist.component';
 import { ShowPlaylistComponent } from '../../../../app/pages/common/showPlaylist/showPlaylist.component';
 
+import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
+
 declare var ga: Function;
 
 @Component({
 	selector: 'app-audios',
-	templateUrl: './audios.component.html'
+	templateUrl: './audios.component.html',
+	providers: [ SafeHtmlPipe ]
 })
 export class AudiosComponent implements OnInit, OnDestroy {
 	public environment: any = environment;
@@ -28,12 +31,11 @@ export class AudiosComponent implements OnInit, OnDestroy {
 	public translations: any = [];
 	public audioPlayerData: any = [];
 	public userData: any = [];
-	public activeRouter: any;
-	public activeSessionPlaylists: any;
-	public activePlayerInformation: any;
-	public actionFormSearch: FormGroup;
-	public hideAd: boolean;
-	public audio = new Audio();
+	public dataSearch: any = [];
+	public dataDefault: any = [];
+	public dataAround: any = [];
+	public dataTop: any = [];
+	public dataFresh: any = [];
 	public data: any = {
 		selectedIndex: 0,
 		active: 'default',
@@ -46,46 +48,13 @@ export class AudiosComponent implements OnInit, OnDestroy {
 		saveDisabled: false,
 		counter: 0
 	};
-	public dataSearch: any = {
-		list: [],
-		rows: 0,
-		noData: false,
-		loadingData: true,
-		loadMoreData: false,
-		loadingMoreData: false
-	};
-	public dataDefault: any = {
-		list: [],
-		rows: 0,
-		noData: false,
-		loadingData: true,
-		loadMoreData: false,
-		loadingMoreData: false
-	};
-	public dataAround: any = {
-		list: [],
-		rows: 0,
-		noData: false,
-		loadingData: true,
-		loadMoreData: false,
-		loadingMoreData: false
-	};
-	public dataTop: any = {
-		list: [],
-		rows: 0,
-		noData: false,
-		loadingData: true,
-		loadMoreData: false,
-		loadingMoreData: false
-	};
-	public dataFresh: any = {
-		list: [],
-		rows: 0,
-		noData: false,
-		loadingData: true,
-		loadMoreData: false,
-		loadingMoreData: false
-	};
+	public activeRouter: any;
+	public activeSessionPlaylists: any;
+	public activePlayerInformation: any;
+	public activeLanguage: any;
+	public actionFormSearch: FormGroup;
+	public hideAd: boolean;
+	public audio = new Audio();
 
 	constructor(
 		@Inject(DOCUMENT) private document: Document,
@@ -132,9 +101,9 @@ export class AudiosComponent implements OnInit, OnDestroy {
 					// Load default
 					this.data.selectedIndex = 0;
 					this.default('default', urlData);
-					this.around('default');
-					this.top('default');
-					this.fresh('default');
+					// this.around('default');
+					// this.top('default');
+					// this.fresh('default');
 				}
 			});
 
@@ -153,6 +122,13 @@ export class AudiosComponent implements OnInit, OnDestroy {
 		this.activePlayerInformation = this.playerService.getCurrentTrack()
 			.subscribe(data => {
 				this.audioPlayerData = data;
+			});
+
+		// Get language
+		this.activeLanguage = this.sessionService.getDataLanguage()
+			.subscribe(data => {
+				let lang = data.current.language;
+				this.getTranslations(lang);
 			});
 
 		// Load more on scroll on bottom
@@ -208,14 +184,30 @@ export class AudiosComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.activeRouter.unsubscribe();
-		// this.activeSession.unsubscribe();
 		this.activeSessionPlaylists.unsubscribe();
 		this.activePlayerInformation.unsubscribe();
+		this.activeLanguage.unsubscribe();
 	}
 
 	// Go back
 	goBack(){
 		this.location.back();
+	}
+
+	// Push Google Ad
+	pushAd(){
+		let ad = '<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5692822538817681" data-ad-slot="1635841852" data-ad-format="auto"></ins>';
+		let a = {
+			contentTypeAd: true,
+			content: ad
+		}
+
+		setTimeout(() => {
+			let g = (window['adsbygoogle'] = window['adsbygoogle'] || []).push({});
+			if (g == 1) this.hideAd = true;
+		}, 100);
+
+		return a;
 	}
 
 	// User Data of the Page
@@ -246,6 +238,28 @@ export class AudiosComponent implements OnInit, OnDestroy {
 			});
 	}
 
+	// Set tab on click
+	setTab(tab){
+		switch (tab) {
+			case 0:
+				if (this.dataDefault.list.length == 0)
+					// not in use
+				break;
+			case 1:
+				if (this.dataAround.list.length == 0)
+					this.around('default');
+				break;
+			case 2:
+				if (this.dataTop.list.length == 0)
+					this.top('default');
+				break;
+			case 3:
+				if (this.dataFresh.list.length == 0)
+					this.fresh('default');
+				break;
+		}
+	}
+
 	// Default
 	default(type, user){
 		if (type == 'default') {
@@ -253,7 +267,6 @@ export class AudiosComponent implements OnInit, OnDestroy {
 				list: [],
 				playlists: [],
 				rows: 0,
-				noData: false,
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
@@ -273,20 +286,27 @@ export class AudiosComponent implements OnInit, OnDestroy {
 					this.dataDefault.loadingData = false;
 
 					if (!res || res.length == 0) {
-						this.dataDefault.noData = true;
 						this.dataDefault.noMore = true;
 					} else {
-						this.dataDefault.loadMoreData = (res.length < environment.cuantity) ? false : true;
-						this.dataDefault.noData = false;
-						this.dataDefault.list = res;
+						this.dataDefault.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 
-						if (!res || res.length < environment.cuantity)
+						for (let i in res) {
+							// Push items
+							this.dataDefault.list.push(res[i]);
+
+							// Push ad
+							if (i == (Math.round(res.length*3/5)).toString())
+								this.dataDefault.list.push(this.pushAd());
+						}
+
+						if (!res || res.length < this.environment.cuantity)
 							this.dataDefault.noMore = true;
 
 						// Check playing item
-						if (this.audioPlayerData.type == 'default')
-							if ((res.length-1) >= this.audioPlayerData.key)
-								this.dataDefault.list[this.audioPlayerData.key] = this.audioPlayerData.item;
+						// TODO: Hacer una funcion que comprube la cancion que esta sonando si es de esta pantalla
+						// if (this.audioPlayerData.type == 'default')
+						// 	if ((res.length-1) >= this.audioPlayerData.key)
+						// 		this.dataDefault.list[this.audioPlayerData.key] = this.audioPlayerData.item;
 					}
 				}, error => {
 					this.dataDefault.loadingData = false;
@@ -315,25 +335,21 @@ export class AudiosComponent implements OnInit, OnDestroy {
 			this.audioDataService.default(data)
 				.subscribe(res => {
 					setTimeout(() => {
-						this.dataDefault.loadMoreData = (res.length < environment.cuantity) ? false : true;
+						this.dataDefault.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 						this.dataDefault.loadingMoreData = false;
 
 						if (!res || res.length > 0) {
-							// Push ad
-							this.dataDefault.list.push(this.pushAd());
-
-							// Push items
-							for (let i in res) {
+							for (let i in res){
+								// Push items
 								this.dataDefault.list.push(res[i]);
-							}
 
-							// Check playing item
-							if (this.audioPlayerData.type == 'default')
-								if ((this.dataDefault.list.length-1) >= this.audioPlayerData.key)
-									this.dataDefault.list[this.audioPlayerData.key] = this.audioPlayerData.item;
+								// Push ad
+								if (i == (Math.round(res.length*3/5)).toString())
+									this.dataDefault.list.push(this.pushAd());
+							}
 						}
 
-						if (!res || res.length < environment.cuantity)
+						if (!res || res.length < this.environment.cuantity)
 							this.dataDefault.noMore = true;
 					}, 600);
 				}, error => {
@@ -349,7 +365,6 @@ export class AudiosComponent implements OnInit, OnDestroy {
 			this.dataAround = {
 				list: [],
 				rows: 0,
-				noData: false,
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
@@ -368,20 +383,24 @@ export class AudiosComponent implements OnInit, OnDestroy {
 						this.dataAround.loadingData = false;
 
 						if (!res || res.length == 0) {
-							this.dataAround.noData = true;
 							this.dataAround.noMore = true;
 						} else {
-							this.dataAround.loadMoreData = (res.length < environment.cuantity) ? false : true;
-							this.dataAround.noData = false;
-							this.dataAround.list = res;
+							this.dataAround.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 
-							if (!res || res.length < environment.cuantity)
+							for (let i in res) {
+								// Push items
+								this.dataAround.list.push(res[i]);
+
+								// Push ad
+								if (i == (Math.round(res.length*3/5)).toString()){
+									setTimeout(() => {
+										this.dataAround.list.push(this.pushAd());
+									}, 300);
+								}
+							}
+
+							if (!res || res.length < this.environment.cuantity)
 								this.dataAround.noMore = true;
-
-							// Check playing item
-							if (this.audioPlayerData.type == 'around')
-								if ((res.length-1) >= this.audioPlayerData.key)
-									this.dataAround.list[this.audioPlayerData.key] = this.audioPlayerData.item;
 						}
 					}, 600);
 				}, error => {
@@ -401,25 +420,21 @@ export class AudiosComponent implements OnInit, OnDestroy {
 			this.audioDataService.default(data)
 				.subscribe(res => {
 					setTimeout(() => {
-						this.dataAround.loadMoreData = (res.length < environment.cuantity) ? false : true;
+						this.dataAround.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 						this.dataAround.loadingMoreData = false;
 
 						if (!res || res.length > 0) {
-							// Push ad
-							this.dataAround.list.push(this.pushAd());
-
-							// Push items
-							for (let i in res) {
+							for (let i in res){
+								// Push items
 								this.dataAround.list.push(res[i]);
-							}
 
-							// Check playing item
-							if (this.audioPlayerData.type == 'around')
-								if ((this.dataAround.list.length-1) >= this.audioPlayerData.key)
-									this.dataAround.list[this.audioPlayerData.key] = this.audioPlayerData.item;
+								// Push ad
+								if (i == (Math.round(res.length*3/5)).toString())
+									this.dataAround.list.push(this.pushAd());
+							}
 						}
 
-						if (!res || res.length < environment.cuantity)
+						if (!res || res.length < this.environment.cuantity)
 							this.dataAround.noMore = true;
 					}, 600);
 				}, error => {
@@ -435,7 +450,6 @@ export class AudiosComponent implements OnInit, OnDestroy {
 			this.dataTop = {
 				list: [],
 				rows: 0,
-				noData: false,
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
@@ -454,20 +468,24 @@ export class AudiosComponent implements OnInit, OnDestroy {
 						this.dataTop.loadingData = false;
 
 						if (!res || res.length == 0) {
-							this.dataTop.noData = true;
 							this.dataTop.noMore = true;
 						} else {
-							this.dataTop.loadMoreData = (res.length < environment.cuantity) ? false : true;
-							this.dataTop.noData = false;
-							this.dataTop.list = res;
+							this.dataTop.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 
-							if (!res || res.length < environment.cuantity)
+							for (let i in res) {
+								// Push items
+								this.dataTop.list.push(res[i]);
+
+								// Push ad
+								if (i == (Math.round(res.length*3/5)).toString()){
+									setTimeout(() => {
+										this.dataTop.list.push(this.pushAd());
+									}, 600);
+								}
+							}
+
+							if (!res || res.length < this.environment.cuantity)
 								this.dataTop.noMore = true;
-
-							// Check playing item
-							if (this.audioPlayerData.type == 'top')
-								if ((res.length-1) >= this.audioPlayerData.key)
-									this.dataTop.list[this.audioPlayerData.key] = this.audioPlayerData.item;
 						}
 					}, 600);
 				}, error => {
@@ -487,25 +505,21 @@ export class AudiosComponent implements OnInit, OnDestroy {
 			this.audioDataService.default(data)
 				.subscribe(res => {
 					setTimeout(() => {
-						this.dataTop.loadMoreData = (res.length < environment.cuantity) ? false : true;
+						this.dataTop.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 						this.dataTop.loadingMoreData = false;
 
 						if (!res || res.length > 0) {
-							// Push ad
-							this.dataTop.list.push(this.pushAd());
-
-							// Push items
-							for (let i in res) {
+							for (let i in res){
+								// Push items
 								this.dataTop.list.push(res[i]);
-							}
 
-							// Check playing item
-							if (this.audioPlayerData.type == 'top')
-								if ((this.dataTop.list.length-1) >= this.audioPlayerData.key)
-									this.dataTop.list[this.audioPlayerData.key] = this.audioPlayerData.item;
+								// Push ad
+								if (i == (Math.round(res.length*3/5)).toString())
+									this.dataTop.list.push(this.pushAd());
+							}
 						}
 
-						if (!res || res.length < environment.cuantity)
+						if (!res || res.length < this.environment.cuantity)
 							this.dataTop.noMore = true;
 					}, 600);
 				}, error => {
@@ -521,7 +535,6 @@ export class AudiosComponent implements OnInit, OnDestroy {
 			this.dataFresh = {
 				list: [],
 				rows: 0,
-				noData: false,
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
@@ -540,20 +553,24 @@ export class AudiosComponent implements OnInit, OnDestroy {
 						this.dataFresh.loadingData = false;
 
 						if (!res || res.length == 0) {
-							this.dataFresh.noData = true;
 							this.dataFresh.noMore = true;
 						} else {
-							this.dataFresh.loadMoreData = (res.length < environment.cuantity) ? false : true;
-							this.dataFresh.noData = false;
-							this.dataFresh.list = res;
+							this.dataFresh.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 
-							if (!res || res.length < environment.cuantity)
+							for (let i in res) {
+								// Push items
+								this.dataFresh.list.push(res[i]);
+
+								// Push ad
+								if (i == (Math.round(res.length*3/5)).toString()){
+									setTimeout(() => {
+										this.dataFresh.list.push(this.pushAd());
+									}, 900);
+								}
+							}
+
+							if (!res || res.length < this.environment.cuantity)
 								this.dataFresh.noMore = true;
-
-							// Check playing item
-							if (this.audioPlayerData.type == 'fresh')
-								if ((res.length-1) >= this.audioPlayerData.key)
-									this.dataFresh.list[this.audioPlayerData.key] = this.audioPlayerData.item;
 						}
 					}, 600);
 				}, error => {
@@ -573,25 +590,21 @@ export class AudiosComponent implements OnInit, OnDestroy {
 			this.audioDataService.default(data)
 				.subscribe(res => {
 					setTimeout(() => {
-						this.dataFresh.loadMoreData = (res.length < environment.cuantity) ? false : true;
+						this.dataFresh.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 						this.dataFresh.loadingMoreData = false;
 
 						if (!res || res.length > 0) {
-							// Push ad
-							this.dataFresh.list.push(this.pushAd());
-
-							// Push items
-							for (let i in res) {
+							for (let i in res){
+								// Push items
 								this.dataFresh.list.push(res[i]);
-							}
 
-							// Check playing item
-							if (this.audioPlayerData.type == 'fresh')
-								if ((this.dataFresh.list.length-1) >= this.audioPlayerData.key)
-									this.dataFresh.list[this.audioPlayerData.key] = this.audioPlayerData.item;
+								// Push ad
+								if (i == (Math.round(res.length*3/5)).toString())
+									this.dataFresh.list.push(this.pushAd());
+							}
 						}
 
-						if (!res || res.length < environment.cuantity)
+						if (!res || res.length < this.environment.cuantity)
 							this.dataFresh.noMore = true;
 					}, 600);
 				}, error => {
@@ -608,7 +621,6 @@ export class AudiosComponent implements OnInit, OnDestroy {
 			this.dataSearch = {
 				list: [],
 				rows: 0,
-				noData: false,
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
@@ -627,20 +639,21 @@ export class AudiosComponent implements OnInit, OnDestroy {
 						this.dataSearch.loadingData = false;
 
 						if (!res || res.length == 0) {
-							this.dataSearch.noData = true;
 							this.dataSearch.noMore = true;
 						} else {
-							this.dataSearch.loadMoreData = (res.length < environment.cuantity) ? false : true;
-							this.dataSearch.noData = false;
-							this.dataSearch.list = res;
+							this.dataSearch.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 
-							if (!res || res.length < environment.cuantity)
+							for (let i in res) {
+								// Push items
+								this.dataSearch.list.push(res[i]);
+
+								// Push ad
+								if (i == (Math.round(res.length*3/5)).toString())
+									this.dataSearch.list.push(this.pushAd());
+							}
+
+							if (!res || res.length < this.environment.cuantity)
 								this.dataSearch.noMore = true;
-
-							// Check playing item
-							if (this.audioPlayerData.type == 'search')
-								if ((res.length-1) >= this.audioPlayerData.key)
-									this.dataSearch.list[this.audioPlayerData.key] = this.audioPlayerData.item;
 						}
 					}, 600);
 				}, error => {
@@ -660,25 +673,21 @@ export class AudiosComponent implements OnInit, OnDestroy {
 			this.audioDataService.search(data)
 				.subscribe(res => {
 					setTimeout(() => {
-						this.dataSearch.loadMoreData = (res.length < environment.cuantity) ? false : true;
+						this.dataSearch.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 						this.dataSearch.loadingMoreData = false;
 
 						if (!res || res.length > 0) {
-							// Push ad
-							this.dataSearch.list.push(this.pushAd());
-
-							// Push items
-							for (let i in res) {
+							for (let i in res){
+								// Push items
 								this.dataSearch.list.push(res[i]);
-							}
 
-							// Check playing item
-							if (this.audioPlayerData.type == 'search')
-								if ((this.dataSearch.list.length-1) >= this.audioPlayerData.key)
-									this.dataSearch.list[this.audioPlayerData.key] = this.audioPlayerData.item;
+								// Push ad
+								if (i == (Math.round(res.length*3/5)).toString())
+									this.dataSearch.list.push(this.pushAd());
+							}
 						}
 
-						if (!res || res.length < environment.cuantity)
+						if (!res || res.length < this.environment.cuantity)
 							this.dataSearch.noMore = true;
 					}, 600);
 				}, error => {
@@ -814,23 +823,6 @@ export class AudiosComponent implements OnInit, OnDestroy {
 				counter: 0
 			}
 		}
-	}
-
-	// Push Google Ad
-	pushAd(){
-		let ad = '<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-5692822538817681" data-ad-slot="1635841852" data-ad-format="auto"></ins>';
-		let a = {
-			id: null,
-			contentTypeAd: true,
-			content: this.sanitizer.bypassSecurityTrustHtml(ad)
-		}
-
-		setTimeout(() => {
-			let g = (window['adsbygoogle'] = window['adsbygoogle'] || []).push({});
-			if (g == 1) this.hideAd = true;
-		}, 100);
-
-		return a;
 	}
 
 	// Generate random color

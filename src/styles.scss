@@ -112,6 +112,12 @@ body{
 		}
 	}
 
+	.hashtag,
+	.mention,
+	.url{
+		color: $blueColor !important;
+	}
+
 	/*span transparent formating default on body*/
 	span{
 		background: transparent !important;
@@ -726,12 +732,6 @@ body{
 						overflow: hidden;
 						outline: none;
 						width: 100%;
-					}
-
-					.hashtag,
-					.mention,
-					.url{
-						color: $blueColor;
 					}
 				}
 
@@ -1648,8 +1648,8 @@ body{
 							pointer-events: none;
 							position: absolute;
 							color: transparent;
+							padding: 12px 18px;
 							overflow: hidden;
-							padding: 0 18px;
 							width: 100%;
 
 							.placeholder{
@@ -1662,17 +1662,11 @@ body{
 							display: inline-block;
 							word-wrap: break-word;
 							white-space: pre-wrap;
+							padding: 12px 18px;
 							min-height: 100px;
 							overflow: hidden;
-							padding: 0 18px;
 							outline: none;
 							width: 100%;
-						}
-
-						.hashtag,
-						.mention,
-						.url{
-							color: $blueColor;
 						}
 					}
 
@@ -3444,7 +3438,7 @@ body{
 
 							.box{
 								padding: 0 18px;
-								max-width: 80%;
+								max-width: 60%;
 
 								.top{
 									padding: 4px 6px 4px 0;
@@ -3472,63 +3466,112 @@ body{
 										height: 18px;
 
 										.username{
+											text-overflow: ellipsis;
 											word-break: break-all;
-											font-weight: bold;
+											white-space: nowrap;
+											overflow: hidden;
+											max-width: 128px;
+											font-weight: 700;
 											font-size: 14px;
-										}
-
-										.date{
-											color: $greyColor;
-											font-size: 12px;
+											float: left;
 										}
 									}
 								}
 
 								.bottom{
 									border: 1px solid transparentize($greyColor, .5);
+									display: inline-block;
 									border-radius: 24px;
+									position: relative;
 									overflow: hidden;
 									margin: 4px 0 0;
+									width: 100%;
 
-									.text{
-										box-sizing: border-box;
-										white-space: pre-line;
-										display: inline-block;
-										word-break: break-all;
-										line-height: 18px;
-										padding: 12px;
+									.innerContent{
+										display: flex;
+										width: 100%;
+										float: left;
+
+										.text{
+											box-sizing: border-box;
+											display: flex;
+											width: 100%;
+											float: left;
+
+											.content{
+												box-sizing: border-box;
+												word-break: break-word;
+												white-space: pre-line;
+												display: inline-block;
+												padding: 12px 12px 0;
+												line-height: 18px;
+
+												.subcontent{
+													color: $greyColor;
+													font-size: 12px;
+												}
+											}
+										}
+
+										.actions{
+											position: absolute;
+											display: none;
+											margin: 3px 0;
+											height: 36px;
+											width: 36px;
+											margin: 3px;
+											right: 0;
+
+											button{
+												border-radius: 50% !important;
+												height: 36px !important;
+												width: 36px !important;
+												margin: 0;
+
+												span{
+													display: inherit;
+
+													i{
+														background-color: $blackColor;
+														mask-image: $spriteImages;
+														mask-position: 0 -70px;
+														mask-repeat: no-repeat;
+														mask-size: 28px 84px;
+														margin: 11px 0 0;
+														display: block;
+														height: 14px;
+														width: 14px;
+													}
+												}
+											}
+										}
 									}
 
-									.hashtag,
-									.mention,
-									.url{
-										color: $blueColor;
+									.date{
+										padding: 4px 18px 6px 0;
+										box-sizing: border-box;
+										text-align: right;
+										color: $greyColor;
+										font-size: 12px;
+										max-width: 100%;
+										float: right;
 									}
 								}
-							}
-
-							.actions{
-								display: none;
 							}
 
 							&.me,
 							&.publication{
 								.box{
-									display: flex;
-									width: 80%;
-
 									.bottom{
-										background-color: $whiteColor;
-										color: $blackColor;
-										border: none;
-
 										.text{
-											padding: 12px 0 12px 12px;
+											.content{
+												padding: 12px 42px 0 12px;
+											}
 										}
 
 										.post{
 											box-sizing: border-box;
-											padding: 0 0 24px;
+											padding: 0 0 2px;
 											cursor: pointer;
 											display: block;
 											width: 100%;
@@ -3659,7 +3702,7 @@ body{
 											.textContainer{
 												word-break: break-word;
 												box-sizing: border-box;
-												padding: 6px 12px 12px;
+												padding: 12px 12px 0;
 												font-size: 13px;
 												width: 100%;
 												float: left;
@@ -3837,35 +3880,6 @@ body{
 												}
 											}
 										}
-
-										.actions{
-											display: block;
-											margin: 3px 0;
-											float: right;
-
-											button{
-												border-radius: 50% !important;
-												height: 36px !important;
-												width: 36px !important;
-												margin: 0;
-
-												span{
-													display: inherit;
-
-													i{
-														background-color: $blackColor;
-														mask-image: $spriteImages;
-														mask-position: 0 -70px;
-														mask-repeat: no-repeat;
-														mask-size: 28px 84px;
-														margin: 11px 0 0;
-														display: block;
-														height: 14px;
-														width: 14px;
-													}
-												}
-											}
-										}
 									}
 								}
 							}
@@ -3874,19 +3888,27 @@ body{
 								flex-direction: row-reverse;
 
 								.box{
-									display: initial;
-									width: initial;
+									.bottom{
+										background-color: $whiteColor;
+										color: $blackColor;
+										border: none;
+
+										.actions{
+											display: block;
+										}
+									}
 								}
 							}
 
 							&.publication{
 								.box{
-									.bottom{
-										.actions{
-											margin: -3px -12px 0 0;
-										}
-									}
+									width: 60%;
 								}
+							}
+
+							&.remove{
+								filter: grayscale(100%);
+								opacity: .5;
 							}
 						}
 					}
@@ -4144,12 +4166,6 @@ body{
 								overflow: hidden;
 								outline: none;
 								width: 100%;
-							}
-
-							.hashtag,
-							.mention,
-							.url{
-								color: $blueColor;
 							}
 						}
 
@@ -4761,6 +4777,188 @@ body{
 				}
 			}
 
+			.notificationsBox{
+				position: fixed;
+				height: 100%;
+				z-index: 99;
+				width: 100%;
+				left: 0;
+				top: 0;
+
+				.hidden{
+					position: fixed;
+					height: 100%;
+					width: 100%;
+					left: 0;
+					top: 0;
+				}
+
+				.box{
+					background-color: $whiteColor;
+					box-shadow: $shadowBox2;
+					margin: 56px 76px 0 0;
+					position: fixed;
+					width: 420px;
+					right: 0;
+					top: 0;
+
+					.innerBox{
+						width: 100%;
+						float: left;
+
+						ul.notifications{
+							max-height: 360px;
+							overflow-y: auto;
+							float: left;
+							width: 100%;
+							padding: 0;
+							margin: 0;
+
+							li{
+								box-sizing: border-box;
+								position: relative;
+								padding: 4px 18px;
+								list-style: none;
+								transition: .15s;
+								margin: 0 0 4px;
+								display: flex;
+								float: left;
+								width: 100%;
+
+								.avatar{
+									box-sizing: border-box;
+									border-radius: 50%;
+									overflow: hidden;
+									min-width: 40px;
+									margin: 4px 0;
+									height: 40px;
+									width: 40px;
+
+									img{
+										height: 100%;
+										width: 100%;
+									}
+								}
+
+								.inner{
+									display: flex;
+									width: 100%;
+
+									.text{
+										box-sizing: border-box;
+										padding: 6px 12px;
+										width: 100%;
+
+										.name{
+											display: block;
+
+											.username{
+												word-break: break-all;
+												font-weight: bold;
+											}
+
+											.date{
+												color: $greyColor;
+												font-size: 13px;
+											}
+										}
+
+										.container{
+											word-break: break-word;
+											color: $greyColor;
+											cursor: pointer;
+											font-size: 14px;
+										}
+									}
+
+									.operations{
+										display: flex;
+										height: 48px;
+
+										span{
+											display: inherit;
+										}
+
+										button{
+											margin: 10px 0 0 6px;
+											line-height: 24px;
+											padding: 0 12px;
+											height: 32px;
+											min-width: 0;
+
+											&:first-child{
+												margin: 5px 0;
+											}
+
+											&.active{
+												background-color: $blueColor;
+												border-color: $blueColor;
+												color: $whiteColor;
+											}
+										}
+
+										.image{
+											border-radius: 5px;
+											overflow: hidden;
+											cursor: pointer;
+											display: block;
+											height: 48px;
+											width: 48px;
+
+											.img{
+												background-position: center 35%;
+												background-repeat: no-repeat;
+												transform: translate(0px);
+												box-sizing: border-box;
+												background-size: cover;
+												display: inline-block;
+												border-radius: 5px;
+												height: 100%;
+												width: 100%;
+											}
+										}
+									}
+								}
+
+								&:hover{
+									background-color: transparentize($greyColor, .9);
+								}
+
+								&.active{
+									background-color: transparentize($blueColor, .75);
+								}
+							}
+						}
+
+						.noData{
+							color: $blackColor;
+							padding: 98px 0;
+						}
+
+						.forward{
+							border-top: 1px solid transparentize($fontBlackColor, .75);
+							text-overflow: ellipsis;
+							box-sizing: border-box;
+							color: $fontBlackColor;
+							display: inline-block;
+							white-space: nowrap;
+							padding: 0 0 0 24px;
+							line-height: 56px;
+							overflow: hidden;
+							cursor: pointer;
+							height: 56px;
+							width: 100%;
+
+							button{
+								border-radius: 50% !important;
+								margin: 8px 12px;
+								float: right;
+							}
+						}
+					}
+				}
+			}
+
 			.userBox{
 				position: fixed;
 				height: 100%;
@@ -4896,6 +5094,27 @@ body{
 									border-radius: 50% !important;
 									margin: 8px 12px;
 									float: left;
+								}
+							}
+
+							.forward{
+								border-top: 1px solid transparentize($fontBlackColor, .75);
+								text-overflow: ellipsis;
+								box-sizing: border-box;
+								color: $fontBlackColor;
+								display: inline-block;
+								white-space: nowrap;
+								padding: 0 0 0 24px;
+								line-height: 56px;
+								overflow: hidden;
+								cursor: pointer;
+								height: 56px;
+								width: 100%;
+
+								button{
+									border-radius: 50% !important;
+									margin: 8px 12px;
+									float: right;
 								}
 							}
 
@@ -6813,12 +7032,6 @@ body{
 								outline: none;
 								width: 100%;
 							}
-
-							.hashtag,
-							.mention,
-							.url{
-								color: $blueColor;
-							}
 						}
 
 						.buttons{
@@ -7063,7 +7276,8 @@ body{
 					background-color: $blackColor;
 					box-shadow: $shadowBox0;
 
-					.left{
+					.left,
+					.right{
 						button{
 							color: $whiteColor;
 						}
@@ -7342,11 +7556,11 @@ body{
 	}
 
 	/*Blur background on mobile player*/
-	&.blurBackground{
+	/*&.blurBackground{
 		.innerBodyUser{
 			filter: blur(5px);
 		}
-	}
+	}*/
 
 	/*When is iPhone X (+32px)*/
 	&.iphoneXClass{
@@ -7931,6 +8145,16 @@ body{
 					}
 				}
 
+				.bodyCreatePublication,
+				.bodyChat,
+				.bodyCreatePlaylist,
+				.bodySession,
+				.bodyAvatar,
+				.bodyReport,
+				.bodyAudios{
+					width: 100%;
+				}
+
 				.bodyPhotos,
 				.bodyPublications{
 					display: block;
@@ -7980,14 +8204,17 @@ body{
 					}
 				}
 
-				.bodyCreatePublication,
-				.bodyChat,
-				.bodyCreatePlaylist,
-				.bodySession,
-				.bodyAvatar,
-				.bodyReport,
-				.bodyAudios{
-					width: 100%;
+				.bodyChat{
+					.container{
+						ul.conversationList{
+							li.publication{
+								.box{
+									max-width: 80% !important;
+									width: 80% !important;
+								}
+							}
+						}
+					}
 				}
 
 				.buttons{

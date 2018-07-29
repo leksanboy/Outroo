@@ -137,7 +137,7 @@
 				</div>
 				
 				<ul class="conversationList" *ngIf="dataDefault.list.length > 0">
-					<li *ngFor="let x of dataDefault.list; let i = index;" [ngClass]="{'me': sessionData.current.id == x.user.id, 'publication': x.type == 'publication'}" [@showFromBottomAnimation]>
+					<li *ngFor="let x of dataDefault.list; let i = index;" [ngClass]="{'me': sessionData.current.id == x.user.id, 'publication': x.type == 'publication', 'remove': x.addRemoveSession}" [@showFromBottomAnimation]>
 						<div class="box">
 							<div class="top" *ngIf="!((i > 0) && (x.user.id == dataDefault.list[i-1].user.id))">
 								<a class="avatar" routerLink="/{{x.user.username}}">
@@ -145,94 +145,116 @@
 								</a>
 								<div class="name">
 									<span class="username">{{x.user.username}}</span>
-									<span class="date">{{x.date | timeago}}</span>
 								</div>
 							</div>
 
 							<div class="bottom">
-								<span *ngIf="x.type == 'text'">
-									<div class="text" [innerHtml]="x.content | safeHtml"></div>
+								<div class="innerContent">
+									<div class="text" *ngIf="x.type == 'text'">
+										<div class="content" [innerHtml]="x.content | safeHtml"></div>
 
-									<div class="actions">
-										<button mat-icon-button [matMenuTriggerFor]="itemOptions">
-											<i label="more"></i>
-										</button>
-										
-										<mat-menu #itemOptions="matMenu">
-											<button mat-menu-item (click)="itemOptionsConversation('remove', x)">{{x.addRemoveSession ? translations.restore : translations.remove}}</button>
-											<button mat-menu-item (click)="itemOptionsConversation('report', x)">{{translations.report}}</button>
-										</mat-menu>
-									</div>
-								</span>
-
-								<div class="post" *ngIf="x.type == 'publication'">
-									<div class="user">
-										<div class="avatar">
-											<img [src]="x.publication.user.avatar ? x.publication.user.avatarUrl : environment.avatar"/>
-										</div>
-										<div class="name">
-											{{x.publication.user.username}}
-										</div>
-										<!-- <div class="arrow">
-											<mat-icon>keyboard_arrow_right</mat-icon>
-										</div> -->
 										<div class="actions">
-											<button mat-icon-button [matMenuTriggerFor]="itemOptions">
+											<button mat-icon-button [matMenuTriggerFor]="options">
 												<i label="more"></i>
 											</button>
 											
-											<mat-menu #itemOptions="matMenu">
-												<button mat-menu-item (click)="itemOptionsConversation('remove', x)">{{x.addRemoveSession ? translations.restore : translations.remove}}</button>
-												<button mat-menu-item (click)="itemOptionsConversation('report', x)">{{translations.report}}</button>
+											<mat-menu #options="matMenu">
+												<button mat-menu-item (click)="itemOptions('remove', x)">{{x.addRemoveSession ? translations.restore : translations.remove}}</button>
+												<button mat-menu-item (click)="itemOptions('report', x)">{{translations.report}}</button>
 											</mat-menu>
 										</div>
 									</div>
-									
-									<span (click)="showShared(x)">
-										<div class="urlVideo" *ngIf="x.publication.urlVideo">
-											<div class="embedResponsive">
-												<div class="image" *ngIf="!x.publication.urlVideo.showVideo">
-													<div class="img" [ngStyle]="{'background-image': 'url(' + x.publication.urlVideo.thumbnail + ')'}"></div>
-													<div class="play"><mat-icon>play_arrow</mat-icon></div>
-													<div class="type">{{x.publication.urlVideo.type}}</div>
-												</div>
-												<span [innerHtml]="x.publication.urlVideo.iframe | safeHtml" *ngIf="x.publication.urlVideo.showVideo"></span>
-											</div>
+
+									<div class="text" *ngIf="x.type == 'publication' && !x.publication">
+										<div class="content">
+											{{translations.publicationNotAvailable}}
+											<br>
+											<span class="subcontent">
+												{{translations.publicationNotAvailableText}}
+											</span>
 										</div>
 
-										<div class="urlVideo" *ngIf="x.publication.photos">
-											<div class="embedResponsive">
-												<div class="image">
-													<div class="img" [ngStyle]="{'background-image': 'url(' + environment.pathPhotos + x.publication.photos[0].name + ')'}"></div>
-												</div>
+										<div class="actions">
+											<button mat-icon-button [matMenuTriggerFor]="options">
+												<i label="more"></i>
+											</button>
+											
+											<mat-menu #options="matMenu">
+												<button mat-menu-item (click)="itemOptions('remove', x)">{{x.addRemoveSession ? translations.restore : translations.remove}}</button>
+												<button mat-menu-item (click)="itemOptions('report', x)">{{translations.report}}</button>
+											</mat-menu>
+										</div>
+									</div>
+
+									<div class="post" *ngIf="x.type == 'publication' && x.publication">
+										<div class="user">
+											<div class="avatar">
+												<img [src]="x.publication.user.avatar ? x.publication.user.avatarUrl : environment.avatar"/>
+											</div>
+											<div class="name">
+												{{x.publication.user.username}}
+											</div>
+											
+											<div class="actions">
+												<button mat-icon-button [matMenuTriggerFor]="options">
+													<i label="more"></i>
+												</button>
+												
+												<mat-menu #options="matMenu">
+													<button mat-menu-item (click)="itemOptions('remove', x)">{{x.addRemoveSession ? translations.restore : translations.remove}}</button>
+													<button mat-menu-item (click)="itemOptions('report', x)">{{translations.report}}</button>
+												</mat-menu>
 											</div>
 										</div>
-
-										<div class="textContainer" *ngIf="x.publication.content" [innerHTML]="x.publication.content | safeHtml"></div>
-
-										<div class="audios" *ngIf="x.publication.audios && !x.publication.content">
-											<ul>
-												<li *ngFor="let a of x.publication.audios">
-													<div class="inner">
-														<div class="image">
-															<button mat-icon-button>
-																<mat-icon>play_arrow</mat-icon>
-																<img *ngIf="a.image" [src]="environment.pathAudios + 'thumbnails/' + a.image"/>
-															</button>
-														</div>
-														<div class="text">
-															<div class="titleArtist" title="{{a.original_title ? a.original_title : a.title}}">
-																<div class="title">{{a.original_title ? a.original_title : a.title}}</div>
-																<div class="artist">{{a.original_artist ? a.original_artist : a.title}}</div>
-															</div>
-															<div class="duration">{{a.duration}}</div>
-														</div>
+										
+										<span (click)="showShared(x)">
+											<div class="urlVideo" *ngIf="x.publication.urlVideo">
+												<div class="embedResponsive">
+													<div class="image" *ngIf="!x.publication.urlVideo.showVideo">
+														<div class="img" [ngStyle]="{'background-image': 'url(' + x.publication.urlVideo.thumbnail + ')'}"></div>
+														<div class="play"><mat-icon>play_arrow</mat-icon></div>
+														<div class="type">{{x.publication.urlVideo.type}}</div>
 													</div>
-												</li>
-											</ul>
-										</div>
-									</span>
+													<span [innerHtml]="x.publication.urlVideo.iframe | safeHtml" *ngIf="x.publication.urlVideo.showVideo"></span>
+												</div>
+											</div>
+
+											<div class="urlVideo" *ngIf="x.publication.photos">
+												<div class="embedResponsive">
+													<div class="image">
+														<div class="img" [ngStyle]="{'background-image': 'url(' + environment.pathPhotos + x.publication.photos[0].name + ')'}"></div>
+													</div>
+												</div>
+											</div>
+
+											<div class="textContainer" *ngIf="x.publication.content" [innerHTML]="x.publication.content | truncate:[200] | safeHtml"></div>
+
+											<div class="audios" *ngIf="x.publication.audios && !x.publication.content">
+												<ul>
+													<li *ngFor="let a of x.publication.audios">
+														<div class="inner">
+															<div class="image">
+																<button mat-icon-button>
+																	<mat-icon>play_arrow</mat-icon>
+																	<img *ngIf="a.image" [src]="environment.pathAudios + 'thumbnails/' + a.image"/>
+																</button>
+															</div>
+															<div class="text">
+																<div class="titleArtist" title="{{a.original_title ? a.original_title : a.title}}">
+																	<div class="title">{{a.original_title ? a.original_title : a.title}}</div>
+																	<div class="artist">{{a.original_artist ? a.original_artist : a.title}}</div>
+																</div>
+																<div class="duration">{{a.duration}}</div>
+															</div>
+														</div>
+													</li>
+												</ul>
+											</div>
+										</span>
+									</div>
 								</div>
+
+								<div class="date">{{x.date | dateTime}}</div>
 							</div>
 						</div>
 					</li>

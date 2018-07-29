@@ -27,18 +27,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 	public sessionData: any = [];
 	public translations: any = [];
 	public audioPlayerData: any = [];
-	public activeRouter: any;
-	public activeSessionPlaylists: any;
-	public activePlayerInformation: any;
-	public hideAd: boolean;
-	public data: any;
-	public dataDefault: any = {
-		list: [],
-		rows: 0,
-		loadingData: true,
-		loadMoreData: false,
-		loadingMoreData: false
-	};
+	public dataDefault: any = [];
+	public data: any = [];
 	public swiperConfig: any = {
 		pagination: '.swiper-pagination',
 		nextButton: '.swiperNext',
@@ -46,6 +36,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 		paginationClickable: true,
 		spaceBetween: 0
 	};
+	public activeRouter: any;
+	public activeLanguage: any;
+	public activeSessionPlaylists: any;
+	public activePlayerInformation: any;
+	public hideAd: boolean;
 	public searchBoxMentions: boolean;
 	public urlRegex: any = /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/g;
 
@@ -107,17 +102,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 				this.audioPlayerData = data;
 			});
 
-		// Load more on scroll on bottom
-		window.onscroll = (event) => {
-			let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
-			let body = document.body, html = document.documentElement;
-			let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-			let windowBottom = windowHeight + window.pageYOffset;
-
-			if (windowBottom >= docHeight)
-				if (this.dataDefault.list.length > 0)
-					this.default('more', null, null);
-		}
+		// Get language
+		this.activeLanguage = this.sessionService.getDataLanguage()
+			.subscribe(data => {
+				let lang = data.current.language;
+				this.getTranslations(lang);
+			});
 
 		// Click on a href
 		this.renderer.listen(this.elementRef.nativeElement, 'click', (event) => {
@@ -133,6 +123,18 @@ export class HomeComponent implements OnInit, OnDestroy {
 				}
 			}
 		});
+
+		// Load more on scroll on bottom
+		window.onscroll = (event) => {
+			let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+			let body = document.body, html = document.documentElement;
+			let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+			let windowBottom = windowHeight + window.pageYOffset;
+
+			if (windowBottom >= docHeight)
+				if (this.dataDefault.list.length > 0)
+					this.default('more', null, null);
+		}
 	}
 
 	ngOnInit() {
@@ -143,6 +145,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 		this.activeRouter.unsubscribe();
 		this.activeSessionPlaylists.unsubscribe();
 		this.activePlayerInformation.unsubscribe();
+		this.activeLanguage.unsubscribe();
 	}
 
 	// Push Google Ad
@@ -202,7 +205,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 							// Push items
 							this.dataDefault.list.push(res[i]);
 
-							// Push add
+							// Push ad
 							if (i == (Math.round(res.length*3/5)).toString())
 								this.dataDefault.list.push(this.pushAd());
 						}
@@ -237,7 +240,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 								// Push items
 								this.dataDefault.list.push(res[i]);
 
-								// Push add
+								// Push ad
 								if (i == (Math.round(res.length*3/5)).toString())
 									this.dataDefault.list.push(this.pushAd());
 							}

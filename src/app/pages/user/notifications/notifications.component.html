@@ -70,11 +70,11 @@
 									</span>
 
 									<div class="actions">
-										<button mat-icon-button [matMenuTriggerFor]="itemOptions">
+										<button mat-icon-button [matMenuTriggerFor]="options">
 											<i label="more"></i>
 										</button>
 										
-										<mat-menu #itemOptions="matMenu">
+										<mat-menu #options="matMenu">
 											<button mat-menu-item (click)="itemOptionsNotification('remove', x)">{{x.addRemoveSession ? translations.restore : translations.remove}}</button>
 											<button mat-menu-item (click)="itemOptionsNotification('report', x)">{{translations.report}}</button>
 										</mat-menu>
@@ -112,11 +112,11 @@
 									</div>
 
 									<div class="actions">
-										<button mat-icon-button [matMenuTriggerFor]="itemOptions">
+										<button mat-icon-button [matMenuTriggerFor]="options">
 											<i label="more"></i>
 										</button>
 										
-										<mat-menu #itemOptions="matMenu">
+										<mat-menu #options="matMenu">
 											<button mat-menu-item (click)="itemOptionsNotification('remove', x)">{{x.addRemoveSession ? translations.restore : translations.remove}}</button>
 											<button mat-menu-item (click)="itemOptionsNotification('report', x)">{{translations.report}}</button>
 										</mat-menu>
@@ -159,11 +159,11 @@
 									</div>
 
 									<div class="actions">
-										<button mat-icon-button [matMenuTriggerFor]="itemOptions">
+										<button mat-icon-button [matMenuTriggerFor]="options">
 											<i label="more"></i>
 										</button>
 										
-										<mat-menu #itemOptions="matMenu">
+										<mat-menu #options="matMenu">
 											<button mat-menu-item (click)="itemOptionsNotification('remove', x)">{{x.addRemoveSession ? translations.restore : translations.remove}}</button>
 											<button mat-menu-item (click)="itemOptionsNotification('report', x)">{{translations.report}}</button>
 										</mat-menu>
@@ -176,7 +176,11 @@
 					<div class="loadingData" *ngIf="dataNotifications.loadingData">
 						<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 					</div>
-					<div class="noData" *ngIf="dataNotifications.list.length == 0 && !dataNotifications.loadingData">{{translations.noData}}</div>
+
+					<div class="noData" *ngIf="dataNotifications.list.length == 0 && !dataNotifications.loadingData">
+						{{translations.noData}}
+					</div>
+					
 					<div class="loadMore" *ngIf="dataNotifications.loadMoreData">
 						<button mat-fab (click)="defaultNotifications('more', null)" *ngIf="!dataNotifications.loadingMoreData">
 							<mat-icon>add</mat-icon>
@@ -230,11 +234,11 @@
 							</div>
 
 							<div class="actions">
-								<button mat-icon-button [matMenuTriggerFor]="itemOptions">
+								<button mat-icon-button [matMenuTriggerFor]="options">
 									<i label="more"></i>
 								</button>
 								
-								<mat-menu #itemOptions="matMenu">
+								<mat-menu #options="matMenu">
 									<button mat-menu-item (click)="itemOptionsChat('remove', x)">{{x.addRemoveSession ? translations.returnChat : translations.leaveChat}}</button>
 									<button mat-menu-item (click)="itemOptionsChat('report', x)">{{translations.report}}</button>
 								</mat-menu>
@@ -245,7 +249,11 @@
 					<div class="loadingData" *ngIf="dataChats.loadingData">
 						<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 					</div>
-					<div class="noData" *ngIf="dataChats.list.length == 0 && !dataChats.loadingData">{{translations.noData}}</div>
+
+					<div class="noData" *ngIf="dataChats.list.length == 0 && !dataChats.loadingData">
+						{{translations.noData}}
+					</div>
+					
 					<div class="loadMore" *ngIf="dataChats.loadMoreData">
 						<button mat-fab (click)="defaultChats('more', null)" *ngIf="!dataChats.loadingMoreData">
 							<mat-icon>add</mat-icon>

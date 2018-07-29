@@ -14,7 +14,6 @@ import { PublicationsDataService } from '../../../../app/core/services/user/publ
 
 import { ShowPublicationComponent } from '../../../../app/pages/common/showPublication/showPublication.component';
 
-import { TimeagoPipe } from '../../../../app/core/pipes/timeago.pipe';
 import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
 
 declare var ga: Function;
@@ -22,31 +21,22 @@ declare var ga: Function;
 @Component({
 	selector: 'app-news',
 	templateUrl: './news.component.html',
-	providers: [ TimeagoPipe, SafeHtmlPipe ]
+	providers: [ SafeHtmlPipe ]
 })
 export class NewsComponent implements OnInit, OnDestroy {
 	public environment: any = environment;
 	public sessionData: any = [];
 	public translations: any = [];
+	public dataDefault: any = [];
+	public dataSearch: any = [];
+	public data: any = {
+		active: 'default'
+	};
 	public activeRouter: any;
+	public activeLanguage: any;
 	public activeSessionPlaylists: any;
 	public hideAd: boolean;
 	public actionFormSearch: FormGroup;
-	public data: any;
-	public dataDefault: any = {
-		list: [],
-		rows: 0,
-		loadingData: true,
-		loadMoreData: false,
-		loadingMoreData: false
-	};
-	public dataSearch: any = {
-		list: [],
-		rows: 0,
-		loadingData: true,
-		loadMoreData: false,
-		loadingMoreData: false
-	};
 
 	constructor(
 		@Inject(DOCUMENT) private document: Document,
@@ -98,6 +88,13 @@ export class NewsComponent implements OnInit, OnDestroy {
 				this.sessionData = data;
 			});
 
+		// Get language
+		this.activeLanguage = this.sessionService.getDataLanguage()
+			.subscribe(data => {
+				let lang = data.current.language;
+				this.getTranslations(lang);
+			});
+
 		// Load more on scroll on bottom
 		window.onscroll = (event) => {
 			let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
@@ -130,6 +127,7 @@ export class NewsComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		this.activeRouter.unsubscribe();
 		this.activeSessionPlaylists.unsubscribe();
+		this.activeLanguage.unsubscribe();
 	}
 
 	// Push Google Ad
@@ -173,7 +171,7 @@ export class NewsComponent implements OnInit, OnDestroy {
 				user: user,
 				session: session,
 				rows: this.dataDefault.rows,
-				cuantity: this.environment.cuantity*6
+				cuantity: this.environment.cuantity*3
 			}
 
 			this.publicationsDataService.default(data)
@@ -191,8 +189,9 @@ export class NewsComponent implements OnInit, OnDestroy {
 							this.dataDefault.list.push(res[i]);
 
 							// Push add
-							if (i == '30' || i == '60')
-								this.dataDefault.list.push(this.pushAd());
+							console.log("[i]:", [i]);
+							// if (i == '15' || i == '30' || i == '45' || i == '60')
+								// this.dataDefault.list.push(this.pushAd());
 						}
 
 						if (!res || res.length < this.environment.cuantity)
@@ -211,13 +210,11 @@ export class NewsComponent implements OnInit, OnDestroy {
 				user: this.sessionData.current.id,
 				session: this.sessionData.current.id,
 				rows: this.dataDefault.rows,
-				cuantity: this.environment.cuantity*6
+				cuantity: this.environment.cuantity*3
 			}
 
 			this.publicationsDataService.default(data)
 				.subscribe(res => {
-					console.log("RES:", res);
-
 					setTimeout(() => {
 						this.dataDefault.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 						this.dataDefault.loadingMoreData = false;
@@ -228,7 +225,7 @@ export class NewsComponent implements OnInit, OnDestroy {
 								this.dataDefault.list.push(res[i]);
 
 								// Push add
-								if (i == '30' || i == '60')
+								if (i == '15' || i == '30' || i == '45' || i == '60')
 									this.dataDefault.list.push(this.pushAd());
 							}
 						}
@@ -292,6 +289,8 @@ export class NewsComponent implements OnInit, OnDestroy {
 
 			this.publicationsDataService.search(data)
 				.subscribe(res => {
+					console.log("SEARCH_RES: ", res);
+
 					setTimeout(() => {
 						this.dataSearch.loadingData = false;
 

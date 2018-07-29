@@ -21,7 +21,7 @@
 			</div>
 
 			<span *ngIf="data.active == 'default'">
-				<mat-tab-group mat-stretch-tabs [(selectedIndex)]="data.selectedIndex">
+				<mat-tab-group mat-stretch-tabs [(selectedIndex)]="data.selectedIndex" (selectedIndexChange)="setTab(data.selectedIndex)">
 					<mat-tab label="{{translations.overview}}">
 						<div class="uploadFilesBox" *ngIf="userData.id == sessionData.current.id">
 							<div class="button">
@@ -180,8 +180,10 @@
 								</div>
 
 								<div class="ad" *ngIf="x.contentTypeAd">
-									<div class="box" [innerHtml]="x.content"></div>
-									<div class="disableAdBlock" *ngIf="hideAd">{{translations.disableAdBlock}}</div>
+									<div class="adContent" [innerHtml]="x.content | safeHtml"></div>
+									<div class="disableAdBlock" *ngIf="hideAd">
+										{{translations.disableAdBlock}}
+									</div>
 								</div>
 							</li>
 						</ul>
@@ -189,7 +191,11 @@
 						<div class="loadingData" *ngIf="dataDefault.loadingData">
 							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 						</div>
-						<div class="noData" *ngIf="dataDefault.noData">{{translations.noData}}</div>
+
+						<div class="noData" *ngIf="dataDefault.list.length == 0 && !dataDefault.loadingData">
+							{{translations.noData}}
+						</div>
+
 						<div class="loadMore" *ngIf="dataDefault.loadMoreData">
 							<button mat-fab (click)="default('more', null)" *ngIf="!dataDefault.loadingMoreData">
 								<mat-icon>add</mat-icon>
@@ -236,8 +242,10 @@
 								</div>
 
 								<div class="ad" *ngIf="x.contentTypeAd">
-									<div class="box" [innerHtml]="x.content"></div>
-									<div class="disableAdBlock" *ngIf="hideAd">{{translations.disableAdBlock}}</div>
+									<div class="adContent" [innerHtml]="x.content | safeHtml"></div>
+									<div class="disableAdBlock" *ngIf="hideAd">
+										{{translations.disableAdBlock}}
+									</div>
 								</div>
 							</li>
 						</ul>
@@ -245,7 +253,11 @@
 						<div class="loadingData" *ngIf="dataAround.loadingData">
 							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 						</div>
-						<div class="noData" *ngIf="dataAround.noData">{{translations.noData}}</div>
+
+						<div class="noData" *ngIf="dataAround.list.length == 0 && !dataAround.loadingData">
+							{{translations.noData}}
+						</div>
+
 						<div class="loadMore" *ngIf="dataAround.loadMoreData">
 							<button mat-fab (click)="around('more')" *ngIf="!dataAround.loadingMoreData">
 								<mat-icon>add</mat-icon>
@@ -292,8 +304,10 @@
 								</div>
 
 								<div class="ad" *ngIf="x.contentTypeAd">
-									<div class="box" [innerHtml]="x.content"></div>
-									<div class="disableAdBlock" *ngIf="hideAd">{{translations.disableAdBlock}}</div>
+									<div class="adContent" [innerHtml]="x.content | safeHtml"></div>
+									<div class="disableAdBlock" *ngIf="hideAd">
+										{{translations.disableAdBlock}}
+									</div>
 								</div>
 							</li>
 						</ul>
@@ -301,7 +315,11 @@
 						<div class="loadingData" *ngIf="dataTop.loadingData">
 							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 						</div>
-						<div class="noData" *ngIf="dataTop.noData">{{translations.noData}}</div>
+
+						<div class="noData" *ngIf="dataTop.list.length == 0 && !dataTop.loadingData">
+							{{translations.noData}}
+						</div>
+						
 						<div class="loadMore" *ngIf="dataTop.loadMoreData">
 							<button mat-fab (click)="top('more')" *ngIf="!dataTop.loadingMoreData">
 								<mat-icon>add</mat-icon>
@@ -348,8 +366,10 @@
 								</div>
 
 								<div class="ad" *ngIf="x.contentTypeAd">
-									<div class="box" [innerHtml]="x.content"></div>
-									<div class="disableAdBlock" *ngIf="hideAd">{{translations.disableAdBlock}}</div>
+									<div class="adContent" [innerHtml]="x.content | safeHtml"></div>
+									<div class="disableAdBlock" *ngIf="hideAd">
+										{{translations.disableAdBlock}}
+									</div>
 								</div>
 							</li>
 						</ul>
@@ -357,7 +377,11 @@
 						<div class="loadingData" *ngIf="dataFresh.loadingData">
 							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 						</div>
-						<div class="noData" *ngIf="dataFresh.noData">{{translations.noData}}</div>
+
+						<div class="noData" *ngIf="dataFresh.list.length == 0 && !dataFresh.loadingData">
+							{{translations.noData}}
+						</div>
+						
 						<div class="loadMore" *ngIf="dataFresh.loadMoreData">
 							<button mat-fab (click)="fresh('more')" *ngIf="!dataFresh.loadingMoreData">
 								<mat-icon>add</mat-icon>
@@ -406,8 +430,10 @@
 						</div>
 
 						<div class="ad" *ngIf="x.contentTypeAd">
-							<div class="box" [innerHtml]="x.content"></div>
-							<div class="disableAdBlock" *ngIf="hideAd">{{translations.disableAdBlock}}</div>
+							<div class="adContent" [innerHtml]="x.content | safeHtml"></div>
+							<div class="disableAdBlock" *ngIf="hideAd">
+								{{translations.disableAdBlock}}
+							</div>
 						</div>
 					</li>
 				</ul>
@@ -415,7 +441,11 @@
 				<div class="loadingData" *ngIf="dataSearch.loadingData">
 					<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 				</div>
-				<div class="noData" *ngIf="dataSearch.noData">{{translations.noSearchResults}}</div>
+
+				<div class="noData" *ngIf="dataSearch.list.length == 0 && !dataSearch.loadingData">
+					{{translations.noSearchResults}}
+				</div>
+				
 				<div class="loadMore" *ngIf="dataSearch.loadMoreData">
 					<button mat-fab (click)="search('more')" *ngIf="!dataSearch.loadingMoreData">
 						<mat-icon>add</mat-icon>

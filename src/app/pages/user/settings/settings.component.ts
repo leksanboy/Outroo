@@ -26,6 +26,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 	public sessionData: any = [];
 	public translations: any = [];
 	public activeRouter: any;
+	public activeLanguage: any;
 	public actionFormPersonalData: any;
 	public actionFormPasswordData: any;
 	public savePersonalDataLoading: boolean;
@@ -77,6 +78,13 @@ export class SettingsComponent implements OnInit, OnDestroy {
 					this.setForms(this.sessionData.current);
 				}
 			});
+
+		// Get language
+		this.activeLanguage = this.sessionService.getDataLanguage()
+			.subscribe(data => {
+				let lang = data.current.language;
+				this.getTranslations(lang);
+			});
 	}
 
 	ngOnInit() {
@@ -85,6 +93,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.activeRouter.unsubscribe();
+		this.activeLanguage.unsubscribe();
 	}
 
 	// Get translations
@@ -520,7 +529,5 @@ export class SettingsComponent implements OnInit, OnDestroy {
 		// Set session after remove
 		if (this.sessionData.sessions[0].id != data.id)
 			this.sessionData.current = this.sessionData.sessions[0];
-		
-		console.log("CLOSE SESS SET:", this.sessionData);
 	}
 }

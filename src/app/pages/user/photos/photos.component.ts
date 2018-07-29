@@ -21,16 +21,8 @@ declare var ga: Function;
 export class PhotosComponent implements OnInit, OnDestroy {
 	public environment: any = environment;
 	public sessionData: any = [];
-	public translations: any = [];
-	public activeRouter: any;
 	public userData: any = [];
-	public dataDefault: any = {
-		list: [],
-		rows: 0,
-		loadingData: true,
-		loadMoreData: false,
-		loadingMoreData: false
-	};
+	public translations: any = [];
 	public dataFiles: any = {
 		list: [],
 		reload: false,
@@ -38,6 +30,9 @@ export class PhotosComponent implements OnInit, OnDestroy {
 		saveDisabled: false,
 		counter: 0
 	};
+	public activeRouter: any;
+	public activeLanguage: any;
+	public dataDefault: any;
 
 	constructor(
 		@Inject(DOCUMENT) private document: Document,
@@ -88,6 +83,13 @@ export class PhotosComponent implements OnInit, OnDestroy {
 			  	}
 			});
 
+		// Get language
+		this.activeLanguage = this.sessionService.getDataLanguage()
+			.subscribe(data => {
+				let lang = data.current.language;
+				this.getTranslations(lang);
+			});
+
 		// Load more on scroll on bottom
 		window.onscroll = (event) => {
 			let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
@@ -107,7 +109,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.activeRouter.unsubscribe();
-		// this.activeSession.unsubscribe();
+		this.activeLanguage.unsubscribe();
 	}
 
 	// Go back

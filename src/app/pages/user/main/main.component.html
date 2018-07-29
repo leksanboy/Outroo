@@ -137,11 +137,11 @@
 						</div>
 						
 						<div class="actions" *ngIf="sessionData.current.id">
-							<button mat-icon-button [matMenuTriggerFor]="itemOptions">
+							<button mat-icon-button [matMenuTriggerFor]="options">
 								<i label="more"></i>
 							</button>
 							
-							<mat-menu #itemOptions="matMenu">
+							<mat-menu #options="matMenu">
 								<button mat-menu-item (click)="itemOptions('remove', x); x.addRemoveSession=!x.addRemoveSession;" *ngIf="x.user.id == sessionData.current.id">{{x.addRemoveSession ? translations.restore : translations.remove}}</button>
 								<button mat-menu-item (click)="itemOptions('disableComments', x)" *ngIf="x.user.id == sessionData.current.id">{{x.disabledComments ? translations.disableComments : translations.enableComments}}</button>
 								<button mat-menu-item [matMenuTriggerFor]="menuShareSocial" #trigger="matMenuTrigger">{{translations.share}}</button>
@@ -304,9 +304,11 @@
 								<div class="loadingData" *ngIf="x.loadingData">
 									<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 								</div>
+
 								<div class="noData" *ngIf="x.noData">
 									{{translations.noComments}}
 								</div>
+								
 								<div class="loadMore" *ngIf="x.loadMoreData">
 									<button mat-fab (click)="defaultComments('more', x)" *ngIf="!x.loadingMoreData">
 										<mat-icon>add</mat-icon>
@@ -332,7 +334,11 @@
 			<div class="loadingData" *ngIf="dataDefault.loadingData">
 				<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 			</div>
-			<div class="noData" *ngIf="dataDefault.noData && !dataDefault.loadingData">{{translations.noData}}</div>
+			
+			<div class="noData" *ngIf="dataDefault.noData && !dataDefault.loadingData">
+				{{translations.noData}}
+			</div>
+			
 			<div class="loadMore" *ngIf="dataDefault.loadMoreData">
 				<button mat-fab (click)="default('more', null, null)" *ngIf="!dataDefault.loadingMoreData">
 					<mat-icon>add</mat-icon>

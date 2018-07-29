@@ -15,14 +15,179 @@
 				</div>
 
 				<div class="right">
+					<button mat-mini-fab (click)="showNotificationsBoxWeb()">
+						<mat-icon>notifications</mat-icon>
+					</button>
+
 					<button mat-mini-fab class="avatar" (click)="showUserBoxWeb()">
 						<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>
 					</button>
 				</div>
 			</div>
 
+			<div class="notificationsBox" *ngIf="showNotificationsBox">
+				<div class="hidden" *ngIf="showNotificationsBox" (click)="showNotificationsBoxWeb()"></div>
+				
+				<div class="box">
+					<div class="innerBox">
+						<ul class="notifications" *ngIf="dataNotifications.list.length > 0">
+							<li mat-ripple *ngFor="let x of dataNotifications.list" [ngClass]="{'active': x.status == 0, 'remove': x.addRemoveSession}">
+								<a class="avatar" routerLink="/{{x.user.username}}">
+									<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
+								</a>
+
+								<div class="inner" *ngIf="x.url == 'followers'">
+									<div class="text">
+										<div class="name">
+											<a class="username" routerLink="/{{x.user.username}}">{{x.user.username}}</a>
+											<span class="date">{{x.date | timeago}}</span>
+										</div>
+										
+										<div class="container">
+											<span *ngIf="x.type == 'startFollowing' || x.type == 'startFollowingPrivate' || x.type == 'startFollowingPrivateAccepted'">{{translations.startFollowingYou}}</span>
+											<span *ngIf="x.type == 'acceptRequest'">{{translations.acceptFollowingRequest}}</span>
+										</div>
+									</div>
+
+									<div class="operations">
+										<!-- Request from others -->
+										<span *ngIf="sessionData.current.id == x.receiver && x.type == 'startFollowingPrivate'">
+											<button mat-button class="active" (click)="followUnfollow('accept', x)">
+												{{translations.accept}}
+											</button>
+											<button mat-button class="border" (click)="followUnfollow('decline', x)">
+												{{translations.decline}}
+											</button>
+										</span>
+
+										<!-- Mine Requests -->
+										<span *ngIf="x.type != 'startFollowingPrivate'">
+											<button mat-button class="border" *ngIf="sessionData.current.id != 'x.receiver' && x.statusFollowing == 'pending'" [matMenuTriggerFor]="cancelRequest">
+												{{translations.pending}}
+											</button>
+
+											<button mat-button class="border" *ngIf="x.statusFollowing == 'unfollow'" (click)="followUnfollow('follow', x)">
+												{{translations.follow}}
+											</button>
+
+											<button mat-button class="active" *ngIf="x.statusFollowing == 'following'" [matMenuTriggerFor]="stopFollowing">
+												{{translations.following}}
+											</button>
+
+											<mat-menu #cancelRequest="matMenu" yPosition="below" xPosition="before" class="removeBox">
+												<button mat-menu-item disabled>
+													{{translations.cancelRequest}}
+												</button>
+												<div class="buttons">
+													<button mat-menu-item>{{translations.no}}</button>
+													<button mat-menu-item (click)="followUnfollow('unfollow', x)">{{translations.yes}}</button>
+												</div>
+											</mat-menu>
+											<mat-menu #stopFollowing="matMenu" yPosition="below" xPosition="before" class="removeBox">
+												<button mat-menu-item disabled>
+													{{translations.stopFollowing}}
+													<br>
+													{{x.user.username}}?
+												</button>
+												<div class="buttons">
+													<button mat-menu-item>{{translations.no}}</button>
+													<button mat-menu-item (click)="followUnfollow('unfollow', x)">{{translations.yes}}</button>
+												</div>
+											</mat-menu>
+										</span>
+									</div>
+								</div>
+
+								<div class="inner" *ngIf="x.url == 'photos'">
+									<div class="text">
+										<div class="name">
+											<a class="username" routerLink="/{{x.user.username}}">{{x.user.username}}</a>
+											<span class="date">{{x.date | timeago}}</span>
+										</div>
+
+										<div class="container" (click)="showNotification(x)">
+											<span *ngIf="x.type == 'comment'">
+												{{translations.commentedYourPhoto}}
+												<br>
+												<span *ngIf="x.contentData.comment" [innerHtml]="x.contentData.comment.comment | safeHtml"></span>
+											</span>
+											
+											<span *ngIf="x.type == 'like'">{{translations.likedYourPhoto}}</span>
+
+											<span *ngIf="x.type == 'mention'">{{translations.mentionOnPhoto}}</span>
+
+											<span *ngIf="x.type == 'mentionComment'">{{translations.mentionOnCommentOnPhoto}}</span>
+
+											<span *ngIf="x.type == 'share'">{{translations.sharePhoto}}</span>
+										</div>
+									</div>
+
+									<div class="operations">
+										<div class="image" *ngIf="x.contentData.media" (click)="showNotification(x)">
+											<div class="img" [ngStyle]="{'background-image': 'url(' + x.contentData.media + ')'}"></div>
+										</div>
+									</div>
+								</div>
+
+								<div class="inner" *ngIf="x.url == 'publications'">
+									<div class="text">
+										<div class="name">
+											<a class="username" routerLink="/{{x.user.username}}">{{x.user.username}}</a>
+											<span class="date">{{x.date | timeago}}</span>
+										</div>
+
+										<div class="container" (click)="showNotification(x)">
+											<span *ngIf="x.type == 'comment'">
+												{{translations.commentedYourPublication}}
+												<br>
+												<span *ngIf="x.contentData.comment" [innerHtml]="x.contentData.comment.comment | safeHtml"></span>
+											</span>
+											
+											<span *ngIf="x.type == 'like'">{{translations.likedYourPublication}}</span>
+
+											<span *ngIf="x.type == 'mention'">{{translations.mentionOnPublication}}</span>
+
+											<span *ngIf="x.type == 'mentionComment'">{{translations.mentionOnCommentOnPublication}}</span>
+
+											<span *ngIf="x.type == 'share'">{{translations.sharePublication}}</span>
+
+											<span *ngIf="!x.contentData.media">
+												<br>
+												<span [innerHtml]="x.contentData.content | safeHtml"></span>
+											</span>
+										</div>
+									</div>
+
+									<div class="operations">
+										<div class="image" *ngIf="x.contentData.media" (click)="showNotification(x)">
+											<div class="img" [ngStyle]="{'background-image': 'url(' + x.contentData.media + ')'}"></div>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+
+						<div class="loadingData" *ngIf="dataNotifications.loadingData">
+							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+						</div>
+
+						<div class="noData" *ngIf="dataNotifications.list.length == 0 && !dataNotifications.loadingData">
+							{{translations.noData}}
+						</div>
+						
+						<div class="forward" (click)="showNotificationsBoxWeb()" routerLink="/notifications">
+							{{translations.goToNotifications}}
+							<button mat-icon-button>
+								<mat-icon>arrow_forward</mat-icon>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<div class="userBox" *ngIf="showUserBox">
 				<div class="hidden" *ngIf="showUserBox" (click)="showUserBoxWeb()"></div>
+				
 				<div class="box">
 					<div class="top" *ngIf="!showCloseSession && !showChangeSession && !showChangeLanguage">
 						<div class="image">
@@ -58,7 +223,7 @@
 							</mat-list-item>
 
 							<mat-list-item>
-								<mat-slide-toggle [checked]="sessionData.current.theme" (change)="darkTheme()">{{translations.darkTheme}}</mat-slide-toggle>
+								<mat-slide-toggle [checked]="sessionData.current.theme" (change)="changeTheme()">{{translations.darkTheme}}</mat-slide-toggle>
 							</mat-list-item>
 
 							<mat-list-item (click)="showUserBox = false" routerLink="/settings">
@@ -406,16 +571,15 @@
 					</li>
 			    </ul>
 
-			    <div class="loadingData" *ngIf="loadingData">
-			    	<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+			    <div class="noData" *ngIf="audioPlayerData.noData">
+			    	{{translations.noData}}
 			    </div>
-			    <div class="noData" *ngIf="noData">{{translations.noData}}</div>
 			</div>
 		</div>
 	</div>
 </span>
 
-<span *ngIf="deniedAccessOnlySession" >
+<span *ngIf="deniedAccessOnlySession">
 	<!-- Mobile sigin/signup -->
 	<div class="signingBox" *ngIf="!signingBox">
 		<div class="inner">

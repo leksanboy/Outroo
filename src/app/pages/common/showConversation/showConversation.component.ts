@@ -17,8 +17,9 @@ import { AlertService } from '../../../../app/core/services/alert/alert.service'
 import { PublicationsDataService } from '../../../../app/core/services/user/publicationsData.service';
 import { SessionService } from '../../../../app/core/services/session/session.service';
 
-import { TimeagoPipe } from '../../../../app/core/pipes/timeago.pipe';
+import { DateTimePipe } from '../../../../app/core/pipes/datetime.pipe';
 import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
+import { TruncatePipe } from '../../../../app/core/pipes/truncate.pipe';
 
 @Component({
 	selector: 'app-showConversation',
@@ -38,7 +39,7 @@ import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
 			]
 		)
 	],
-	providers: [ TimeagoPipe, SafeHtmlPipe ]
+	providers: [ DateTimePipe, SafeHtmlPipe, TruncatePipe ]
 })
 export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewChecked {
 	@ViewChild('conversationContainer') private myScrollContainer: ElementRef;
@@ -454,6 +455,7 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 				this.data.comeFrom = 'conversation';
 				this.data.current.id = res;
 				this.data.new = true;
+				this.data.users.all = this.data.users;
 				this.data.users.excluded = this.data.users;
 				this.dataDefault = {
 					list: [],
@@ -708,7 +710,7 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 	}
 
 	// Item options
-	itemOptionsConversation(type, item){
+	itemOptions(type, item){
 		switch (type) {
 			case "remove":
 				item.addRemoveSession = !item.addRemoveSession;

@@ -30,8 +30,6 @@ export class NewAvatarComponent implements OnInit {
 	) {
 		this.sessionData = data.sessionData;
 		this.translations = data.translations;
-
-		console.log("AVTR:", data);
 	}
 
 	ngOnInit() {

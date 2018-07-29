@@ -10,6 +10,7 @@ export class SessionService {
     private subjectSetDataCreatePlaylist = new Subject<any>();
     private subjectSetDataAddAccount = new Subject<any>();
     private subjectSetDataTheme = new Subject<any>();
+    private subjectSetDataLanguage = new Subject<any>();
     private subjectSetDataReport = new Subject<any>();
     private subjectSetDataConversation = new Subject<any>();
     private subjectSetDataCopy = new Subject<any>();
@@ -60,6 +61,14 @@ export class SessionService {
 
     getDataTheme(): Observable<any> {
         return this.subjectSetDataTheme.asObservable();
+    }
+
+    setDataLanguage(data: any) {
+        this.subjectSetDataLanguage.next(data);
+    }
+
+    getDataLanguage(): Observable<any> {
+        return this.subjectSetDataLanguage.asObservable();
     }
 
     setDataReport(data: any) {

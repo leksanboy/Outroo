@@ -22,6 +22,7 @@
 	"messages": "Mensajes",
 	"settings": "Ajustes",
 	"goToAudios": "Ir a Música",
+	"goToNotifications": "Ir a Notificaciones",
 
 	"ok": "Hecho",
 	"yes": "Si",
@@ -170,7 +171,7 @@
 	"sendSepareted": "Enviar por separado",
 	"writeSomething": "Escribe algo...",
 
-	"sharedPublicationWithYou" : "Ha compartido una publicación",
-	"sharedAudioWithYou" : "Ha compartido una canción",
-	"sharedPhotoWithYou" : "Ha compartido una photo"
+	"sharedPublicationWithYou": "Ha compartido una publicación",
+	"publicationNotAvailable": "Publicación no disponible",
+	"publicationNotAvailableText": "Esta publicación no está disponible por que se ha eliminado"
 }

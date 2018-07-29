@@ -494,34 +494,38 @@
 					AND is_deleted = 0";
 		$result = $conn->query($sql)->fetch_assoc();
 
-		$result['user'] = userUsernameNameAvatar($result['user']);
-		$result['content'] = html_entity_decode($result['content'], ENT_QUOTES);
-		$result['likers'] = getPublicationLikers($result['id']);
-		$result['disabledComments'] = ($result['disabledComments'] == 0) ? true : false;
-		$result['countComments'] = countCommentsPublication($result['id']);
-		$result['countLikes'] = countLikesPublication($result['id']);
-		$result['comments'] = [];
+		if ($result) {
+			$result['user'] = userUsernameNameAvatar($result['user']);
+			$result['content'] = html_entity_decode($result['content'], ENT_QUOTES);
+			$result['likers'] = getPublicationLikers($result['id']);
+			$result['disabledComments'] = ($result['disabledComments'] == 0) ? true : false;
+			$result['countComments'] = countCommentsPublication($result['id']);
+			$result['countLikes'] = countLikesPublication($result['id']);
+			$result['comments'] = [];
 
-		// Format urlVideo
-		$result['urlVideo'] = json_decode($result['urlVideo']);
-		if (count($result['urlVideo']) > 0) {
-			$result['urlVideo']->title = html_entity_decode($result['urlVideo']->title, ENT_QUOTES);
-			$result['urlVideo']->channel = html_entity_decode($result['urlVideo']->channel, ENT_QUOTES);
-			$result['urlVideo']->iframe = html_entity_decode($result['urlVideo']->iframe, ENT_QUOTES);
+			// Format urlVideo
+			$result['urlVideo'] = json_decode($result['urlVideo']);
+			if (count($result['urlVideo']) > 0) {
+				$result['urlVideo']->title = html_entity_decode($result['urlVideo']->title, ENT_QUOTES);
+				$result['urlVideo']->channel = html_entity_decode($result['urlVideo']->channel, ENT_QUOTES);
+				$result['urlVideo']->iframe = html_entity_decode($result['urlVideo']->iframe, ENT_QUOTES);
+			} else {
+				$result['urlVideo'] = null;
+			}
+
+			// Format photos
+			$result['photos'] = json_decode($result['photos']);
+			foreach ($result['photos'] as &$p) {
+				$p = getPhotoData($p);
+			}
+
+			// Format audios
+			$result['audios'] = json_decode($result['audios']);
+			foreach ($result['audios'] as &$a) {
+				$a = getAudioData($a);
+			}
 		} else {
-			$result['urlVideo'] = null;
-		}
-
-		// Format photos
-		$result['photos'] = json_decode($result['photos']);
-		foreach ($result['photos'] as &$p) {
-			$p = getPhotoData($p);
-		}
-
-		// Format audios
-		$result['audios'] = json_decode($result['audios']);
-		foreach ($result['audios'] as &$a) {
-			$a = getAudioData($a);
+			$result = null;
 		}
 
 		return $result;

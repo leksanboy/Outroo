@@ -151,6 +151,19 @@ export class UserDataService {
 			}));
 	}
 
+	updateLanguage(data) {
+		let url = environment.url + 'assets/api/user/updateLanguage.php';
+		let params = {
+			id: data.id,
+			language: data.language
+		};
+
+		return this.http.post(url, params, this.headersService.getHeaders())
+			.pipe(map((res: Response) => { 
+				return this.setSessionData('update', res.json());
+			}));
+	}
+
 	updatePrivate(data) {
 		let url = environment.url + 'assets/api/user/updatePrivate.php';
 		let params = {

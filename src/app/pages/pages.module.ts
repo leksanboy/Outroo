@@ -47,8 +47,10 @@ import { PagesRouting, routableComponents } from './pages.routing';
 import { PagesComponent } from './pages.component';
 
 import { TimeagoPipe } from '../core/pipes/timeago.pipe';
+import { DateTimePipe } from '../core/pipes/datetime.pipe';
 import { ReversePipe } from '../core/pipes/reverse.pipe';
 import { SafeHtmlPipe } from '../core/pipes/safehtml.pipe';
+import { TruncatePipe } from '../core/pipes/truncate.pipe';
 
 import { SwiperModule } from 'angular2-useful-swiper';
 
@@ -63,25 +65,25 @@ import { ChatDataService } from '../core/services/user/chatData.service';
 import { SessionService } from '../core/services/session/session.service';
 import { PlayerService } from '../core/services/player/player.service';
 import { MetaService } from '../core/services/meta/meta.service';
+import { MomentService } from '../core/services/moment/moment.service';
 import { HeadersService } from '../core/services/headers/headers.service';
-
 // import { WebsocketService } from '../core/services/websocket/websocket.service';
 // import { ChatsocketService } from '../core/services/websocket/chat.service';
 
-import { NewReportComponent } from '../pages/common/newReport/newReport.component';
-import { SessionPanelMobileComponent } from '../core/services/sessionPanelMobile/sessionPanelMobile.component';
-
+import { NewReportComponent } from './common/newReport/newReport.component';
+import { NewAvatarComponent } from './common/newAvatar/newAvatar.component';
+import { NewPlaylistComponent } from './common/newPlaylist/newPlaylist.component';
 import { NewPublicationComponent } from './common/newPublication/newPublication.component';
-import { NewPublicationAddPhotosComponent } from './common/newPublication/addPhotos/addPhotos.component';
 import { NewPublicationAddAudiosComponent } from './common/newPublication/addAudios/addAudios.component';
+import { NewPublicationAddPhotosComponent } from './common/newPublication/addPhotos/addPhotos.component';
+import { NewSessionComponent } from './common/newSession/newSession.component';
+
 import { ShowAvatarComponent } from './common/showAvatar/showAvatar.component';
-import { ShowPublicationComponent } from './common/showPublication/showPublication.component';
 import { ShowConversationComponent } from './common/showConversation/showConversation.component';
 import { ShowPhotoComponent } from './common/showPhoto/showPhoto.component';
-import { NewPlaylistComponent } from './common/newPlaylist/newPlaylist.component';
 import { ShowPlaylistComponent } from './common/showPlaylist/showPlaylist.component';
-import { NewAvatarComponent } from './common/newAvatar/newAvatar.component';
-import { NewSessionComponent } from './common/newSession/newSession.component';
+import { ShowPublicationComponent } from './common/showPublication/showPublication.component';
+import { ShowSessionPanelMobileComponent } from './common/showSessionPanelMobile/showSessionPanelMobile.component';
 
 @NgModule({
 	imports: [
@@ -169,8 +171,10 @@ import { NewSessionComponent } from './common/newSession/newSession.component';
 	],
 	declarations: [
 		TimeagoPipe,
+		DateTimePipe,
 		ReversePipe,
 		SafeHtmlPipe,
+		TruncatePipe,
 		routableComponents,
 		PagesComponent,
 		NewPublicationComponent,
@@ -185,7 +189,7 @@ import { NewSessionComponent } from './common/newSession/newSession.component';
 		NewReportComponent,
 		NewPlaylistComponent,
 		ShowPlaylistComponent,
-		SessionPanelMobileComponent
+		ShowSessionPanelMobileComponent
 	],
 	entryComponents : [
 		NewPublicationComponent,
@@ -200,7 +204,7 @@ import { NewSessionComponent } from './common/newSession/newSession.component';
 		NewReportComponent,
 		NewPlaylistComponent,
 		ShowPlaylistComponent,
-		SessionPanelMobileComponent
+		ShowSessionPanelMobileComponent
 	],
 	providers: [
 		UserDataService,
@@ -213,6 +217,7 @@ import { NewSessionComponent } from './common/newSession/newSession.component';
 		SessionService,
 		PlayerService,
 		MetaService,
+		MomentService,
 		HeadersService,
 		// WebsocketService,
 		// ChatsocketService,

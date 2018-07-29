@@ -33,22 +33,7 @@ export class MainComponent implements OnInit, OnDestroy {
 	public sessionData: any = [];
 	public userData: any = [];
 	public translations: any = [];
-	public activePlayerInformation: any;
 	public audioPlayerData: any = [];
-	public activeRouter: any;
-	public activeRouterExists: any;
-	public activeSession: any;
-	public activeSessionPlaylists: any;
-	public userExists: boolean = true;
-	public data: any;
-	public dataDefault: any = {
-		list: [],
-		rows: 0,
-		noData: false,
-		loadingData: true,
-		loadMoreData: false,
-		loadingMoreData: false
-	};
 	public swiperConfig: any = {
 		pagination: '.swiper-pagination',
 		nextButton: '.swiperNext',
@@ -56,6 +41,15 @@ export class MainComponent implements OnInit, OnDestroy {
 		paginationClickable: true,
 		spaceBetween: 0
 	};
+	public activeRouter: any;
+	public activePlayerInformation: any;
+	public activeLanguage: any;
+	public activeRouterExists: any;
+	public activeSession: any;
+	public activeSessionPlaylists: any;
+	public userExists: boolean = true;
+	public data: any;
+	public dataDefault: any;
 	public searchBoxMentions: boolean;
 	public urlRegex: any = /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/g;
 
@@ -146,17 +140,12 @@ export class MainComponent implements OnInit, OnDestroy {
 				this.audioPlayerData = data;
 			});
 
-		// Load more on scroll on bottom
-		window.onscroll = (event) => {
-			let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
-			let body = document.body, html = document.documentElement;
-			let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-			let windowBottom = windowHeight + window.pageYOffset;
-
-			if (windowBottom >= docHeight)
-				if (this.dataDefault.list.length > 0)
-					this.default('more', null, null);
-		}
+		// Get language
+		this.activeLanguage = this.sessionService.getDataLanguage()
+			.subscribe(data => {
+				let lang = data.current.language;
+				this.getTranslations(lang);
+			});
 
 		// Close all dialogs
 		this.dialog.closeAll();
@@ -175,6 +164,18 @@ export class MainComponent implements OnInit, OnDestroy {
 				}
 			}
 		});
+
+		// Load more on scroll on bottom
+		window.onscroll = (event) => {
+			let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+			let body = document.body, html = document.documentElement;
+			let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+			let windowBottom = windowHeight + window.pageYOffset;
+
+			if (windowBottom >= docHeight)
+				if (this.dataDefault.list.length > 0)
+					this.default('more', null, null);
+		}
 	}
 
 	ngOnInit() {
@@ -201,6 +202,7 @@ export class MainComponent implements OnInit, OnDestroy {
 		this.activeSession.unsubscribe();
 		this.activeSessionPlaylists.unsubscribe();
 		this.activePlayerInformation.unsubscribe();
+		this.activeLanguage.unsubscribe();
 	}
 
 	// User data of the page

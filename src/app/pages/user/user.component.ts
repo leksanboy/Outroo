@@ -8,12 +8,13 @@ import { environment } from '../../../environments/environment';
 import { AlertService } from '../../../app/core/services/alert/alert.service';
 import { AudioDataService } from '../../../app/core/services/user/audioData.service';
 import { AudioPlayerMobileService } from '../../../app/core/services/audioPlayerMobile/audioPlayerMobile.service';
+import { MomentService } from '../../../app/core/services/moment/moment.service';
 import { NotificationsDataService } from '../../../app/core/services/user/notificationsData.service';
 import { PlayerService } from '../../../app/core/services/player/player.service';
 import { SessionService } from '../../../app/core/services/session/session.service';
 import { UserDataService } from '../../../app/core/services/user/userData.service';
 
-import { SessionPanelMobileComponent } from '../../../app/core/services/sessionPanelMobile/sessionPanelMobile.component';
+import { ShowSessionPanelMobileComponent } from '../../../app/pages/common/showSessionPanelMobile/showSessionPanelMobile.component';
 import { NewReportComponent } from '../../../app/pages/common/newReport/newReport.component';
 import { NewPlaylistComponent } from '../../../app/pages/common/newPlaylist/newPlaylist.component';
 import { NewSessionComponent } from '../../../app/pages/common/newSession/newSession.component';
@@ -34,13 +35,16 @@ declare var Vibrant: any;
 })
 export class UserComponent implements AfterViewInit {
 	public environment: any = environment;
-	public navMenu: boolean;
 	public sessionData: any = [];
 	public translations: any = [];
+	public audioPlayerData: any = [];
+	public dataNotifications: any = [];
+	public navMenu: boolean;
 	public deniedAccessOnlySession: boolean;
 	public showPlayer: boolean;
 	public showSessions: boolean;
 	public showPlaylist: boolean;
+	public showNotificationsBox: boolean;
 	public showUserBox: boolean;
 	public showCloseSession: boolean;
 	public showChangeSession: boolean;
@@ -48,13 +52,11 @@ export class UserComponent implements AfterViewInit {
 	public showChangeLanguage: boolean;
 	public signingBox: boolean;
 	public signOutCurrent: boolean;
-	public noData: boolean;
-	public loadingData: boolean = true;
-	public loadingMoreData: boolean;
+	
+	// public noData: boolean;
+	// public loadingData: boolean = true;
+	// public loadingMoreData: boolean;
 	public audio = new Audio();
-	public audioPlayerData: any = [];
-	public activeRouter: any;
-	public activeRouterExists: any;
 
 	constructor(
 		@Inject(DOCUMENT) private document: Document,
@@ -63,6 +65,7 @@ export class UserComponent implements AfterViewInit {
 		private location: Location,
 		private alertService: AlertService,
 		private playerService: PlayerService,
+		private momentService: MomentService,
 		private sessionService: SessionService,
 		private userDataService: UserDataService,
 		private platformLocation: PlatformLocation,
@@ -123,7 +126,7 @@ export class UserComponent implements AfterViewInit {
 				console.log("No tengo session pero puedo ver ciertas paginas :::> [", this.router.url, ']')
 			}
 		} else {
-			console.log("Session existe: ", this.router.url);
+			// console.log("Session existe: ", this.router.url);
 
 			// Add dark theme
 			if (this.sessionData.current.theme)
@@ -134,8 +137,14 @@ export class UserComponent implements AfterViewInit {
 			// Set list information
 			this.sessionData.current.listInformation = null;
 
-			// Load default
+			// Set moment locale
+			this.momentService.setData(this.sessionData.current.language);
+
+			// Load default audios
 			this.defaultAudios(this.sessionData.current.username);
+
+			// Load default notifications
+			this.defaultNotifications(this.sessionData.current.id);
 
 			// Pending notifications
 			this.pendingNotifications();
@@ -147,7 +156,7 @@ export class UserComponent implements AfterViewInit {
 			this.playerService.getData()
 				.subscribe(data => {
 					this.showPlaylist = true;
-					this.noData = false;
+					this.audioPlayerData.noData = false;
 					this.audioPlayerData.postId = data.postId;
 					this.audioPlayerData.list = data.list;
 					this.audioPlayerData.item = data.item;
@@ -357,13 +366,11 @@ export class UserComponent implements AfterViewInit {
 
 		this.audioDataService.default(data)
 			.subscribe(res => {
-				this.loadingData = false;
-
 				if (!res || res.length == 0) {
-					this.noData = true;
+					this.audioPlayerData.noData = true;
 					this.audioPlayerData.current.title = "Upload or search some songs";
 				} else {
-					this.noData = false;
+					this.audioPlayerData.noData = false;
 					this.audioPlayerData.list = res;
 					this.audioPlayerData.current.original_title = res[0].original_title ? res[0].original_title : res[0].title;
 					this.audioPlayerData.current.original_artist = res[0].original_artist ? res[0].original_artist : res[0].title;
@@ -378,6 +385,50 @@ export class UserComponent implements AfterViewInit {
 					this.audioPlayerData.type = 'default';
 					this.audioPlayerData.selectedIndex = 0;
 				}
+			});
+	}
+
+	// Default notifications (last week)
+	defaultNotifications(user) {
+		this.dataNotifications = {
+			list: [],
+			rows: 0,
+			loadingData: true,
+			loadMoreData: false,
+			loadingMoreData: false,
+			noMore: false
+		}
+
+		let data = {
+			user: user,
+			rows: this.dataNotifications.rows,
+			cuantity: environment.cuantity/3
+		}
+
+		this.notificationsDataService.default(data)
+			.subscribe(res => {
+				this.dataNotifications.loadingData = false;
+
+				if (!res || res.length == 0) {
+					this.dataNotifications.noMore = true;
+				} else {
+					// this.dataNotifications.loadMoreData = (!res || res.length < environment.cuantity) ? false : true;
+
+					// for (let i in res)
+					// 	setTimeout(() => {
+					// 		res[i].status = 1;
+					// 	}, 1800);
+
+					this.dataNotifications.list = res;
+					// this.sessionService.setPendingNotifications('refresh');
+
+					// if (!res || res.length < environment.cuantity)
+						// this.dataNotifications.noMore = true;
+				}
+			}, error => {
+				this.dataNotifications.loadingData = false;
+				this.dataNotifications.noMore = true;
+				// this.alertService.error(this.translations.anErrorHasOcurred);
 			});
 	}
 
@@ -731,6 +782,11 @@ export class UserComponent implements AfterViewInit {
 		this.showPlaylist = !this.showPlaylist;
 	}
 
+	// Show notifications web
+	showNotificationsBoxWeb(){
+		this.showNotificationsBox = !this.showNotificationsBox;
+	}
+
 	// Show userBox web
 	showUserBoxWeb(){
 		this.showUserBox = !this.showUserBox;
@@ -752,7 +808,7 @@ export class UserComponent implements AfterViewInit {
 		}
 
 		// Set sheet
-		let bottomSheetRef = this.bottomSheet.open(SessionPanelMobileComponent, config);
+		let bottomSheetRef = this.bottomSheet.open(ShowSessionPanelMobileComponent, config);
 
 		// Dismiss and return value
 		bottomSheetRef.afterDismissed().subscribe(val => {
@@ -804,8 +860,12 @@ export class UserComponent implements AfterViewInit {
 			// Set data
 			this.sessionData.current = data;
 			this.sessionService.setData(this.sessionData);
+
+			// Set moment
+			this.momentService.setData(this.sessionData.current.language);
+
+			// Session set
 			this.sessionData = this.userDataService.setSessionData('data', this.sessionData);
-			console.log("setCurrentUser", this.sessionData);
 			this.showSessions = false;
 			this.showChangeSessionOnMenu = false;
 
@@ -842,7 +902,7 @@ export class UserComponent implements AfterViewInit {
 	}
 
 	// Dark theme
-	darkTheme(){
+	changeTheme(){
 		this.sessionData.current.theme = !this.sessionData.current.theme;
 
 		if (this.sessionData.current.theme)
@@ -873,12 +933,30 @@ export class UserComponent implements AfterViewInit {
 
 	// Change language
 	changeLanguage(lang){
-		// Get translations
-		this.getTranslations(lang.id);
+		if (lang.id =! this.sessionData.current.language) {
+			let data = {
+				id: this.sessionData.current.id,
+				language: lang.id
+			}
 
-		// Set data
-		this.sessionData.current.language = lang.id;
-		this.sessionService.setData(this.sessionData);
+			this.userDataService.updateLanguage(data)
+				.subscribe(res => {
+					// Get translations
+					this.getTranslations(lang.id);
+
+					// Set data
+					this.sessionData.current.language = lang.id;
+					this.sessionService.setDataLanguage(this.sessionData);
+
+					// Set moment
+					this.momentService.setData(this.sessionData.current.language);
+
+					// Alert
+					this.alertService.success('Language was changed succesufully');
+				}, error => {
+					this.alertService.error(this.translations.anErrorHasOcurred);
+				});
+		}
 	}
 
 	// Report inapropiate content

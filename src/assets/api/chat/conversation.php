@@ -16,10 +16,11 @@
 		while($row = $result->fetch_assoc()) {
 			$row['user'] = userUsernameNameAvatar($row['user']);
 
-			if ($row['type'] == 'publication')
+			if ($row['type'] == 'publication'){
 				$row['publication'] = getPublication($row['publication']);
-			else
+			} else {
 				$row['content'] = trim($row['content']) ? html_entity_decode($row['content'], ENT_QUOTES) : null;
+			}
 
 			$data[] = $row;
 		}

@@ -23,28 +23,15 @@ export class FollowingComponent implements OnInit, OnDestroy {
 	public sessionData: any = [];
 	public userData: any = [];
 	public translations: any = [];
-	public activeRouter: any;
-	public deniedAccessOnlySession: boolean;
-	public actionFormSearch: FormGroup;
+	public dataDefault: any = [];
+	public dataSearch: any = [];
 	public data: any = {
 		active: 'default'
 	};
-	public dataDefault: any = {
-		list: [],
-		rows: 0,
-		noData: false,
-		loadingData: true,
-		loadMoreData: false,
-		loadingMoreData: false
-	};
-	public dataSearch: any = {
-		list: [],
-		rows: 0,
-		noData: false,
-		loadingData: true,
-		loadMoreData: false,
-		loadingMoreData: false
-	};
+	public activeRouter: any;
+	public activeLanguage: any;
+	public deniedAccessOnlySession: boolean;
+	public actionFormSearch: FormGroup;
 
 	constructor(
 		private router: Router,
@@ -92,6 +79,13 @@ export class FollowingComponent implements OnInit, OnDestroy {
 				}
 			});
 
+		// Get language
+		this.activeLanguage = this.sessionService.getDataLanguage()
+			.subscribe(data => {
+				let lang = data.current.language;
+				this.getTranslations(lang);
+			});
+
 		// Load more on scroll on bottom
 		window.onscroll = (event) => {
 			let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
@@ -127,6 +121,7 @@ export class FollowingComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy() {
 		this.activeRouter.unsubscribe();
+		this.activeLanguage.unsubscribe();
 	}
 
 	// Go back
@@ -196,7 +191,6 @@ export class FollowingComponent implements OnInit, OnDestroy {
 			this.dataDefault = {
 				list: [],
 				rows: 0,
-				noData: false,
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
@@ -216,11 +210,9 @@ export class FollowingComponent implements OnInit, OnDestroy {
 					this.dataDefault.loadingData = false;
 
 					if (!res || res.length == 0) {
-						this.dataDefault.noData = true;
 						this.dataDefault.noMore = true;
 					} else {
 						this.dataDefault.loadMoreData = (res.length < environment.cuantity) ? false : true;
-						this.dataDefault.noData = false;
 						this.dataDefault.list = res;
 
 						if (!res || res.length < environment.cuantity)
@@ -270,7 +262,6 @@ export class FollowingComponent implements OnInit, OnDestroy {
 			this.dataSearch = {
 				list: [],
 				rows: 0,
-				noData: false,
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
@@ -291,11 +282,9 @@ export class FollowingComponent implements OnInit, OnDestroy {
 						this.dataSearch.loadingData = false;
 
 						if (!res || res.length == 0) {
-							this.dataSearch.noData = true;
 							this.dataSearch.noMore = true;
 						} else {
 							this.dataSearch.loadMoreData = (res.length < environment.cuantity) ? false : true;
-							this.dataSearch.noData = false;
 							this.dataSearch.list = res;
 
 							if (!res || res.length < environment.cuantity)

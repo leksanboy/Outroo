@@ -24,10 +24,10 @@
 						</div>
 					</div>
 					<div class="actions" *ngIf="sessionData.current.id">
-						<button mat-icon-button [matMenuTriggerFor]="itemOptions">
+						<button mat-icon-button [matMenuTriggerFor]="options">
 							<i label="more"></i>
 						</button>
-						<mat-menu #itemOptions="matMenu">
+						<mat-menu #options="matMenu">
 							<button mat-menu-item (click)="itemOptions('remove', data.current); data.current.addRemoveSession=!data.current.addRemoveSession;" *ngIf="userData.id == sessionData.current.id">{{data.current.addRemoveSession ? translations.restore : translations.remove}}</button>
 							<button mat-menu-item (click)="itemOptions('disableComments', data.current)" *ngIf="userData.id == sessionData.current.id">{{data.current.disabledComments ? translations.disableComments : translations.enableComments}}</button>
 							<button mat-menu-item (click)="itemOptions('report', data.current)">{{translations.report}}</button>
@@ -84,10 +84,10 @@
 								</a>
 							</div>
 							<div class="actions" *ngIf="sessionData.current.id">
-								<button mat-icon-button [matMenuTriggerFor]="itemOptions">
+								<button mat-icon-button [matMenuTriggerFor]="options">
 									<i label="more"></i>
 								</button>
-								<mat-menu #itemOptions="matMenu">
+								<mat-menu #options="matMenu">
 									<button mat-menu-item (click)="itemOptions('remove', data.current); data.current.addRemoveSession=!data.current.addRemoveSession;" *ngIf="userData.id == sessionData.current.id">{{data.current.addRemoveSession ? translations.restore : translations.remove}}</button>
 									<button mat-menu-item (click)="itemOptions('disableComments', data.current)" *ngIf="userData.id == sessionData.current.id">{{data.current.disabledComments ? translations.disableComments : translations.enableComments}}</button>
 									<button mat-menu-item (click)="itemOptions('report', data.current)">{{translations.report}}</button>

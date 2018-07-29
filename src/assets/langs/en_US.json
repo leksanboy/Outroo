@@ -22,6 +22,7 @@
 	"messages": "Messages",
 	"settings": "Settings",
 	"goToAudios": "Go to Audios",
+	"goToNotifications": "Go to Notifications",
 
 	"ok": "OK",
 	"yes": "Yes",
@@ -170,7 +171,7 @@
 	"sendSepareted": "Send separated",
 	"writeSomething": "Write something...",
 
-	"sharedPublicationWithYou" : "Shared you a publication",
-	"sharedAudioWithYou" : "Shared you a song",
-	"sharedPhotoWithYou" : "Shared you a photo"
+	"sharedPublicationWithYou": "Shared you a publication",
+	"publicationNotAvailable": "Publication not available",
+	"publicationNotAvailableText": "This publication is not available because it has been deleted"
 }

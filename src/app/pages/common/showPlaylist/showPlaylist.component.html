@@ -55,15 +55,15 @@
 						</div>
 						<div class="actions">
 							<span *ngIf="data.userData.id == data.sessionData.current.id">
-								<button mat-icon-button [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button>
+								<button mat-icon-button [matMenuTriggerFor]="options"><mat-icon>more_vert</mat-icon></button>
 							</span>
 							<span *ngIf="data.userData.id != data.sessionData.current.id">
-								<button mat-icon-button [matMenuTriggerFor]="appMenu">
+								<button mat-icon-button [matMenuTriggerFor]="options">
 									<mat-icon *ngIf="x.addRemoveUser" class="added">check</mat-icon>
 									<mat-icon *ngIf="!x.addRemoveUser">more_vert</mat-icon>
 								</button>
 							</span>
-							<mat-menu #appMenu="matMenu">
+							<mat-menu #options="matMenu">
 								<button mat-menu-item (click)="itemOptions('addRemoveSession', x, null); x.addRemoveSession=!x.addRemoveSession;" *ngIf="data.userData.id == data.sessionData.current.id">{{x.addRemoveSession ? 'Add' : 'Remove'}}</button>
 								<button mat-menu-item (click)="itemOptions('addRemoveUser', x, null); x.addRemoveUser=!x.addRemoveUser;" *ngIf="data.userData.id != data.sessionData.current.id">{{!x.addRemoveUser ? 'Add' : 'Remove'}}</button>
 								<button mat-menu-item [matMenuTriggerFor]="menuPlaylists" #trigger="matMenuTrigger">Add to playlist</button>

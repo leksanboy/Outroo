@@ -47,8 +47,6 @@ export class ShowPublicationComponent implements OnInit {
 		this.userData = data.userData;
 		this.data.current = data.item ? data.item : [];
 
-		console.log("this.translations", data);
-
 		if (this.data.item) {
 			// Check if exists
     		this.notExists = false;
