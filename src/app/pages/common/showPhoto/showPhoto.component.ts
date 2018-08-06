@@ -25,6 +25,7 @@ export class ShowPhotoComponent implements OnInit {
 	public notExists: boolean;
 	public searchBoxMentions: boolean;
 	public urlRegex: any = /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/g;
+	public isMobileScreen: boolean = environment.mobile;
 
 	constructor(
 		@Inject(MAT_DIALOG_DATA) public data: any,
@@ -187,6 +188,12 @@ export class ShowPhotoComponent implements OnInit {
 
 			this.photoDataService.likeUnlike(data).subscribe();
 		}
+	}
+
+	// Show people who like
+	showLikes(item){
+		item.comeFrom = 'photo';
+		this.sessionService.setDataShowLikes(item);
 	}
 
 	// Show/hide comments box

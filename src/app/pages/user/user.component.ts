@@ -10,15 +10,21 @@ import { AudioDataService } from '../../../app/core/services/user/audioData.serv
 import { AudioPlayerMobileService } from '../../../app/core/services/audioPlayerMobile/audioPlayerMobile.service';
 import { MomentService } from '../../../app/core/services/moment/moment.service';
 import { NotificationsDataService } from '../../../app/core/services/user/notificationsData.service';
+import { PhotoDataService } from '../../../app/core/services/user/photoData.service';
 import { PlayerService } from '../../../app/core/services/player/player.service';
+import { PublicationsDataService } from '../../../app/core/services/user/publicationsData.service';
 import { SessionService } from '../../../app/core/services/session/session.service';
 import { UserDataService } from '../../../app/core/services/user/userData.service';
 
-import { ShowSessionPanelMobileComponent } from '../../../app/pages/common/showSessionPanelMobile/showSessionPanelMobile.component';
 import { NewReportComponent } from '../../../app/pages/common/newReport/newReport.component';
 import { NewPlaylistComponent } from '../../../app/pages/common/newPlaylist/newPlaylist.component';
 import { NewSessionComponent } from '../../../app/pages/common/newSession/newSession.component';
+
 import { ShowConversationComponent } from '../../../app/pages/common/showConversation/showConversation.component';
+import { ShowLikesComponent } from '../../../app/pages/common/showLikes/showLikes.component';
+import { ShowPhotoComponent } from '../../../app/pages/common/showPhoto/showPhoto.component';
+import { ShowPublicationComponent } from '../../../app/pages/common/showPublication/showPublication.component';
+import { ShowSessionPanelMobileComponent } from '../../../app/pages/common/showSessionPanelMobile/showSessionPanelMobile.component';
 
 // import { ChatsocketService } from '../../../app/core/services/websocket/chat.service';
 
@@ -70,6 +76,8 @@ export class UserComponent implements AfterViewInit {
 		private userDataService: UserDataService,
 		private platformLocation: PlatformLocation,
 		private audioDataService: AudioDataService,
+		private photoDataService: PhotoDataService,
+		private publicationsDataService: PublicationsDataService,
 		private notificationsDataService: NotificationsDataService,
 		private audioPlayerMobileService: AudioPlayerMobileService,
 		private bottomSheet: MatBottomSheet,
@@ -231,10 +239,28 @@ export class UserComponent implements AfterViewInit {
 					this.openReport(data);
 				});
 
+			// Get likers
+			this.sessionService.getDataShowLikes()
+				.subscribe(data => {
+					this.openLikes(data);
+				});
+
 			// Get conversation
-			this.sessionService.getDataConversation()
+			this.sessionService.getDataShowConversation()
 				.subscribe(data => {
 					this.openConversation(data);
+				});
+
+			// Get publication
+			this.sessionService.getDataShowPublication()
+				.subscribe(data => {
+					this.showNotification(data);
+				});
+
+			// Get photo
+			this.sessionService.getDataShowPhoto()
+				.subscribe(data => {
+					this.showNotification(data);
 				});
 
 			// Get copy to clipboard
@@ -738,7 +764,6 @@ export class UserComponent implements AfterViewInit {
 			break;
 			case("report"):
 				item.type = 'audio';
-				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 			break;
 		}
@@ -785,6 +810,61 @@ export class UserComponent implements AfterViewInit {
 	// Show notifications web
 	showNotificationsBoxWeb(){
 		this.showNotificationsBox = !this.showNotificationsBox;
+	}
+
+	// Show photo from url if is one
+	showNotification(item) {
+		if (item.url == 'photos') {
+			let data = item.contentData.name;
+
+			this.photoDataService.getDataByName(data)
+				.subscribe((res: any) => {
+					this.location.go(this.router.url + '#photo');
+
+					let config = {
+						disableClose: false,
+						data: {
+							comeFrom: 'notifications',
+							translations: this.translations,
+							sessionData: this.sessionData,
+							userData: (res ? res.user : null),
+							item: (res ? res.data : null),
+							index: null,
+							list: []
+						}
+					};
+
+					// Open dialog
+					let dialogRef = this.dialog.open(ShowPhotoComponent, config);
+					dialogRef.afterClosed().subscribe((result: any) => {
+						this.location.go(this.router.url);
+					});
+				});
+		} else if (item.url == 'publications') {
+			let data = item.contentData.name;
+
+			this.publicationsDataService.getDataByName(data)
+				.subscribe((res: any) => {
+					this.location.go(this.router.url + '#publication');
+
+					let config = {
+						disableClose: false,
+						data: {
+							comeFrom: 'notifications',
+							translations: this.translations,
+							sessionData: this.sessionData,
+							userData: (res ? res.user : null),
+							item: (res ? res : null)
+						}
+					};
+
+					// Open dialog
+					let dialogRef = this.dialog.open(ShowPublicationComponent, config);
+					dialogRef.afterClosed().subscribe((result: any) => {
+						this.location.go(this.router.url);
+					});
+				});
+		}
 	}
 
 	// Show userBox web
@@ -868,6 +948,8 @@ export class UserComponent implements AfterViewInit {
 			this.sessionData = this.userDataService.setSessionData('data', this.sessionData);
 			this.showSessions = false;
 			this.showChangeSessionOnMenu = false;
+			this.showChangeSession = false;
+			this.showUserBox = false;
 
 			// Go to main page
 			this.router.navigate([data.username]);
@@ -933,7 +1015,7 @@ export class UserComponent implements AfterViewInit {
 
 	// Change language
 	changeLanguage(lang){
-		if (lang.id =! this.sessionData.current.language) {
+		if (this.sessionData.current.language != lang.id) {
 			let data = {
 				id: this.sessionData.current.id,
 				language: lang.id
@@ -943,6 +1025,10 @@ export class UserComponent implements AfterViewInit {
 				.subscribe(res => {
 					// Get translations
 					this.getTranslations(lang.id);
+
+					// Close user box
+					this.showChangeLanguage = false;
+					this.showUserBox = false;
 
 					// Set data
 					this.sessionData.current.language = lang.id;
@@ -989,6 +1075,25 @@ export class UserComponent implements AfterViewInit {
 		});
 	}
 
+	// Likers
+	openLikes(data){
+		this.location.go(this.router.url + '#likers');
+
+		let config = {
+			disableClose: false,
+			data: {
+				sessionData: this.sessionData,
+				translations: this.translations,
+				item: data
+			}
+		}
+
+		let dialogRef = this.dialog.open(ShowLikesComponent, config);
+		dialogRef.afterClosed().subscribe((res: string) => {
+			this.location.go(this.router.url);
+		});
+	}
+
 	// Conversation
 	openConversation(data){
 		/* Open conversation if is closed because on the other hand we set on dataList new conversation 
@@ -1008,11 +1113,9 @@ export class UserComponent implements AfterViewInit {
 
 			let dialogRef = this.dialog.open(ShowConversationComponent, config);
 			dialogRef.afterClosed().subscribe((res: any) => {
-				console.log("Clsoe:", res);
-				
 				// Check if is new chat with content or last insered comment
 				if (res.close)
-					this.sessionService.setDataConversation(res);
+					this.sessionService.setDataShowConversation(res);
 				
 				// Set url
 				this.location.go(this.router.url);

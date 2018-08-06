@@ -194,6 +194,7 @@ export class FollowingComponent implements OnInit, OnDestroy {
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
+				noData: false,
 				noMore: false
 			}
 
@@ -202,7 +203,7 @@ export class FollowingComponent implements OnInit, OnDestroy {
 				session: session,
 				type: 'following',
 				rows: this.dataDefault.rows,
-				cuantity: environment.cuantity
+				cuantity: this.environment.cuantity
 			}
 
 			this.followsDataService.default(data)
@@ -210,14 +211,14 @@ export class FollowingComponent implements OnInit, OnDestroy {
 					this.dataDefault.loadingData = false;
 
 					if (!res || res.length == 0) {
-						this.dataDefault.noMore = true;
+						this.dataDefault.noData = true;
 					} else {
-						this.dataDefault.loadMoreData = (res.length < environment.cuantity) ? false : true;
+						this.dataDefault.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
 						this.dataDefault.list = res;
-
-						if (!res || res.length < environment.cuantity)
-							this.dataDefault.noMore = true;
 					}
+
+					if (!res || res.length < this.environment.cuantity)
+						this.dataDefault.noMore = true;
 				}, error => {
 					this.dataDefault.loadingData = false;
 					this.alertService.error(this.translations.anErrorHasOcurred);
@@ -231,13 +232,13 @@ export class FollowingComponent implements OnInit, OnDestroy {
 				session: this.sessionData.current.id,
 				type: 'following',
 				rows: this.dataDefault.rows,
-				cuantity: environment.cuantity
+				cuantity: this.environment.cuantity
 			}
 
 			this.followsDataService.default(data)
 				.subscribe(res => {
 					setTimeout(() => {
-						this.dataDefault.loadMoreData = (res.length < environment.cuantity) ? false : true;
+						this.dataDefault.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
 						this.dataDefault.loadingMoreData = false;
 
 						// Push items
@@ -245,7 +246,7 @@ export class FollowingComponent implements OnInit, OnDestroy {
 							for (let i in res)
 								this.dataDefault.list.push(res[i]);
 
-						if (!res || res.length < environment.cuantity)
+						if (!res || res.length < this.environment.cuantity)
 							this.dataDefault.noMore = true;
 					}, 600);
 				}, error => {
@@ -273,23 +274,23 @@ export class FollowingComponent implements OnInit, OnDestroy {
 				user: this.userData.id,
 				caption: this.actionFormSearch.get('caption').value,
 				rows: this.dataSearch.rows,
-				cuantity: environment.cuantity
+				cuantity: this.environment.cuantity
 			}
 
-			this.followsDataService.search(data)
+			this.followsDataService.searchFollowing(data)
 				.subscribe(res => {
 					setTimeout(() => {
 						this.dataSearch.loadingData = false;
 
 						if (!res || res.length == 0) {
-							this.dataSearch.noMore = true;
+							this.dataSearch.noData = true;
 						} else {
-							this.dataSearch.loadMoreData = (res.length < environment.cuantity) ? false : true;
+							this.dataSearch.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
 							this.dataSearch.list = res;
-
-							if (!res || res.length < environment.cuantity)
-								this.dataSearch.noMore = true;
 						}
+
+						if (!res || res.length < this.environment.cuantity)
+							this.dataSearch.noMore = true;
 					}, 600);
 				}, error => {
 					this.dataSearch.loadingData = false;
@@ -304,13 +305,13 @@ export class FollowingComponent implements OnInit, OnDestroy {
 				user: this.userData.id,
 				caption: this.actionFormSearch.get('caption').value,
 				rows: this.dataSearch.rows,
-				cuantity: environment.cuantity
+				cuantity: this.environment.cuantity
 			}
 
-			this.followsDataService.search(data)
+			this.followsDataService.searchFollowing(data)
 				.subscribe(res => {
 					setTimeout(() => {
-						this.dataSearch.loadMoreData = (res.length < environment.cuantity) ? false : true;
+						this.dataSearch.loadMoreData = (res.length < this.environment.cuantity) ? false : true;
 						this.dataSearch.loadingMoreData = false;
 
 						// Push items
@@ -318,7 +319,7 @@ export class FollowingComponent implements OnInit, OnDestroy {
 							for (let i in res)
 								this.dataSearch.list.push(res[i]);
 
-						if (!res || res.length < environment.cuantity)
+						if (!res || res.length < this.environment.cuantity)
 							this.dataSearch.noMore = true;
 					}, 600);
 				}, error => {

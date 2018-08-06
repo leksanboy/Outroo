@@ -27,10 +27,10 @@
 
 			<div class="notificationsBox" *ngIf="showNotificationsBox">
 				<div class="hidden" *ngIf="showNotificationsBox" (click)="showNotificationsBoxWeb()"></div>
-				
+
 				<div class="box">
 					<div class="innerBox">
-						<ul class="notifications" *ngIf="dataNotifications.list.length > 0">
+						<ul class="notifications" *ngIf="dataNotifications.list">
 							<li mat-ripple *ngFor="let x of dataNotifications.list" [ngClass]="{'active': x.status == 0, 'remove': x.addRemoveSession}">
 								<a class="avatar" routerLink="/{{x.user.username}}">
 									<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
@@ -50,51 +50,9 @@
 									</div>
 
 									<div class="operations">
-										<!-- Request from others -->
-										<span *ngIf="sessionData.current.id == x.receiver && x.type == 'startFollowingPrivate'">
-											<button mat-button class="active" (click)="followUnfollow('accept', x)">
-												{{translations.accept}}
-											</button>
-											<button mat-button class="border" (click)="followUnfollow('decline', x)">
-												{{translations.decline}}
-											</button>
-										</span>
-
-										<!-- Mine Requests -->
-										<span *ngIf="x.type != 'startFollowingPrivate'">
-											<button mat-button class="border" *ngIf="sessionData.current.id != 'x.receiver' && x.statusFollowing == 'pending'" [matMenuTriggerFor]="cancelRequest">
-												{{translations.pending}}
-											</button>
-
-											<button mat-button class="border" *ngIf="x.statusFollowing == 'unfollow'" (click)="followUnfollow('follow', x)">
-												{{translations.follow}}
-											</button>
-
-											<button mat-button class="active" *ngIf="x.statusFollowing == 'following'" [matMenuTriggerFor]="stopFollowing">
-												{{translations.following}}
-											</button>
-
-											<mat-menu #cancelRequest="matMenu" yPosition="below" xPosition="before" class="removeBox">
-												<button mat-menu-item disabled>
-													{{translations.cancelRequest}}
-												</button>
-												<div class="buttons">
-													<button mat-menu-item>{{translations.no}}</button>
-													<button mat-menu-item (click)="followUnfollow('unfollow', x)">{{translations.yes}}</button>
-												</div>
-											</mat-menu>
-											<mat-menu #stopFollowing="matMenu" yPosition="below" xPosition="before" class="removeBox">
-												<button mat-menu-item disabled>
-													{{translations.stopFollowing}}
-													<br>
-													{{x.user.username}}?
-												</button>
-												<div class="buttons">
-													<button mat-menu-item>{{translations.no}}</button>
-													<button mat-menu-item (click)="followUnfollow('unfollow', x)">{{translations.yes}}</button>
-												</div>
-											</mat-menu>
-										</span>
+										<button mat-button (click)="showNotificationsBoxWeb()" routerLink="/{{x.user.username}}">
+											{{translations.visit}}
+										</button>
 									</div>
 								</div>
 
@@ -171,7 +129,7 @@
 							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 						</div>
 
-						<div class="noData" *ngIf="dataNotifications.list.length == 0 && !dataNotifications.loadingData">
+						<div class="noData" *ngIf="!dataNotifications.list && !dataNotifications.loadingData">
 							{{translations.noData}}
 						</div>
 						
@@ -251,7 +209,7 @@
 									<div class="avatar" mat-list-avatar (click)="setCurrentUser(x); showChangeSession=false;">
 										<img [src]="x.avatar ? x.avatarUrl : environment.avatar"/>
 									</div>
-									<h4 mat-line (click)="setCurrentUser(x); showChangeSession=false;">@{{x.username}}</h4>
+									<h4 mat-line (click)="setCurrentUser(x)">@{{x.username}}</h4>
 									<mat-icon class="material-icons" [matMenuTriggerFor]="signOut">exit_to_app</mat-icon>
 									<mat-menu #signOut="matMenu" yPosition="below" xPosition="after" class="removeBox">
 										<button mat-menu-item disabled>
@@ -527,7 +485,7 @@
 
 		<div class="playlistBox" *ngIf="showPlaylist">
 			<div class="data">
-				<ul *ngIf="audioPlayerData.list.length > 0">
+				<ul *ngIf="audioPlayerData.list">
 					<li *ngFor="let x of audioPlayerData.list; let i=index;" [ngClass]="{active: audioPlayerData.current.key == i, default: !x.image, remove: x.addRemoveSession}">
 						<div class="inner" *ngIf="!x.contentTypeAd">
 							<div class="image">

@@ -24,11 +24,12 @@ export class ShowPublicationComponent implements OnInit {
 	public environment: any = environment;
 	public sessionData: any = [];
 	public userData: any = [];
+	public audioPlayerData: any = [];
 	public translations: any = [];
 	public notExists: boolean;
 	public searchBoxMentions: boolean;
 	public urlRegex: any = /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/g;
-	public audioPlayerData: any = [];
+	public isMobileScreen: boolean = environment.mobile;
 
 	constructor(
 		@Inject(MAT_DIALOG_DATA) public data: any,
@@ -79,6 +80,20 @@ export class ShowPublicationComponent implements OnInit {
 		this.publicationsDataService.updateReplays(data).subscribe();
 	}
 
+	// Check like
+	checkLike(id, user){
+		let data = {
+			id: id,
+			user: user
+		}
+
+		this.publicationsDataService.checkLike(data)
+			.subscribe(res => {
+				this.data.current.liked = res.liked;
+				this.data.current.likers = res.likers;
+			});
+	}
+
 	// Like / Unlike
 	likeUnlike(item){
 		if (item.liked) {
@@ -106,18 +121,10 @@ export class ShowPublicationComponent implements OnInit {
 		this.publicationsDataService.likeUnlike(data).subscribe();
 	}
 
-	// Check like
-	checkLike(id, user){
-		let data = {
-			id: id,
-			user: user
-		}
-
-		this.publicationsDataService.checkLike(data)
-			.subscribe(res => {
-				this.data.current.liked = res.liked;
-				this.data.current.likers = res.likers;
-			});
+	// Show people who like
+	showLikes(item){
+		item.comeFrom = 'publication';
+		this.sessionService.setDataShowLikes(item);
 	}
 
 	// Item Options

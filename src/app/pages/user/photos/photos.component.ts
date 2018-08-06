@@ -150,6 +150,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
+				noData: false,
 				noMore: false
 			}
 
@@ -164,14 +165,14 @@ export class PhotosComponent implements OnInit, OnDestroy {
 					this.dataDefault.loadingData = false;
 
 					if (!res || res.length == 0) {
-						this.dataDefault.noMore = true;
+						this.dataDefault.noData = true;
 					} else {
 						this.dataDefault.loadMoreData = (!res || res.length < environment.cuantity) ? false : true;
 						this.dataDefault.list = res;
-
-						if (!res || res.length < environment.cuantity)
-							this.dataDefault.noMore = true;
 					}
+
+					if (!res || res.length < environment.cuantity)
+						this.dataDefault.noMore = true;
 				}, error => {
 					this.dataDefault.loadingData = false;
 					this.alertService.error(this.translations.anErrorHasOcurred);

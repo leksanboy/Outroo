@@ -72,7 +72,7 @@ export class NewPublicationAddAudiosComponent implements OnInit {
 				setTimeout(() => {
 					this.loadingData = false;
 
-					if (res.length == 0) {
+					if (!res || res.length == 0) {
 						this.noData = true;
 					} else {
 						this.loadMoreData = (res.length < environment.cuantity) ? false : true;

@@ -6,13 +6,13 @@
 				<div class="text">{{userData.name}}</div>
 			</div> -->
 
-			<div class="background" (click)="showAvatar('background')">
+			<div class="background">
 				<img *ngIf="userData.backgroundUrl" [src]="userData.backgroundUrl"/>
 			</div>
 
 			<div class="dataBox">
 				<div class="user" [ngClass]="{blackColors: sessionData.current.theme == false && !userData.backgroundUrl}">
-					<div class="avatar" (click)="showAvatar('avatar')">
+					<div class="avatar" (click)="showAvatar()">
 						<img [src]="userData.avatar ? userData.avatarUrl : environment.avatar"/>
 					</div>
 					<div class="text">
@@ -122,7 +122,7 @@
 		</div>
 
 		<div class="content" *ngIf="((userData.private && userData.status == 'following') || !userData.private || userData.status == 'following' || (userData.id == sessionData.current.id))">
-			<ul *ngIf="dataDefault.list.length > 0">
+			<ul *ngIf="dataDefault.list">
 				<li *ngFor="let x of dataDefault.list" [ngClass]="{'remove': x.addRemoveSession}">
 					<div class="head">
 						<a class="avatar" routerLink="/{{x.user.username}}">
@@ -160,7 +160,7 @@
 					</div>
 					
 					<div class="body">
-						<div class="urlVideo" *ngIf="x.urlVideo">
+						<div class="urlVideo" *ngIf="x.urlVideo && !x.photos">
 							<div class="embedResponsive">
 								<div class="image" (click)="x.urlVideo.showVideo=!x.urlVideo.showVideo" *ngIf="!x.urlVideo.showVideo">
 									<div class="img" [ngStyle]="{'background-image': 'url(' + x.urlVideo.thumbnail + ')'}"></div>
@@ -193,7 +193,20 @@
 							</swiper>
 						</div>
 
-						<div class="textContainer" *ngIf="x.content" [innerHTML]="x.content | safeHtml"></div>
+						<div class="innerContent">
+							<div class="textContainer" *ngIf="x.content" [innerHTML]="x.content | safeHtml"></div>
+
+							<div class="urlVideo" *ngIf="x.urlVideo && x.photos">
+								<div class="embedResponsive">
+									<div class="image" (click)="x.urlVideo.showVideo=!x.urlVideo.showVideo" *ngIf="!x.urlVideo.showVideo">
+										<div class="img" [ngStyle]="{'background-image': 'url(' + x.urlVideo.thumbnail + ')'}"></div>
+										<div class="play"><mat-icon>play_arrow</mat-icon></div>
+										<div class="type">{{x.urlVideo.type}}</div>
+									</div>
+									<span [innerHtml]="x.urlVideo.iframe | safeHtml" *ngIf="x.urlVideo.showVideo"></span>
+								</div>
+							</div>
+						</div>
 
 						<div class="audios" *ngIf="x.audios">
 							<ul>
@@ -243,19 +256,20 @@
 								</button>
 								{{x.disabledComments ? x.countComments : ''}}
 							</div>
+							
 							<div class="buttonBox">
 								<button mat-icon-button (click)="likeUnlike(x)" [ngClass]="{'active' : x.liked}">
 									<i class="like"></i>
 								</button>
 								{{x.countLikes}}
 							</div>
-							<div class="likers" *ngIf="x.countLikes > 0">
+							
+							<a class="likers" *ngIf="x.countLikes > 0" (click)="showLikes(x)">
 								<span *ngFor="let l of x.likers; let isLast = last">
-									<a routerLink="/{{l.username}}">{{l.username}}</a>
-									{{isLast ? '' : ', '}}
+									{{l.username}}{{isLast ? '' : ', '}}
 								</span>
 								{{x.countLikes <= 2 ? translations.likedThis : translations.andMoreLikedThis}}
-							</div>
+							</a>
 						</div>
 
 						<div class="boxComments" *ngIf="x.showCommentsBox">
@@ -335,7 +349,7 @@
 				<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 			</div>
 			
-			<div class="noData" *ngIf="dataDefault.noData && !dataDefault.loadingData">
+			<div class="noData" *ngIf="dataDefault.noData">
 				{{translations.noData}}
 			</div>
 			

@@ -344,7 +344,7 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 				cuantity: environment.cuantity
 			}
 
-			this.followsDataService.search(data)
+			this.followsDataService.searchFollowing(data)
 				.subscribe(res => {
 					setTimeout(() => {
 						this.dataSearch.loadingData = false;
@@ -380,7 +380,7 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 				cuantity: environment.cuantity
 			}
 
-			this.followsDataService.search(data)
+			this.followsDataService.searchFollowing(data)
 				.subscribe(res => {
 					setTimeout(() => {
 						this.dataSearch.loadMoreData = (res.length < environment.cuantity) ? false : true;
@@ -428,8 +428,6 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 		} else {
 			this.data.users.push(item);
 		}
-
-		console.log("users:", this.data.users);
 	}
 
 	// Init new chat/conversation
@@ -446,8 +444,6 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 			sender: this.sessionData.current.id,
 			receivers: list
 		}
-
-		console.log("initNewChat:", this.data.users);
 
 		this.chatDataService.newChat(data)
 			.subscribe((res: any) => {
@@ -676,8 +672,6 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 
 	// Show photo from url if is one
 	showShared(item) {
-		console.log("showShared", item);
-
 		if (item.type == 'publication') {
 			let data = item.publication.name;
 

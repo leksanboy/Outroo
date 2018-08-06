@@ -37,6 +37,9 @@ export class ForgotPasswordComponent implements OnInit {
 		// reCaptcha
 		// window['verifyCallbackReCaptcha'] = this.verifyReCaptcha.bind(this);
 
+		// Refresh page to show recaptcha
+		// this.refreshPage();
+
 		// reCaptcha
 		let self = this;
 		window['onloadCallback'] = function() {
@@ -82,6 +85,10 @@ export class ForgotPasswordComponent implements OnInit {
 
 	verifyReCaptcha(data){
 		this.recaptcha = data ? true : false;
+	}
+
+	refreshPage(){
+		window.location.reload();
 	}
 
 	submit(ev: Event) {

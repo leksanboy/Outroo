@@ -8,7 +8,7 @@
 
 			<span *ngIf="!deniedAccessOnlySession">
 				<div class="searchBox" *ngIf="((userData.private && userData.status == 'following') || !userData.private || userData.status == 'following' || (userData.id == sessionData.current.id))">
-				 	<div class="box">
+					<div class="box">
 						<form [formGroup]="actionFormSearch" (ngSubmit)="search('send')">
 							<div class="inner">
 								<mat-icon>search</mat-icon>
@@ -23,7 +23,7 @@
 
 				<span *ngIf="data.active == 'default'">
 					<span *ngIf="((userData.private && userData.status == 'following') || !userData.private || userData.status == 'following' || (userData.id == sessionData.current.id))">
-						<ul *ngIf="dataDefault.list.length > 0">
+						<ul *ngIf="dataDefault.list">
 							<li *ngFor="let x of dataDefault.list; let i=index;">
 								<a class="avatar" routerLink="/{{x.user.username}}">
 									<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
@@ -68,22 +68,22 @@
 									</mat-menu>
 								</div>
 							</li>
-					    </ul>
+						</ul>
 
-					    <div class="loadingData" *ngIf="dataDefault.loadingData">
-					    	<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-					    </div>
+						<div class="loadingData" *ngIf="dataDefault.loadingData">
+							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+						</div>
 
-					    <div class="noData" *ngIf="dataDefault.list.length == 0 && !dataDefault.loadingData">
-					    	{{translations.noData}}
-					    </div>
-					    
-					    <div class="loadMore" *ngIf="dataDefault.loadMoreData">
-					    	<button mat-fab (click)="default('more', null, null)" *ngIf="!dataDefault.loadingMoreData">
-					    		<mat-icon>add</mat-icon>
-					    	</button>
-					    	<mat-progress-spinner mode="indeterminate" *ngIf="dataDefault.loadingMoreData"></mat-progress-spinner>
-					    </div>
+						<div class="noData" *ngIf="dataDefault.noData">
+							{{translations.noData}}
+						</div>
+						
+						<div class="loadMore" *ngIf="dataDefault.loadMoreData">
+							<button mat-fab (click)="default('more', null, null)" *ngIf="!dataDefault.loadingMoreData">
+								<mat-icon>add</mat-icon>
+							</button>
+							<mat-progress-spinner mode="indeterminate" *ngIf="dataDefault.loadingMoreData"></mat-progress-spinner>
+						</div>
 					</span>
 
 					<span *ngIf="!((userData.private && userData.status == 'following') || !userData.private || userData.status == 'following' || (userData.id == sessionData.current.id))">
@@ -94,7 +94,7 @@
 				</span>
 
 				<span *ngIf="data.active == 'search'">
-					<ul *ngIf="dataSearch.list.length > 0">
+					<ul *ngIf="dataSearch.list">
 						<li *ngFor="let x of dataSearch.list; let i=index;">
 							<a class="avatar" routerLink="/{{x.user.username}}">
 								<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
@@ -139,22 +139,22 @@
 								</mat-menu>
 							</div>
 						</li>
-				    </ul>
+					</ul>
 
-				    <div class="loadingData" *ngIf="dataSearch.loadingData">
-				    	<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-				    </div>
+					<div class="loadingData" *ngIf="dataSearch.loadingData">
+						<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+					</div>
 
-				    <div class="noData" *ngIf="dataSearch.list.length == 0 && !dataSearch.loadingData">
-				    	{{translations.noSearchResults}}
-				    </div>
-				    
-				    <div class="loadMore" *ngIf="dataSearch.loadMoreData">
-				    	<button mat-fab (click)="search('more')" *ngIf="!dataSearch.loadingMoreData">
-				    		<mat-icon>add</mat-icon>
-				    	</button>
-				    	<mat-progress-spinner mode="indeterminate" *ngIf="dataSearch.loadingMoreData"></mat-progress-spinner>
-				    </div>
+					<div class="noData" *ngIf="dataSearch.noData">
+						{{translations.noSearchResults}}
+					</div>
+					
+					<div class="loadMore" *ngIf="dataSearch.loadMoreData">
+						<button mat-fab (click)="search('more')" *ngIf="!dataSearch.loadingMoreData">
+							<mat-icon>add</mat-icon>
+						</button>
+						<mat-progress-spinner mode="indeterminate" *ngIf="dataSearch.loadingMoreData"></mat-progress-spinner>
+					</div>
 				</span>
 			</span>
 

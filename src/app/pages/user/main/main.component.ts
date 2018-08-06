@@ -277,11 +277,8 @@ export class MainComponent implements OnInit, OnDestroy {
 	}
 
 	// Show user images
-	showAvatar(type){
-		this.location.go('/' + this.userData.username + '#showImage');
-
-		// set come from
-		this.userData.comeFrom = (type == 'avatar') ? 'avatar' : 'background';
+	showAvatar(){
+		this.location.go('/' + this.userData.username + '#avatar');
 
 		// config
 		let config = {
@@ -335,10 +332,10 @@ export class MainComponent implements OnInit, OnDestroy {
 			this.dataDefault = {
 				list: [],
 				rows: 0,
-				noData: false,
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
+				noData: false,
 				noMore: false
 			}
 
@@ -356,15 +353,14 @@ export class MainComponent implements OnInit, OnDestroy {
 
 					if (!res || res.length == 0) {
 						this.dataDefault.noData = true;
-						this.dataDefault.noMore = true;
 					} else {
 						this.dataDefault.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 						this.dataDefault.noData = false;
 						this.dataDefault.list = res;
-
-						if (!res || res.length < this.environment.cuantity)
-							this.dataDefault.noMore = true;
 					}
+
+					if (!res || res.length < this.environment.cuantity)
+						this.dataDefault.noMore = true;
 				}, error => {
 					this.dataDefault.loadingData = false;
 					this.alertService.error(this.translations.anErrorHasOcurred);
@@ -429,7 +425,6 @@ export class MainComponent implements OnInit, OnDestroy {
 				break;
 			case "report":
 				item.type = 'publication';
-				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 				break;
 		}
@@ -444,7 +439,7 @@ export class MainComponent implements OnInit, OnDestroy {
 					item.content_original = item.urlVideo.title;
 
 				item.comeFrom = 'share';
-				this.sessionService.setDataConversation(item);
+				this.sessionService.setDataShowConversation(item);
 				break;
 			case "copyLink":
 				let urlExtension = item.user.name + ' ' + this.environment.url + 'showPublication?n=' + item.name;
@@ -522,12 +517,11 @@ export class MainComponent implements OnInit, OnDestroy {
 			break;
 			case("report"):
 				item.type = 'audio';
-				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 			break;
 			case("share"):
 				item.comeFrom = 'share';
-				this.sessionService.setDataConversation(item);
+				this.sessionService.setDataShowConversation(item);
 			break;
 		}
 	}
@@ -559,6 +553,12 @@ export class MainComponent implements OnInit, OnDestroy {
 
 			this.publicationsDataService.likeUnlike(data).subscribe();
 		}
+	}
+
+	// Show people who like
+	showLikes(item){
+		item.comeFrom = 'publication';
+		this.sessionService.setDataShowLikes(item);
 	}
 
 	// Show/hide comments box
@@ -786,7 +786,6 @@ export class MainComponent implements OnInit, OnDestroy {
 				break;
 			case "report":
 				item.type = 'publicationComment';
-				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 				break;
 		}

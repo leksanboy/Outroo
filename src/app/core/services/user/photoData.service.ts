@@ -90,6 +90,20 @@ export class PhotoDataService {
 			}));
 	}
 
+	likes(data: any) {
+		let url = environment.url + 'assets/api/photos/likes.php';
+		let params =	'&session=' + data.session + 
+						'&id=' + data.id + 
+						'&rows=' + data.rows + 
+						'&cuantity=' + data.cuantity;
+		params = params.replace('&', '?');
+
+		return this.http.get(url + params, this.headersService.getHeaders())
+			.pipe(map((res: Response) => { 
+				return res.json() 
+			}));
+	}
+
 	checkLike(data: any) {
 		let url = environment.url + 'assets/api/photos/checkLike.php';
 		let params = 	'&id=' + data.id + 

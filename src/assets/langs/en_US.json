@@ -23,6 +23,7 @@
 	"settings": "Settings",
 	"goToAudios": "Go to Audios",
 	"goToNotifications": "Go to Notifications",
+	"visit": "visit",
 
 	"ok": "OK",
 	"yes": "Yes",
@@ -62,7 +63,7 @@
 
 	"noData": "No data",
 	"noComments": "No comments",
-	"noSearchResults": "No search results",
+	"noSearchResults": "No results",
 	"registerOnSite": "Register on Outhroo",
 	"registerOnText": "Connect with new friends and listen the best music. Share amazing songs, photos, gifs and videos, send messages and get updates.",
 	"darkTheme": "Dark theme",
@@ -128,7 +129,9 @@
 	"accounts": "Accounts",
 	"overview": "Overview",
 	"aroundYou": "Around you",
-	"topCharts": "Top charts",
+	"top": "Top",
+	"people": "People",
+	"tag": "Tag",
 	"fresh": "Fresh",
 	"email": "Email",
 	"outhroo": "Outhroo",
@@ -173,5 +176,7 @@
 
 	"sharedPublicationWithYou": "Shared you a publication",
 	"publicationNotAvailable": "Publication not available",
-	"publicationNotAvailableText": "This publication is not available because it has been deleted"
+	"publicationNotAvailableText": "This publication is not available because it has been deleted",
+	"likes": "Likes",
+	"posts": "Posts"
 }

@@ -73,7 +73,7 @@
 				</div>
 			</div>
 
-			<ul *ngIf="dataDefault.list.length > 0" [ngClass]="{noPadding: userData.id != sessionData.current.id}">
+			<ul *ngIf="dataDefault.list" [ngClass]="{noPadding: userData.id != sessionData.current.id}">
 				<li mat-ripple *ngFor="let x of dataDefault.list; let i=index;" [ngClass]="{'remove': x.addRemoveSession}">
 					<a class="image" (click)="show(x, i)">
 						<div class="img" [ngStyle]="{'background-image': 'url(' + (x.mimetype.indexOf('image') !== -1 ? environment.pathPhotos : environment.pathVideos) + 'thumbnails/' + x.name + ')'}"></div>
@@ -89,7 +89,7 @@
 				<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 			</div>
 
-			<div class="noData" *ngIf="dataDefault.list.length == 0 && !dataDefault.loadingData">
+			<div class="noData" *ngIf="dataDefault.noData">
 				{{translations.noData}}
 			</div>
 			

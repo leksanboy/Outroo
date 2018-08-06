@@ -32,6 +32,20 @@ export class FollowsDataService {
 	search(data: any){
 		let url = environment.url + 'assets/api/follows/search.php';
 		let params = 	'&session=' + data.session +
+						'&caption=' + data.caption +
+						'&rows=' + data.rows +
+						'&cuantity=' + data.cuantity;
+		params = params.replace('&', '?');
+
+		return this.http.get(url + params, this.headersService.getHeaders())
+			.pipe(map((res: Response) => { 
+				return res.json() 
+			}));
+	}
+
+	searchFollowing(data: any){
+		let url = environment.url + 'assets/api/follows/searchFollowing.php';
+		let params = 	'&session=' + data.session +
 						'&user=' + data.user +
 						'&caption=' + data.caption +
 						'&rows=' + data.rows +

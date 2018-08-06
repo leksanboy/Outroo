@@ -29,6 +29,48 @@ export class PublicationsDataService {
 			}));
 	}
 
+	search(data: any){
+		let url = environment.url + 'assets/api/publications/search.php';
+		let params = 	'&session=' + data.session + 
+						'&caption=' + data.caption + 
+						'&rows=' + data.rows + 
+						'&cuantity=' + data.cuantity;
+		params = params.replace('&', '?');
+
+		return this.http.get(url + params, this.headersService.getHeaders())
+			.pipe(map((res: Response) => { 
+				return res.json() 
+			}));
+	}
+
+	searchTop(data: any){
+		let url = environment.url + 'assets/api/publications/searchTop.php';
+		let params = 	'&session=' + data.session + 
+						'&caption=' + data.caption + 
+						'&rows=' + data.rows + 
+						'&cuantity=' + data.cuantity;
+		params = params.replace('&', '?');
+
+		return this.http.get(url + params, this.headersService.getHeaders())
+			.pipe(map((res: Response) => { 
+				return res.json() 
+			}));
+	}
+
+	searchTag(data: any){
+		let url = environment.url + 'assets/api/publications/searchTag.php';
+		let params = 	'&session=' + data.session + 
+						'&caption=' + data.caption + 
+						'&rows=' + data.rows + 
+						'&cuantity=' + data.cuantity;
+		params = params.replace('&', '?');
+
+		return this.http.get(url + params, this.headersService.getHeaders())
+			.pipe(map((res: Response) => { 
+				return res.json() 
+			}));
+	}
+
 	createPublication(data: any) {
 		let url = environment.url + 'assets/api/publications/create.php';
 		let params = data;
@@ -54,6 +96,20 @@ export class PublicationsDataService {
 		let params = data;
 
 		return this.http.post(url, params, this.headersService.getHeaders())
+			.pipe(map((res: Response) => { 
+				return res.json() 
+			}));
+	}
+
+	likes(data: any) {
+		let url = environment.url + 'assets/api/publications/likes.php';
+		let params =	'&session=' + data.session + 
+						'&id=' + data.id + 
+						'&rows=' + data.rows + 
+						'&cuantity=' + data.cuantity;
+		params = params.replace('&', '?');
+
+		return this.http.get(url + params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				return res.json() 
 			}));
@@ -117,20 +173,6 @@ export class PublicationsDataService {
 		let url = environment.url + 'assets/api/publications/checkLike.php';
 		let params = 	'&id=' + data.id + 
 						'&user=' + data.user;
-		params = params.replace('&', '?');
-
-		return this.http.get(url + params, this.headersService.getHeaders())
-			.pipe(map((res: Response) => { 
-				return res.json() 
-			}));
-	}
-
-	search(data: any){
-		let url = environment.url + 'assets/api/publications/search.php';
-		let params = 	'&session=' + data.session + 
-						'&caption=' + data.caption + 
-						'&rows=' + data.rows + 
-						'&cuantity=' + data.cuantity;
 		params = params.replace('&', '?');
 
 		return this.http.get(url + params, this.headersService.getHeaders())

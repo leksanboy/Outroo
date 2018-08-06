@@ -3,7 +3,7 @@
 		<div class="content">
 			<mat-tab-group mat-stretch-tabs [(selectedIndex)]="data.selectedIndex">
 				<mat-tab label="{{translations.notifications}}">
-					<ul class="notifications" *ngIf="dataNotifications.list.length > 0">
+					<ul class="notifications" *ngIf="dataNotifications.list">
 						<li mat-ripple *ngFor="let x of dataNotifications.list" [ngClass]="{'active': x.status == 0, 'remove': x.addRemoveSession}">
 							<a class="avatar" routerLink="/{{x.user.username}}">
 								<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
@@ -177,7 +177,7 @@
 						<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 					</div>
 
-					<div class="noData" *ngIf="dataNotifications.list.length == 0 && !dataNotifications.loadingData">
+					<div class="noData" *ngIf="dataNotifications.noData">
 						{{translations.noData}}
 					</div>
 					
@@ -208,7 +208,7 @@
 						</div>
 					</div>
 
-					<ul class="chat" *ngIf="dataChats.list.length > 0">
+					<ul class="chat" *ngIf="dataChats.list">
 						<li mat-ripple *ngFor="let x of dataChats.list" [ngClass]="{remove: x.addRemoveSession}">
 							<div class="avatarsGroup" [ngClass]="{'group': x.users.excluded.length > 1}">
 								<div class="avatar" *ngFor="let u of x.users.excluded | slice: 0:2">
@@ -250,7 +250,7 @@
 						<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 					</div>
 
-					<div class="noData" *ngIf="dataChats.list.length == 0 && !dataChats.loadingData">
+					<div class="noData" *ngIf="dataChats.noData">
 						{{translations.noData}}
 					</div>
 					

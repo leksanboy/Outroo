@@ -668,6 +668,24 @@
 		return $result;
 	}
 
+	// Get hashtag count
+	function hashtagCount($caption){
+		global $conn;
+
+		$sql = "SELECT id
+				FROM z_publications
+				WHERE hashtags LIKE '%$caption%' 
+					AND (
+							(length(photos) > 0 AND is_deleted = 0) OR  
+							(length(url_video) > 0 AND is_deleted = 0) OR 
+							((length(photos) > 0 AND length(url_video) > 0) AND is_deleted = 0)
+						)
+				ORDER BY id";
+		$result = $conn->query($sql)->num_rows;
+
+		return $result;
+	}
+
 	///////////////////
 	// NOTIFICATIONS //
 	///////////////////

@@ -2,21 +2,21 @@
 	$cuantity = $_GET['cuantity'];
 	$more = $_GET['rows']*$cuantity;
 	$session = $_GET['session'];
-	$caption = $_GET['caption'];
+	$id = $_GET['id'];
 
-	$sql = "SELECT id, about, official, private 
-			FROM z_users 
-			WHERE (username LIKE '%$caption%' OR name LIKE '%$caption%') 
-				AND is_deleted = 0 
-			ORDER by username ASC, name ASC 
+	$sql = "SELECT u.id, u.private
+			FROM z_photos_likes p
+				INNER JOIN z_users u ON p.user = u.id 
+			WHERE photo = $id
+			ORDER BY date DESC
 			LIMIT $more, $cuantity";
 	$result = $conn->query($sql);
 
 	if ($result->num_rows > 0) {
 		$data = array();
+
 		while($row = $result->fetch_assoc()) {
 			$row['user'] = userUsernameNameAvatar($row['id']);
-			$row['about'] = html_entity_decode($row['about'], ENT_QUOTES);
 			$row['status'] = checkFollowingStatus($session, $row['id']);
 			$row['private'] = $row['private'] ? true : false;
 			$data[] = $row;
@@ -26,6 +26,6 @@
 	} else {
 		var_dump(http_response_code(204));
 	}
-
+	
 	$conn->close();
 ?>

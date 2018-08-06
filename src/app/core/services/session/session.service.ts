@@ -12,8 +12,11 @@ export class SessionService {
     private subjectSetDataTheme = new Subject<any>();
     private subjectSetDataLanguage = new Subject<any>();
     private subjectSetDataReport = new Subject<any>();
-    private subjectSetDataConversation = new Subject<any>();
     private subjectSetDataCopy = new Subject<any>();
+    private subjectSetDataShowConversation = new Subject<any>();
+    private subjectSetDataShowPublication = new Subject<any>();
+    private subjectSetDataShowPhoto = new Subject<any>();
+    private subjectSetDataShowLikes = new Subject<any>();
 
     setData(data: string) {
         this.subjectSetData.next(data);
@@ -79,19 +82,43 @@ export class SessionService {
         return this.subjectSetDataReport.asObservable();
     }
 
-    setDataConversation(data: any) {
-        this.subjectSetDataConversation.next(data);
-    }
-
-    getDataConversation(): Observable<any> {
-        return this.subjectSetDataConversation.asObservable();
-    }
-
     setDataCopy(data: any) {
         this.subjectSetDataCopy.next(data);
     }
 
     getDataCopy(): Observable<any> {
         return this.subjectSetDataCopy.asObservable();
+    }
+
+    setDataShowConversation(data: any) {
+        this.subjectSetDataShowConversation.next(data);
+    }
+
+    getDataShowConversation(): Observable<any> {
+        return this.subjectSetDataShowConversation.asObservable();
+    }
+
+    setDataShowPublication(data: any) {
+        this.subjectSetDataShowPublication.next(data);
+    }
+
+    getDataShowPublication(): Observable<any> {
+        return this.subjectSetDataShowPublication.asObservable();
+    }
+
+    setDataShowPhoto(data: any) {
+        this.subjectSetDataShowPhoto.next(data);
+    }
+
+    getDataShowPhoto(): Observable<any> {
+        return this.subjectSetDataShowPhoto.asObservable();
+    }
+
+    setDataShowLikes(data: any) {
+        this.subjectSetDataShowLikes.next(data);
+    }
+
+    getDataShowLikes(): Observable<any> {
+        return this.subjectSetDataShowLikes.asObservable();
     }
 }

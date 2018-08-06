@@ -137,7 +137,7 @@
 							</ul>
 						</div>
 
-						<ul *ngIf="dataDefault.list.length > 0">
+						<ul *ngIf="dataDefault.list">
 							<li *ngFor="let x of dataDefault.list; let i=index;" [ngClass]="{active: audioPlayerData.key == i && audioPlayerData.location == 'audios' && audioPlayerData.type == 'default', default: !x.image, remove: x.addRemoveSession}">
 								<div mat-ripple class="inner" *ngIf="!x.contentTypeAd">
 									<div class="image">
@@ -192,7 +192,7 @@
 							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 						</div>
 
-						<div class="noData" *ngIf="dataDefault.list.length == 0 && !dataDefault.loadingData">
+						<div class="noData" *ngIf="dataDefault.noData">
 							{{translations.noData}}
 						</div>
 
@@ -205,7 +205,7 @@
 					</mat-tab>
 
 					<mat-tab label="{{translations.aroundYou}}">
-						<ul *ngIf="dataAround.list.length > 0">
+						<ul *ngIf="dataAround.list">
 							<li *ngFor="let x of dataAround.list; let i=index;" [ngClass]="{active: audioPlayerData.key == i && audioPlayerData.location == 'audios' && audioPlayerData.type == 'around', default: !x.image}">
 								<div mat-ripple class="inner" *ngIf="!x.contentTypeAd">
 									<div class="image">
@@ -254,7 +254,7 @@
 							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 						</div>
 
-						<div class="noData" *ngIf="dataAround.list.length == 0 && !dataAround.loadingData">
+						<div class="noData" *ngIf="dataAround.noData">
 							{{translations.noData}}
 						</div>
 
@@ -266,8 +266,8 @@
 						</div>
 					</mat-tab>
 
-					<mat-tab label="{{translations.topCharts}}">
-						<ul *ngIf="dataTop.list.length > 0">
+					<mat-tab label="{{translations.top}}">
+						<ul *ngIf="dataTop.list">
 							<li *ngFor="let x of dataTop.list; let i=index;" [ngClass]="{active: audioPlayerData.key == i && audioPlayerData.location == 'audios' && audioPlayerData.type == 'top', default: !x.image}">
 								<div mat-ripple class="inner" *ngIf="!x.contentTypeAd">
 									<div class="image">
@@ -316,7 +316,7 @@
 							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 						</div>
 
-						<div class="noData" *ngIf="dataTop.list.length == 0 && !dataTop.loadingData">
+						<div class="noData" *ngIf="dataTop.noData">
 							{{translations.noData}}
 						</div>
 						
@@ -329,7 +329,7 @@
 					</mat-tab>
 
 					<mat-tab label="{{translations.fresh}}">
-						<ul *ngIf="dataFresh.list.length > 0">
+						<ul *ngIf="dataFresh.list">
 							<li *ngFor="let x of dataFresh.list; let i=index;" [ngClass]="{active: audioPlayerData.key == i && audioPlayerData.location == 'audios' && audioPlayerData.type == 'fresh', default: !x.image}">
 								<div mat-ripple class="inner" *ngIf="!x.contentTypeAd">
 									<div class="image">
@@ -378,7 +378,7 @@
 							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 						</div>
 
-						<div class="noData" *ngIf="dataFresh.list.length == 0 && !dataFresh.loadingData">
+						<div class="noData" *ngIf="dataFresh.noData">
 							{{translations.noData}}
 						</div>
 						
@@ -442,7 +442,7 @@
 					<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 				</div>
 
-				<div class="noData" *ngIf="dataSearch.list.length == 0 && !dataSearch.loadingData">
+				<div class="noData" *ngIf="dataSearch.noData">
 					{{translations.noSearchResults}}
 				</div>
 				

@@ -96,8 +96,8 @@ export class NewAvatarComponent implements OnInit {
 			case 'crop':
 				if (this.data.comeFrom == 'avatar') {
 					let imageBase64 = this.cropperData.getCroppedCanvas({
-						width: 164,
-						height: 164,
+						width: 320,
+						height: 320,
 						fillColor: '#fff',
 						imageSmoothingEnabled: false,
 						imageSmoothingQuality: 'high'
@@ -122,8 +122,8 @@ export class NewAvatarComponent implements OnInit {
 						});
 				} else if (this.data.comeFrom == 'background') {
 					let imageBase64 = this.cropperData.getCroppedCanvas({
-						width: 1536,
-						height: 512,
+						width: 1920,
+						height: 640,
 						fillColor: '#fff',
 						imageSmoothingEnabled: false,
 						imageSmoothingQuality: 'high'

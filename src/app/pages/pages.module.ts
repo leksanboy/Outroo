@@ -80,6 +80,7 @@ import { NewSessionComponent } from './common/newSession/newSession.component';
 
 import { ShowAvatarComponent } from './common/showAvatar/showAvatar.component';
 import { ShowConversationComponent } from './common/showConversation/showConversation.component';
+import { ShowLikesComponent } from './common/showLikes/showLikes.component';
 import { ShowPhotoComponent } from './common/showPhoto/showPhoto.component';
 import { ShowPlaylistComponent } from './common/showPlaylist/showPlaylist.component';
 import { ShowPublicationComponent } from './common/showPublication/showPublication.component';
@@ -182,6 +183,7 @@ import { ShowSessionPanelMobileComponent } from './common/showSessionPanelMobile
 		NewPublicationAddAudiosComponent,
 		ShowPublicationComponent,
 		ShowAvatarComponent,
+		ShowLikesComponent,
 		ShowPhotoComponent,
 		NewAvatarComponent,
 		NewSessionComponent,
@@ -197,6 +199,7 @@ import { ShowSessionPanelMobileComponent } from './common/showSessionPanelMobile
 		NewPublicationAddAudiosComponent,
 		ShowPublicationComponent,
 		ShowAvatarComponent,
+		ShowLikesComponent,
 		ShowPhotoComponent,
 		NewAvatarComponent,
 		NewSessionComponent,

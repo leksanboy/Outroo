@@ -49,7 +49,7 @@ export class NewReportComponent implements OnInit {
 				.subscribe(res => {
 					this.dialogRef.close(res);
 					this.saveLoading = false;
-					this.alertService.error('Reported successfully');
+					this.alertService.success('Reported successfully');
 				}, error => {
 					this.saveLoading = false;
 					this.alertService.error('An error has ocurred');

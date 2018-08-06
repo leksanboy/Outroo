@@ -1,7 +1,7 @@
 <div class="innerBodyContent">
 	<div class="pageNews">
 		<div class="content">
-			<div class="searchBox news">
+			<div class="searchBox news" *ngIf="data.active == 'default' || data.active == 'search'">
 			 	<div class="box">
 					<form [formGroup]="actionFormSearch" (ngSubmit)="search('send')">
 						<div class="inner">
@@ -16,9 +16,9 @@
 			</div>
 
 			<span *ngIf="data.active == 'default'">
-				<span *ngIf="dataDefault.list.length > 0">
+				<span *ngIf="dataDefault.list">
 					<div class="line" *ngFor="let line of dataDefault.list" [ngClass]="{'ad': line.contentTypeAd}">
-						<ul *ngIf="!line.contentTypeAd">
+						<ul class="publications" *ngIf="!line.contentTypeAd">
 							<li mat-ripple *ngFor="let x of line">
 								<a class="image" (click)="show(x, i)">
 									<span *ngIf="x.type == 'photo'">
@@ -51,7 +51,7 @@
 					<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 				</div>
 				
-				<div class="noData" *ngIf="dataDefault.list.length == 0 && !dataDefault.loadingData">
+				<div class="noData" *ngIf="dataDefault.noData">
 					{{translations.noData}}
 				</div>
 				
@@ -64,67 +64,200 @@
 			</span>
 
 			<span *ngIf="data.active == 'search'">
-				<ul *ngIf="dataSearch.list.length > 0">
-					<li *ngFor="let x of dataSearch.list; let i=index;">
-						<!-- <a class="avatar" routerLink="/{{x.user.username}}">
-							<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
-						</a>
-						<a class="text" routerLink="/{{x.user.username}}">
-							<span class="username">
-								{{x.user.username}}
-								<i *ngIf="x.user.official" matTooltip="{{translations.verifiedAccount}}"></i>
-							</span>
-							<br>
-							<span class="name">{{x.user.name}}</span>
-						</a>
-						<div class="actions" *ngIf="x.user.id != sessionData.current.id">
-							<button mat-button class="border" *ngIf="x.status == 'unfollow'" (click)="followUnfollow('follow', x)">
-								{{translations.follow}}
-							</button>
-							<button mat-button class="border" *ngIf="x.status == 'pending'" [matMenuTriggerFor]="cancelRequest">
-								{{translations.pending}}
-							</button>
-							<button mat-button *ngIf="x.status == 'following'" class="active" [matMenuTriggerFor]="stopFollowing">
-								{{translations.following}}
-							</button>
-							<mat-menu #cancelRequest="matMenu" yPosition="below" xPosition="before" class="removeBox">
-								<button mat-menu-item disabled>
-									{{translations.cancelRequest}}
-								</button>
-								<div class="buttons">
-									<button mat-menu-item>{{translations.no}}</button>
-									<button mat-menu-item (click)="followUnfollow('unfollow', x)">{{translations.yes}}</button>
+				<mat-tab-group mat-stretch-tabs [(selectedIndex)]="data.selectedIndex" (selectedIndexChange)="setTab(data.selectedIndex)">
+					<mat-tab label="{{translations.top}}">
+						<ul class="people" *ngIf="dataTop.list">
+							<li *ngFor="let x of dataTop.list; let i=index;">
+								<div class="inner" *ngIf="x.type == 'user'">
+									<a class="avatar" routerLink="/{{x.user.username}}">
+										<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
+									</a>
+									<a class="text" routerLink="/{{x.user.username}}">
+										<span class="username">
+											{{x.user.username}}
+											<i *ngIf="x.user.official" matTooltip="{{translations.verifiedAccount}}"></i>
+										</span>
+										<br>
+										<span class="name">{{x.user.name}}</span>
+									</a>
 								</div>
-							</mat-menu>
-							<mat-menu #stopFollowing="matMenu" yPosition="below" xPosition="before" class="removeBox">
-								<button mat-menu-item disabled>
-									{{translations.stopFollowing}}
-									<br>
-									{{x.user.username}}?
-								</button>
-								<div class="buttons">
-									<button mat-menu-item>{{translations.no}}</button>
-									<button mat-menu-item (click)="followUnfollow('unfollow', x)">{{translations.yes}}</button>
+
+								<div class="inner" *ngIf="x.type == 'hashtag'" (click)="setHashtag('set', x)">
+									<div class="avatar tag">
+										#
+									</div>
+									<a class="text">
+										<span class="username">
+											{{x.caption}}
+										</span>
+										<br>
+										<span class="name">{{x.count}}</span>
+									</a>
 								</div>
-							</mat-menu>
-						</div> -->
-					</li>
-			    </ul>
+							</li>
+						</ul>
 
-			    <div class="loadingData" *ngIf="dataSearch.loadingData">
-			    	<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-			    </div>
+						<div class="loadingData" *ngIf="dataTop.loadingData">
+							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+						</div>
 
-			    <div class="noData" *ngIf="dataSearch.list.length == 0 && !dataSearch.loadingData">
-			    	{{translations.noSearchResults}}
-			    </div>
-			    
-			    <div class="loadMore" *ngIf="dataSearch.loadMoreData">
-			    	<button mat-fab (click)="search('more')" *ngIf="!dataSearch.loadingMoreData">
-			    		<mat-icon>add</mat-icon>
-			    	</button>
-			    	<mat-progress-spinner mode="indeterminate" *ngIf="dataSearch.loadingMoreData"></mat-progress-spinner>
-			    </div>
+						<div class="noData" *ngIf="dataTop.noData">
+							{{translations.noSearchResults}}
+						</div>
+					</mat-tab>
+
+					<mat-tab label="{{translations.people}}">
+						<ul class="people" *ngIf="dataPeople.list">
+							<li *ngFor="let x of dataPeople.list; let i=index;">
+								<div class="inner">
+									<a class="avatar" routerLink="/{{x.user.username}}">
+										<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
+									</a>
+									<a class="text" routerLink="/{{x.user.username}}">
+										<span class="username">
+											{{x.user.username}}
+											<i *ngIf="x.user.official" matTooltip="{{translations.verifiedAccount}}"></i>
+										</span>
+										<br>
+										<span class="name">{{x.user.name}}</span>
+									</a>
+								</div>
+							</li>
+						</ul>
+
+						<div class="loadingData" *ngIf="dataPeople.loadingData">
+							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+						</div>
+
+						<div class="noData" *ngIf="dataPeople.noData">
+							{{translations.noSearchResults}}
+						</div>
+						
+						<div class="loadMore" *ngIf="dataPeople.loadMoreData">
+							<button mat-fab (click)="people('more')" *ngIf="!dataPeople.loadingMoreData">
+								<mat-icon>add</mat-icon>
+							</button>
+							<mat-progress-spinner mode="indeterminate" *ngIf="dataPeople.loadingMoreData"></mat-progress-spinner>
+						</div>
+					</mat-tab>
+
+					<mat-tab label="{{translations.posts}}">
+						<div class="line" *ngFor="let line of dataPosts.list" [ngClass]="{'ad': line.contentTypeAd}">
+							<ul class="publications" *ngIf="!line.contentTypeAd">
+								<li mat-ripple *ngFor="let x of line">
+									<a class="image" (click)="show(x, i)">
+										<span *ngIf="x.type == 'photo'">
+											<div class="img" [ngStyle]="{'background-image': 'url(' + (x.photos.mimetype.indexOf('image') !== -1 ? environment.pathPhotos : environment.pathVideos) + 'thumbnails/' + x.photos.name + ')'}"></div>
+										</span>
+										<span *ngIf="x.type == 'url'">
+											<div class="img" [ngStyle]="{'background-image': 'url(' + x.urlVideo.thumbnail + ')'}"></div>
+										</span>
+									</a>
+								</li>
+							</ul>
+
+							<div class="adContent" *ngIf="line.contentTypeAd">
+								<div class="box" [innerHtml]="line.content | safeHtml"></div>
+								<div class="disableAdBlock" *ngIf="hideAd">
+									{{translations.disableAdBlock}}
+								</div>
+							</div>
+						</div>
+
+						<div class="loadingData" *ngIf="dataPosts.loadingData">
+							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+						</div>
+
+						<div class="noData" *ngIf="dataPosts.noData">
+							{{translations.noSearchResults}}
+						</div>
+						
+						<div class="loadMore" *ngIf="dataPosts.loadMoreData">
+							<button mat-fab (click)="tag('more')" *ngIf="!dataPosts.loadingMoreData">
+								<mat-icon>add</mat-icon>
+							</button>
+							<mat-progress-spinner mode="indeterminate" *ngIf="dataPosts.loadingMoreData"></mat-progress-spinner>
+						</div>
+					</mat-tab>
+
+					<mat-tab label="{{translations.tag}}">
+						<ul class="people" *ngIf="dataTop.list">
+							<li *ngFor="let x of dataTag.list; let i=index;">
+								<div class="inner" (click)="setHashtag('set', x)">
+									<div class="avatar tag">
+										#
+									</div>
+									<a class="text">
+										<span class="username">
+											{{x.caption}}
+										</span>
+										<br>
+										<span class="name">{{x.count}}</span>
+									</a>
+								</div>
+							</li>
+						</ul>
+
+						<div class="loadingData" *ngIf="dataTag.loadingData">
+							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+						</div>
+
+						<div class="noData" *ngIf="dataTag.noData">
+							{{translations.noSearchResults}}
+						</div>
+						
+						<div class="loadMore" *ngIf="dataTag.loadMoreData">
+							<button mat-fab (click)="tag('more')" *ngIf="!dataTag.loadingMoreData">
+								<mat-icon>add</mat-icon>
+							</button>
+							<mat-progress-spinner mode="indeterminate" *ngIf="dataTag.loadingMoreData"></mat-progress-spinner>
+						</div>
+					</mat-tab>
+				</mat-tab-group>
+			</span>
+
+			<span *ngIf="data.active == 'hashtag'">
+				<div class="back" (click)="setHashtag('close', null)">
+					<button mat-icon-button><mat-icon>arrow_back</mat-icon></button>
+					<div class="text">{{data.selectedHashtag}}</div>
+				</div>
+
+				<div class="line" *ngFor="let line of dataHashtag.list" [ngClass]="{'ad': line.contentTypeAd}">
+					<ul class="publications" *ngIf="!line.contentTypeAd">
+						<li mat-ripple *ngFor="let x of line">
+							<a class="image" (click)="show(x, i)">
+								<span *ngIf="x.type == 'photo'">
+									<div class="img" [ngStyle]="{'background-image': 'url(' + (x.photos.mimetype.indexOf('image') !== -1 ? environment.pathPhotos : environment.pathVideos) + 'thumbnails/' + x.photos.name + ')'}"></div>
+								</span>
+								<span *ngIf="x.type == 'url'">
+									<div class="img" [ngStyle]="{'background-image': 'url(' + x.urlVideo.thumbnail + ')'}"></div>
+								</span>
+							</a>
+						</li>
+					</ul>
+
+					<div class="adContent" *ngIf="line.contentTypeAd">
+						<div class="box" [innerHtml]="line.content | safeHtml"></div>
+						<div class="disableAdBlock" *ngIf="hideAd">
+							{{translations.disableAdBlock}}
+						</div>
+					</div>
+				</div>
+
+				<div class="loadingData" *ngIf="dataHashtag.loadingData">
+					<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+				</div>
+
+				<div class="noData" *ngIf="dataHashtag.noData">
+					{{translations.noSearchResults}}
+				</div>
+				
+				<div class="loadMore" *ngIf="dataHashtag.loadMoreData">
+					<button mat-fab (click)="setHashtag('more', null)" *ngIf="!dataHashtag.loadingMoreData">
+						<mat-icon>add</mat-icon>
+					</button>
+					<mat-progress-spinner mode="indeterminate" *ngIf="dataHashtag.loadingMoreData"></mat-progress-spinner>
+				</div>
 			</span>
 		</div>
 	</div>

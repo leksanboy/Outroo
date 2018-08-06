@@ -34,6 +34,9 @@ export class SupportComponent implements OnInit {
 		private userDataService: UserDataService,
 		private alertService: AlertService
 	) {
+		// Refresh page to show recaptcha
+		// this.refreshPage();
+
 		// reCaptcha
 		let self = this;
 		window['onloadCallback'] = function() {
@@ -80,6 +83,10 @@ export class SupportComponent implements OnInit {
 
 	verifyReCaptcha(data){
 		this.recaptcha = data ? true : false;
+	}
+
+	refreshPage(){
+		window.location.reload();
 	}
 
 	submit(ev: Event) {

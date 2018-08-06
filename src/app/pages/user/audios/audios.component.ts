@@ -101,9 +101,6 @@ export class AudiosComponent implements OnInit, OnDestroy {
 					// Load default
 					this.data.selectedIndex = 0;
 					this.default('default', urlData);
-					// this.around('default');
-					// this.top('default');
-					// this.fresh('default');
 				}
 			});
 
@@ -242,19 +239,19 @@ export class AudiosComponent implements OnInit, OnDestroy {
 	setTab(tab){
 		switch (tab) {
 			case 0:
-				if (this.dataDefault.list.length == 0)
+				if (!this.dataDefault.list)
 					// not in use
 				break;
 			case 1:
-				if (this.dataAround.list.length == 0)
+				if (!this.dataAround.list)
 					this.around('default');
 				break;
 			case 2:
-				if (this.dataTop.list.length == 0)
+				if (!this.dataTop.list)
 					this.top('default');
 				break;
 			case 3:
-				if (this.dataFresh.list.length == 0)
+				if (!this.dataFresh.list)
 					this.fresh('default');
 				break;
 		}
@@ -270,7 +267,8 @@ export class AudiosComponent implements OnInit, OnDestroy {
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
-				noMore: false
+				noMore: false,
+				noData: false
 			}
 
 			let data = {
@@ -286,7 +284,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 					this.dataDefault.loadingData = false;
 
 					if (!res || res.length == 0) {
-						this.dataDefault.noMore = true;
+						this.dataDefault.noData = true;
 					} else {
 						this.dataDefault.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 
@@ -299,15 +297,15 @@ export class AudiosComponent implements OnInit, OnDestroy {
 								this.dataDefault.list.push(this.pushAd());
 						}
 
-						if (!res || res.length < this.environment.cuantity)
-							this.dataDefault.noMore = true;
-
 						// Check playing item
 						// TODO: Hacer una funcion que comprube la cancion que esta sonando si es de esta pantalla
 						// if (this.audioPlayerData.type == 'default')
 						// 	if ((res.length-1) >= this.audioPlayerData.key)
 						// 		this.dataDefault.list[this.audioPlayerData.key] = this.audioPlayerData.item;
 					}
+
+					if (!res || res.length < this.environment.cuantity)
+						this.dataDefault.noMore = true;
 				}, error => {
 					this.dataDefault.loadingData = false;
 					this.alertService.error(this.translations.anErrorHasOcurred);
@@ -368,7 +366,8 @@ export class AudiosComponent implements OnInit, OnDestroy {
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
-				noMore: false
+				noMore: false,
+				noData: false
 			}
 
 			let data = {
@@ -383,7 +382,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 						this.dataAround.loadingData = false;
 
 						if (!res || res.length == 0) {
-							this.dataAround.noMore = true;
+							this.dataAround.noData = true;
 						} else {
 							this.dataAround.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 
@@ -398,10 +397,10 @@ export class AudiosComponent implements OnInit, OnDestroy {
 									}, 300);
 								}
 							}
-
-							if (!res || res.length < this.environment.cuantity)
-								this.dataAround.noMore = true;
 						}
+
+						if (!res || res.length < this.environment.cuantity)
+							this.dataAround.noMore = true;
 					}, 600);
 				}, error => {
 					this.dataAround.loadingData = false;
@@ -453,7 +452,8 @@ export class AudiosComponent implements OnInit, OnDestroy {
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
-				noMore: false
+				noMore: false,
+				noData: false
 			}
 
 			let data = {
@@ -468,7 +468,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 						this.dataTop.loadingData = false;
 
 						if (!res || res.length == 0) {
-							this.dataTop.noMore = true;
+							this.dataTop.noData = true;
 						} else {
 							this.dataTop.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 
@@ -483,10 +483,10 @@ export class AudiosComponent implements OnInit, OnDestroy {
 									}, 600);
 								}
 							}
-
-							if (!res || res.length < this.environment.cuantity)
-								this.dataTop.noMore = true;
 						}
+
+						if (!res || res.length < this.environment.cuantity)
+							this.dataTop.noMore = true;
 					}, 600);
 				}, error => {
 					this.dataTop.loadingData = false;
@@ -538,7 +538,8 @@ export class AudiosComponent implements OnInit, OnDestroy {
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
-				noMore: false
+				noMore: false,
+				noData: false
 			}
 
 			let data = {
@@ -553,7 +554,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 						this.dataFresh.loadingData = false;
 
 						if (!res || res.length == 0) {
-							this.dataFresh.noMore = true;
+							this.dataFresh.noData = true;
 						} else {
 							this.dataFresh.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 
@@ -568,10 +569,10 @@ export class AudiosComponent implements OnInit, OnDestroy {
 									}, 900);
 								}
 							}
-
-							if (!res || res.length < this.environment.cuantity)
-								this.dataFresh.noMore = true;
 						}
+
+						if (!res || res.length < this.environment.cuantity)
+							this.dataFresh.noMore = true;
 					}, 600);
 				}, error => {
 					this.dataFresh.loadingData = false;
@@ -624,7 +625,8 @@ export class AudiosComponent implements OnInit, OnDestroy {
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
-				noMore: false
+				noMore: false,
+				noData: false
 			}
 
 			let data = {
@@ -639,7 +641,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 						this.dataSearch.loadingData = false;
 
 						if (!res || res.length == 0) {
-							this.dataSearch.noMore = true;
+							this.dataSearch.noData = true;
 						} else {
 							this.dataSearch.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 
@@ -651,10 +653,10 @@ export class AudiosComponent implements OnInit, OnDestroy {
 								if (i == (Math.round(res.length*3/5)).toString())
 									this.dataSearch.list.push(this.pushAd());
 							}
-
-							if (!res || res.length < this.environment.cuantity)
-								this.dataSearch.noMore = true;
 						}
+
+						if (!res || res.length < this.environment.cuantity)
+							this.dataSearch.noMore = true;
 					}, 600);
 				}, error => {
 					this.dataSearch.loadingData = false;
@@ -958,7 +960,6 @@ export class AudiosComponent implements OnInit, OnDestroy {
 				break;
 			case("report"):
 				item.type = 'audio';
-				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 				break;
 		}
@@ -1118,7 +1119,6 @@ export class AudiosComponent implements OnInit, OnDestroy {
 				break;
 			case("report"):
 				item.type = 'audioPlaylist';
-				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 				break;
 		}

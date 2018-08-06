@@ -181,6 +181,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
+				noData: false,
 				noMore: false
 			}
 
@@ -197,7 +198,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 					this.dataDefault.loadingData = false;
 
 					if (!res || res.length == 0) {
-						this.dataDefault.noMore = true;
+						this.dataDefault.noData = true;
 					} else {
 						this.dataDefault.loadMoreData = (!res || res.length < this.environment.cuantity) ? false : true;
 
@@ -209,10 +210,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 							if (i == (Math.round(res.length*3/5)).toString())
 								this.dataDefault.list.push(this.pushAd());
 						}
-
-						if (!res || res.length < this.environment.cuantity)
-							this.dataDefault.noMore = true;
 					}
+
+					if (!res || res.length < this.environment.cuantity)
+						this.dataDefault.noMore = true;
 				}, error => {
 					this.dataDefault.loadingData = false;
 					this.alertService.error(this.translations.anErrorHasOcurred);
@@ -284,7 +285,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 				break;
 			case "report":
 				item.type = 'publication';
-				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 				break;
 		}
@@ -299,7 +299,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 					item.content_original = item.urlVideo.title;
 				
 				item.comeFrom = 'share';
-				this.sessionService.setDataConversation(item);
+				this.sessionService.setDataShowConversation(item);
 				break;
 			case "copyLink":
 				let urlExtension = item.user.name + ' ' + this.environment.url + 'showPublication?n=' + item.name;
@@ -381,7 +381,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 			break;
 			case("report"):
 				item.type = 'audio';
-				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 			break;
 		}
@@ -414,6 +413,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 			this.publicationsDataService.likeUnlike(data).subscribe();
 		}
+	}
+
+	// Show people who like
+	showLikes(item){
+		item.comeFrom = 'publication';
+		this.sessionService.setDataShowLikes(item);
 	}
 
 	// Show/hide comments box
@@ -456,7 +461,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 				.subscribe(res => {
 					item.loadingData = false;
 
-					if (res.length == 0) {
+					if (!res || res.length == 0) {
 						item.noData = true;
 					} else {
 						item.noData = false;
@@ -621,7 +626,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 		switch (type) {
 			case "addRemove":
 				comment.addRemove = !comment.addRemove;
-				comment.type = comment.addRemove ? 'add' : 'remove';
+				comment.type = !comment.addRemove ? "add" : "remove";
 
 				let data = {
 					sender: this.sessionData.current.id,
@@ -641,7 +646,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 				break;
 			case "report":
 				item.type = 'publicationComment';
-				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 				break;
 		}

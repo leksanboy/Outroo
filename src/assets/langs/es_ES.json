@@ -52,7 +52,7 @@
 	"followers": "Seguidores",
 	"cancelRequest": "Cancelar solicitud",
 	"stopFollowing": "Dejar de seguir",
-	"startFollowingYou": "Ha empezado ha seguirte",
+	"startFollowingYou": "Ha comenzado ha seguirte",
 	"disableComments": "Deshabilitar comentarios",
 	"enableComments": "Habilitar comentarios",
 	"addToPlaylist": "Añadir al album",
@@ -122,13 +122,16 @@
 	"hasBeenaddedSuccessfully": "ha sido añadido con exito",
 	"hasBeenRemoved": "ha sido eliminado",
 	"hasBeenAddedTo": "se ha añadido a",
+	"visit": "visitar",
 
 	"editProfile": "Editar perfil",
 	"changePassword": "Contraseña",
 	"accounts": "Cuentas",
 	"overview": "Mi música",
 	"aroundYou": "Cerca de ti",
-	"topCharts": "Exitos",
+	"top": "Destacados",
+	"people": "Personas",
+	"tag": "Hashtags",
 	"fresh": "Novedades",
 	"email": "Email",
 	"outhroo": "Outhroo",
@@ -173,5 +176,7 @@
 
 	"sharedPublicationWithYou": "Ha compartido una publicación",
 	"publicationNotAvailable": "Publicación no disponible",
-	"publicationNotAvailableText": "Esta publicación no está disponible por que se ha eliminado"
+	"publicationNotAvailableText": "Esta publicación no está disponible por que se ha eliminado",
+	"likes": "Me gusta",
+	"posts": "Publicaciones"
 }

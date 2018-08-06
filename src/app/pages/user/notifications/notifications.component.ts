@@ -16,7 +16,6 @@ import { PublicationsDataService } from '../../../../app/core/services/user/publ
 
 import { ShowPhotoComponent } from '../../../../app/pages/common/showPhoto/showPhoto.component';
 import { ShowPublicationComponent } from '../../../../app/pages/common/showPublication/showPublication.component';
-import { ShowConversationComponent } from '../../../../app/pages/common/showConversation/showConversation.component';
 
 import { TimeagoPipe } from '../../../../app/core/pipes/timeago.pipe';
 import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
@@ -91,7 +90,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 			});
 
 		// Get conversation
-		this.activeConversation = this.sessionService.getDataConversation()
+		this.activeConversation = this.sessionService.getDataShowConversation()
 			.subscribe(data => {
 				// Check if is new chat with content
 				if (data.close)
@@ -159,6 +158,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
+				noData: false,
 				noMore: false
 			}
 
@@ -173,7 +173,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 					this.dataNotifications.loadingData = false;
 
 					if (!res || res.length == 0) {
-						this.dataNotifications.noMore = true;
+						this.dataNotifications.noData = true;
 					} else {
 						this.dataNotifications.loadMoreData = (!res || res.length < environment.cuantity) ? false : true;
 
@@ -184,10 +184,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
 						this.dataNotifications.list = res;
 						this.sessionService.setPendingNotifications('refresh');
-
-						if (!res || res.length < environment.cuantity)
-							this.dataNotifications.noMore = true;
 					}
+
+					if (!res || res.length < environment.cuantity)
+						this.dataNotifications.noMore = true;
 				}, error => {
 					this.dataNotifications.loadingData = false;
 					this.alertService.error(this.translations.anErrorHasOcurred);
@@ -292,57 +292,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
 	// Show photo from url if is one
 	showNotification(item) {
-		if (item.url == 'photos') {
-			let data = item.contentData.name;
-
-			this.photoDataService.getDataByName(data)
-				.subscribe((res: any) => {
-					this.location.go(this.router.url + '#photo');
-
-					let config = {
-						disableClose: false,
-						data: {
-							comeFrom: 'notifications',
-							translations: this.translations,
-							sessionData: this.sessionData,
-							userData: (res ? res.user : null),
-							item: (res ? res.data : null),
-							index: null,
-							list: []
-						}
-					};
-
-					// Open dialog
-					let dialogRef = this.dialog.open(ShowPhotoComponent, config);
-					dialogRef.afterClosed().subscribe((result: any) => {
-						this.location.go(this.router.url);
-					});
-				});
-		} else if (item.url == 'publications') {
-			let data = item.contentData.name;
-
-			this.publicationsDataService.getDataByName(data)
-				.subscribe((res: any) => {
-					this.location.go(this.router.url + '#publication');
-
-					let config = {
-						disableClose: false,
-						data: {
-							comeFrom: 'notifications',
-							translations: this.translations,
-							sessionData: this.sessionData,
-							userData: (res ? res.user : null),
-							item: (res ? res : null)
-						}
-					};
-
-					// Open dialog
-					let dialogRef = this.dialog.open(ShowPublicationComponent, config);
-					dialogRef.afterClosed().subscribe((result: any) => {
-						this.location.go(this.router.url);
-					});
-				});
-		}
+		if (item.url == 'photos')
+			this.sessionService.setDataShowPhoto(item);
+		else if (item.url == 'publications')
+			this.sessionService.setDataShowPublication(item);
 	}
 
 	// Item options
@@ -362,7 +315,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 				break;
 			case "report":
 				item.type = 'notification';
-				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 				break;
 		}
@@ -377,6 +329,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 				loadingData: true,
 				loadMoreData: false,
 				loadingMoreData: false,
+				noData: false,
 				noMore: false
 			}
 
@@ -391,14 +344,14 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 					this.dataChats.loadingData = false;
 
 					if (!res || res.length == 0) {
-						this.dataChats.noMore = true;
+						this.dataChats.noData = true;
 					} else {
 						this.dataChats.loadMoreData = (!res || res.length < environment.cuantity) ? false : true;
 						this.dataChats.list = res;
-
-						if (!res || res.length < environment.cuantity)
-							this.dataChats.noMore = true;
 					}
+
+					if (!res || res.length < environment.cuantity)
+						this.dataChats.noMore = true;
 				}, error => {
 					this.dataChats.loadingData = false;
 					this.alertService.error(this.translations.anErrorHasOcurred);
@@ -451,7 +404,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 			break;
 			case("report"):
 				item.type = 'chat';
-				item.translations = this.translations;
 				this.sessionService.setDataReport(item);
 			break;
 		}
@@ -459,12 +411,14 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
 	// Open conversation
 	showConversation(type, data) {
-		if (type == 'new')
-			data = [];
-		
+		data = (type == 'new') ? [] : data;
 		data.comeFrom = type;
 		data.close = false;
 
-		this.sessionService.setDataConversation(data);
+		this.sessionService.setDataShowConversation(data);
 	}
+
+	// TODO
+	showPhoto(type, data) {}
+	showPublication(type, data) {}
 }
