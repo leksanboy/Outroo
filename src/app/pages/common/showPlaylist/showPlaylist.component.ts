@@ -15,6 +15,7 @@ export class ShowPlaylistComponent implements OnInit {
 	public environment: any = environment;
 	public sessionData: any = [];
 	public audioPlayerData: any = [];
+	public translations: any = [];
 
 	constructor(
 		@Inject(MAT_DIALOG_DATA) public data: any,
@@ -24,27 +25,27 @@ export class ShowPlaylistComponent implements OnInit {
 		private sessionService: SessionService,
 		private audioDataService: AudioDataService
 	) {
+		this.translations = data.translations;
 		this.data.list = [];
+		this.data.current = data.item;
 		this.data.loadingData = true;
 		this.data.noData = false;
 		this.sessionData = data.sessionData;
 	}
 
 	ngOnInit() {
-		let dataP = {
-			id: this.data.item.id
+		let data = {
+			id: this.data.current.id
 		}
 
-		this.audioDataService.defaultPlaylistSongs(dataP)
+		this.audioDataService.defaultPlaylistSongs(data)
 			.subscribe(res => {
 				this.data.loadingData = false;
 
-				if (res.length == 0) {
+				if (!res || res.length == 0)
 					this.data.noData = true;
-				} else {
-					this.data.noData = false;
+				else
 					this.data.list = res;
-				}
 			});
 
 

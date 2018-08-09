@@ -131,11 +131,12 @@ export class ShowPublicationComponent implements OnInit {
 	itemOptions(type, item){
 		switch (type) {
 			case "remove":
-				item.typeRemove = item.addRemoveSession ? "add" : "remove";
+				item.addRemoveSession = !item.addRemoveSession;
+				item.removeType = item.addRemoveSession ? 'remove' : 'add';
 
 				let dataAddRemove = {
 					id: item.id,
-					type: item.typeRemove,
+					type: item.removeType,
 					user: this.sessionData.current.id
 				}
 
@@ -187,7 +188,8 @@ export class ShowPublicationComponent implements OnInit {
 	itemAudiosOptions(type, item, playlist){
 		switch(type){
 			case("addRemoveUser"):
-				item.removeType = !item.addRemoveUser ? "add" : "remove";
+				item.addRemoveUser = !item.addRemoveUser;
+				item.removeType = item.addRemoveUser ? 'remove' : 'add';
 
 				let dataOther = {
 					user: this.data.session.id,
@@ -203,7 +205,8 @@ export class ShowPublicationComponent implements OnInit {
 					});
 				break;
 			case("playlist"):
-				item.removeType = !item.addRemoveUser ? "add" : "remove";
+				item.addRemoveUser = !item.addRemoveUser;
+				item.removeType = item.addRemoveUser ? 'remove' : 'add';
 
 				let dataP = {
 					user: this.data.session.id,
@@ -430,12 +433,12 @@ export class ShowPublicationComponent implements OnInit {
 		switch (type) {
 			case "addRemove":
 				comment.addRemove = !comment.addRemove;
-				comment.type = !comment.addRemove ? "add" : "remove";
+				comment.removeType = comment.addRemove ? 'remove' : 'add';
 
 				let data = {
 					sender: this.sessionData.current.id,
 					receiver: this.userData.id,
-					type: comment.type,
+					type: comment.removeType,
 					comment: comment.id,
 					id: item.id
 				}

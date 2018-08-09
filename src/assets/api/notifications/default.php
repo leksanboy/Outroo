@@ -3,20 +3,32 @@
 	$more = $_GET['rows']*$cuantity;
 	$user = $_GET['user'];
 
-	$sql = "SELECT id, sender, receiver, 
-					page_id as page, 
-					page_url as url, 
-					page_type as type, 
-					comment_id as comment, 
-					status, date 
-			FROM z_notifications 
-			WHERE receiver = $user AND is_deleted = 0 
-			ORDER BY date DESC 
+	$sql = "SELECT 
+				n.id, 
+				n.sender, 
+				n.receiver, 
+				n.status, 
+				n.date,  
+				n.page_id as page, 
+				n.page_url as url, 
+				n.page_type as type, 
+				n.comment_id as comment
+			FROM z_notifications n
+			WHERE n.is_deleted = 0
+				AND
+				(
+					EXISTS (SELECT 1 FROM z_publications     WHERE id    = n.page_id and is_deleted = 0)
+					OR
+					EXISTS (SELECT 1 FROM z_photos_favorites WHERE photo = n.page_id and is_deleted = 0)
+				)
+				AND n.receiver = $user 
+			ORDER BY n.date DESC 
 			LIMIT $more, $cuantity";
 	$result = $conn->query($sql);
 
 	if ($result->num_rows > 0) {
 		$data = array();
+		
 		while($row = $result->fetch_assoc()) {
 			$row['user'] = userUsernameNameAvatar($row['sender']);
 

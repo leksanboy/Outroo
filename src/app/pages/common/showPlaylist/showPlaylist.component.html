@@ -11,15 +11,15 @@
 	</div>
 
 	<div mat-dialog-content class="bodyAudios">
-		<div class="cover" [style.background-image]="data.item.color">
+		<!-- <div class="cover" [style.background-image]="data.current.color">
 			<div class="image">
-				<div class="img" [ngStyle]="{'background-image': 'url(' + data.path + 'covers/' + data.item.image + ')'}"></div>
+				<div class="img" [ngStyle]="{'background-image': 'url(' + data.path + 'covers/' + data.current.image + ')'}"></div>
 			</div>
 
 			<div class="box">
 				<div class="inner">
 					<div class="top">
-						<div class="title">{{data.item.title}}</div>
+						<div class="title">{{data.current.title}}</div>
 						<div class="replays">000.003 replays</div>
 					</div>
 
@@ -31,6 +31,26 @@
 						</button>
 						<button mat-mini-fab (click)="playTrack('next')" class="next" [disabled]="data.list.length <= 1"><mat-icon>skip_next</mat-icon></button>
 					</div>
+				</div>
+			</div>
+		</div> -->
+
+		<div class="head">
+			<div class="left">
+				<div class="image" [style.background-image]="data.current.color">
+					<div class="img" [ngStyle]="{'background-image': 'url(' + data.path + 'covers/' + data.current.image + ')'}"></div>
+				</div>
+			</div>
+
+			<div class="right">
+				<div class="title">
+					{{data.current.title}}
+					<mat-icon matTooltip="Private playlist" *ngIf="data.current.private">lock</mat-icon>
+				</div>
+				<div class="button">
+					<button mat-button class="border" (click)="playTrack('play')" [disabled]="data.list.length == 0">
+						{{data.playing ? translations.pause : translations.play}}
+					</button>
 				</div>
 			</div>
 		</div>
@@ -67,7 +87,7 @@
 								<button mat-menu-item (click)="itemOptions('addRemoveSession', x, null); x.addRemoveSession=!x.addRemoveSession;" *ngIf="data.userData.id == data.sessionData.current.id">{{x.addRemoveSession ? 'Add' : 'Remove'}}</button>
 								<button mat-menu-item (click)="itemOptions('addRemoveUser', x, null); x.addRemoveUser=!x.addRemoveUser;" *ngIf="data.userData.id != data.sessionData.current.id">{{!x.addRemoveUser ? 'Add' : 'Remove'}}</button>
 								<button mat-menu-item [matMenuTriggerFor]="menuPlaylists" #trigger="matMenuTrigger">Add to playlist</button>
-								<button mat-menu-item (click)="itemOptions('report', x, null)">Report</button>
+								<button mat-menu-item (click)="itemOptions('report', x, null)">{{translations.report}}</button>
 							</mat-menu>
 							<mat-menu #menuPlaylists="matMenu">
 								<button mat-menu-item *ngFor="let p of data.sessionData.current.playlists" (click)="itemOptions('playlist', x, p)">{{p.title}}</button>
@@ -85,7 +105,7 @@
 			<div class="loadingData" *ngIf="data.loadingData">
 				<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 			</div>
-			<div class="noData" *ngIf="data.noData">No data</div>
+			<div class="noData" *ngIf="data.noData">{{translations.noData}}</div>
 		</div>
 	</div>
 </div>

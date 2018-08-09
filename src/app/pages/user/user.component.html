@@ -16,6 +16,9 @@
 
 				<div class="right">
 					<button mat-mini-fab (click)="showNotificationsBoxWeb()">
+						<div class="pending" *ngIf="sessionData.current.countPendingNotifications">
+							{{sessionData.current.countPendingNotifications}}
+						</div>
 						<mat-icon>notifications</mat-icon>
 					</button>
 
@@ -338,7 +341,9 @@
 							<a mat-list-item (click)="scrollTop()" routerLink="/notifications" routerLinkActive="selected">
 								<mat-icon mat-list-icon>notifications</mat-icon>
 								<h4 mat-line>{{translations.notifications}}</h4>
-								<div class="pending" *ngIf="sessionData.current.countPendingNotifications">{{sessionData.current.countPendingNotifications}}</div>
+								<div class="pending" *ngIf="sessionData.current.countPendingNotifications">
+									{{sessionData.current.countPendingNotifications}}
+								</div>
 							</a>
 							<a mat-list-item (click)="scrollTop()" routerLink="/settings" routerLinkActive="selected">
 								<mat-icon mat-list-icon>settings</mat-icon>

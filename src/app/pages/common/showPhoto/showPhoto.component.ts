@@ -115,11 +115,11 @@ export class ShowPhotoComponent implements OnInit {
 		switch (type) {
 			case "remove":
 				item.addRemoveSession = !item.addRemoveSession;
-				item.typeRemove = item.addRemoveSession ? 'remove' : 'add';
+				item.removeType = item.addRemoveSession ? 'remove' : 'add';
 
 				let dataAddRemove = {
 					id: item.id,
-					type: item.typeRemove,
+					type: item.removeType,
 					user: this.sessionData.current.id
 				}
 
@@ -393,12 +393,12 @@ export class ShowPhotoComponent implements OnInit {
 		switch (type) {
 			case "addRemove":
 				comment.addRemove = !comment.addRemove;
-				comment.type = !comment.addRemove ? "add" : "remove";
+				comment.removeType = comment.addRemove ? 'remove' : 'add';
 
 				let data = {
 					sender: this.sessionData.current.id,
 					receiver: this.userData.id,
-					type: comment.type,
+					type: comment.removeType,
 					comment: comment.id,
 					id: item.id
 				}

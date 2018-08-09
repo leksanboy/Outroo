@@ -178,5 +178,7 @@
 	"publicationNotAvailable": "Publicación no disponible",
 	"publicationNotAvailableText": "Esta publicación no está disponible por que se ha eliminado",
 	"likes": "Me gusta",
-	"posts": "Publicaciones"
+	"posts": "Publicaciones",
+	"play": "Reproducir",
+	"pause": "Pausar"
 }

@@ -146,17 +146,9 @@
 										<div class="value">{{x.progress}}%</div>
 									</div>
 
-									<!-- <div class="icon" [ngClass]="{'selected': x.selected}" *ngIf="x.status=='error'">
-										<mat-icon>cloud_off</mat-icon>
-									</div> -->
-
 									<button mat-icon-button *ngIf="x.status=='error'">
 										<mat-icon>cloud_off</mat-icon>
 									</button>
-
-									<!-- <div class="icon" [ngClass]="{'selected': x.selected}" *ngIf="x.status=='completed'">
-										<mat-icon>check</mat-icon>
-									</div> -->
 
 									<button mat-icon-button *ngIf="x.status=='completed'">
 										<mat-icon>check</mat-icon>

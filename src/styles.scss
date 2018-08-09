@@ -141,16 +141,21 @@ body{
 	/*Generic buttons*/
 	button{
 		border-radius: 5px !important;
+		text-transform: uppercase;
 
 		&[disabled]{
-			background-color: transparentize($fontBlackColor, .85);
-			color: rgba(0, 0, 0, 0.38) !important;
+			color: transparentize($greyColor, .5) !important;
 			cursor: not-allowed !important;
+			opacity: .5 !important;
 		}
 
 		&.border{
 			border: 1px solid $fontBlackColor;
 			color: $fontBlackColor;
+
+			&[disabled]{
+				border-color: transparentize($greyColor, .25) !important;
+			}
 		}
 
 		&.mat-fab,
@@ -362,46 +367,13 @@ body{
 		float: left;
 	}
 
-	/*Close session box*/
-	.closeSessionBox{
-		.mat-menu-content{
-			padding: 0 !important;
-			min-width: 180px;
-		}
-
-		button[disabled]{
-			background: transparent !important;
-			color: $fontBlackColor !important;
-			cursor: default !important;
-			padding: 12px 12px 6px;
-			text-align: center;
-			line-height: 24px;
-			font-weight: bold;
-			height: initial;
-
-			mat-icon{
-				margin: -4px 8px 0 0;
-				font-size: 22px;
-			}
-		}
-
-		.buttons{
-			display: flex;
-			width: 100%;
-
-			button{
-				text-align: center;
-				color: $blueColor;
-			}
-		}
-	}
-
 	/*Mat-menu*/
 	.mat-menu-panel{
 		border-radius: 5px !important;
 		
 		.mat-menu-content{
 			button{
+				text-transform: inherit;
 				line-height: 40px;
 				height: 40px;
 			}
@@ -467,6 +439,35 @@ body{
 					width: initial;
 					height: 36px;
 				}
+			}
+		}
+	}
+
+	/*Close session box*/
+	.closeSessionBox{
+		button[disabled]{
+			background: transparent !important;
+			color: $fontBlackColor !important;
+			cursor: default !important;
+			padding: 12px 12px 6px;
+			text-align: center;
+			line-height: 24px;
+			font-weight: bold;
+			height: initial;
+
+			mat-icon{
+				margin: -4px 8px 0 0;
+				font-size: 22px;
+			}
+		}
+
+		.buttons{
+			display: flex;
+			width: 100%;
+
+			button{
+				text-align: center;
+				color: $blueColor;
 			}
 		}
 	}
@@ -844,6 +845,7 @@ body{
 						}
 
 						.container{
+							box-sizing: border-box;
 							word-break: break-all;
 							padding: 0 12px 0 0;
 						}
@@ -894,6 +896,7 @@ body{
 
 			button{
 				background: $fontBlackColor;
+				text-transform: inherit;
 				color: $whiteColor;
 				padding: 6px 0;
 				display: flex;
@@ -2211,7 +2214,9 @@ body{
 				width: 100%;
 
 				.container{
-					display: block;
+					display: flex;
+					width: 100%;
+					float: left;
 
 					.user{
 						padding: 6px 0 6px 12px;
@@ -2276,25 +2281,22 @@ body{
 					.urlVideo{
 						box-sizing: border-box;
 						width: 100%;
-						float: left;
-						padding: 0;
 
 						.inner{
 							position: relative;
-							width: 100%;
-							/*min-height: 120px;
+							min-height: 240px;
 							max-height: 65vh;
 							min-width: 120px;
 							max-width: 100%;
 							display: block;
-							margin: auto;*/
+							margin: auto;
 
 							.embedResponsive{
-								padding-top: 56.25%;
 								position: relative;
+								padding-top: 65vh;
 								overflow: hidden;
 							    display: block;
-								width: 100%;
+								width: 100vh;
 								margin: 0;
 
 							    .image{
@@ -2365,20 +2367,29 @@ body{
 					}
 
 					.left{
-						background-size: cover, cover;
-						background-position: center;
+						-webkit-box-orient: vertical;
+						-webkit-box-pack: center;
+						justify-content: center;
+						flex-direction: column;
+						box-sizing: border-box;
+						-ms-flex-pack: center;
+						-ms-flex-negative: 0;
+						align-items: stretch;
 						position: relative;
-						min-height: 100px;
+						min-height: 240px;
 						max-width: 980px;
-						height: 100%;
-						float: left;
+						flex-shrink: 0;
+						display: flex;
+						padding: 0;
+						margin: 0;
 
 						.photos{
 							width: 100%;
 							float: left;
 
-							img{
-								min-height: 320px;
+							img,
+							video{
+								min-height: 120px;
 								max-height: 65vh;
 								min-width: 120px;
 								max-width: 100%;
@@ -2386,81 +2397,14 @@ body{
 								margin: auto;
 							}
 
-							video{
-								min-height: 320px;
-								min-width: 120px;
-								max-height: 65vh;
-								max-width: 640px;
-								display: block;
-								margin: auto;
-							}
-
-							.swiper-pagination{
-								.swiper-pagination-bullet{
-									height: 6px;
-									width: 6px;
-								}
-							}
-
-							.swiperPrev,
-							.swiperNext{
-								position: absolute;
-								cursor: pointer;
-								height: 100%;
-								width: 100px;
-								z-index: 1;
-								top: 0;
-
-								mat-icon{
-									filter: drop-shadow(0px 4px 2px rgba(0,0,0,.5));
-									color: transparentize($whiteColor, .25);
-									margin: auto auto auto 6px;
-									position: absolute;
-									bottom: 0;
-									right: 0;
-									left: 0;
-									top: 0;
-								}
-							}
-
-							.swiperNext{
-								right: 0;
-
-								mat-icon{
-									margin: auto 6px auto auto;
-								}
-							}
-						}
-
-						/*  |                  */
-						/* \ / - Eliminar esto */
-						/*  ·                  */
-						.image{
-							img{
-								min-height: 320px;
-								max-height: 65vh;
-								min-width: 120px;
-								max-width: 100%;
-								display: block;
-								margin: auto;
-							}
-
-							video{
-								min-height: 320px;
-								min-width: 120px;
-								max-height: 65vh;
-								max-width: 640px;
-								display: block;
-								margin: auto;
-							}
-
+							/*Photos*/
 							.prev,
 							.next{
+								height: calc(100% - 56px);
 								position: absolute;
 								cursor: pointer;
-								height: 100%;
 								width: 100px;
-								top: 0;
+								top: 56px;
 
 								mat-icon{
 									filter: drop-shadow(0px 4px 2px rgba(0,0,0,.5));
@@ -2499,6 +2443,43 @@ body{
 									font-size: 86px;
 									height: 86px;
 									width: 86px;
+								}
+							}
+
+							/*Publications*/
+							.swiper-pagination{
+								.swiper-pagination-bullet{
+									height: 6px;
+									width: 6px;
+								}
+							}
+
+							.swiperPrev,
+							.swiperNext{
+								position: absolute;
+								cursor: pointer;
+								height: 100%;
+								width: 100px;
+								z-index: 1;
+								top: 0;
+
+								mat-icon{
+									filter: drop-shadow(0px 4px 2px rgba(0,0,0,.5));
+									color: transparentize($whiteColor, .25);
+									margin: auto auto auto 6px;
+									position: absolute;
+									bottom: 0;
+									right: 0;
+									left: 0;
+									top: 0;
+								}
+							}
+
+							.swiperNext{
+								right: 0;
+
+								mat-icon{
+									margin: auto 6px auto auto;
 								}
 							}
 						}
@@ -2544,8 +2525,12 @@ body{
 									padding: 0 18px;
 									
 									.inner{
+										min-width: 240px;
+
 										.embedResponsive{
+											padding-top: 56.25%;
 											border-radius: 5px;
+											width: 100%;
 										}
 									}
 								}
@@ -3102,6 +3087,87 @@ body{
 					}
 				}
 
+				.head{
+					box-sizing: border-box;
+					padding: 18px;
+					display: flex;
+					width: 100%;
+
+					.left{
+						float: left;
+
+						.image{
+							border-radius: 5px;
+							overflow: hidden;
+							height: 144px;
+							width: 144px;
+							float: left;
+
+							.img{
+								background-position: center 65%;
+								background-repeat: no-repeat;
+								transform: translate(0px);
+								box-sizing: border-box;
+								background-size: cover;
+								display: inline-block;
+								height: 100%;
+								width: 100%;
+							}
+						}
+					}
+
+					.right{
+						box-sizing: border-box;
+						padding: 6px 0 0 18px;
+						width: calc(100% - 144px);
+						float: left;
+
+						.title{
+							/*text-overflow: ellipsis;
+							box-sizing: border-box;
+							white-space: nowrap;
+							font-weight: bold;
+							overflow: hidden;
+							font-size: 24px;
+							display: block;
+							width: 100%;
+							float: left;
+							padding: 0;
+							margin: 0;*/
+
+							display: -webkit-box;
+							max-width: 100%;
+							font-weight: bold;
+							word-break: break-word;
+							font-size: 24px;
+							-webkit-line-clamp: 3;
+							-webkit-box-orient: vertical;
+							overflow: hidden;
+							text-overflow: ellipsis;
+
+							max-height: 84px;
+
+							mat-icon{
+								position: relative;
+								font-size: 20px;
+								margin: 4px 0 0;
+								float: right;
+							}
+						}
+
+						.button{
+							float: left;
+
+							button{
+								border-color: $whiteColor;
+								color: $whiteColor;
+								margin: 12px 0 0;
+								float: left;
+							}
+						}
+					}
+				}
+
 				.content{
 					position: relative;
 					width: 100%;
@@ -3115,32 +3181,31 @@ body{
 						margin: 0;
 
 						li{
-							transition: .15s;
 							display: flex;
 							padding: 0;
 							margin: 0;
 
 							.inner{
+								padding: 2px 9px 2px 18px;
 								box-sizing: border-box;
 								align-items: center;
 								flex-direction: row;
 								position: relative;
-								padding: 4px 12px;
 								margin: 0 0 4px;
 								display: flex;
 								width: 100%;
 
 								&:hover{
-									background-color: transparentize($whiteColor, .95);
+									background-color: transparentize($greyColor, .9);
 								}
 
 								.image{
-									width: 40px;
+									width: 42px;
 
 									button{
 										overflow: hidden;
-										height: 40px;
-										width: 40px;
+										height: 42px;
+										width: 42px;
 										margin: 0;
 
 										img{
@@ -3168,7 +3233,7 @@ body{
 								.text{
 									justify-content: space-between;
 									box-sizing: border-box;
-									line-height: 40px;
+									line-height: 42px;
 									overflow: hidden;
 									display: flex;
 									width: 100%;
@@ -3178,7 +3243,6 @@ body{
 										flex-direction: column;
 										box-sizing: border-box;
 										padding: 0 0 0 12px;
-										color: $whiteColor;
 										text-align: left;
 										overflow: hidden;
 										max-width: 80%;
@@ -3187,9 +3251,9 @@ body{
 										.title{
 											text-overflow: ellipsis;
 											white-space: nowrap;
-											padding: 4px 0 2px;
 											line-height: 15px;
 											overflow: hidden;
+											padding: 4px 0;
 										}
 
 										.artist{
@@ -3203,8 +3267,8 @@ body{
 									}
 
 									.duration{
-										color: transparentize($whiteColor, .5);
 										padding: 0 6px 0 0;
+										color: $greyColor;
 										text-align: right;
 										font-size: 14px;
 										max-width: 75px;
@@ -3214,15 +3278,17 @@ body{
 
 								.actions{
 									box-sizing: border-box;
-									height: 40px;
-									width: 40px;
+									height: 42px;
+									width: 42px;
 									margin: 0;
 
 									button{
+										height: 42px;
+										width: 42px;
 										margin: 0;
 
 										mat-icon{
-											color: transparentize($whiteColor, .5);
+											color: $greyColor;
 											text-shadow: none;
 											font-size: 20px;
 
@@ -3232,103 +3298,11 @@ body{
 										}
 									}
 								}
-
-								.category{
-									display: flex;
-
-									mat-icon{
-										margin: 8px;
-										float: left;
-									}
-
-									.size{
-										background-color: $redColor;
-										box-shadow: $shadowBox2;
-										white-space: nowrap;
-										border-radius: 3px;
-										color: $whiteColor;
-										line-height: 14px;
-										font-weight: bold;
-										margin: 13px 0;
-										padding: 0 3px;
-										font-size: 8px;
-										height: 14px;
-										float: left;
-									}
-								}
-
-								.status{
-									box-sizing: border-box;
-									margin: 0 0 0 8px;
-									height: 40px;
-									width: 40px;
-
-									button{
-										background: $blueColor;
-										height: 36px;
-										width: 36px;
-										margin: 2px;
-
-										mat-icon{
-											vertical-align: inherit;
-											color: $whiteColor;
-											margin: 6px 0 0;
-										}
-									}
-
-									.icon{
-										background-color: $blueColor;
-										box-sizing: border-box;
-										border-radius: 50%;
-										height: 36px;
-										width: 36px;
-										margin: 2px;
-
-										mat-icon{
-											vertical-align: inherit;
-											color: $whiteColor;
-											margin: 6px;
-										}
-									}
-
-									.progress{
-										background-color: transparentize($fontBlackColor, .75);
-										border-radius: 50%;
-										height: 100%;
-										width: 100%;
-
-										mat-progress-spinner{
-											height: 36px !important;
-											width: 36px !important;
-
-											svg {
-												filter: drop-shadow($shadowText1);
-												height: 36px !important;
-												width: 36px !important;
-
-												circle{
-													stroke: $whiteColor !important;
-												}
-											}
-										}
-
-										.value{
-											text-shadow: $shadowText1;
-											text-align: center;
-											color: $whiteColor;
-											margin: -40px 0 0;
-											line-height: 40px;
-											font-size: 10px;
-											width: 100%;
-											top: 0;
-										}
-									}
-								}
 							}
 
 							.ad{
 								box-sizing: border-box;
-								padding: 18px;
+								padding: 2px 0 4px 0;
 								width: 100%;
 								float: left;
 
@@ -3340,20 +3314,17 @@ body{
 
 							&.active{
 								.inner{
-									background-color: transparentize($whiteColor, .95);
+									background-color: transparentize($fontBlackColor, .95);
+									color: $blueColor;
+								}
 
-									.titleArtist{
-										color: $blueColor;
+								.text .titleArtist .artist{
+									color: transparentize($blueColor, .5);
+								}
 
-										.artist{
-											color: transparentize($blueColor, .5);
-										}
-									}
-
-									.text .duration,
-									.actions button mat-icon{
-										color: $whiteColor;
-									}
+								.text .duration,
+								.actions button mat-icon{
+									color: $blueColor;
 								}
 							}
 
@@ -3361,7 +3332,7 @@ body{
 								.image{
 									button{
 										mat-icon{
-											color: $whiteColor;
+											color: $fontBlackColor;
 											text-shadow: 0 0;
 										}
 									}
@@ -4146,13 +4117,9 @@ body{
 				width: 100%;
 
 				button{
-					background: $blueColor;
-					color: $whiteColor;
+					background: $whiteColor;
+					color: $fontBlackColor;
 					margin: 10px 4px;
-
-					&[disabled]{
-						background-color: $greyColor;
-					}
 
 					mat-progress-spinner{
 						height: 16px !important;
@@ -4168,6 +4135,11 @@ body{
 								stroke: $whiteColor !important;
 							}
 						}
+					}
+
+					&:last-child{
+						background: $blueColor;
+						color: $whiteColor;
 					}
 				}
 
@@ -4728,6 +4700,23 @@ body{
 							margin: 0 4px;
 							height: 32px;
 						}
+					}
+
+					.pending{
+						background-color: $redColor;
+						margin: 4px 0 0 22px;
+						border-radius: 18px;
+						color: $whiteColor;
+						position: absolute;
+						text-align: center;
+						line-height: 12px;
+						font-weight: bold;
+						padding: 1px 3px;
+						font-size: 10px;
+						min-width: 8px;
+						height: 12px;
+						left: 0;
+						top: 0;
 					}
 				}
 			}
@@ -5399,7 +5388,8 @@ body{
 								float: left;
 
 								button{
-									background: $whiteColor;
+									background-color: $whiteColor;
+									text-transform: inherit;
 									color: $fontBlackColor;
 									line-height: 30px;
 									margin: 13px 0 0;
@@ -6334,6 +6324,7 @@ body{
 								height: 48px;
 
 								button{
+									text-transform: inherit;
 									line-height: 32px;
 									padding: 0 12px;
 									margin: 7px 0;
@@ -6449,7 +6440,6 @@ body{
 						margin: 0;
 
 						li{
-							transition: .15s;
 							display: flex;
 							padding: 0;
 							margin: 0;
@@ -6630,19 +6620,18 @@ body{
 							li{
 								box-sizing: border-box;
 								width: calc(50% - 6px);
-								/*margin: 0 0 12px 0;*/
 								position: relative;
-								overflow: hidden;
+								margin: 0 0 6px 0;
 								list-style: none;
 								display: block;
 								float: left;
 
 								.image{
-									height: calc(50vw -6px);
+									height: calc(50vw - 24px);
 									box-sizing: border-box;
 									position: relative;
 									border-radius: 5px;
-									max-height: 185px;
+									max-height: 207px;
 									cursor: pointer;
 									width: 100%;
 									float: left;
@@ -6650,7 +6639,7 @@ body{
 									.img{
 										background-position: center 65%;
 										background-repeat: no-repeat;
-										transform: translate(0px);
+										transform: translate(0);
 										box-sizing: border-box;
 										background-size: cover;
 										display: inline-block;
@@ -6679,6 +6668,7 @@ body{
 								}
 
 								.panel{
+									padding: 0 0 6px 0;
 									position: relative;
 									display: flex;
 									width: 100%;
@@ -6717,7 +6707,7 @@ body{
 								}
 
 								&:nth-child(2n+2){
-									margin: 0 0 0 6px;
+									margin: 0 0 6px 12px;
 								}
 
 								&.add{
@@ -7368,6 +7358,7 @@ body{
 								height: 48px;
 
 								button{
+									text-transform: inherit;
 									padding: 0 12px;
 									margin: 5px 0;
 									min-width: 0;
@@ -7497,10 +7488,6 @@ body{
 					.menu{
 						.mat-nav-list{
 							.mat-list-item{
-								.pending{
-									color: $blackColor;
-								}
-
 								&:hover{
 									h4,
 									mat-icon{
@@ -7662,10 +7649,6 @@ body{
 					.clapper:after{
 						background-color: $blackColor;
 					}
-
-					.pending{
-						color: $blackColor;
-					}
 				}
 
 				&.selected{ 
@@ -7763,25 +7746,18 @@ body{
 		}
 	}
 
-	/*Blur background on mobile player*/
-	/*&.blurBackground{
-		.innerBodyUser{
-			filter: blur(5px);
-		}
-	}*/
-
-	/*When is iPhone X (+32px)*/
+	/*When is iPhone X (+36px)*/
 	&.iphoneXClass{
 		.bottomNav{
-			height: 80px !important;
+			height: 84px !important;
 		}
 
 		.signingBox{
-			margin-bottom: 22px !important;
+			margin-bottom: 24px !important;
 		}
 
 		.sessionsPanelMobile{
-			padding: 0 0 32px 0;
+			padding: 0 0 36px 0;
 		}
 
 		.audioPlayerMobile{
@@ -7789,7 +7765,7 @@ body{
 				padding: 24px 0 300px 0;
 
 				.player{
-					padding: 0 0 32px 0;
+					padding: 0 0 36px 0;
 				}
 			}
 		}
@@ -8369,11 +8345,23 @@ body{
 					display: block;
 
 					.container{
+						display: block;
+
 						.left{
 							width: 100%;
+							float: left;
 
 							.user{
 								display: flex;
+							}
+
+							.urlVideo{
+								.inner{
+									.embedResponsive{
+										padding-top: 56.25%;
+										width: 100%;
+									}
+								}
 							}
 
 							.image{
@@ -8939,11 +8927,15 @@ body{
 									.mat-slider-thumb-container{
 										.mat-slider-thumb{
 											background-color: $whiteColor;
-											bottom: -12px;
-											right: -12px;
 											border: none;
-											height: 24px;
-											width: 24px;
+											height: 12px;
+											bottom: -6px;
+											right: -6px;
+											width: 12px;
+
+											&:active{
+												transform: scale(2);
+											}
 										}
 									}
 								}

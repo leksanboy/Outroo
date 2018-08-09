@@ -178,5 +178,7 @@
 	"publicationNotAvailable": "Publication not available",
 	"publicationNotAvailableText": "This publication is not available because it has been deleted",
 	"likes": "Likes",
-	"posts": "Posts"
+	"posts": "Posts",
+	"play": "Play",
+	"pause": "Pause"
 }

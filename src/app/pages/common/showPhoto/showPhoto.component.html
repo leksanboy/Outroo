@@ -18,10 +18,10 @@
 						<img [src]="userData.avatar ? userData.avatarUrl : environment.avatar"/>
 					</a>
 					<div class="text">
-						<div class="name">
-							<a class="username" routerLink="/{{userData.username}}">{{userData.username}}</a>
+						<a class="name" routerLink="/{{userData.username}}">
+							<span class="username">{{userData.username}}</span>
 							<span class="date">{{data.current.date | timeago}}</span>
-						</div>
+						</a>
 					</div>
 					<div class="actions" *ngIf="sessionData.current.id">
 						<button mat-icon-button [matMenuTriggerFor]="options">
@@ -35,10 +35,11 @@
 						</mat-menu>
 					</div>
 				</div>
-				
-				<div class="image">
+
+				<div class="photos">
 					<img *ngIf="data.current.mimetype.indexOf('image') !== -1" [src]="environment.pathPhotos + data.current.name">
 					<video *ngIf="data.current.mimetype.indexOf('video') !== -1" [src]="environment.pathVideos + data.current.name.split('.')[0] + '.mp4'" #videoPlayer></video>
+
 
 					<span *ngIf="data.current.type=='video'">
 						<div class="playPause" (click)="playVideo('play')" *ngIf="!data.current.playButton">
@@ -89,6 +90,7 @@
 								</button>
 								{{data.current.disabledComments ? data.current.countComments : ''}}
 							</div>
+							
 							<div class="buttonBox">
 								<button mat-icon-button (click)="likeUnlike(data.current)" [ngClass]="{'active' : data.current.liked}">
 									<i class="like"></i>
@@ -136,7 +138,7 @@
 													<i label="more"></i>
 												</button>
 												<mat-menu #optionsComments="matMenu">
-													<button mat-menu-item (click)="commentsOptions('addRemove', data.current, c)" *ngIf="c.user.id == sessionData.current.id">{{c.addRemove ? translations.add : translations.remove}}</button>
+													<button mat-menu-item (click)="commentsOptions('addRemove', data.current, c)" *ngIf="c.user.id == sessionData.current.id">{{c.addRemove ? translations.restore : translations.remove}}</button>
 													<button mat-menu-item (click)="commentsOptions('report', data.current, c)">{{translations.report}}</button>
 												</mat-menu>
 											</div>

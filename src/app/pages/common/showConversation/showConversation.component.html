@@ -83,7 +83,7 @@
 								<div class="text">
 									<span class="username">{{x.user.username}}</span>
 									<br>
-									<span class="name">{{x.about.trim() ? x.about : x.user.name}}</span>
+									<span class="name">{{x.user.name}}</span>
 								</div>
 								<div class="actions">
 									<span *ngIf="x.added"><mat-icon>check_circle</mat-icon></span>
@@ -95,7 +95,7 @@
 						<div class="loadingData" *ngIf="dataSearch.loadingData">
 							<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 						</div>
-						<div class="noData" *ngIf="dataSearch.noData">No results</div>
+						<div class="noData" *ngIf="dataSearch.noData">{{translations.noSearchResults}}</div>
 						<div class="loadMore" *ngIf="dataSearch.loadMoreData">
 							<button mat-fab (click)="search('more')" *ngIf="!dataSearch.loadingMoreData">
 								<mat-icon>add</mat-icon>
@@ -396,7 +396,6 @@
 									</span>
 									<br>
 									<span class="name">
-										<!-- <span [innerHtml]="x.last.content | safeHtml"></span> -->
 										<span *ngIf="x.last.type == 'text'">
 											<span [innerHtml]="x.last.content | safeHtml"></span>
 										</span>
