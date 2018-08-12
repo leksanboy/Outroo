@@ -482,7 +482,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 			this.savePasswordDataLoading = false;
 
 			// show error message
-			this.alertService.error('Complete all fields');
+			this.alertService.error(this.translations.completeAllFields);
 		}
 
 	}

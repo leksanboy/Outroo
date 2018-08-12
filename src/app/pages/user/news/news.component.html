@@ -6,7 +6,7 @@
 					<form [formGroup]="actionFormSearch" (ngSubmit)="search('send')">
 						<div class="inner">
 							<mat-icon>search</mat-icon>
-							<input type="text" placeholder="Search" formControlName="caption">
+							<input type="text" placeholder="{{translations.search}}" formControlName="caption">
 							<button mat-icon-button type="button" *ngIf="actionFormSearch.controls.caption.value.length > 0" (click)="search('clear')">
 								<mat-icon>clear</mat-icon>
 							</button>

@@ -144,7 +144,6 @@ body{
 		text-transform: uppercase;
 
 		&[disabled]{
-			color: transparentize($greyColor, .5) !important;
 			cursor: not-allowed !important;
 			opacity: .5 !important;
 		}
@@ -152,10 +151,6 @@ body{
 		&.border{
 			border: 1px solid $fontBlackColor;
 			color: $fontBlackColor;
-
-			&[disabled]{
-				border-color: transparentize($greyColor, .25) !important;
-			}
 		}
 
 		&.mat-fab,
@@ -385,20 +380,15 @@ body{
 				min-width: 180px;
 			}
 
-			button[disabled]{
-				background: transparent !important;
-				color: $fontBlackColor !important;
-				cursor: default !important;
-				padding: 12px 12px 6px;
+			.text{
+				box-sizing: border-box;
+				padding: 18px 18px 6px;
+				color: $fontBlackColor;
 				text-align: center;
 				line-height: 24px;
 				font-weight: bold;
-				height: initial;
-
-				mat-icon{
-					margin: -4px 8px 0 0;
-					font-size: 22px;
-				}
+				font-size: 18px;
+				width: 100%;
 			}
 
 			.buttons{
@@ -445,20 +435,15 @@ body{
 
 	/*Close session box*/
 	.closeSessionBox{
-		button[disabled]{
-			background: transparent !important;
-			color: $fontBlackColor !important;
-			cursor: default !important;
-			padding: 12px 12px 6px;
+		.text{
+			box-sizing: border-box;
+			padding: 18px 18px 6px;
+			color: $fontBlackColor;
 			text-align: center;
 			line-height: 24px;
 			font-weight: bold;
-			height: initial;
-
-			mat-icon{
-				margin: -4px 8px 0 0;
-				font-size: 22px;
-			}
+			font-size: 18px;
+			width: 100%;
 		}
 
 		.buttons{
@@ -466,6 +451,7 @@ body{
 			width: 100%;
 
 			button{
+				text-transform: inherit;
 				text-align: center;
 				color: $blueColor;
 			}
@@ -1400,25 +1386,43 @@ body{
 								}
 							}
 						}
+					}
 
-						&.forgot{
-							background: transparent;
-							margin: 12px auto 0;
+					.forgot{
+						margin: 24px auto 0;
+						width: 100%;
+						float: left;
+
+						a{
+							border-radius: 5px;
+							line-height: 18px;
 							color: $greyColor;
+							padding: 9px;
+							height: 18px;
+
+							&:hover{
+								background-color: transparentize($blueColor, .85);
+							}
 						}
 					}
-				}
 
-				.create{
-					border: 1px solid transparentize($greyColor, .75);
-					box-sizing: border-box;
-					text-align: center;
-					border-radius: 5px;
-					padding: 24px 12px;
-					margin: 24px 0 0;
+					.create{
+						border: 1px solid transparentize($greyColor, .75);
+						box-sizing: border-box;
+						text-align: center;
+						border-radius: 5px;
+						padding: 24px 12px;
+						margin: 24px 0 0;
+						width: 100%;
+						float: left;
 
-					a{
-						color: $blueColor;
+						a{
+							color: $blueColor;
+
+							&:hover{
+								text-decoration: underline;
+							}
+						}
 					}
 				}
 			}
@@ -2811,6 +2815,7 @@ body{
 				min-height: 360px;
 
 				.container{
+					padding: 12px 0 0;
 					width: 100%;
 					float: left;
 					margin: 0;
@@ -2885,6 +2890,7 @@ body{
 								height: 48px;
 
 								button{
+									text-transform: inherit;
 									line-height: 32px;
 									padding: 0 12px;
 									margin: 7px 0;
@@ -2905,7 +2911,7 @@ body{
 
 			/*show avatar*/
 			.bodyAvatar{
-				width: 480px;
+				width: 360px;
 
 				.container{
 					width: 100%;
@@ -3117,9 +3123,9 @@ body{
 					}
 
 					.right{
-						box-sizing: border-box;
-						padding: 6px 0 0 18px;
 						width: calc(100% - 144px);
+						box-sizing: border-box;
+						padding: 4px 0 0 18px;
 						float: left;
 
 						.title{
@@ -3344,6 +3350,10 @@ body{
 								opacity: .5;
 							}
 						}
+					}
+
+					.noData{
+						padding: 56px 0;
 					}
 				}
 			}
@@ -4952,6 +4962,7 @@ body{
 
 										button{
 											border: 1px solid $fontBlackColor;
+											text-transform: inherit;
 											color: $fontBlackColor;
 											margin: 10px 0 0 6px;
 											line-height: 24px;
@@ -5005,7 +5016,7 @@ body{
 
 						.noData{
 							color: $fontBlackColor;
-							padding: 98px 0;
+							padding: 56px 0;
 						}
 
 						.forward{
@@ -5323,6 +5334,7 @@ body{
 								box-sizing: border-box;
 								border-radius: 50%;
 								overflow: hidden;
+								cursor: pointer;
 								min-width: 56px;
 								height: 56px;
 								width: 56px;
@@ -6607,7 +6619,7 @@ body{
 
 					.playListsBox{
 						box-sizing: border-box;
-						padding: 0 18px;
+						padding: 0 18px 12px;
 						width: 100%;
 						float: left;
 
@@ -6820,6 +6832,7 @@ body{
 									}
 
 									button{
+										text-transform: inherit;
 										margin: 8px 0 0 6px;
 										line-height: 24px;
 										padding: 0 12px;

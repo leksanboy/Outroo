@@ -16,28 +16,28 @@ export class AudioDataService {
 
 	default(data: any) {
 		let url = environment.url + 'assets/api/audios/default.php';
-		let params =	(data.user ? ('&user=' + data.user) : '') + 
-						'&type=' + data.type + 
-						'&rows=' + data.rows + 
+		let params =	(data.user ? ('&user=' + data.user) : '') +
+						'&type=' + data.type +
+						'&rows=' + data.rows +
 						'&cuantity=' + data.cuantity;
 		params = params.replace('&', '?');
 
 		return this.http.get(url + params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
-				return res.json() 
+				return res.json();
 			}));
 	}
 
 	search(data: any){
 		let url = environment.url + 'assets/api/audios/search.php';
-		let params = 	'&caption=' + data.caption + 
-						'&rows=' + data.rows + 
+		let params = 	'&caption=' + data.caption +
+						'&rows=' + data.rows +
 						'&cuantity=' + data.cuantity;
 		params = params.replace('&', '?');
 
 		return this.http.get(url + params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
-				return res.json() 
+				return res.json();
 			}));
 	}
 
@@ -47,7 +47,7 @@ export class AudioDataService {
 
 		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
-				return res.json() 
+				return res.json();
 			}));
 	}
 
@@ -57,20 +57,20 @@ export class AudioDataService {
 
 		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
-				return res.json() 
+				return res.json();
 			}));
 	}
 
 	defaultPlaylists(data: any) {
 		let url = environment.url + 'assets/api/audios/defaultPlaylists.php';
 		let params =	'&user=' + data.user +
-						'&session=' + data.session + 
+						'&session=' + data.session +
 						'&type=' + data.type;
 		params = params.replace('&', '?');
 
 		return this.http.get(url + params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
-				return res.json() 
+				return res.json();
 			}));
 	}
 
@@ -81,7 +81,7 @@ export class AudioDataService {
 
 		return this.http.get(url + params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
-				return res.json() 
+				return res.json();
 			}));
 	}
 
@@ -91,7 +91,7 @@ export class AudioDataService {
 
 		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
-				return res.json() 
+				return res;
 			}));
 	}
 
@@ -101,7 +101,7 @@ export class AudioDataService {
 
 		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
-				return res.json() 
+				return res.json();
 			}));
 	}
 
@@ -111,7 +111,7 @@ export class AudioDataService {
 
 		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
-				return res.json() 
+				return res.json();
 			}));
 	}
 }

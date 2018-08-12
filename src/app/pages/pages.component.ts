@@ -18,6 +18,7 @@ export class PagesComponent implements OnInit {
 	public submitLoading: boolean;
 	public showPassword: boolean;
 	public sessionData: any = [];
+	public translations: any = [];
 	public copyright: string = '© ' + new Date().getFullYear() + ' Outhroo';
 
 	constructor(
@@ -27,7 +28,10 @@ export class PagesComponent implements OnInit {
 		private router: Router,
 		private userDataService: UserDataService,
 		private alertService: AlertService
-	) { }
+	) {
+		// Get translations
+		this.getTranslations(1);
+	}
 
 	ngOnInit() {
 		// Set Google analytics
@@ -53,22 +57,40 @@ export class PagesComponent implements OnInit {
 				this.router.navigate([this.sessionData.current.username]);
 	}
 
+	// Get translations
+	getTranslations(lang){
+		this.userDataService.getTranslations(lang)
+			.subscribe(data => {
+				this.translations = data;
+			});
+	}
+
+	// Submit
 	submit(event:Event) {
 		this.submitLoading = true;
 
-		this.userDataService.login(this.actionForm.get('email').value, this.actionForm.get('password').value)
-			.subscribe(
-				res => {
-					this.router.navigate(['home']);
-					// this.router.navigate([res.username]);
-					// window.location.href = 'https://outhroo.com/' + res.username;
-				},
-				error => {
-					this.submitLoading = false;
+		if (this.actionForm.get('email').value.trim().length > 0 &&
+			this.actionForm.get('password').value.trim().length > 0
+		) {
+			this.userDataService.login(this.actionForm.get('email').value, this.actionForm.get('password').value)
+				.subscribe(
+					res => {
+						this.router.navigate(['home']);
+						// this.router.navigate([res.username]);
+						// window.location.href = 'https://outhroo.com/' + res.username;
+					},
+					error => {
+						this.submitLoading = false;
 
-					// show error message
-					this.alertService.error('Email or Password is incorrenct.');
-				}
-			);
+						// show error message
+						this.alertService.error(this.translations.emailOrPasswordIncorrect);
+					}
+				);
+		} else {
+			this.submitLoading = false;
+
+			// show error message
+			this.alertService.error(this.translations.completeAllFields);
+		}
 	}
 }

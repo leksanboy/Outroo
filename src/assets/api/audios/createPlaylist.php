@@ -6,7 +6,7 @@
 	$type = $data['type'];
 	$subtype = $data['subtype'];
 	$ipAddress = $_SERVER['REMOTE_ADDR'];
-	$title = $data['title'];
+	$title = htmlspecialchars($data['title'], ENT_QUOTES);
 	$image = $data['image'];
 	$imageName = '';
 
@@ -26,8 +26,8 @@
 		$result = $conn->query($sql);
 		$insertedId = $conn->insert_id;
 
-		$inserted = getPlaylist($insertedId);
-		echo json_encode($inserted);
+		$res = getPlaylist($insertedId);
+		echo json_encode($res);
 		
 		$conn->close();
 	} else if ($type == 'update') {
@@ -37,8 +37,8 @@
 					WHERE id = $id AND user = $user";
 			$result = $conn->query($sql);
 
-			$inserted = getPlaylist($id);
-			echo json_encode($inserted);
+			$res = getPlaylist($id);
+			echo json_encode($res);
 			
 			$conn->close();
 		} else if ($subtype == 'updateTitleImage') {
@@ -47,8 +47,8 @@
 					WHERE id = $id AND user = $user";
 			$result = $conn->query($sql);
 
-			$inserted = getPlaylist($id);
-			echo json_encode($inserted);
+			$res = getPlaylist($id);
+			echo json_encode($res);
 			
 			$conn->close();
 		} else if ($subtype == 'updateNewImage') {
@@ -57,8 +57,8 @@
 					WHERE id = $id AND user = $user";
 			$result = $conn->query($sql);
 
-			$inserted = getPlaylist($id);
-			echo json_encode($inserted);
+			$res = getPlaylist($id);
+			echo json_encode($res);
 			
 			$conn->close();
 		}

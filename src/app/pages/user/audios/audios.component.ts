@@ -913,7 +913,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 				this.audioDataService.addRemove(dataARS)
 					.subscribe(res => {
 						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title,
-							text = !item.addRemoveSession ? (' ' + this.translations.hasBeenaddedSuccessfully) : (' ' + this.translations.hasBeenRemoved);
+							text = !item.addRemoveSession ? (' ' + this.translations.hasBeenAddedSuccessfully) : (' ' + this.translations.hasBeenRemoved);
 						this.alertService.success(song + text);
 					}, error => {
 						this.alertService.error(this.translations.anErrorHasOcurred);
@@ -933,7 +933,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 				this.audioDataService.addRemove(dataARO)
 					.subscribe(res => {
 						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title,
-							text = item.addRemoveUser ? (' ' + this.translations.hasBeenaddedSuccessfully) : (' ' + this.translations.hasBeenRemoved);
+							text = item.addRemoveUser ? (' ' + this.translations.hasBeenAddedSuccessfully) : (' ' + this.translations.hasBeenRemoved);
 						this.alertService.success(song + text);
 					}, error => {
 						this.alertService.error(this.translations.anErrorHasOcurred);
@@ -952,8 +952,9 @@ export class AudiosComponent implements OnInit, OnDestroy {
 
 				this.audioDataService.addRemove(dataP)
 					.subscribe(res => {
-						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title;
-						this.alertService.success(song + ' ' + this.translations.hasBeenAddedTo + ' ' + playlist.title);
+						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title,
+							text = ' ' + this.translations.hasBeenAddedTo + ' ' + playlist.title;
+						this.alertService.success(song + text);
 					}, error => {
 						this.alertService.error(this.translations.anErrorHasOcurred);
 					});
@@ -967,23 +968,8 @@ export class AudiosComponent implements OnInit, OnDestroy {
 
 	// Create new playlist
 	createPlaylist(){
-		this.location.go('/' + this.userData.username + '/audios#newPlaylist');
-
-		let config = {
-			disableClose: false,
-			data: {
-				type: 'create',
-				user: this.sessionData.current
-			}
-		};
-
-		let dialogRef = this.dialog.open(NewPlaylistComponent, config);
-		dialogRef.afterClosed().subscribe((res: any) => {
-			this.location.go('/' + this.userData.username + '/audios');
-
-			if (res)
-				this.updatePlaylist('create', res);
-		});
+		let data = 'create';
+		this.sessionService.setDataCreatePlaylist(data);
 	}
 
 	// Show playlist
@@ -1042,15 +1028,16 @@ export class AudiosComponent implements OnInit, OnDestroy {
 		switch(type){
 			case("edit"):
 				this.location.go('/' + this.userData.username + '/audios#editPlaylist');
+				item.path = this.data.path;
+				item.index = index;
 
 				let config = {
 					disableClose: false,
 					data: {
 						type: 'edit',
-						user: this.sessionData.current,
-						path: this.data.path,
-						index: index,
-						item: item,
+						sessionData: this.sessionData,
+						translations: this.translations,
+						item: item
 					}
 				};
 

@@ -29,6 +29,7 @@ export class SignupComponent implements OnInit {
 	public emailAccount: string;
 	public recaptcha: boolean;
 	public reCaptchaExists: boolean;
+	public translations: any = [];
 
 	constructor(
 		private titleService: Title,
@@ -38,8 +39,8 @@ export class SignupComponent implements OnInit {
 		private alertService: AlertService,
 		private userDataService: UserDataService
 	) {
-		// Refresh page to show recaptcha
-		// this.refreshPage();
+		// Get translations
+		this.getTranslations(1);
 
 		// reCaptcha
 		let self = this;
@@ -62,7 +63,7 @@ export class SignupComponent implements OnInit {
 		// Reload page, check if not exists to show reCaptcha
 		setTimeout(() => {
 			if (!this.reCaptchaExists)
-				this.alertService.warning('Please reload the page, thanks!');
+				this.alertService.error(this.translations.reloadPage);
 		}, 1200);
 	}
 
@@ -163,14 +164,25 @@ export class SignupComponent implements OnInit {
 		this.userDataService.logout();
 	}
 
+	// Get translations
+	getTranslations(lang){
+		this.userDataService.getTranslations(lang)
+			.subscribe(data => {
+				this.translations = data;
+			});
+	}
+
+	// Verify recaptcha
 	verifyReCaptcha(data){
 		this.recaptcha = data ? true : false;
 	}
 
+	// Refresh page
 	refreshPage(){
 		window.location.reload();
 	}
 
+	// Submit
 	submit(ev: Event) {
 		this.submitLoading = true;
 
@@ -195,7 +207,7 @@ export class SignupComponent implements OnInit {
 						this.submitLoading = false;
 
 						// show error message
-						this.alertService.error('An error has ocurred');
+						this.alertService.error(this.translations.anErrorHasOcurred);
 
 						// reset reCaptcha
 						this.recaptcha = false;
@@ -206,7 +218,7 @@ export class SignupComponent implements OnInit {
 			this.submitLoading = false;
 
 			// show success message
-			this.alertService.error('Complete all fields and reCAPTCHA');
+			this.alertService.error(this.translations.completeAllFieldsRecaptcha);
 		}
 	}
 
@@ -225,14 +237,14 @@ export class SignupComponent implements OnInit {
 						this.signinLoading = false;
 
 						// show error message
-						this.alertService.error('Unexpected error has ocurred');
+						this.alertService.error(this.translations.anErrorHasOcurred);
 					}
 				);
 		} else {
 			this.signinLoading = false;
 
 			// show error message
-			this.alertService.error('The credentials are incorrect');
+			this.alertService.error(this.translations.incorrectCredentials);
 		}
 	}
 }

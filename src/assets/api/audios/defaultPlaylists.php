@@ -18,7 +18,9 @@
 
 	if ($result->num_rows > 0) {
 		$data = array();
+		
 		while($row = $result->fetch_assoc()) {
+			$row['title'] = html_entity_decode($row['title'], ENT_QUOTES);
 			$row['private'] = $row['private'] ? true : false;
 			$row['idPlaylist'] = $row['id'];
 			

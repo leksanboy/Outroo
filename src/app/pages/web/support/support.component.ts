@@ -25,6 +25,7 @@ export class SupportComponent implements OnInit {
 	public email: string;
 	public recaptcha: boolean;
 	public reCaptchaExists: boolean;
+	public translations: any = [];
 
 	constructor(
 		private titleService: Title,
@@ -34,8 +35,8 @@ export class SupportComponent implements OnInit {
 		private userDataService: UserDataService,
 		private alertService: AlertService
 	) {
-		// Refresh page to show recaptcha
-		// this.refreshPage();
+		// Get translations
+		this.getTranslations(1);
 
 		// reCaptcha
 		let self = this;
@@ -58,7 +59,7 @@ export class SupportComponent implements OnInit {
 		// Reload page, check if not exists to show reCaptcha
 		setTimeout(() => {
 			if (!this.reCaptchaExists)
-				this.alertService.warning('Please reload the page, thanks!');
+				this.alertService.error(this.translations.reloadPage);
 		}, 1200);
 	}
 
@@ -81,14 +82,25 @@ export class SupportComponent implements OnInit {
 		this.userDataService.logout();
 	}
 
+	// Get translations
+	getTranslations(lang){
+		this.userDataService.getTranslations(lang)
+			.subscribe(data => {
+				this.translations = data;
+			});
+	}
+
+	// Verify recaptcha
 	verifyReCaptcha(data){
 		this.recaptcha = data ? true : false;
 	}
 
+	// Refresh page
 	refreshPage(){
 		window.location.reload();
 	}
 
+	// Submit
 	submit(ev: Event) {
 		this.submitLoading = true;
 		this.email = this.actionForm.get('email').value;
@@ -114,7 +126,7 @@ export class SupportComponent implements OnInit {
 						this.submitLoading = false;
 
 						// show error message
-						this.alertService.error('Email does not exist');
+						this.alertService.error(this.translations.emailNotExist);
 
 						// reset reCaptcha
 						this.recaptcha = false;
@@ -125,7 +137,7 @@ export class SupportComponent implements OnInit {
 			this.submitLoading = false;
 
 			// show success message
-			this.alertService.error("Complete the email and reCAPTCHA");
+			this.alertService.error(this.translations.completeAllFieldsRecaptcha);
 		}
 	}
 }

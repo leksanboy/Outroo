@@ -12,7 +12,7 @@ export class ErrorComponent implements OnInit {
 
 	constructor(
 		private titleService: Title,
-	) {}
+	) { }
 
 	ngOnInit() {
 		// Set Google analytics

@@ -23,6 +23,7 @@ export class SigninComponent implements OnInit {
 	public showPassword: boolean;
 	public recaptcha: boolean;
 	public reCaptchaExists: boolean;
+	public translations: any = [];
 
 	constructor(
 		private _fb: FormBuilder,
@@ -32,8 +33,8 @@ export class SigninComponent implements OnInit {
 		private alertService: AlertService,
 		private userDataService: UserDataService
 	) {
-		// Refresh page to show recaptcha
-		// this.refreshPage();
+		// Get translations
+		this.getTranslations(1);
 
 		// reCaptcha
 		let self = this;
@@ -56,7 +57,7 @@ export class SigninComponent implements OnInit {
 		// Reload page, check if not exists to show reCaptcha
 		setTimeout(() => {
 			if (!this.reCaptchaExists)
-				this.alertService.warning('Please reload the page, thanks!');
+				this.alertService.error(this.translations.reloadPage);
 		}, 1200);
 	}
 
@@ -79,14 +80,25 @@ export class SigninComponent implements OnInit {
 		this.userDataService.logout();
 	}
 
+	// Get translations
+	getTranslations(lang){
+		this.userDataService.getTranslations(lang)
+			.subscribe(data => {
+				this.translations = data;
+			});
+	}
+
+	// Verify recaptcha
 	verifyReCaptcha(data){
 		this.recaptcha = data ? true : false;
 	}
 
+	// Refresh page
 	refreshPage(){
 		window.location.reload();
 	}
 
+	// Submit
 	submit(ev: Event) {
 		this.submitLoading = true;
 
@@ -104,7 +116,7 @@ export class SigninComponent implements OnInit {
 						this.submitLoading = false;
 
 						// show error message
-						this.alertService.error('Email or Password is incorrenct');
+						this.alertService.error(this.translations.emailOrPasswordIncorrect);
 
 						// reset reCaptcha
 						this.recaptcha = false;
@@ -115,7 +127,7 @@ export class SigninComponent implements OnInit {
 			this.submitLoading = false;
 
 			// show error message
-			this.alertService.error('Complete all fields and reCAPTCHA');
+			this.alertService.error(this.translations.completeAllFieldsRecaptcha);
 		}
 	}
 }

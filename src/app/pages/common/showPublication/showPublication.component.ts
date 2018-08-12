@@ -101,20 +101,21 @@ export class ShowPublicationComponent implements OnInit {
 			item.countLikes--;
 
 			for (let i in item.likers) {
-				if (item.likers[i].id == this.data.session.id)
+				if (item.likers[i].id == this.sessionData.current.id)
 					item.likers.splice(i, 1);
 			}
 		} else {
 			item.liked = true;
 			item.countLikes++;
 
-			item.likers.unshift(this.data.session);
+			item.likers.unshift(this.sessionData.current);
 		}
 
 		// data
 		let data = {
-			publication: item.id,
-			user: this.data.session.id,
+			id: item.id,
+			sender: this.sessionData.current.id,
+			receiver: this.userData.id,
 			type: item.liked ? 'like' : 'unlike'
 		}
 
@@ -192,7 +193,7 @@ export class ShowPublicationComponent implements OnInit {
 				item.removeType = item.addRemoveUser ? 'remove' : 'add';
 
 				let dataOther = {
-					user: this.data.session.id,
+					user: this.sessionData.current.id,
 					type: item.removeType,
 					location: 'user',
 					id: item.insertedId,
@@ -209,7 +210,7 @@ export class ShowPublicationComponent implements OnInit {
 				item.removeType = item.addRemoveUser ? 'remove' : 'add';
 
 				let dataP = {
-					user: this.data.session.id,
+					user: this.sessionData.current.id,
 					type: item.removeType,
 					location: 'playlist',
 					item: item.song,
@@ -218,10 +219,11 @@ export class ShowPublicationComponent implements OnInit {
 
 				this.audioDataService.addRemove(dataP)
 					.subscribe(res => {
-						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title;
-						this.alertService.success(song + ' has been added to ' + playlist.title);
+						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title,
+							text = ' ' + this.translations.hasBeenAddedTo + playlist.title;
+						this.alertService.success(song + text);
 					}, error => {
-						this.alertService.success('An error has ocurred');
+						this.alertService.error(this.translations.anErrorHasOcurred);
 					});
 				break;
 			case("createPlaylist"):
@@ -278,7 +280,7 @@ export class ShowPublicationComponent implements OnInit {
 					}
 				}, error => {
 					item.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		} else if (type == 'more') {
 			item.loadingMoreData = true;
@@ -302,7 +304,7 @@ export class ShowPublicationComponent implements OnInit {
 					}, 600);
 				}, error => {
 					item.loadingData = false;
-					this.alertService.success(this.translations.anErrorHasOcurred);
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		}
 	}
@@ -422,7 +424,7 @@ export class ShowPublicationComponent implements OnInit {
 
 						this.newComment('clear', null, item);
 					}, error => {
-						this.alertService.success(this.translations.anErrorHasOcurred);
+						this.alertService.error(this.translations.anErrorHasOcurred);
 					});
 			}
 		}

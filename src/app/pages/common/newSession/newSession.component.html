@@ -28,7 +28,7 @@
 		<button mat-raised-button type="button" (click)="close()">
 			{{translations.cancel}}
 		</button>
-		<button mat-raised-button type="submit" (click)="submit($event)" [disabled]="!actionForm.valid">
+		<button mat-raised-button type="submit" (click)="submit($event)">
 			<mat-progress-spinner mode="indeterminate" *ngIf="saveLoading"></mat-progress-spinner>
 			{{translations.signIn}}
 		</button>

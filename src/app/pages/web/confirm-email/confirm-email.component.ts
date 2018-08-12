@@ -16,9 +16,10 @@ declare var ga: Function;
 
 export class ConfirmEmailComponent implements OnInit {
 	public actionForm: FormGroup;
-    public signinLoading: boolean;
+    public submitLoading: boolean;
     public userData: any;
     public pageStatus: string = 'default';
+    public translations: any = [];
 
 	constructor(
 		private titleService: Title,
@@ -28,6 +29,9 @@ export class ConfirmEmailComponent implements OnInit {
         private alertService: AlertService,
 		private userDataService: UserDataService
 	) {
+		// Get translations
+		this.getTranslations(1);
+
         // Get url data
         let urlData: any = this.activatedRoute.snapshot;
         let data = {
@@ -58,10 +62,22 @@ export class ConfirmEmailComponent implements OnInit {
 
     	// Set page title
 		this.titleService.setTitle('Confirm email');
+
+		// Get translations
+		this.getTranslations(1);
 	}
 
-    signin() {
-		this.signinLoading = true;
+	// Get translations
+	getTranslations(lang){
+		this.userDataService.getTranslations(lang)
+			.subscribe(data => {
+				this.translations = data;
+			});
+	}
+
+	// Submit
+    submit() {
+		this.submitLoading = true;
 
 		if (this.userData.email.length > 0 && this.userData.password.length > 0) {
 			this.userDataService.login(this.userData.email, this.userData.password)
@@ -70,17 +86,17 @@ export class ConfirmEmailComponent implements OnInit {
 						this.router.navigate(['/']);
 					},
 					error => {
-						this.signinLoading = false;
+						this.submitLoading = false;
 
 						// show error message
-						this.alertService.error('Unexpected error has ocurred');
+						this.alertService.error(this.translations.anErrorHasOcurred);
 					}
 				);
 		} else {
-			this.signinLoading = false;
+			this.submitLoading = false;
 
 			// show error message
-			this.alertService.warning('The credentials are incorrect');
+			this.alertService.error(this.translations.incorrectCredentials);
 		}
 	}
 }

@@ -12,7 +12,7 @@ export class AboutComponent implements OnInit {
 
 	constructor(
 		private titleService: Title,
-	) {}
+	) { }
 
 	ngOnInit() {
 		// Set Google analytics

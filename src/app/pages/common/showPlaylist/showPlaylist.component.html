@@ -6,35 +6,11 @@
 			</button>
 		</div>
 		<div class="text">
-			Playlist
+			{{translations.playlist}}
 		</div>
 	</div>
 
 	<div mat-dialog-content class="bodyAudios">
-		<!-- <div class="cover" [style.background-image]="data.current.color">
-			<div class="image">
-				<div class="img" [ngStyle]="{'background-image': 'url(' + data.path + 'covers/' + data.current.image + ')'}"></div>
-			</div>
-
-			<div class="box">
-				<div class="inner">
-					<div class="top">
-						<div class="title">{{data.current.title}}</div>
-						<div class="replays">000.003 replays</div>
-					</div>
-
-					<div class="bottom">
-						<button mat-mini-fab (click)="playTrack('prev')" class="prev" [disabled]="data.list.length <= 1"><mat-icon>skip_previous</mat-icon></button>
-						<button mat-fab (click)="playTrack('play')" class="playPause" [disabled]="data.list.length == 0">
-							<mat-icon *ngIf="!data.playing">play_arrow</mat-icon>
-							<mat-icon *ngIf="data.playing">pause</mat-icon>
-						</button>
-						<button mat-mini-fab (click)="playTrack('next')" class="next" [disabled]="data.list.length <= 1"><mat-icon>skip_next</mat-icon></button>
-					</div>
-				</div>
-			</div>
-		</div> -->
-
 		<div class="head">
 			<div class="left">
 				<div class="image" [style.background-image]="data.current.color">
@@ -43,12 +19,12 @@
 			</div>
 
 			<div class="right">
-				<div class="title">
+				<div class="title" [style.color]="data.current.color">
 					{{data.current.title}}
 					<mat-icon matTooltip="Private playlist" *ngIf="data.current.private">lock</mat-icon>
 				</div>
 				<div class="button">
-					<button mat-button class="border" (click)="playTrack('play')" [disabled]="data.list.length == 0">
+					<button mat-button class="border" (click)="playTrack('play')">
 						{{data.playing ? translations.pause : translations.play}}
 					</button>
 				</div>
@@ -74,30 +50,30 @@
 							<div class="duration">{{x.duration}}</div>
 						</div>
 						<div class="actions">
-							<span *ngIf="data.userData.id == data.sessionData.current.id">
+							<span *ngIf="userData.id == sessionData.current.id">
 								<button mat-icon-button [matMenuTriggerFor]="options"><mat-icon>more_vert</mat-icon></button>
 							</span>
-							<span *ngIf="data.userData.id != data.sessionData.current.id">
+							<span *ngIf="userData.id != sessionData.current.id">
 								<button mat-icon-button [matMenuTriggerFor]="options">
 									<mat-icon *ngIf="x.addRemoveUser" class="added">check</mat-icon>
 									<mat-icon *ngIf="!x.addRemoveUser">more_vert</mat-icon>
 								</button>
 							</span>
 							<mat-menu #options="matMenu">
-								<button mat-menu-item (click)="itemOptions('addRemoveSession', x, null); x.addRemoveSession=!x.addRemoveSession;" *ngIf="data.userData.id == data.sessionData.current.id">{{x.addRemoveSession ? 'Add' : 'Remove'}}</button>
-								<button mat-menu-item (click)="itemOptions('addRemoveUser', x, null); x.addRemoveUser=!x.addRemoveUser;" *ngIf="data.userData.id != data.sessionData.current.id">{{!x.addRemoveUser ? 'Add' : 'Remove'}}</button>
+								<button mat-menu-item (click)="itemOptions('addRemoveSession', x, null)" *ngIf="userData.id == sessionData.current.id">{{x.addRemoveSession ? 'Add' : 'Remove'}}</button>
+								<button mat-menu-item (click)="itemOptions('addRemoveUser', x, null)" *ngIf="userData.id != sessionData.current.id">{{!x.addRemoveUser ? 'Add' : 'Remove'}}</button>
 								<button mat-menu-item [matMenuTriggerFor]="menuPlaylists" #trigger="matMenuTrigger">Add to playlist</button>
 								<button mat-menu-item (click)="itemOptions('report', x, null)">{{translations.report}}</button>
 							</mat-menu>
 							<mat-menu #menuPlaylists="matMenu">
-								<button mat-menu-item *ngFor="let p of data.sessionData.current.playlists" (click)="itemOptions('playlist', x, p)">{{p.title}}</button>
+								<button mat-menu-item *ngFor="let p of sessionData.current.playlists" (click)="itemOptions('playlist', x, p)">{{p.title}}</button>
 							</mat-menu>
 						</div>
 					</div>
 
 					<div class="ad" *ngIf="x.contentTypeAd">
 						<div class="box" [innerHtml]="x.content"></div>
-						<div class="disableAdBlock" *ngIf="hideAd">Disable AdBlock on this page</div>
+						<div class="disableAdBlock" *ngIf="hideAd">{{translations.disableAdBlock}}</div>
 					</div>
 				</li>
 			</ul>

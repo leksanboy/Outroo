@@ -89,8 +89,9 @@
 	//////////
 
 	// Get user id by username
-	function userLoginActivity($user, $ipAddress){
+	function userLoginActivity($user){
 		global $conn;
+		$ipAddress = $_SERVER['REMOTE_ADDR'];
 
 		// Browser
 		$browser = $_SERVER['HTTP_USER_AGENT'];
@@ -333,6 +334,7 @@
 
 		$data = array();
 		while($row = $result->fetch_assoc()) {
+			$row['title'] = html_entity_decode($row['title'], ENT_QUOTES);
 			$row['private'] = $row['private'] ? true : false;
 			$row['idPlaylist'] = $row['id'];
 			$data = $row;
@@ -611,8 +613,9 @@
 	}
 
 	// Upload audio files on publications
-	function uploadAudiosPublication($user, $name, $mimetype, $title, $original_title, $original_artist, $genre, $image, $duration, $ipAddress){
+	function uploadAudiosPublication($user, $name, $mimetype, $title, $original_title, $original_artist, $genre, $image, $duration){
 		global $conn;
+		$ipAddress = $_SERVER['REMOTE_ADDR'];
 
 		$sql = "INSERT INTO z_audios (user, name, mimetype, title, original_title, original_artist, genre, image, duration, ip_address)
 				VALUES ($user, '$name', '$mimetype', '$title', '$original_title', '$original_artist', '$genre', '$image', '$duration', '$ipAddress')";
@@ -623,8 +626,9 @@
 	}
 
 	// Upload photo & video files on publications
-	function uploadPhotosPublication($user, $name, $mimetype, $duration, $ipAddress){
+	function uploadPhotosPublication($user, $name, $mimetype, $duration){
 		global $conn;
+		$ipAddress = $_SERVER['REMOTE_ADDR'];
 
 		$sql = "INSERT INTO z_photos (user, name, mimetype, duration, ip_address)
 				VALUES ($user, '$name', '$mimetype', '$duration', '$ipAddress')";
@@ -649,21 +653,22 @@
 		// Media
 		$result['urlVideo'] = json_decode($result['urlVideo']);
 		$result['photos'] = json_decode($result['photos']);
-		if (count($result['urlVideo']) > 0)
-			$result['media'] = $result['urlVideo']->thumbnail;
-		else
-			if ($result['photos']) {
-				$result['media'] = getPhotoData($result['photos'][0]);
+		
+		if (count($result['photos']) > 0) {
+			$result['media'] = getPhotoData($result['photos'][0]);
 
-				if(strrpos($result['media']['mimetype'], "image") !== false)
-					$result['media'] = ($result['media']['name'] ? './assets/media/photos/thumbnails/'.$result['media']['name'] : null);
-				else if(strrpos($result['media']['mimetype'], "video") !== false)
-					$result['media'] = ($result['media']['name'] ? './assets/media/videos/thumbnails/'.$result['media']['name'] : null);
-				else
-					$result['media'] = null;
-			} else {
+			if(strrpos($result['media']['mimetype'], "image") !== false)
+				$result['media'] = ($result['media']['name'] ? './assets/media/photos/thumbnails/'.$result['media']['name'] : null);
+			else if(strrpos($result['media']['mimetype'], "video") !== false)
+				$result['media'] = ($result['media']['name'] ? './assets/media/videos/thumbnails/'.$result['media']['name'] : null);
+			else
 				$result['media'] = null;
-			}
+		} else {
+			if (count($result['urlVideo']) > 0)
+				$result['media'] = $result['urlVideo']->thumbnail;
+			else
+				$result['media'] = null;
+		}
 
 		return $result;
 	}
@@ -684,6 +689,15 @@
 		$result = $conn->query($sql)->num_rows;
 
 		return $result;
+	}
+
+	function searchPublicationAnalytics($user, $caption, $type){
+		global $conn;
+		$ipAddress = $_SERVER['REMOTE_ADDR'];
+
+		$sql = "INSERT INTO z_publications_search (user, caption, type, ip_address)
+				VALUES ($user, '$caption', '$type', '$ipAddress')";
+		$result = $conn->query($sql);
 	}
 
 	///////////////////

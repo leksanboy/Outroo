@@ -143,11 +143,11 @@
 									{{translations.logOut}}
 								</button>
 								<mat-menu #signOut="matMenu" yPosition="below" xPosition="before" class="removeBox">
-									<button mat-menu-item disabled>
+									<div class="text">
 										{{x.name}}
 										<br>
 										{{translations.leaveSite}}
-									</button>
+									</div>
 									<div class="buttons">
 										<button mat-menu-item>{{translations.no}}</button>
 										<button mat-menu-item (click)="closeSession(x)">{{translations.yes}}</button>

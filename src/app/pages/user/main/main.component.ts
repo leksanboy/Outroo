@@ -505,8 +505,9 @@ export class MainComponent implements OnInit, OnDestroy {
 
 				this.audioDataService.addRemove(dataP)
 					.subscribe(res => {
-						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title;
-						this.alertService.success(song + ' ' + this.translations.hasBeenAddedTo + ' ' + playlist.title);
+						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title,
+							text = ' ' + this.translations.hasBeenAddedTo + ' ' + playlist.title;
+						this.alertService.success(song + text);
 					}, error => {
 						this.alertService.error(this.translations.anErrorHasOcurred);
 					});

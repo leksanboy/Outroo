@@ -32,7 +32,7 @@
 		$result['countAudios'] = countUserAudios($result['id']);
 
 		// Set user activity
-		$result['authorization'] = userLoginActivity($result['id'], $ipAddress);
+		$result['authorization'] = userLoginActivity($result['id']);
 
 		// Get Device
 		$device = $_SERVER['HTTP_USER_AGENT'];

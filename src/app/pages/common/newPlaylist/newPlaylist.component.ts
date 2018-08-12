@@ -16,6 +16,8 @@ declare var Cropper: any;
 export class NewPlaylistComponent implements OnInit {
 	@ViewChild('imageSrc') inputImage: ElementRef;
 
+	public sessionData: any = [];
+	public translations: any = [];
 	public environment: any = environment;
 	public cropperData: any;
 	public flipHrz: boolean;
@@ -30,20 +32,24 @@ export class NewPlaylistComponent implements OnInit {
 		private _fb: FormBuilder,
 		private alertService: AlertService,
 		private audioDataService: AudioDataService
-	) { }
+	) {
+		this.sessionData = data.sessionData;
+		this.translations = data.translations;
+		this.data.current = data.item ? data.item : null;
 
-	ngOnInit() {
-		// Password data form
-		this.actionForm = this._fb.group({
-			title: ['', [Validators.required]]
-		});
-
-		// Edit
 		if (this.data.type == 'edit') {
 			this.actionForm = this._fb.group({
-				title: [this.data.item.title, [Validators.required]]
+				title: [this.data.current.title, [Validators.required]]
+			});
+		} else if (this.data.type == 'create') {
+			this.actionForm = this._fb.group({
+				title: ['', [Validators.required]]
 			});
 		}
+	}
+
+	ngOnInit() {
+		// not in use
 	}
 
 	// load image to crop
@@ -74,7 +80,7 @@ export class NewPlaylistComponent implements OnInit {
 				this.imageLoad();
 			}, 100);
 		} else {
-			this.alertService.success('Selected file is not an image type.');
+			this.alertService.error(this.translations.fileIsNotImage);
 		}
 	}
 
@@ -111,94 +117,107 @@ export class NewPlaylistComponent implements OnInit {
 
 	// save edit
 	save(){
-		if (this.data.type == 'create') {
-			this.saveLoading = true;
+		switch(this.data.type) {
+			case 'create':
+				if (this.actionForm.get('title').value.trim().length > 0) {
+					this.saveLoading = true;
 
-			if (this.data.newImage) {
-				let imageB64 = this.cropperData.getCroppedCanvas({
-					width: 240,
-					height: 240,
-					fillColor: '#fff',
-					imageSmoothingEnabled: false,
-					imageSmoothingQuality: 'high'
-				}).toDataURL('image/jpeg');
+					if (this.data.newImage) {
+						let imageB64 = this.cropperData.getCroppedCanvas({
+							width: 240,
+							height: 240,
+							fillColor: '#fff',
+							imageSmoothingEnabled: false,
+							imageSmoothingQuality: 'high'
+						}).toDataURL('image/jpeg');
 
-				this.data.newImage = imageB64;
-			} else {
-				this.data.newImage = '';
-			}
+						this.data.newImage = imageB64;
+					} else {
+						this.data.newImage = '';
+					}
 
-			let data = {
-				user: this.data.user.id,
-				title: this.actionForm.get('title').value,
-				type: 'create',
-				image: this.data.newImage
-			}
+					let data = {
+						type: 'create',
+						user: this.sessionData.current.id,
+						title: this.actionForm.get('title').value,
+						image: this.data.newImage
+					}
 
-			this.audioDataService.createPlaylist(data)
-				.subscribe(res => {
-					this.saveLoading = false;
-					this.dialogRef.close(res.json());
-				});
-		} else if (this.data.type == 'edit') {
-			this.saveLoading = true;
-
-			// Crop new image
-			if (this.data.newImage) {
-				let imageB64 = this.cropperData.getCroppedCanvas({
-					width: 240,
-					height: 240,
-					fillColor: '#fff',
-					imageSmoothingEnabled: false,
-					imageSmoothingQuality: 'high'
-				}).toDataURL('image/jpeg');
-
-				this.data.newImage = imageB64;
-			} else {
-				this.data.newImage = '';
-			}
-
-			// Data
-			let data;
-			if (this.data.newImage) {
-				data = {
-					id: this.data.item.id,
-					user: this.data.user.id,
-					title: this.actionForm.get('title').value,
-					color: this.data.item.color,
-					type: 'update',
-					subtype: 'updateNewImage',
-					image: this.data.newImage
+					this.audioDataService.createPlaylist(data)
+						.subscribe(res => {
+							this.saveLoading = false;
+							this.dialogRef.close(res.json());
+						});
+				} else {
+					// show error message
+					this.alertService.error(this.translations.completeAllFields);
 				}
-			} else {
-				if (this.data.item.image)
-					data = {
-						id: this.data.item.id,
-						user: this.data.user.id,
-						title: this.actionForm.get('title').value,
-						color: this.data.item.color,
-						type: 'update',
-						subtype: 'updateTitle'
-					}
-				else
-					data = {
-						id: this.data.item.id,
-						user: this.data.user.id,
-						title: this.actionForm.get('title').value,
-						color: this.data.item.color,
-						type: 'update',
-						subtype: 'updateTitleImage'
-					}
-			}
+				break;
+			case 'edit':
+				if (this.actionForm.get('title').value.trim().length > 0) {
+					this.saveLoading = true;
 
-			this.audioDataService.createPlaylist(data)
-				.subscribe((res: any) => {
-					this.saveLoading = false;
-					res = res.json();
-					res.index = this.data.index;
+					// Crop new image
+					if (this.data.newImage) {
+						let imageB64 = this.cropperData.getCroppedCanvas({
+							width: 240,
+							height: 240,
+							fillColor: '#fff',
+							imageSmoothingEnabled: false,
+							imageSmoothingQuality: 'high'
+						}).toDataURL('image/jpeg');
 
-					this.dialogRef.close(res);
-				});
+						this.data.newImage = imageB64;
+					} else {
+						this.data.newImage = '';
+					}
+
+					// Data
+					let data;
+					if (this.data.newImage) {
+						data = {
+							type: 'update',
+							subtype: 'updateNewImage',
+							id: this.data.current.id,
+							user: this.sessionData.current.id,
+							title: this.actionForm.get('title').value,
+							color: this.data.current.color,
+							image: this.data.newImage
+						}
+					} else {
+						if (this.data.current.image)
+							data = {
+								type: 'update',
+								subtype: 'updateTitle',
+								id: this.data.current.id,
+								user: this.sessionData.current.id,
+								title: this.actionForm.get('title').value,
+								color: this.data.current.color
+							}
+						else
+							data = {
+								type: 'update',
+								subtype: 'updateTitleImage',
+								id: this.data.current.id,
+								user: this.sessionData.current.id,
+								title: this.actionForm.get('title').value,
+								color: this.data.current.color
+							}
+					}
+
+					this.audioDataService.createPlaylist(data)
+						.subscribe((res: any) => {
+							this.saveLoading = false;
+							res = res.json();
+							res.index = this.data.current.index;
+
+							this.dialogRef.close(res);
+						});
+				} else {
+					// show error message
+					this.alertService.error(this.translations.completeAllFields);
+				}
+				break;
 		}
 	}
 

@@ -15,8 +15,8 @@ export class ShowAvatarComponent implements OnInit {
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		public dialogRef: MatDialogRef<ShowAvatarComponent>
 	) {
-		this.userData = this.data.userData;
-		this.translations = this.data.translations;
+		this.userData = data.userData;
+		this.translations = data.translations;
 	}
 
 	ngOnInit() {

@@ -40,23 +40,30 @@ export class NewSessionComponent implements OnInit {
 	submit(event: Event){
 		this.inUse = false;
 
-		for (let i in this.sessionData.sessions)
-			if (this.actionForm.get('email').value == this.sessionData.sessions[i].email)
-				this.inUse = true;
+		if (this.actionForm.get('email').value.trim().length > 0 &&
+			this.actionForm.get('password').value.trim().length > 0
+		) {
+			for (let i in this.sessionData.sessions)
+				if (this.actionForm.get('email').value == this.sessionData.sessions[i].email)
+					this.inUse = true;
 
-		if (!this.inUse) {
-			this.saveLoading = true;
+			if (!this.inUse) {
+				this.saveLoading = true;
 
-			this.userDataService.loginNewSession(this.actionForm.get('email').value, this.actionForm.get('password').value)
-				.subscribe(res => {
-					this.dialogRef.close(res);
-					this.saveLoading = false;
-				}, error => {
-					this.saveLoading = false;
-					this.alertService.error(this.translations.emailOrPasswordIncorrect);
-				});
+				this.userDataService.loginNewSession(this.actionForm.get('email').value, this.actionForm.get('password').value)
+					.subscribe(res => {
+						this.dialogRef.close(res);
+						this.saveLoading = false;
+					}, error => {
+						this.saveLoading = false;
+						this.alertService.error(this.translations.emailOrPasswordIncorrect);
+					});
+			} else {
+				this.alertService.error(this.translations.emailAlreadySigned);
+			}
 		} else {
-			this.alertService.error(this.translations.emailAlreadySigned);
+			// show error message
+			this.alertService.error(this.translations.completeAllFields);
 		}
 	}
 

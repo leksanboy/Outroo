@@ -28,6 +28,7 @@ export class ResetPasswordComponent implements OnInit {
     public pageStatus: string;
     public recaptcha: boolean;
     public reCaptchaExists: boolean;
+    public translations: any = [];
 
 	constructor(
 		private titleService: Title,
@@ -37,8 +38,8 @@ export class ResetPasswordComponent implements OnInit {
         private alertService: AlertService,
 		private userDataService: UserDataService
 	) {
-        // Refresh page to show recaptcha
-        // this.refreshPage();
+        // Get translations
+        this.getTranslations(1);
 
         // reCaptcha
         let self = this;
@@ -61,7 +62,7 @@ export class ResetPasswordComponent implements OnInit {
         // Reload page, check if not exists to show reCaptcha
         setTimeout(() => {
             if (!this.reCaptchaExists)
-                this.alertService.warning('Please reload the page, thanks!');
+                this.alertService.error(this.translations.reloadPage);
         }, 1200);
         
         // Get url data
@@ -100,14 +101,25 @@ export class ResetPasswordComponent implements OnInit {
 		});
 	}
 
+    // Get translations
+    getTranslations(lang){
+        this.userDataService.getTranslations(lang)
+            .subscribe(data => {
+                this.translations = data;
+            });
+    }
+
+    // Verify recaptcha
     verifyReCaptcha(data){
         this.recaptcha = data ? true : false;
     }
 
+    // Refresh page
     refreshPage(){
         window.location.reload();
     }
 
+    // Submit
 	submit(ev: Event) {
 		this.submitLoading = true;
 
@@ -132,7 +144,7 @@ export class ResetPasswordComponent implements OnInit {
                             this.submitLoading = false;
 
                             // show error message
-        					this.alertService.error('Unexpected error has ocurred');
+        					this.alertService.error(this.translations.anErrorHasOcurred);
 
                             // reset reCaptcha
                         this.recaptcha = false;
@@ -141,16 +153,17 @@ export class ResetPasswordComponent implements OnInit {
                     );
             } else {
                 this.submitLoading = false;
-                this.alertService.error('The fields not match, is incorrenct');
+                this.alertService.error(this.translations.fieldsNotMatch);
             }
         } else {
 			this.submitLoading = false;
 
 			// show error message
-			this.alertService.error('Complete all fields and reCAPTCHA');
+			this.alertService.error(this.translations.completeAllFieldsRecaptcha);
 		}
 	}
 
+    // Sign in
     signin(ev: Event) {
 		this.signinLoading = true;
 
@@ -165,7 +178,7 @@ export class ResetPasswordComponent implements OnInit {
 						this.signinLoading = false;
 
 						// show error message
-						this.alertService.success('Unexpected error has ocurred');
+						this.alertService.error(this.translations.anErrorHasOcurred);
 
                         // reset recaptcha
                         this.recaptcha = false;
@@ -175,7 +188,7 @@ export class ResetPasswordComponent implements OnInit {
 			this.signinLoading = false;
 
 			// show error message
-			this.alertService.success('Complete all fields and reCAPTCHA');
+			this.alertService.error(this.translations.completeAllFieldsRecaptcha);
 		}
 	}
 }

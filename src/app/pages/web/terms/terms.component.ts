@@ -12,7 +12,7 @@ export class TermsComponent implements OnInit {
 
 	constructor(
 		private titleService: Title,
-	) {}
+	) { }
 
 	ngOnInit() {
 		// Set Google analytics

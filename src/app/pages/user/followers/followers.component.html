@@ -12,7 +12,7 @@
 						<form [formGroup]="actionFormSearch" (ngSubmit)="search('send')">
 							<div class="inner">
 								<mat-icon>search</mat-icon>
-								<input type="text" placeholder="Search" formControlName="caption">
+								<input type="text" placeholder="{{translations.search}}" formControlName="caption">
 								<button mat-icon-button type="button" *ngIf="actionFormSearch.controls.caption.value.length > 0" (click)="search('clear')">
 									<mat-icon>clear</mat-icon>
 								</button>
@@ -47,20 +47,20 @@
 										{{translations.following}}
 									</button>
 									<mat-menu #cancelRequest="matMenu" yPosition="below" xPosition="before" class="removeBox">
-										<button mat-menu-item disabled>
+										<div class="text">
 											{{translations.cancelRequest}}
-										</button>
+										</div>
 										<div class="buttons">
 											<button mat-menu-item>{{translations.no}}</button>
 											<button mat-menu-item (click)="followUnfollow('unfollow', x)">{{translations.yes}}</button>
 										</div>
 									</mat-menu>
 									<mat-menu #stopFollowing="matMenu" yPosition="below" xPosition="before" class="removeBox">
-										<button mat-menu-item disabled>
+										<div class="text">
 											{{translations.stopFollowing}}
 											<br>
 											{{x.user.username}}?
-										</button>
+										</div>
 										<div class="buttons">
 											<button mat-menu-item>{{translations.no}}</button>
 											<button mat-menu-item (click)="followUnfollow('unfollow', x)">{{translations.yes}}</button>
@@ -118,20 +118,20 @@
 									{{translations.following}}
 								</button>
 								<mat-menu #cancelRequest="matMenu" yPosition="below" xPosition="before" class="removeBox">
-									<button mat-menu-item disabled>
+									<div class="text">
 										{{translations.cancelRequest}}
-									</button>
+									</div>
 									<div class="buttons">
 										<button mat-menu-item>{{translations.no}}</button>
 										<button mat-menu-item (click)="followUnfollow('unfollow', x)">{{translations.yes}}</button>
 									</div>
 								</mat-menu>
 								<mat-menu #stopFollowing="matMenu" yPosition="below" xPosition="before" class="removeBox">
-									<button mat-menu-item disabled>
+									<div class="text">
 										{{translations.stopFollowing}}
 										<br>
 										{{x.user.username}}?
-									</button>
+									</div>
 									<div class="buttons">
 										<button mat-menu-item>{{translations.no}}</button>
 										<button mat-menu-item (click)="followUnfollow('unfollow', x)">{{translations.yes}}</button>

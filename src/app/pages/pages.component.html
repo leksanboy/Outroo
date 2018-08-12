@@ -12,7 +12,7 @@
 			</div>
 
 			<div class="form">
-				<form [formGroup]="actionForm" (ngSubmit)="submit($event);">
+				<form [formGroup]="actionForm" (ngSubmit)="submit($event)">
 					<mat-form-field>
 						<input autofocus type="email" matInput placeholder="Email" #Email maxlength="100"  formControlName="email">
 					</mat-form-field>
@@ -26,18 +26,22 @@
 					</mat-form-field>
 
 					<div class="buttons">
-						<button mat-raised-button type="submit" [disabled]="!actionForm.valid">
+						<button mat-raised-button type="submit">
 							<mat-progress-spinner mode="indeterminate" *ngIf="submitLoading"></mat-progress-spinner>
 							Sign in
 						</button>
-						<br>
-						<button mat-button class="forgot" type="button" routerLink="/forgot-password">
-							Forgot password?
-						</button>
+
+						<div class="forgot">
+							<a href="/forgot-password">
+								Forgot password?
+							</a>
+						</div>
 
 						<div class="create">
 							Don't have an account?
-							<a routerLink="/signup">Sign up</a>
+							<a href="/signup">
+								Sign up
+							</a>
 						</div>
 					</div>
 				</form>
@@ -50,19 +54,19 @@
 	<div class="pages">
 		<ul>
 			<li>
-				<a routerLink="/about">About</a>
+				<a href="/about">About</a>
 			</li>
 			<li>
-				<a routerLink="/brand">Brand</a>
+				<a href="/brand">Brand</a>
 			</li>
 			<li>
-				<a routerLink="/privacy">Privacy</a>
+				<a href="/privacy">Privacy</a>
 			</li>
 			<li>
-				<a routerLink="/support">Support</a>
+				<a href="/support">Support</a>
 			</li>
 			<li>
-				<a routerLink="/terms">Terms</a>
+				<a href="/terms">Terms</a>
 			</li>
 		</ul>
 	</div>

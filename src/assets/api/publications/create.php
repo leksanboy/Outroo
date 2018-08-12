@@ -32,8 +32,7 @@
 				$insertedPhoto = uploadPhotosPublication($user,
 														$row['name'],
 														($row['mimetype'] ? $row['mimetype'] : 'image/jpeg'),
-														$row['duration'],
-														$ipAddress);
+														$row['duration']);
 
 			$newPhoto = ($row['uploaded'] ? $insertedPhoto : $row['id']);
 			$photosArray[] = $newPhoto;
@@ -57,8 +56,7 @@
 														htmlspecialchars($row['up_original_artist'], ENT_QUOTES),
 														$row['up_genre'],
 														$row['up_image'],
-														$row['up_duration'],
-														$ipAddress);
+														$row['up_duration']);
 
 			$newAudio = ($row['uploaded'] ? $insertedAudio : $row['song']);
 			$audiosArray[] = $newAudio;

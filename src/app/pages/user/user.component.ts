@@ -693,7 +693,7 @@ export class UserComponent implements AfterViewInit {
 				this.audioDataService.addRemove(dataARS)
 					.subscribe(res => {
 						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title,
-							text = !item.addRemoveSession ? ' has been added successfully' : ' has been removed';
+							text = !item.addRemoveSession ? (' ' + this.translations.hasBeenAddedSuccessfully) : (' ' + this.translations.hasBeenRemoved);
 						this.alertService.success(song + text);
 					}, error => {
 						this.alertService.error(this.translations.anErrorHasOcurred);
@@ -714,7 +714,7 @@ export class UserComponent implements AfterViewInit {
 				this.audioDataService.addRemove(dataARO)
 					.subscribe(res => {
 						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title,
-							text = item.addRemoveUser ? ' has been added successfully' : ' has been removed';
+							text = item.addRemoveUser ? (' ' + this.translations.hasBeenAddedSuccessfully) : (' ' + this.translations.hasBeenRemoved);
 						this.alertService.success(song + text);
 					}, error => {
 						this.alertService.error(this.translations.anErrorHasOcurred);
@@ -724,7 +724,8 @@ export class UserComponent implements AfterViewInit {
 				item.removeType = !item.addRemoveUser ? "add" : "remove";
 
 				let dataP = {
-					user: this.sessionData.current.id,
+					session: this.sessionData.current.id,
+					translations: this.translations,
 					type: item.removeType,
 					location: 'playlist',
 					item: item.song,
@@ -733,8 +734,9 @@ export class UserComponent implements AfterViewInit {
 
 				this.audioDataService.addRemove(dataP)
 					.subscribe(res => {
-						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title;
-						this.alertService.success(song + ' has been added to ' + playlist.title);
+						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title,
+							text = ' ' + this.translations.hasBeenAddedTo + playlist.title;
+						this.alertService.success(song + text);
 					}, error => {
 						this.alertService.error(this.translations.anErrorHasOcurred);
 					});
@@ -746,7 +748,8 @@ export class UserComponent implements AfterViewInit {
 					disableClose: false,
 					data: {
 						type: 'create',
-						user: this.sessionData.current
+						sessionData: this.sessionData,
+						translations: this.translations
 					}
 				}
 
@@ -921,6 +924,9 @@ export class UserComponent implements AfterViewInit {
 
 	// Set session
 	setCurrentUser(data){
+		console.log("this.sessionData", this.sessionData);
+		console.log("data", data);
+
 		if (this.sessionData.current.id != data.id) {
 			// Dark/White theme
 			if (data.theme)
@@ -972,14 +978,14 @@ export class UserComponent implements AfterViewInit {
 				if (this.sessionData.sessions[i].id == data.id)
 					this.sessionData.sessions.splice(i, 1);
 
-			if (data.id != this.sessionData.sessions[0].id)
-				this.sessionData.current = this.sessionData.sessions[0];
+			// if (data.id != this.sessionData.sessions[0].id)
+				// this.sessionData.current = this.sessionData.sessions[0];
 
 			// Set different account and check if is not set and deleted
-			this.setCurrentUser(this.sessionData.current);
+			this.setCurrentUser(this.sessionData.sessions[0]);
 
 			// Set session data
-			this.userDataService.setSessionData('data', this.sessionData);
+			// this.userDataService.setSessionData('data', this.sessionData);
 		}
 	}
 
@@ -1004,9 +1010,9 @@ export class UserComponent implements AfterViewInit {
 					this.sessionService.setDataTheme(this.sessionData);
 
 					if (this.sessionData.current.theme)
-						this.alertService.success('Dark theme enabled');
+						this.alertService.success(this.translations.darkThemeEnabled);
 					else
-						this.alertService.success('Dark theme disabled');
+						this.alertService.success(this.translations.darkThemeDisabled);
 				}, 1000);
 			}, error => {
 				this.alertService.error(this.translations.anErrorHasOcurred);
@@ -1034,11 +1040,14 @@ export class UserComponent implements AfterViewInit {
 					this.sessionData.current.language = lang.id;
 					this.sessionService.setDataLanguage(this.sessionData);
 
+					// Set translations
+					this.getTranslations(this.sessionData.current.language)
+
 					// Set moment
 					this.momentService.setData(this.sessionData.current.language);
 
 					// Alert
-					this.alertService.success('Language was changed succesufully');
+					this.alertService.success(this.translations.languageChanged);
 				}, error => {
 					this.alertService.error(this.translations.anErrorHasOcurred);
 				});

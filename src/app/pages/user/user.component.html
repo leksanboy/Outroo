@@ -215,11 +215,11 @@
 									<h4 mat-line (click)="setCurrentUser(x)">@{{x.username}}</h4>
 									<mat-icon class="material-icons" [matMenuTriggerFor]="signOut">exit_to_app</mat-icon>
 									<mat-menu #signOut="matMenu" yPosition="below" xPosition="after" class="removeBox">
-										<button mat-menu-item disabled>
+										<div class="text">
 											{{x.name}}
 											<br>
 											{{translations.leaveSite}}
-										</button>
+										</div>
 										<div class="buttons">
 											<button mat-menu-item>{{translations.no}}</button>
 											<button mat-menu-item (click)="closeSession(x)">{{translations.yes}}</button>
@@ -261,11 +261,11 @@
 							</div>
 
 							<div class="closeSessionBox">
-								<button mat-menu-item disabled>
+								<div class="text">
 									{{sessionData.current.name}}
 									<br>
 									{{translations.leaveSite}}
-								</button>
+								</div>
 								<div class="buttons">
 									<button mat-menu-item (click)="showCloseSession=false">{{translations.no}}</button>
 									<button mat-menu-item (click)="showCloseSession=false; closeSession(sessionData.current);">{{translations.yes}}</button>
@@ -297,11 +297,11 @@
 								<h4 mat-line (click)="setCurrentUser(x)">@{{x.username}}</h4>
 								<mat-icon class="material-icons" [matMenuTriggerFor]="signOut">exit_to_app</mat-icon>
 								<mat-menu #signOut="matMenu" yPosition="below" xPosition="after" class="removeBox">
-									<button mat-menu-item disabled>
+									<div class="text">
 										{{x.name}}
 										<br>
 										{{translations.leaveSite}}
-									</button>
+									</div>
 									<div class="buttons">
 										<button mat-menu-item>{{translations.no}}</button>
 										<button mat-menu-item (click)="closeSession(x)">{{translations.yes}}</button>

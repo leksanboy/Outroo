@@ -12,6 +12,7 @@ import { UserDataService } from '../../../core/services/user/userData.service';
 })
 export class NewReportComponent implements OnInit {
 	public environment: any = environment;
+	public sessionData: any = [];
 	public translations: any = [];
 	public actionForm: FormGroup;
 	public saveLoading: boolean;
@@ -24,7 +25,8 @@ export class NewReportComponent implements OnInit {
 		private userDataService: UserDataService,
 		private _fb: FormBuilder
 	) {
-		this.translations = this.data.translations;
+		this.sessionData = data.sessionData;
+		this.translations = data.translations;
 	}
 
 	ngOnInit() {
@@ -39,7 +41,7 @@ export class NewReportComponent implements OnInit {
 
 		if (this.actionForm.get('content').value.trim().length > 0) {
 			let data = {
-				user: this.data.item.user.id,
+				user: this.sessionData.current.id,
 				pageId: this.data.item.id,
 				pageType: this.data.item.type,
 				content: this.actionForm.get('content').value
@@ -49,16 +51,16 @@ export class NewReportComponent implements OnInit {
 				.subscribe(res => {
 					this.dialogRef.close(res);
 					this.saveLoading = false;
-					this.alertService.success('Reported successfully');
+					this.alertService.error(this.translations.sentSuccessfully);
 				}, error => {
 					this.saveLoading = false;
-					this.alertService.error('An error has ocurred');
+					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
 		} else {
 			this.saveLoading = false;
 
 			// show error message
-			this.alertService.error('Completed the field');
+			this.alertService.error(this.translations.completeAllFields);
 		}
 	}
 

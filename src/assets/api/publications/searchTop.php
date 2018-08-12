@@ -1,8 +1,12 @@
 <?php include "../db.php";
+	$ipAddress = $_SERVER['REMOTE_ADDR'];
 	$cuantity = $_GET['cuantity'];
 	$more = $_GET['rows']*$cuantity;
 	$session = $_GET['session'];
 	$caption = $_GET['caption'];
+
+	// Insert search data analytics
+	searchPublicationAnalytics($session, $caption, 'top');
 
 	// Users
 	$sqlUsers = "SELECT id, about, official, private 

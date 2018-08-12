@@ -1,9 +1,17 @@
 <?php include "../db.php";
-	$id = $_GET['id'];
+	$user = $_GET['id'];
 	
-	$sql = "SELECT id 
-			FROM z_notifications 
-			WHERE receiver = $id AND is_deleted = 0 AND status = 0";
+	$sql = "SELECT id
+			FROM z_notifications n
+			WHERE n.is_deleted = 0
+				AND
+				(
+					EXISTS (SELECT 1 FROM z_publications     WHERE id    = n.page_id and is_deleted = 0)
+					OR
+					EXISTS (SELECT 1 FROM z_photos_favorites WHERE photo = n.page_id and is_deleted = 0)
+				)
+				AND n.receiver = $user 
+				AND n.status = 0";
 	$result = $conn->query($sql);
 
 	echo $result->num_rows;

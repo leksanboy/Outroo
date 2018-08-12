@@ -37,15 +37,15 @@
 							<div class="img" [ngStyle]="{'background-image': 'url(' + data.urlVideo.thumbnail + ')'}"></div>
 						</div>
 						<div class="text">
-							<div class="title">{{data.urlVideo.title ? data.urlVideo.title : 'Untitled'}}</div>
-							<div class="subtitle">{{data.urlVideo.channel ? data.urlVideo.channel : 'No channel'}}</div>
+							<div class="title">{{data.urlVideo.title ? data.urlVideo.title : translations.untitled}}</div>
+							<div class="subtitle">{{data.urlVideo.channel ? data.urlVideo.channel : translations.noChannel}}</div>
 						</div>
 						<button class="clear" mat-mini-fab type="button" (click)="urlVideoInformation(2, data.urlVideo)"><mat-icon>close</mat-icon></button>
 					</div>
 				</div>
 
 				<div class="photos" *ngIf="data.photosArray.length > 0">
-					<div class="counter" [ngClass]="{'warning': data.photosArray.length > 5}">Photos {{data.photosArray.length}}/5</div>
+					<div class="counter" [ngClass]="{'warning': data.photosArray.length > 5}">{{translations.photos}} {{data.photosArray.length}}/5</div>
 
 					<ul>
 						<li mat-ripple *ngFor="let x of data.photosArray; let i=index;">
@@ -95,7 +95,7 @@
 				</div>
 
 				<div class="audios" *ngIf="data.audiosArray.length > 0">
-					<div class="counter" [ngClass]="{'warning': data.audiosArray.length > 10}">Audios {{data.audiosArray.length}}/10</div>
+					<div class="counter" [ngClass]="{'warning': data.audiosArray.length > 10}">{{translations.songs}} {{data.audiosArray.length}}/10</div>
 					
 					<ul>
 						<li *ngFor="let x of data.audiosArray" [ngClass]="{default: !x.image}" (click)="toggleItem('audios', x)">
@@ -176,7 +176,9 @@
 			<mat-menu #addUrlVideo="matMenu" [overlapTrigger]="false" yPosition="above" class="urlVideo">
 				<div class="box">
 					<input type="text" placeholder="YouTube or Vimeo URL" [(ngModel)]="data.urlVideo.url" (click)="$event.stopPropagation()">
-					<button mat-menu-item (click)="urlVideoInformation(1, data.urlVideo.url)">OK</button>
+					<button mat-menu-item (click)="urlVideoInformation(1, data.urlVideo.url)">
+						{{translations.ok}}
+					</button>
 				</div>
 			</mat-menu>
 		</div>
