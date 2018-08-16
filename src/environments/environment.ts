@@ -15,6 +15,7 @@ export const environment = {
 	production: false,
 	url: "https://outhroo.com/",
 	name: 'Outhroo',
+	copyright: '© ' + new Date().getFullYear() + ' Outhroo',
 	cuantity: 30,
 	avatar: './assets/images/user/default/avatar.png',
 	background: './assets/images/user/default/background.jpg',

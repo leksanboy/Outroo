@@ -125,7 +125,8 @@ export class FollowersComponent implements OnInit, OnDestroy {
 
 	// Go back
 	goBack(){
-		this.location.back();
+		// this.location.back();
+		this.router.navigate([this.userData.username]);
 	}
 
 	// User Data of the Page

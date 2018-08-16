@@ -59,7 +59,7 @@ export class SupportComponent implements OnInit {
 		// Reload page, check if not exists to show reCaptcha
 		setTimeout(() => {
 			if (!this.reCaptchaExists)
-				this.alertService.error(this.translations.reloadPage);
+				this.alertService.warning(this.translations.reloadPage);
 		}, 1200);
 	}
 

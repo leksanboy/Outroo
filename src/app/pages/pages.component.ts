@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 import { AlertService } from '../../app/core/services/alert/alert.service';
 import { UserDataService } from '../../app/core/services/user/userData.service';
@@ -14,6 +15,7 @@ declare var ga: Function;
 	templateUrl: './pages.component.html'
 })
 export class PagesComponent implements OnInit {
+	public environment: any = environment;
 	public actionForm: FormGroup;
 	public submitLoading: boolean;
 	public showPassword: boolean;

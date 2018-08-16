@@ -367,13 +367,13 @@
 
 				<div class="right">
 					<div class="signingPanel">
-						<button mat-button type="button" routerLink="/signup">
+						<a mat-button href="/signup">
 							{{translations.signUp}}
-						</button>
+						</a>
 						|
-						<button mat-button type="button" routerLink="/signin">
+						<a mat-button href="/signin">
 							{{translations.signIn}}
-						</button>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -449,7 +449,7 @@
 			</div>
 			<div class="center">
 				<div class="top">
-					<button mat-mini-fab (click)="playTrack('shuffle', '')" [ngClass]="{active: audioPlayerData.shuffle == true}" class="shuffle" [disabled]="audioPlayerData.list.length == 0"><mat-icon>shuffle</mat-icon></button>
+					<button mat-mini-fab (click)="playTrack('shuffle', '')" [ngClass]="{active: audioPlayerData.shuffle == true}" class="shuffle" [disabled]="audioPlayerData.list.length <= 0"><mat-icon>shuffle</mat-icon></button>
 					<button mat-mini-fab (click)="playTrack('prev', '')" class="prev" [disabled]="audioPlayerData.list.length <= 1"><mat-icon [style.color]="audioPlayerData.current.color">skip_previous</mat-icon></button>
 
 					<button mat-fab (click)="playTrack('play', '')" class="playPause" [disabled]="audioPlayerData.list.length == 0" [style.background]="audioPlayerData.current.color">
@@ -458,7 +458,7 @@
 					</button>
 
 					<button mat-mini-fab (click)="playTrack('next', '')" class="next" [disabled]="audioPlayerData.list.length <= 1"><mat-icon [style.color]="audioPlayerData.current.color">skip_next</mat-icon></button>
-					<button mat-mini-fab (click)="playTrack('repeat', '')" [ngClass]="{active: audioPlayerData.repeat == true}" class="repeat" [disabled]="audioPlayerData.list.length == 0"><mat-icon>repeat</mat-icon></button>
+					<button mat-mini-fab (click)="playTrack('repeat', '')" [ngClass]="{active: audioPlayerData.repeat == true}" class="repeat" [disabled]="audioPlayerData.list.length <= 0"><mat-icon>repeat</mat-icon></button>
 				</div>
 
 				<div class="bottom">

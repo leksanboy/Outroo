@@ -145,3 +145,22 @@
 	RewriteCond %{HTTP_REFERER} !^https://(www\.)?outhroo [NC]
 	RewriteCond %{HTTP_REFERER} !^https://(www\.)?outhroo.*$ [NC]
 	RewriteRule \.(php)$ - [F]
+
+#################################################################################
+#################################################################################
+
+### -> Escher&Klimt
+	# Change escher-klimt.com to be your main domain. 
+		RewriteCond %{HTTP_HOST} ^(www.)?escher-klimt.com$ 
+	# Change 'EscherKlimt' to be the directory you will use for your main domain. 
+		RewriteCond %{REQUEST_URI} !^/EscherKlimt/
+	# Don't change the following two lines. 
+		RewriteCond %{REQUEST_FILENAME} !-f 
+		RewriteCond %{REQUEST_FILENAME} !-d 
+	# Change 'EscherKlimt' to be the directory you will use for your main domain. 
+		RewriteRule ^(.*)$ /EscherKlimt/$1 
+	# Change escher-klimt.com to be your main domain again. 
+	# Change 'EscherKlimt' to be the directory you will use for your main domain 
+	# followed by / then the main file for your site, index.php, index.html, etc. 
+		RewriteCond %{HTTP_HOST} ^(www.)?escher-klimt.com$ 
+		RewriteRule ^(/)?$ EscherKlimt/index.html [L]

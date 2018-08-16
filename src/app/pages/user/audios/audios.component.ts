@@ -188,7 +188,8 @@ export class AudiosComponent implements OnInit, OnDestroy {
 
 	// Go back
 	goBack(){
-		this.location.back();
+		// this.location.back();
+		this.router.navigate([this.userData.username]);
 	}
 
 	// Push Google Ad

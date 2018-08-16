@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AboutComponent } from './web/about/about.component';
-import { BrandComponent } from './web/brand/brand.component';
 import { ConfirmEmailComponent } from './web/confirm-email/confirm-email.component';
 import { ErrorComponent } from './web/error/error.component';
 import { ForgotPasswordComponent } from './web/forgot-password/forgot-password.component';
@@ -11,7 +10,6 @@ import { ResetPasswordComponent } from './web/reset-password/reset-password.comp
 import { SigninComponent } from './web/signin/signin.component';
 import { SignupComponent } from './web/signup/signup.component';
 import { SupportComponent } from './web/support/support.component';
-import { TermsComponent } from './web/terms/terms.component';
 
 import { AudiosComponent } from './user/audios/audios.component';
 import { FollowersComponent } from './user/followers/followers.component';
@@ -28,9 +26,6 @@ const routes: Routes = [
 	{
 		path: 'about',
 		component: AboutComponent
-	},{
-		path: 'brand',
-		component: BrandComponent
 	},{
 		path: 'confirm-email/:code',
 		component: ConfirmEmailComponent
@@ -52,9 +47,6 @@ const routes: Routes = [
 	},{
 		path: 'support',
 		component: SupportComponent
-	},{
-		path: 'terms',
-		component: TermsComponent
 	},{
 		path: '',
 		component: UserComponent,
@@ -99,7 +91,6 @@ const routes: Routes = [
 
 export const routableComponents = [
 		AboutComponent,
-		BrandComponent,
 		ConfirmEmailComponent,
 		ErrorComponent,
 		ForgotPasswordComponent,
@@ -108,7 +99,6 @@ export const routableComponents = [
 		SigninComponent,
 		SignupComponent,
 		SupportComponent,
-		TermsComponent,
 		AudiosComponent,
 		FollowersComponent,
 		FollowingComponent,
