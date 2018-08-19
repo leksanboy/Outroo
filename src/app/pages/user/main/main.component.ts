@@ -209,53 +209,57 @@ export class MainComponent implements OnInit, OnDestroy {
 	siteUserData(id){
 		this.userDataService.getUserData(id)
 			.subscribe(res => {
-				// Set user page data
-				this.userData = res;
+				if (res) {
+					this.userExists = true;
+					this.userData = res;
 
-				// Update user data if im the user
-				if (res.id == this.sessionData.current.id)
-					this.sessionData = this.userDataService.setSessionData('update', res);
+					// Update user data if im the user
+					if (this.userData.id == this.sessionData.current.id)
+						this.sessionData = this.userDataService.setSessionData('update', res);
 
-				// Check if user exists
-				if (!this.userData)
+					// Meta data
+					let title = this.userData.name + ' (@'+this.userData.username+')';
+					let metaData = {
+						page: title,
+						title: title,
+						description: this.userData.aboutOriginal,
+						keywords: this.userData.aboutOriginal,
+						url: this.environment.url + this.userData.username,
+						image: this.environment.url + (this.userData.avatar ? this.userData.avatarUrl : this.environment.avatar)
+					}
+
+					// Call metaService
+					this.metaService.setData(metaData);
+
+					// Set Google analytics
+					let urlGa =  '[' + this.userData.id + ']/' + id + '/main';
+					ga('set', 'page', urlGa);
+					ga('send', 'pageview');
+
+					// Data following/visitor
+					let data = {
+						sender: this.sessionData ? this.sessionData.current.id : 0,
+						receiver: this.userData.id
+					}
+
+					// Check if following
+					if (this.sessionData) {
+						this.followsDataService.checkFollowing(data)
+							.subscribe(res => {
+								this.userData.status = res;
+							});
+					}
+
+					// Set visitor
+					this.userDataService.setVisitor(data).subscribe();
+				} else {
 					this.userExists = false;
+					this.userData = [];
+					this.userData.username = id;
+				}
 
 				// Set location init
-				this.location.go('/' + res.username);
-
-				// Meta data
-				let title = res.name + ' (@'+res.username+')';
-				let metaData = {
-					page: title,
-					title: title,
-					description: res.aboutOriginal,
-					keywords: res.aboutOriginal,
-					url: this.environment.url + res.username,
-					image: this.environment.url + (res.avatar ? res.avatarUrl : this.environment.avatar)
-				}
-				this.metaService.setData(metaData);
-
-				// Set Google analytics
-				let urlGa =  '[' + res.id + ']/' + id + '/main';
-				ga('set', 'page', urlGa);
-				ga('send', 'pageview');
-
-				// Data
-				let data = {
-					sender: this.sessionData ? this.sessionData.current.id : 0,
-					receiver: this.userData.id
-				}
-
-				// Check if following
-				if (this.sessionData) {
-					this.followsDataService.checkFollowing(data)
-						.subscribe(res => {
-							this.userData.status = res;
-						});
-				}
-
-				// Set visitor
-				this.userDataService.setVisitor(data).subscribe();
+				this.location.go('/' + this.userData.username);
 			});
 	}
 

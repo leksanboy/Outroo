@@ -23,4 +23,8 @@ export class AboutComponent implements OnInit {
     	// Set page title
 		this.titleService.setTitle('About us');
 	}
+
+	downloadAssetPack(){
+		window.location.href = 'https://outhroo.com/assets/images/Asset_pack.zip';
+	}
 }

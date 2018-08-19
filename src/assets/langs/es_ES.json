@@ -23,7 +23,7 @@
 	"settings": "Ajustes",
 	"goToAudios": "Ir a Música",
 	"goToNotifications": "Ir a Notificaciones",
-
+	"visit": "visitar",
 	"ok": "Hecho",
 	"yes": "Si",
 	"no": "No",
@@ -58,7 +58,6 @@
 	"addToPlaylist": "Añadir al album",
 	"logOut": "Salir",
 	"addAccount": "Añadir cuenta",
-
 	"noData": "No hay datos",
 	"noComments": "No hay comentarios",
 	"search": "Buscar",
@@ -100,9 +99,9 @@
 	"createAnAccountToSeeContent": "Crea una cuenta para ver el contenido",
 	"newPublication": "Crear nueva publicación",
 	"newPublicationSubtitle": "Canciones / Gif / Fotos / Videos",
-	"pageNotFound": "Pagina no encontrada o no existe",
+	"pageNotFound": "Lo sentimos, esa página no existe.",
+	"pageNotFoundDescription": "Es posible que el enlace sea incorrecto o que se haya eliminado la página.",
 	"writeComment": "Escribe un comentario...",
-
 	"anErrorHasOcurred": "Ha ocurrido un error",
 	"darkThemeEnabled": "Modo oscuro activado",
 	"darkThemeDisabled": "Modo oscuro desactivado",
@@ -122,8 +121,6 @@
 	"hasBeenAddedSuccessfully": "ha sido añadido con exito",
 	"hasBeenRemoved": "ha sido eliminado",
 	"hasBeenAddedTo": "se ha añadido a",
-	"visit": "visitar",
-
 	"editProfile": "Editar perfil",
 	"changePassword": "Contraseña",
 	"accounts": "Cuentas",
@@ -173,7 +170,6 @@
 	"sentSuccessfully": "Enviado correctamente",
 	"sendSepareted": "Enviar por separado",
 	"writeSomething": "Escribe algo...",
-
 	"sharedPublicationWithYou": "Ha compartido una publicación",
 	"publicationNotAvailable": "Publicación no disponible",
 	"publicationNotAvailableText": "Esta publicación no está disponible por que se ha eliminado",
@@ -183,6 +179,7 @@
 	"pause": "Pausar",
 	"completeAllFields": "Complete todos los campos",
 	"completeAllFieldsRecaptcha": "Complete todos los campos y el reCAPTCHA",
+	"completeEmailRecaptcha": "Complete el email y el reCAPTCHA",
 	"languageChanged": "El idioma se ha cambiado con exito",
 	"incorrectCredentials": "Las credenciales no son correctos",
 	"emailNotExist": "Email no existe",

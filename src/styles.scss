@@ -1237,6 +1237,10 @@ body{
 		font-size: 24px;
 		width: 100%;
 		float: left;
+
+		.description{
+			font-size: 15px;
+		}
 	}
 
 	/*Loading data*/
@@ -6047,6 +6051,10 @@ body{
 						}
 					}
 				}
+
+				.noData{
+					font-weight: bold;
+				}
 			}
 
 			/*News*/
@@ -8276,7 +8284,7 @@ body{
 					}
 
 					.noData{
-						color: $whiteColor;
+						color: $fontBlackColor;
 					}
 				}
 			}
@@ -8830,6 +8838,7 @@ body{
 				background-color: $blackColor;
 				padding: 24px 0 268px 0;
 				box-sizing: border-box;
+				color: $whiteColor;
 				max-height: 75vh;
 				position: fixed;
 				overflow: auto;
@@ -9281,10 +9290,6 @@ body{
 						mat-progress-spinner svg circle{
 							stroke: $whiteColor;
 						}
-					}
-
-					.noData{
-						color: $whiteColor;
 					}
 				}
 			}

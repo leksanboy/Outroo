@@ -15,6 +15,7 @@
 					<div class="avatar" (click)="showAvatar()">
 						<img [src]="userData.avatar ? userData.avatarUrl : environment.avatar"/>
 					</div>
+
 					<div class="text">
 						<div class="name">
 							{{userData.name}}
@@ -22,6 +23,7 @@
 						</div>
 						<div class="username">@{{userData.username}}</div>
 					</div>
+
 					<div class="actions">
 						<button mat-button type="button" routerLink="/settings" *ngIf="userData.id == sessionData.current.id">
 							<i label="settings"></i>
@@ -364,15 +366,15 @@
 		<div class="noData" *ngIf="!((userData.private && userData.status == 'following') || !userData.private || userData.status == 'following' || (userData.id == sessionData.current.id))">
 			{{translations.privateAccount}}
 		</div>
-
-		<!-- <div class="noData" *ngIf="((userData.private && userData.status == 'following') || !userData.private || userData.status == 'following' || (userData.id == sessionData.current.id))">
-			THIS ACCOUNT IS (PRIVATE & FOLLOWING) ··· FOLLOWING ··· MYSELF
-		</div> -->
 	</div>
 
 	<div class="pageUser" *ngIf="!userExists">
 		<div class="noData">
 			{{translations.pageNotFound}}
+			<br>
+			<span class="description">
+				{{translations.pageNotFoundDescription}}
+			</span>
 		</div>
 	</div>
 </div>
