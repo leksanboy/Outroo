@@ -4416,6 +4416,16 @@ body{
 				    float: left;
 				}
 
+				.subtitle{
+					text-transform: uppercase;
+					font-weight: bold;
+					text-align: left;
+					font-size: 18px;
+					padding: 12px 0;
+					width: 100%;
+					float: left;
+				}
+
 				.text{
 					word-break: break-word;
 					box-sizing: border-box;
@@ -4570,16 +4580,6 @@ body{
 				}
 
 				&.about{
-					.subtitle{
-						text-transform: uppercase;
-						font-weight: bold;
-						text-align: left;
-						font-size: 18px;
-						padding: 12px 0;
-						width: 100%;
-						float: left;
-					}
-
 					.image{
 						border: 1px solid transparentize($greyColor, .75);
 						box-sizing: border-box;
@@ -4598,7 +4598,7 @@ body{
 				}
 
 				&.privacy{
-					.subtitle{
+					/*.subtitle{
 						text-transform: uppercase;
 						font-weight: bold;
 						text-align: left;
@@ -4606,7 +4606,7 @@ body{
 						padding: 12px 0;
 						width: 100%;
 						float: left;
-					}
+					}*/
 				}
 			}
 		}

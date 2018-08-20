@@ -98,7 +98,7 @@
 		$mail->Port = 587;
 		$mail->SMTPAuth = true;
 		$mail->Username = 'noreply.outhroo@gmail.com';
-		$mail->Password = 'Rafalskyy1991@';
+		$mail->Password = 'Rafalskyy1991';
 		$mail->setFrom('noreply.outhroo@gmail.com');
 		$mail->FromName = $nameWeb;
 		$mail->AddAddress($email);
@@ -215,7 +215,7 @@
 		$mail->Port = 587;
 		$mail->SMTPAuth = true;
 		$mail->Username = 'noreply.outhroo@gmail.com';
-		$mail->Password = 'Rafalskyy1991@';
+		$mail->Password = 'Rafalskyy1991';
 		$mail->setFrom('noreply.outhroo@gmail.com');
 		$mail->FromName = $nameWeb;
 		$mail->AddAddress($email);
@@ -330,7 +330,7 @@
 		$mail->Port = 587;
 		$mail->SMTPAuth = true;
 		$mail->Username = 'noreply.outhroo@gmail.com';
-		$mail->Password = 'Rafalskyy1991@';
+		$mail->Password = 'Rafalskyy1991';
 		$mail->setFrom('noreply.outhroo@gmail.com');
 		$mail->FromName = $nameWeb;
 		$mail->AddAddress($email);
@@ -433,7 +433,7 @@
 		$mail->Port = 587;
 		$mail->SMTPAuth = true;
 		$mail->Username = 'noreply.outhroo@gmail.com';
-		$mail->Password = 'Rafalskyy1991@';
+		$mail->Password = 'Rafalskyy1991';
 		$mail->setFrom('noreply.outhroo@gmail.com');
 		$mail->FromName = $nameWeb;
 		$mail->AddAddress($email);
@@ -556,7 +556,7 @@
 		$mail->Port = 587;
 		$mail->SMTPAuth = true;
 		$mail->Username = 'noreply.outhroo@gmail.com';
-		$mail->Password = 'Rafalskyy1991@';
+		$mail->Password = 'Rafalskyy1991';
 		$mail->setFrom('noreply.outhroo@gmail.com');
 		$mail->FromName = $nameWeb;
 		$mail->AddAddress($email);
