@@ -35,7 +35,7 @@
 							WHERE s.playlist = $id AND s.is_deleted = 0";
 			$conn->query($sqlSongs);
 
-			echo $insertedId;
+			echo json_encode($insertedId);
 			
 			$conn->close();
 		} else {
@@ -46,7 +46,7 @@
 					WHERE id = $insertedPlaylist AND user = $user";
 			$conn->query($sql);
 
-			echo $insertedPlaylist;
+			echo json_encode($insertedPlaylist);
 			
 			$conn->close();
 		}

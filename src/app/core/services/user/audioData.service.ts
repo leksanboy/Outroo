@@ -63,8 +63,8 @@ export class AudioDataService {
 
 	defaultPlaylists(data: any) {
 		let url = environment.url + 'assets/api/audios/defaultPlaylists.php';
-		let params =	'&user=' + data.user +
-						'&session=' + data.session +
+		let params =	(data.user ? ('&user=' + data.user) : '') +
+						(data.session ? ('&session=' + data.session) : '') +
 						'&type=' + data.type;
 		params = params.replace('&', '?');
 

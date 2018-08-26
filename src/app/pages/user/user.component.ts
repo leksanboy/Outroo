@@ -462,8 +462,7 @@ export class UserComponent implements AfterViewInit {
 	playTrack(type, key) {
 		switch(type){
 			case('item'):
-				if (this.audioPlayerData.current.key == key && this.audioPlayerData.current.user == this.audioPlayerData.user
-												&& this.audioPlayerData.current.type == this.audioPlayerData.type) { // Play/pause current
+				if (this.audioPlayerData.current.key == key && this.audioPlayerData.current.user == this.audioPlayerData.user && this.audioPlayerData.current.type == this.audioPlayerData.type) { // Play/pause current
 					if (this.audioPlayerData.playing == false) {
 						this.audioPlayerData.item.playing = true;
 						this.audioPlayerData.list[key].playing = true;
@@ -560,8 +559,13 @@ export class UserComponent implements AfterViewInit {
 					nextKey = (this.audioPlayerData.current.key == this.audioPlayerData.list.length - 1) ? 0 : (this.audioPlayerData.current.key + 1);
 
 				// Check if is ad item
-				if (this.audioPlayerData.list[nextKey].contentTypeAd)
-					nextKey = nextKey + 1;
+				if (this.audioPlayerData.list[nextKey].contentTypeAd) {
+					// Check if last element of the list is ad
+					if (this.audioPlayerData.list[this.audioPlayerData.list.length - 1].contentTypeAd)
+						nextKey = 0;
+					else
+						nextKey = nextKey + 1;
+				}
 
 				this.playTrack('item', nextKey);
 			break;

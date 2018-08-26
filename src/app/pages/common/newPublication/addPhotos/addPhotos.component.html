@@ -6,10 +6,10 @@
 			</button>
 		</div>
 		<div class="text">
-			{{translations.photos}} {{data.arrayAddedItems.length}}/5
+			{{translations.photos}} {{data.arrayAddedItems.length}}/10
 		</div>
 		<div class="actions">
-			<button mat-raised-button type="submit" [disabled]="data.arrayAddedItems.length > 5 || data.arrayAddedItems.length < 1" (click)="submit($event)">
+			<button mat-raised-button type="submit" [disabled]="data.arrayAddedItems.length > 10 || data.arrayAddedItems.length < 1" (click)="submit($event)">
 				{{translations.ok}}
 			</button>
 		</div>

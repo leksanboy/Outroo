@@ -493,6 +493,15 @@ export class AudiosComponent implements OnInit, OnDestroy {
 					this.dataTop.loadingData = false;
 					this.alertService.error(this.translations.anErrorHasOcurred);
 				});
+
+			// Get playlists
+			this.audioDataService.defaultPlaylists(data)
+				.subscribe(res => {
+					for (let i in res)
+						res[i].color = this.generateRandomColor();
+
+					this.dataTop.playlists = res;
+				});
 		} else if (type == 'more' && !this.dataTop.noMore && !this.dataTop.loadingMoreData) {
 			this.dataTop.loadingMoreData = true;
 			this.dataTop.rows++;
@@ -1056,8 +1065,9 @@ export class AudiosComponent implements OnInit, OnDestroy {
 					}
 				});
 				break;
-			case("publicPrivateSession"):
-				item.type = item.private ? "public" : "private";
+			case("publicPrivate"):
+				item.private = !item.private;
+				item.type = item.private ? "private" : "public";
 
 				let dataPPS = {
 					user: this.sessionData.current.id,
@@ -1068,12 +1078,13 @@ export class AudiosComponent implements OnInit, OnDestroy {
 				this.audioDataService.publicPrivate(dataPPS).subscribe();
 				break;
 			case("addRemoveSession"):
-				item.type = item.addRemoveSession ? "add" : "remove";
+				item.addRemoveSession = !item.addRemoveSession;
+				item.removeType = !item.addRemoveSession ? "add" : "remove";
 				item.removed = item.addRemoveSession ? false : true;
 
 				let dataARS = {
 					user: this.sessionData.current.id,
-					type: item.type,
+					type: item.removeType,
 					location: 'session',
 					id: item.idPlaylist
 				}
@@ -1084,12 +1095,13 @@ export class AudiosComponent implements OnInit, OnDestroy {
 					});
 				break;
 			case("addRemoveUser"):
-				item.type = !item.addRemoveUser ? "add" : "remove";
+				item.addRemoveUser = !item.addRemoveUser;
+				item.removeType = item.addRemoveUser ? "add" : "remove";
 				item.removed = !item.addRemoveUser ? false : true;
 
 				let dataARO = {
 					user: this.sessionData.current.id,
-					type: item.type,
+					type: item.removeType,
 					location: 'user',
 					id: item.id,
 					title: item.title,
@@ -1100,8 +1112,31 @@ export class AudiosComponent implements OnInit, OnDestroy {
 
 				this.audioDataService.addRemovePlaylist(dataARO)
 					.subscribe((res: any) => {
-						item.idPlaylist = res.json();
-						item.insertedPlaylist =  item.insertedPlaylist ? item.item.insertedPlaylist : res.json();
+						item.idPlaylist = res;
+						item.insertedPlaylist =  item.insertedPlaylist ? item.insertedPlaylist : res;
+						this.updatePlaylist('addRemoveUser', item);
+					});
+				break;
+			case("addRemoveUserTop"):
+				item.addRemoveUserTop = !item.addRemoveUserTop;
+				item.removeType = item.addRemoveUserTop ? "add" : "remove";
+				item.removed = !item.addRemoveUserTop ? false : true;
+
+				let dataAROT = {
+					user: this.sessionData.current.id,
+					type: item.removeType,
+					location: 'user',
+					id: item.id,
+					title: item.title,
+					image: item.image,
+					playlist : item.idPlaylist,
+					insertedPlaylist : item.insertedPlaylist
+				}
+
+				this.audioDataService.addRemovePlaylist(dataAROT)
+					.subscribe((res: any) => {
+						item.idPlaylist = res;
+						item.insertedPlaylist =  item.insertedPlaylist ? item.insertedPlaylist : res;
 						this.updatePlaylist('addRemoveUser', item);
 					});
 				break;

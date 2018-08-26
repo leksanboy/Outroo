@@ -81,7 +81,7 @@
 						<button mat-button>
 							<div class="text">
 								{{userData.countAudios}}
-								<div class="name">{{translations.audios}}</div>
+								<div class="name">{{translations.songs}}</div>
 							</div>
 						</button>
 					</li>
@@ -177,21 +177,36 @@
 							<span *ngIf="x.photos.length == 1">
 								<div *ngFor="let p of x.photos">
 									<img *ngIf="p.mimetype.indexOf('image') !== -1" [src]="environment.pathPhotos + p.name">
-									<video *ngIf="p.mimetype.indexOf('video') !== -1" [src]="environment.pathVideos + p.name.split('.')[0] + '.mp4'" controls></video>
+
+									<video *ngIf="p.mimetype.indexOf('video') !== -1" width="100%" height="auto" poster="{{environment.pathVideos + 'thumbnails/' + p.name}}" preload="yes" controls="true">
+										<source src="{{environment.pathVideos + p.name.split('.')[0] + '.mp4'}}" type="video/mp4">
+									</video>
 								</div>
 							</span>
 
-							<swiper *ngIf="x.photos.length > 1" class="swiper" [config]="swiperConfig">
+							<swiper *ngIf="x.photos.length > 1" [config]="swiperConfig">
 								<div class="swiper-wrapper">
 									<div class="swiper-slide" *ngFor="let p of x.photos">
-										<img *ngIf="p.mimetype.indexOf('image') !== -1" [src]="environment.pathPhotos + p.name">
-										<video *ngIf="p.mimetype.indexOf('video') !== -1" [src]="environment.pathVideos + p.name.split('.')[0] + '.mp4'" controls></video>
+										<div class="slide">
+											<div class="image">
+												<div class="img" *ngIf="p.mimetype.indexOf('image') !== -1" [ngStyle]="{'background-image': 'url(' + environment.pathPhotos + p.name + ')'}"></div>
+												
+												<video *ngIf="p.mimetype.indexOf('video') !== -1" width="100%" height="auto" poster="{{environment.pathVideos + 'thumbnails/' + p.name}}" preload="yes" controls="true">
+													<source src="{{environment.pathVideos + p.name.split('.')[0] + '.mp4'}}" type="video/mp4">
+												</video>
+											</div>
+										</div>
 									</div>
 								</div>
 
 								<div class="swiper-pagination"></div>
-								<div class="swiperNext"><mat-icon>keyboard_arrow_right</mat-icon></div>
-								<div class="swiperPrev"><mat-icon>keyboard_arrow_left</mat-icon></div>
+								
+								<div class="swiperNext" mat-ripple>
+									<mat-icon>keyboard_arrow_right</mat-icon>
+								</div>
+								<div class="swiperPrev" mat-ripple>
+									<mat-icon>keyboard_arrow_left</mat-icon>
+								</div>
 							</swiper>
 						</div>
 

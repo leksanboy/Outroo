@@ -38,14 +38,17 @@
 
 				<div class="photos">
 					<img *ngIf="data.current.mimetype.indexOf('image') !== -1" [src]="environment.pathPhotos + data.current.name">
-					<video *ngIf="data.current.mimetype.indexOf('video') !== -1" [src]="environment.pathVideos + data.current.name.split('.')[0] + '.mp4'" #videoPlayer></video>
 
+					<video *ngIf="data.current.mimetype.indexOf('video') !== -1" #videoPlayer width="100%" height="auto" poster="{{environment.pathVideos + 'thumbnails/' + data.current.name}}">
+						<source src="{{environment.pathVideos + data.current.name.split('.')[0] + '.mp4'}}" type="video/mp4">
+					</video>
 
-					<span *ngIf="data.current.type=='video'">
+					<span *ngIf="data.current.mimetype.indexOf('video') !== -1">
 						<div class="playPause" (click)="playVideo('play')" *ngIf="!data.current.playButton">
 							<mat-icon>play_arrow</mat-icon>
 						</div>
 					</span>
+
 					<span *ngIf="data.list.length > 1">
 						<div class="prev" (click)="prevNext('prev')">
 							<mat-icon>chevron_left</mat-icon>

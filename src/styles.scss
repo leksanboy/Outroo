@@ -2453,43 +2453,6 @@ body{
 									width: 86px;
 								}
 							}
-
-							/*Publications*/
-							.swiper-pagination{
-								.swiper-pagination-bullet{
-									height: 6px;
-									width: 6px;
-								}
-							}
-
-							.swiperPrev,
-							.swiperNext{
-								position: absolute;
-								cursor: pointer;
-								height: 100%;
-								width: 100px;
-								z-index: 1;
-								top: 0;
-
-								mat-icon{
-									filter: drop-shadow(0px 4px 2px rgba(0,0,0,.5));
-									color: transparentize($whiteColor, .25);
-									margin: auto auto auto 6px;
-									position: absolute;
-									bottom: 0;
-									right: 0;
-									left: 0;
-									top: 0;
-								}
-							}
-
-							.swiperNext{
-								right: 0;
-
-								mat-icon{
-									margin: auto 6px auto auto;
-								}
-							}
 						}
 
 						&.remove{
@@ -3145,14 +3108,14 @@ body{
 							padding: 0;
 							margin: 0;*/
 							display: -webkit-box;
-							max-width: 100%;
-							font-weight: bold;
 							word-break: break-word;
+							font-weight: bold;
+							max-width: 100%;
 							font-size: 24px;
 							-webkit-line-clamp: 3;
 							-webkit-box-orient: vertical;
-							overflow: hidden;
 							text-overflow: ellipsis;
+							overflow: hidden;
 							max-height: 84px;
 
 							mat-icon{
@@ -3160,6 +3123,30 @@ body{
 								font-size: 20px;
 								margin: 4px 0 0;
 								float: right;
+							}
+						}
+
+						.username{
+							word-break: break-all;
+							position: relative;
+							font-weight: bold;
+							line-height: 18px;
+							height: 18px;
+							float: left;
+							width: 100%;
+
+							i{
+								background-color: $officialColor;
+								mask-image: $spriteImages;
+								mask-position: 0 -48px;
+								mask-repeat: no-repeat;
+								display: inline-block;
+								mask-size: 24px 72px;
+								margin: 0 0 -1px 0;
+								height: 12px;
+								width: 12px;
+								bottom: 0;
+								right: 0;
 							}
 						}
 
@@ -4318,6 +4305,93 @@ body{
 			box-shadow: none;
 			width: 100%;
 			padding: 0;
+		}
+	}
+
+	/*Swiper*/
+	swiper{
+		.swiper-wrapper{
+			.slide{
+				box-sizing: border-box;
+				position: relative;
+				max-height: 600px;
+				border-radius: 0;
+				overflow: hidden;
+				height: 100vw;
+				float: left;
+				width: 100%;
+
+				.image{
+					position: absolute;
+					height: 100%;
+					width: 100%;
+
+					.img{
+						background-position: center 35%;
+						background-repeat: no-repeat;
+						transform: translate(0px);
+						box-sizing: border-box;
+						background-size: cover;
+						display: inline-block;
+						height: 100%;
+						width: 100%;
+					}
+
+					video{
+						background-position: center 35%;
+						background-repeat: no-repeat;
+						max-height: 100% !important;
+						transform: translate(0px);
+						box-sizing: border-box;
+						background-size: cover;
+						display: inline-block;
+						height: 100%;
+						width: 100%;
+					}
+				}
+			}
+		}
+
+		.swiper-pagination{
+			margin: 0 0 6px;
+
+			.swiper-pagination-bullet{
+				background-color: $whiteColor !important;
+				height: 6px;
+				width: 6px;
+			}
+		}
+
+		.swiperPrev,
+		.swiperNext{
+			border-radius: 0 5px 5px 0;
+			position: absolute;
+			cursor: pointer;
+			margin: 25% 0;
+			width: 100px;
+			height: 50%;
+			z-index: 1;
+			top: 0;
+
+			mat-icon{
+				filter: drop-shadow(0px 4px 2px rgba(0,0,0,.5));
+				color: transparentize($whiteColor, .25);
+				margin: auto auto auto 6px;
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				left: 0;
+				top: 0;
+			}
+		}
+
+		.swiperNext{
+			border-radius: 5px 0 0 5px;
+			right: 0;
+
+			mat-icon{
+				margin: auto 6px auto auto;
+			}
 		}
 	}
 
@@ -5732,42 +5806,6 @@ body{
 										max-height: 360px;
 										width: 100%;
 									}
-
-									.swiper-pagination{
-										.swiper-pagination-bullet{
-											height: 6px;
-											width: 6px;
-										}
-									}
-
-									.swiperPrev,
-									.swiperNext{
-										position: absolute;
-										cursor: pointer;
-										height: 100%;
-										width: 100px;
-										z-index: 1;
-										top: 0;
-
-										mat-icon{
-											filter: drop-shadow(0px 4px 2px rgba(0,0,0,.5));
-											color: transparentize($whiteColor, .25);
-											margin: auto auto auto 6px;
-											position: absolute;
-											bottom: 0;
-											right: 0;
-											left: 0;
-											top: 0;
-										}
-									}
-
-									.swiperNext{
-										right: 0;
-
-										mat-icon{
-											margin: auto 6px auto auto;
-										}
-									}
 								}
 
 								.innerContent{
@@ -6626,29 +6664,31 @@ body{
 						}
 					}
 
-					.playListsBox{
+					.playlist{
 						box-sizing: border-box;
 						padding: 0 18px 12px;
 						width: 100%;
 						float: left;
+						margin: 0;
 
 						ul{
+							white-space: nowrap;
+							overflow-y: hidden;
+							overflow-x: auto;
 							float: left;
-							width: 100%;
 							padding: 0;
 							margin: 0;
 
 							li{
 								box-sizing: border-box;
-								width: calc(50% - 6px);
+								display: inline-block;
 								position: relative;
-								margin: 0 0 6px 0;
+								margin: 0 12px 0 0;
 								list-style: none;
-								display: block;
-								float: left;
+								width: 40%;
 
 								.image{
-									height: calc(50vw - 24px);
+									height: calc(40vw - 24px);
 									box-sizing: border-box;
 									position: relative;
 									border-radius: 5px;
@@ -6699,9 +6739,10 @@ body{
 										text-overflow: ellipsis;
 										box-sizing: border-box;
 									    white-space: nowrap;
-										padding: 0 0 0 8px;
+										padding: 0 0 0 4px;
 										line-height: 40px;
 									    overflow: hidden;
+									    cursor: pointer;
 										width: 100%;
 									}
 
@@ -6712,8 +6753,8 @@ body{
 										margin: 0;
 
 										button{
-											margin: 0 -8px 0 0;
-											float: left;
+											/*margin: 0 -8px 0 0;
+											float: left;*/
 
 											mat-icon{
 												text-shadow: none;
@@ -6727,11 +6768,9 @@ body{
 									}
 								}
 
-								&:nth-child(2n+2){
-									margin: 0 0 6px 12px;
-								}
+								&.new{
+									float: left;
 
-								&.add{
 									.image{
 										border: 1px solid $greyColor;
 
@@ -6752,6 +6791,10 @@ body{
 											top: 0;
 										}
 									}
+								}
+
+								&:last-child{
+									margin: 0;
 								}
 							}
 						}
@@ -7697,44 +7740,15 @@ body{
 				.center{
 					.top{
 						button{
-							&.playPause{
+							i{
 								background-color: $whiteColor;
-
-								&[disabled]{
-									background: transparentize($whiteColor, .5) !important;
-								}
-
-								mat-icon{
-									color: $blackColor;
-								}
 							}
-						}
-					}
 
-					.bottom{
-						.progress{
-							.slider{
-								position: relative;
-								width: 100%;
+							&.playPause{
+								background: $whiteColor;
 
-								mat-slider{
-									.mat-slider-wrapper{
-										.mat-slider-track-wrapper{
-											.mat-slider-track-background{
-												background-color: transparentize($whiteColor, .85);
-											}
-
-											.mat-slider-track-fill{
-												background-color: $whiteColor;
-											}
-										}
-
-										.mat-slider-thumb-container{
-											.mat-slider-thumb{
-												background-color: $whiteColor;
-											}
-										}
-									}
+								i{
+									background-color: $fontBlackColor;
 								}
 							}
 						}
@@ -7907,62 +7921,112 @@ body{
 						display: flex;
 
 						button{
-							&[disabled]{
-								background: transparent !important;
+							border-radius: 50% !important;
+							background: none;
+							box-shadow: none;
+
+							i{
+								background-color: $fontBlackColor;
+								mask-image: $spriteAudios;
+								mask-repeat: no-repeat;
+								display: block;
 							}
 
-							&:hover{
-								box-shadow: none;
-								background: none;
+							&.mat-accent{
+								color: #09f;
 							}
 
 							&.playPause{
-								background-color: $fontBlackColor;
-								box-shadow: $shadowBox1;
-								box-sizing: border-box;
-								height: 42px;
-								width: 42px;
+								background: $fontBlackColor;
+								transition: .2s;
+								height: 52px;
+								width: 52px;
+								margin: 2px;
 
-								&[disabled]{
-									background: transparentize($fontBlackColor, .5) !important;
-									pointer-events: none;
+								&:active{
+									transform: scale(.8);
 								}
 
-								mat-icon{
-									color: $whiteColor;
-									padding: 9px 0;
+								i{
+									background-color: $whiteColor;
+									mask-size: 16px 48px;
+									margin: 18px;
+									height: 16px;
+									width: 16px;
+
+									&.play{
+										mask-position: 0 0;
+									}
+
+									&.pause{
+										mask-position: 0 -16px;
+									}
 								}
 							}
 
 							&.prev,
 							&.next{
-								margin: 4px 12px;
+								margin: 4px 6px 4px 18px;
+								height: 48px;
+								width: 48px;
 
-								mat-icon{
-									text-shadow: $shadowText1;
+								i{
+									mask-position: 0 -56px;
+									mask-size: 28px 84px;
+									margin: 17px;
+									height: 14px;
+									width: 14px;
+								}
+							}
+
+							&.next{
+								margin: 4px 18px 4px 6px;
+
+								i{
+									mask-position: -14px -56px;
 								}
 							}
 
 							&.shuffle,
 							&.repeat{
-								margin: 4px 2px;
+								margin: 4px 0;
+								height: 48px;
+								width: 48px;
 
-								mat-icon{
-									font-size: 16px;
-									height: 16px;
+								i{
+									mask-position: 0 -70px;
+									mask-size: 28px 84px;
+									height: 14px;
+									width: 14px;
+									margin: 17px;
 								}
 
 								&.active{
-									mat-icon{
-										color: $blueColor;
-										font-weight: bold;
+									i{
+										background: $blueColor;
 									}
+								}
+							}
+
+							&.repeat{
+								i{
+									mask-position: -14px -70px;
+								}
+							}
+
+							&.disabled{
+								pointer-events: none;
+								
+								i{
+									background-color: $greyColor !important;
+									opacity: .5;
 								}
 							}
 						}
 					}
 
 					.bottom{
+						margin: -4px 0 0;
 						width: 100%;
 
 						.progress{
@@ -7996,17 +8060,17 @@ body{
 
 										.mat-slider-track-wrapper{
 											.mat-slider-track-background{
-												background-color: transparentize($fontBlackColor, .85);
+												background-color: transparentize($greyColor, .5);
 											}
 
 											.mat-slider-track-fill{
-												background-color: $fontBlackColor;
+												background-color: currentColor;
 											}
 										}
 
 										.mat-slider-thumb-container{
 											.mat-slider-thumb{
-												background-color: $fontBlackColor;
+												background-color: currentColor;
 												bottom: -6px;
 												height: 12px;
 												width: 12px;

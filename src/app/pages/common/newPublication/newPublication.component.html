@@ -45,7 +45,7 @@
 				</div>
 
 				<div class="photos" *ngIf="data.photosArray.length > 0">
-					<div class="counter" [ngClass]="{'warning': data.photosArray.length > 5}">{{translations.photos}} {{data.photosArray.length}}/5</div>
+					<div class="counter" [ngClass]="{'warning': data.photosArray.length > 10}">{{translations.photos}} {{data.photosArray.length}}/10</div>
 
 					<ul>
 						<li mat-ripple *ngFor="let x of data.photosArray; let i=index;">

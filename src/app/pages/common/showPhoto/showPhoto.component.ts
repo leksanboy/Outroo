@@ -46,6 +46,9 @@ export class ShowPhotoComponent implements OnInit {
 			// Check if exists
     		this.notExists = false;
 
+    		// Load video
+    		this.playVideo('load');
+
 		    // Set url
 	    	if (this.data.comeFrom == 'photos')
 		    	this.location.go('/' + this.userData.username + '/photos/' + this.data.current.name.split('.')[0]);
@@ -58,9 +61,7 @@ export class ShowPhotoComponent implements OnInit {
 
 	    	// Load comments
 	    	this.defaultComments('default', this.data.current);
-
     	} else {
-    		// Check if exists
     		this.notExists = true;
     	}
 	}
@@ -71,6 +72,9 @@ export class ShowPhotoComponent implements OnInit {
 
     // Prev/Next
     prevNext(type) {
+    	// Load video
+    	this.playVideo('load');
+
     	// Prev / Next
     	if (type == 'prev')
     		this.data.index == 0 ? this.data.index = this.data.list.length - 1 : this.data.index = this.data.index - 1;
@@ -79,7 +83,6 @@ export class ShowPhotoComponent implements OnInit {
 
     	// Set new photo from list
     	this.data.current = this.data.list[this.data.index];
-    	this.data.current.playButton = false;
 
     	// Change url whitout reloading
 		this.location.go('/' + this.userData.username + '/photos/' + this.data.current.name.split('.')[0]);
@@ -95,9 +98,21 @@ export class ShowPhotoComponent implements OnInit {
     }
 
     playVideo(type){
-    	this.videoPlayer.nativeElement.removeAttribute("controls");
-    	this.videoPlayer.nativeElement.play();
-    	this.data.current.playButton = true;
+    	if (type == 'load') {
+    		if (this.data.current.mimetype.indexOf('video') !== -1) {
+	    		this.data.current.playButton = false;
+
+	    		if (this.videoPlayer) {
+	    			this.videoPlayer.nativeElement.removeAttribute("controls");
+	    			this.videoPlayer.nativeElement.pause();
+					this.videoPlayer.nativeElement.load();
+				}
+	    	}
+    	} else if (type == 'play') {
+	    	this.videoPlayer.nativeElement.removeAttribute("controls");
+	    	this.videoPlayer.nativeElement.play();
+	    	this.data.current.playButton = true;
+    	}
     }
 
     // Replays +1
