@@ -87,7 +87,7 @@ export class NewsComponent implements OnInit, OnDestroy {
 					this.titleService.setTitle('News');
 
 					// Load default
-					this.default('default', this.sessionData.current.id, this.sessionData.current.id);
+					this.default('default', this.sessionData.current.id);
 				}
 			});
 
@@ -114,7 +114,7 @@ export class NewsComponent implements OnInit, OnDestroy {
 			if (windowBottom >= docHeight) {
 				if (this.data.active == 'default') {
 					if (this.dataDefault.list.length > 0)
-						this.default('more', null, null);
+						this.default('more', null);
 
 				} else if (this.data.active == 'search') {
 					switch (this.data.selectedIndex) {
@@ -264,7 +264,7 @@ export class NewsComponent implements OnInit, OnDestroy {
 	}
 
 	// Default
-	default(type, user, session) {
+	default(type, session) {
 		if (type == 'default') {
 			this.dataDefault = {
 				list: [],
@@ -278,7 +278,6 @@ export class NewsComponent implements OnInit, OnDestroy {
 
 			let data = {
 				type: 'news',
-				user: user,
 				session: session,
 				rows: this.dataDefault.rows,
 				cuantity: this.environment.cuantity*3
@@ -315,7 +314,6 @@ export class NewsComponent implements OnInit, OnDestroy {
 
 			let data = {
 				type: 'news',
-				user: this.sessionData.current.id,
 				session: this.sessionData.current.id,
 				rows: this.dataDefault.rows,
 				cuantity: this.environment.cuantity*3

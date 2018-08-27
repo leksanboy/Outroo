@@ -101,6 +101,14 @@
 							</div>
 						</button>
 					</li>
+					<li routerLink="/{{userData.username}}/bookmarks" *ngIf="sessionData.current.id == 1">
+						<button mat-button>
+							<div class="text">
+								{{userData.countBookmarks}}
+								<div class="name">{{translations.bookmarks}}</div>
+							</div>
+						</button>
+					</li>
 				</ul>
 
 				<div class="uploadFilesBox" *ngIf="userData.id == sessionData.current.id">
@@ -287,6 +295,12 @@
 								</span>
 								{{x.countLikes <= 2 ? translations.likedThis : translations.andMoreLikedThis}}
 							</a>
+
+							<div class="buttonBox bookmark" *ngIf="sessionData.current.id == 1">
+								<button mat-icon-button (click)="markUnmark(x)" [ngClass]="{'active' : x.marked}">
+									<i class="bookmark"></i>
+								</button>
+							</div>
 						</div>
 
 						<div class="boxComments" *ngIf="x.showCommentsBox">

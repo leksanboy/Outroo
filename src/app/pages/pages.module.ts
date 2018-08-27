@@ -54,13 +54,14 @@ import { TruncatePipe } from '../core/pipes/truncate.pipe';
 
 import { SwiperModule } from 'angular2-useful-swiper';
 
-import { UserDataService } from '../core/services/user/userData.service';
 import { AudioDataService } from '../core/services/user/audioData.service';
-import { PhotoDataService } from '../core/services/user/photoData.service';
+import { BookmarksDataService } from '../core/services/user/bookmarksData.service';
 import { FollowsDataService } from '../core/services/user/followsData.service';
-import { PublicationsDataService } from '../core/services/user/publicationsData.service';
-import { NotificationsDataService } from '../core/services/user/notificationsData.service';
 import { ChatDataService } from '../core/services/user/chatData.service';
+import { NotificationsDataService } from '../core/services/user/notificationsData.service';
+import { PhotoDataService } from '../core/services/user/photoData.service';
+import { PublicationsDataService } from '../core/services/user/publicationsData.service';
+import { UserDataService } from '../core/services/user/userData.service';
 
 import { SessionService } from '../core/services/session/session.service';
 import { PlayerService } from '../core/services/player/player.service';
@@ -210,18 +211,19 @@ import { ShowSessionPanelMobileComponent } from './common/showSessionPanelMobile
 		ShowSessionPanelMobileComponent
 	],
 	providers: [
-		UserDataService,
 		AudioDataService,
-		PhotoDataService,
-		FollowsDataService,
-		PublicationsDataService,
-		NotificationsDataService,
+		BookmarksDataService,
 		ChatDataService,
-		SessionService,
-		PlayerService,
+		FollowsDataService,
+		HeadersService,
 		MetaService,
 		MomentService,
-		HeadersService,
+		NotificationsDataService,
+		PhotoDataService,
+		PlayerService,
+		PublicationsDataService,
+		SessionService,
+		UserDataService,
 		// WebsocketService,
 		// ChatsocketService,
 	]

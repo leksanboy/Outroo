@@ -26,6 +26,13 @@ export class ShowPublicationComponent implements OnInit {
 	public userData: any = [];
 	public audioPlayerData: any = [];
 	public translations: any = [];
+	public swiperConfig: any = {
+		pagination: '.swiper-pagination',
+		nextButton: '.swiperNext',
+		prevButton: '.swiperPrev',
+		paginationClickable: true,
+		spaceBetween: 0
+	};
 	public notExists: boolean;
 	public searchBoxMentions: boolean;
 	public urlRegex: any = /(http|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/g;

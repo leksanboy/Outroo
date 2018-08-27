@@ -10,7 +10,7 @@ import { UserDataService } from '../../../../app/core/services/user/userData.ser
 import { SessionService } from '../../../../app/core/services/session/session.service';
 import { PhotoDataService } from '../../../../app/core/services/user/photoData.service';
 
-import {ShowPhotoComponent } from '../../../../app/pages/common/showPhoto/showPhoto.component';
+import { ShowPhotoComponent } from '../../../../app/pages/common/showPhoto/showPhoto.component';
 
 declare var ga: Function;
 

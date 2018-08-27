@@ -7,6 +7,7 @@ import { environment } from '../../../../environments/environment';
 
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
 import { AudioDataService } from '../../../../app/core/services/user/audioData.service';
+import { BookmarksDataService } from '../../../../app/core/services/user/bookmarksData.service';
 import { FollowsDataService } from '../../../../app/core/services/user/followsData.service';
 import { MetaService } from '../../../../app/core/services/meta/meta.service';
 import { NotificationsDataService } from '../../../../app/core/services/user/notificationsData.service';
@@ -68,6 +69,7 @@ export class MainComponent implements OnInit, OnDestroy {
 		private userDataService: UserDataService,
 		private audioDataService: AudioDataService,
 		private followsDataService: FollowsDataService,
+		private bookmarksDataService: BookmarksDataService,
 		private publicationsDataService: PublicationsDataService,
 		private notificationsDataService: NotificationsDataService
 	) {
@@ -528,6 +530,22 @@ export class MainComponent implements OnInit, OnDestroy {
 				item.comeFrom = 'share';
 				this.sessionService.setDataShowConversation(item);
 			break;
+		}
+	}
+
+	// Bookmarks
+	markUnmark(item){
+		if (this.sessionData.current.id) {
+			item.marked = !item.marked;
+
+			// data
+			let data = {
+				id: item.id,
+				user: this.sessionData.current.id,
+				type: item.marked ? 'mark' : 'unmark'
+			}
+
+			this.bookmarksDataService.markUnmark(data).subscribe();
 		}
 	}
 

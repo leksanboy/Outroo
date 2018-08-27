@@ -12,6 +12,7 @@ import { SignupComponent } from './web/signup/signup.component';
 import { SupportComponent } from './web/support/support.component';
 
 import { AudiosComponent } from './user/audios/audios.component';
+import { BookmarksComponent } from './user/bookmarks/bookmarks.component';
 import { FollowersComponent } from './user/followers/followers.component';
 import { FollowingComponent } from './user/following/following.component';
 import { HomeComponent } from './user/home/home.component';
@@ -81,6 +82,9 @@ const routes: Routes = [
 			},{
 				path: ':id/followers',
 				component: FollowersComponent
+			},{
+				path: ':id/bookmarks',
+				component: BookmarksComponent
 			}
 		]
 	},{
@@ -91,23 +95,24 @@ const routes: Routes = [
 
 export const routableComponents = [
 		AboutComponent,
+		AudiosComponent,
+		BookmarksComponent,
 		ConfirmEmailComponent,
 		ErrorComponent,
-		ForgotPasswordComponent,
-		PrivacyComponent,
-		ResetPasswordComponent,
-		SigninComponent,
-		SignupComponent,
-		SupportComponent,
-		AudiosComponent,
 		FollowersComponent,
 		FollowingComponent,
+		ForgotPasswordComponent,
 		HomeComponent,
 		MainComponent,
 		NewsComponent,
 		NotificationsComponent,
 		PhotosComponent,
+		PrivacyComponent,
+		ResetPasswordComponent,
 		SettingsComponent,
+		SigninComponent,
+		SignupComponent,
+		SupportComponent,
 		UserComponent
 ];
 

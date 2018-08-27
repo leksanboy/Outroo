@@ -164,6 +164,12 @@
 									</span>
 									{{x.countLikes <= 2 ? translations.likedThis : translations.andMoreLikedThis}}
 								</a>
+
+								<div class="buttonBox bookmark" *ngIf="sessionData.current.id == 1">
+									<button mat-icon-button (click)="markUnmark(x)" [ngClass]="{'active' : x.marked}">
+										<i class="bookmark"></i>
+									</button>
+								</div>
 							</div>
 
 							<div class="boxComments" *ngIf="x.showCommentsBox">

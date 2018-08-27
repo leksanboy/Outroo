@@ -195,6 +195,7 @@
 			$row['countFollowers'] = countUserFollowers($id);
 			$row['countPhotos'] = countUserPhotos($id);
 			$row['countAudios'] = countUserAudios($id);
+			$row['countBookmarks'] = countUserBookmarks($id);
 			$data = $row;
 		}
 
@@ -295,6 +296,19 @@
 
 		$sql = "SELECT id
 				FROM z_audios_favorites
+				WHERE user = $id 
+					AND is_deleted = 0";
+		$result = $conn->query($sql);
+
+		return $result->num_rows;
+	}
+
+	// Count bookmarks
+	function countUserBookmarks($id){
+		global $conn;
+
+		$sql = "SELECT id
+				FROM z_bookmarks
 				WHERE user = $id 
 					AND is_deleted = 0";
 		$result = $conn->query($sql);
@@ -565,6 +579,24 @@
 		$sql = "SELECT id
 				FROM z_publications_likes
 				WHERE publication = '$publication' 
+					AND user = $user";
+		$result = $conn->query($sql);
+
+		if ($result->num_rows)
+			$result = true;
+		else
+			$result = false;
+
+		return $result;
+	}
+
+	// Check if I marked a publication
+	function checkMarkedPublication($publication, $user){
+		global $conn;
+
+		$sql = "SELECT id
+				FROM z_bookmarks
+				WHERE post = '$publication' 
 					AND user = $user";
 		$result = $conn->query($sql);
 

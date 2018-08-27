@@ -20,7 +20,7 @@
 					<div class="line" *ngFor="let line of dataDefault.list" [ngClass]="{'ad': line.contentTypeAd}">
 						<ul class="publications" *ngIf="!line.contentTypeAd">
 							<li mat-ripple *ngFor="let x of line">
-								<a class="image" (click)="show(x, i)">
+								<a class="image" (click)="show(x)">
 									<span *ngIf="x.type == 'photo'">
 										<div class="img" [ngStyle]="{'background-image': 'url(' + (x.photos.mimetype.indexOf('image') !== -1 ? environment.pathPhotos : environment.pathVideos) + 'thumbnails/' + x.photos.name + ')'}"></div>
 										<div class="category">

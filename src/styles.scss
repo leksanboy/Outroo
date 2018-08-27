@@ -744,7 +744,7 @@ body{
 							mask-position: -18px -90px;
 							mask-image: $spriteImages;
 							mask-repeat: no-repeat;
-							mask-size: 36px 108px;
+							mask-size: 36px 144px;
 							display: block;
 							height: 18px;
 							width: 18px;
@@ -820,7 +820,7 @@ body{
 										mask-image: $spriteImages;
 										mask-position: 0 -60px;
 										mask-repeat: no-repeat;
-										mask-size: 24px 72px;
+										mask-size: 24px 96px;
 										margin: 0 0 0 6px;
 										display: block;
 										height: 12px;
@@ -904,7 +904,7 @@ body{
 							mask-image: $spriteImages;
 							mask-repeat: no-repeat;
 							display: inline-block;
-							mask-size: 64px 192px;
+							mask-size: 64px 256px;
 							height: 32px;
 							width: 32px;
 							margin: 0;
@@ -1350,7 +1350,7 @@ body{
 					background-color: $blackColor;
 					mask-image: $spriteImages;
 					mask-repeat: no-repeat;
-					mask-size: 48px 144px;
+					mask-size: 48px 192px;
 					display: inline-block;
 					mask-position: 0 0;
 					height: 48px;
@@ -1529,6 +1529,93 @@ body{
 						}
 					}
 				}
+			}
+		}
+	}
+
+	/*Swiper*/
+	swiper{
+		.swiper-wrapper{
+			.slide{
+				box-sizing: border-box;
+				position: relative;
+				max-height: 600px;
+				border-radius: 0;
+				overflow: hidden;
+				height: 100vw;
+				float: left;
+				width: 100%;
+
+				.image{
+					position: absolute;
+					height: 100%;
+					width: 100%;
+
+					.img{
+						background-position: center 35%;
+						background-repeat: no-repeat;
+						transform: translate(0px);
+						box-sizing: border-box;
+						background-size: cover;
+						display: inline-block;
+						height: 100%;
+						width: 100%;
+					}
+
+					video{
+						background-position: center 35%;
+						background-repeat: no-repeat;
+						max-height: 100% !important;
+						transform: translate(0px);
+						box-sizing: border-box;
+						background-size: cover;
+						display: inline-block;
+						height: 100%;
+						width: 100%;
+					}
+				}
+			}
+		}
+
+		.swiper-pagination{
+			margin: 0 0 6px;
+
+			.swiper-pagination-bullet{
+				background-color: $whiteColor !important;
+				height: 6px;
+				width: 6px;
+			}
+		}
+
+		.swiperPrev,
+		.swiperNext{
+			border-radius: 0 5px 5px 0;
+			position: absolute;
+			cursor: pointer;
+			margin: 25% 0;
+			width: 100px;
+			height: 50%;
+			z-index: 1;
+			top: 0;
+
+			mat-icon{
+				filter: drop-shadow(0px 4px 2px rgba(0,0,0,.5));
+				color: transparentize($whiteColor, .25);
+				margin: auto auto auto 6px;
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				left: 0;
+				top: 0;
+			}
+		}
+
+		.swiperNext{
+			border-radius: 5px 0 0 5px;
+			right: 0;
+
+			mat-icon{
+				margin: auto 6px auto auto;
 			}
 		}
 	}
@@ -2276,7 +2363,7 @@ body{
 									mask-image: $spriteImages;
 									mask-position: 0 -70px;
 									mask-repeat: no-repeat;
-									mask-size: 28px 84px;
+									mask-size: 28px 112px;
 									margin: 0 0 0 12px;
 									display: block;
 									height: 14px;
@@ -2702,7 +2789,7 @@ body{
 													background-color: $whiteColor;
 													mask-image: $spriteImages;
 													mask-repeat: no-repeat;
-													mask-size: 48px 144px;
+													mask-size: 48px 192px;
 													height: 24px;
 													width: 24px;
 													float: left;
@@ -2836,7 +2923,7 @@ body{
 										mask-position: 0 -48px;
 										mask-repeat: no-repeat;
 										display: inline-block;
-										mask-size: 24px 72px;
+										mask-size: 24px 96px;
 										margin: 0 0 -1px 0;
 										height: 12px;
 										width: 12px;
@@ -3141,7 +3228,7 @@ body{
 								mask-position: 0 -48px;
 								mask-repeat: no-repeat;
 								display: inline-block;
-								mask-size: 24px 72px;
+								mask-size: 24px 96px;
 								margin: 0 0 -1px 0;
 								height: 12px;
 								width: 12px;
@@ -3564,7 +3651,7 @@ body{
 														mask-image: $spriteImages;
 														mask-position: 0 -70px;
 														mask-repeat: no-repeat;
-														mask-size: 28px 84px;
+														mask-size: 28px 112px;
 														margin: 11px 0 0;
 														display: block;
 														height: 14px;
@@ -4022,7 +4109,7 @@ body{
 										mask-position: 0 -48px;
 										mask-repeat: no-repeat;
 										display: inline-block;
-										mask-size: 24px 72px;
+										mask-size: 24px 96px;
 										height: 12px;
 										width: 12px;
 										bottom: 0;
@@ -4217,7 +4304,7 @@ body{
 									mask-position: -18px -90px;
 									mask-image: $spriteImages;
 									mask-repeat: no-repeat;
-									mask-size: 36px 108px;
+									mask-size: 36px 144px;
 									display: block;
 									height: 18px;
 									width: 18px;
@@ -4308,93 +4395,6 @@ body{
 		}
 	}
 
-	/*Swiper*/
-	swiper{
-		.swiper-wrapper{
-			.slide{
-				box-sizing: border-box;
-				position: relative;
-				max-height: 600px;
-				border-radius: 0;
-				overflow: hidden;
-				height: 100vw;
-				float: left;
-				width: 100%;
-
-				.image{
-					position: absolute;
-					height: 100%;
-					width: 100%;
-
-					.img{
-						background-position: center 35%;
-						background-repeat: no-repeat;
-						transform: translate(0px);
-						box-sizing: border-box;
-						background-size: cover;
-						display: inline-block;
-						height: 100%;
-						width: 100%;
-					}
-
-					video{
-						background-position: center 35%;
-						background-repeat: no-repeat;
-						max-height: 100% !important;
-						transform: translate(0px);
-						box-sizing: border-box;
-						background-size: cover;
-						display: inline-block;
-						height: 100%;
-						width: 100%;
-					}
-				}
-			}
-		}
-
-		.swiper-pagination{
-			margin: 0 0 6px;
-
-			.swiper-pagination-bullet{
-				background-color: $whiteColor !important;
-				height: 6px;
-				width: 6px;
-			}
-		}
-
-		.swiperPrev,
-		.swiperNext{
-			border-radius: 0 5px 5px 0;
-			position: absolute;
-			cursor: pointer;
-			margin: 25% 0;
-			width: 100px;
-			height: 50%;
-			z-index: 1;
-			top: 0;
-
-			mat-icon{
-				filter: drop-shadow(0px 4px 2px rgba(0,0,0,.5));
-				color: transparentize($whiteColor, .25);
-				margin: auto auto auto 6px;
-				position: absolute;
-				bottom: 0;
-				right: 0;
-				left: 0;
-				top: 0;
-			}
-		}
-
-		.swiperNext{
-			border-radius: 5px 0 0 5px;
-			right: 0;
-
-			mat-icon{
-				margin: auto 6px auto auto;
-			}
-		}
-	}
-
 	/*------------------------*/
 	/*·····CONTENT STYLES·····*/
 	/*------------------------*/
@@ -4442,7 +4442,7 @@ body{
 					mask-image: $spriteImages;
 					mask-repeat: no-repeat;
 					display: inline-block;
-					mask-size: 24px 72px;
+					mask-size: 24px 96px;
 					mask-position: 0 0;
 					margin: 16px 0 0;
 					height: 24px;
@@ -4754,7 +4754,7 @@ body{
 						mask-image: $spriteImages;
 						mask-repeat: no-repeat;
 						display: inline-block;
-						mask-size: 24px 72px;
+						mask-size: 24px 96px;
 						mask-position: 0 0;
 						margin: 16px 0 0;
 						height: 24px;
@@ -5202,7 +5202,7 @@ body{
 									mask-position: 0 -56px;
 									mask-repeat: no-repeat;
 									display: inline-block;
-									mask-size: 28px 84px;
+									mask-size: 28px 112px;
 									margin: 0 0 -2px 0;
 									height: 14px;
 									width: 14px;
@@ -5461,7 +5461,7 @@ body{
 										mask-image: $spriteImages;
 										mask-position: 0 -72px;
 										mask-repeat: no-repeat;
-										mask-size: 36px 108px;
+										mask-size: 36px 144px;
 										margin: 0 10px 2px 0;
 										position: absolute;
 										height: 18px;
@@ -5509,7 +5509,7 @@ body{
 											mask-position: -14px -56px;
 											mask-image: $spriteImages;
 											mask-repeat: no-repeat;
-											mask-size: 28px 84px;
+											mask-size: 28px 112px;
 											margin: 8px 4px 0 0;
 											height: 14px;
 											width: 14px;
@@ -5555,6 +5555,7 @@ body{
 						ul.media{
 							text-transform: lowercase;
 							box-sizing: border-box;
+							display: flex;
 							padding: 6px;
 							float: left;
 							width: 100%;
@@ -5565,7 +5566,7 @@ body{
 								text-align: center;
 								list-style: none;
 								float: left;
-								width: 25%;
+								width: 100%;
 								padding: 0;
 								margin: 0;
 
@@ -5699,7 +5700,7 @@ body{
 											mask-image: $spriteImages;
 											mask-position: 0 -70px;
 											mask-repeat: no-repeat;
-											mask-size: 28px 84px;
+											mask-size: 28px 112px;
 											margin: 0 0 0 12px;
 											display: block;
 											height: 14px;
@@ -6033,7 +6034,7 @@ body{
 													background-color: $blackColor;
 													mask-image: $spriteImages;
 													mask-repeat: no-repeat;
-													mask-size: 48px 144px;
+													mask-size: 48px 192px;
 													height: 24px;
 													width: 24px;
 													float: left;
@@ -6045,6 +6046,10 @@ body{
 													&.like{
 														mask-position: 0 -48px;
 													}
+
+													&.bookmark{
+														mask-position: 0 -144px;
+													}
 												}
 											}
 
@@ -6053,18 +6058,29 @@ body{
 													background-color: $redColor;
 													mask-position: -24px -48px;
 												}
+
+												span i.bookmark{
+													background-color: $whiteColor;
+													mask-position: -24px -144px;
+												}
 											}
+										}
+
+										&.bookmark{
+											position: absolute;
+											margin: 0 3px 0 0;
+											right: 0;
 										}
 									}
 
 									.likers{
 										text-overflow: ellipsis;
 										box-sizing: border-box;
+										padding: 0 48px 0 12px;
 										white-space: nowrap;
 										font-weight: bold;
 										line-height: 40px;
 										overflow: hidden;
-										padding: 0 12px;
 										font-size: 13px;
 										display: block;
 										float: left;
@@ -6263,7 +6279,7 @@ body{
 											mask-position: 0 -48px;
 											mask-repeat: no-repeat;
 											display: inline-block;
-											mask-size: 24px 72px;
+											mask-size: 24px 96px;
 											margin: 0 0 -1px 0;
 											height: 12px;
 											width: 12px;
@@ -6362,7 +6378,7 @@ body{
 										mask-position: 0 -48px;
 										mask-repeat: no-repeat;
 										display: inline-block;
-										mask-size: 24px 72px;
+										mask-size: 24px 96px;
 										margin: 0 0 -1px 0;
 										height: 12px;
 										width: 12px;
@@ -6941,7 +6957,7 @@ body{
 													mask-image: $spriteImages;
 													mask-position: 0 -70px;
 													mask-repeat: no-repeat;
-													mask-size: 28px 84px;
+													mask-size: 28px 112px;
 													margin: 11px 0 0;
 													display: block;
 													height: 14px;
@@ -7085,7 +7101,7 @@ body{
 											mask-image: $spriteImages;
 											mask-position: 0 -70px;
 											mask-repeat: no-repeat;
-											mask-size: 28px 84px;
+											mask-size: 28px 112px;
 											margin: 11px 0 0;
 											display: block;
 											height: 14px;
@@ -7822,6 +7838,27 @@ body{
 	::-webkit-scrollbar{
 		height: 8px;
 		width: 8px;
+	}
+
+	mat-dialog-container{
+		.dialogBox{
+			.bodyPublications{
+				.container{
+					.left{
+						swiper{
+							width: 510px;
+							float: left;
+
+							.swiper-wrapper{
+								.slide{
+									max-height: 510px;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	body{

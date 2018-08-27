@@ -30,6 +30,7 @@
 		$result['countFollowers'] = countUserFollowers($result['id']);
 		$result['countPhotos'] = countUserPhotos($result['id']);
 		$result['countAudios'] = countUserAudios($result['id']);
+		$result['countBookmarks'] = countUserBookmarks($result['id']);
 
 		// Set user activity
 		$result['authorization'] = userLoginActivity($result['id']);

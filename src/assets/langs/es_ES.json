@@ -194,5 +194,6 @@
 	"editPlaylist": "Editar lista de reproducción",
 	"songs": "Canciones",
 	"untitled": "Sin título",
-	"noChannel": "Sin canal"
+	"noChannel": "Sin canal",
+	"bookmarks": "Guardados"
 }

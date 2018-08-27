@@ -26,6 +26,7 @@
 				$row['countFollowers'] = countUserFollowers($id);
 				$row['countPhotos'] = countUserPhotos($id);
 				$row['countAudios'] = countUserAudios($id);
+				$row['countBookmarks'] = countUserBookmarks($id);
 				$data = $row;
 			}
 			

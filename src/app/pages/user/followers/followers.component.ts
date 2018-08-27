@@ -87,18 +87,18 @@ export class FollowersComponent implements OnInit, OnDestroy {
 
 		// Load more on scroll on bottom
 		window.onscroll = (event) => {
-		let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
-		let body = document.body, html = document.documentElement;
-		let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
-		let windowBottom = windowHeight + window.pageYOffset;
+			let windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+			let body = document.body, html = document.documentElement;
+			let docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+			let windowBottom = windowHeight + window.pageYOffset;
 
-		if (windowBottom >= docHeight)
-			if (this.data.active == 'default')
-				if (this.dataDefault.list.length > 0)
-					this.default('more', null, null);
-			else if (this.data.active == 'search')
-				if (this.dataSearch.list.length > 0)
-					this.search('more');
+			if (windowBottom >= docHeight)
+				if (this.data.active == 'default')
+					if (this.dataDefault.list.length > 0)
+						this.default('more', null, null);
+				else if (this.data.active == 'search')
+					if (this.dataSearch.list.length > 0)
+						this.search('more');
 		}
 	}
 

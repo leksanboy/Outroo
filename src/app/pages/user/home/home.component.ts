@@ -6,6 +6,7 @@ import { environment } from '../../../../environments/environment';
 
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
 import { AudioDataService } from '../../../../app/core/services/user/audioData.service';
+import { BookmarksDataService } from '../../../../app/core/services/user/bookmarksData.service';
 import { NotificationsDataService } from '../../../../app/core/services/user/notificationsData.service';
 import { PublicationsDataService } from '../../../../app/core/services/user/publicationsData.service';
 import { PlayerService } from '../../../../app/core/services/player/player.service';
@@ -57,6 +58,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 		private sessionService: SessionService,
 		private userDataService: UserDataService,
 		private audioDataService: AudioDataService,
+		private bookmarksDataService: BookmarksDataService,
 		private publicationsDataService: PublicationsDataService,
 		private notificationsDataService: NotificationsDataService
 	) {
@@ -384,6 +386,22 @@ export class HomeComponent implements OnInit, OnDestroy {
 				item.type = 'audio';
 				this.sessionService.setDataReport(item);
 			break;
+		}
+	}
+
+	// Bookmarks
+	markUnmark(item){
+		if (this.sessionData.current.id) {
+			item.marked = !item.marked;
+
+			// data
+			let data = {
+				id: item.id,
+				user: this.sessionData.current.id,
+				type: item.marked ? 'mark' : 'unmark'
+			}
+
+			this.bookmarksDataService.markUnmark(data).subscribe();
 		}
 	}
 
