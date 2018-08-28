@@ -21,8 +21,8 @@
 			while($row = $result->fetch_assoc()) {
 				$row['user'] = userUsernameNameAvatar($row['user']);
 				$row['content'] = trim($row['content']) ? html_entity_decode($row['content'], ENT_QUOTES) : null;
+				$row['bookmark'] = checkMarkedPublication($row['id'], $session);
 				$row['liked'] = checkLikedPublication($row['id'], $session);
-				$row['marked'] = checkMarkedPublication($row['id'], $session);
 				$row['likers'] = getPublicationLikers($row['id']);
 				$row['disabledComments'] = ($row['disabledComments'] == 0) ? true : false;
 				$row['countComments'] = countCommentsPublication($row['id']);
@@ -78,8 +78,8 @@
 			while($row = $result->fetch_assoc()) {
 				$row['user'] = userUsernameNameAvatar($row['user']);
 				$row['content'] = trim($row['content']) ? html_entity_decode($row['content'], ENT_QUOTES) : null;
+				$row['bookmark'] = checkMarkedPublication($row['id'], $session);
 				$row['liked'] = checkLikedPublication($row['id'], $session);
-				$row['marked'] = checkMarkedPublication($row['id'], $session);
 				$row['likers'] = getPublicationLikers($row['id']);
 				$row['disabledComments'] = ($row['disabledComments'] == 0) ? true : false;
 				$row['countComments'] = countCommentsPublication($row['id']);

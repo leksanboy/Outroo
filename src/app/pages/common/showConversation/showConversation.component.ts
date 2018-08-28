@@ -673,7 +673,10 @@ export class ShowConversationComponent implements OnInit, OnDestroy, AfterViewCh
 	// Show photo from url if is one
 	showShared(item) {
 		if (item.type == 'publication') {
-			let data = item.publication.name;
+			let data = {
+				name: item.publication.name,
+				session: this.sessionData.current.id
+			}
 
 			this.publicationsDataService.getDataByName(data)
 				.subscribe((res: any) => {

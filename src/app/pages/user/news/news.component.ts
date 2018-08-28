@@ -189,7 +189,10 @@ export class NewsComponent implements OnInit, OnDestroy {
 
 	// Show publication
 	show(item) {
-		let data = item.name;
+		let data = {
+			name: item.name,
+			session: this.sessionData.current.id
+		}
 
 		this.publicationsDataService.getDataByName(data)
 			.subscribe((res: any) => {

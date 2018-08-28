@@ -189,6 +189,12 @@
 								</span>
 								{{data.current.countLikes <= 2 ? translations.likedThis : translations.andMoreLikedThis}}
 							</a>
+
+							<div class="buttonBox bookmark">
+								<button mat-icon-button (click)="markUnmark(data.current)" [ngClass]="{'active' : data.current.bookmark.checked}">
+									<i class="bookmark"></i>
+								</button>
+							</div>
 						</div>
 					</div>
 

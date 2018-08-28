@@ -16,7 +16,7 @@ export class PhotoDataService {
 
 	default(data: any) {
 		let url = environment.url + 'assets/api/photos/default.php';
-		let params =	'&user=' + data.user + 
+		let params =	'&user=' + data.user +
 						'&rows=' + data.rows +
 						'&cuantity=' + data.cuantity;
 		params = params.replace('&', '?');
@@ -69,8 +69,8 @@ export class PhotoDataService {
 
 	comments(data: any) {
 		let url = environment.url + 'assets/api/photos/comments.php';
-		let params =	'&id=' + data.id + 
-						'&rows=' + data.rows + 
+		let params =	'&id=' + data.id +
+						'&rows=' + data.rows +
 						'&cuantity=' + data.cuantity;
 		params = params.replace('&', '?');
 
@@ -92,9 +92,9 @@ export class PhotoDataService {
 
 	likes(data: any) {
 		let url = environment.url + 'assets/api/photos/likes.php';
-		let params =	'&session=' + data.session + 
-						'&id=' + data.id + 
-						'&rows=' + data.rows + 
+		let params =	'&session=' + data.session +
+						'&id=' + data.id +
+						'&rows=' + data.rows +
 						'&cuantity=' + data.cuantity;
 		params = params.replace('&', '?');
 
@@ -106,7 +106,7 @@ export class PhotoDataService {
 
 	checkLike(data: any) {
 		let url = environment.url + 'assets/api/photos/checkLike.php';
-		let params = 	'&id=' + data.id + 
+		let params = 	'&id=' + data.id +
 						'&user=' + data.user;
 		params = params.replace('&', '?');
 
@@ -118,7 +118,8 @@ export class PhotoDataService {
 
 	getDataByName(data: any) {
 		let url = environment.url + 'assets/api/photos/getDataByName.php';
-		let params =	'&name=' + data;
+		let params =	'&name=' + data.name +
+						'&session=' + data.session;
 		params = params.replace('&', '?');
 
 		return this.http.get(url + params, this.headersService.getHeaders())

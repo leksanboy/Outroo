@@ -101,7 +101,7 @@
 							</div>
 						</button>
 					</li>
-					<li routerLink="/{{userData.username}}/bookmarks" *ngIf="sessionData.current.id == 1">
+					<li routerLink="/{{userData.username}}/bookmarks" *ngIf="sessionData.current.id == userData.id">
 						<button mat-button>
 							<div class="text">
 								{{userData.countBookmarks}}
@@ -296,8 +296,8 @@
 								{{x.countLikes <= 2 ? translations.likedThis : translations.andMoreLikedThis}}
 							</a>
 
-							<div class="buttonBox bookmark" *ngIf="sessionData.current.id == 1">
-								<button mat-icon-button (click)="markUnmark(x)" [ngClass]="{'active' : x.marked}">
+							<div class="buttonBox bookmark">
+								<button mat-icon-button (click)="markUnmark(x)" [ngClass]="{'active' : x.bookmark.checked}">
 									<i class="bookmark"></i>
 								</button>
 							</div>

@@ -16,10 +16,10 @@ export class PublicationsDataService {
 
 	default(data: any) {
 		let url = environment.url + 'assets/api/publications/default.php';
-		let params =	'&user=' + data.user + 
-						'&session=' + data.session + 
-						'&type=' + data.type + 
-						'&rows=' + data.rows + 
+		let params =	'&user=' + data.user +
+						'&session=' + data.session +
+						'&type=' + data.type +
+						'&rows=' + data.rows +
 						'&cuantity=' + data.cuantity;
 		params = params.replace('&', '?');
 
@@ -31,9 +31,9 @@ export class PublicationsDataService {
 
 	search(data: any){
 		let url = environment.url + 'assets/api/publications/search.php';
-		let params = 	'&session=' + data.session + 
-						'&caption=' + data.caption + 
-						'&rows=' + data.rows + 
+		let params = 	'&session=' + data.session +
+						'&caption=' + data.caption +
+						'&rows=' + data.rows +
 						'&cuantity=' + data.cuantity;
 		params = params.replace('&', '?');
 
@@ -45,9 +45,9 @@ export class PublicationsDataService {
 
 	searchTop(data: any){
 		let url = environment.url + 'assets/api/publications/searchTop.php';
-		let params = 	'&session=' + data.session + 
-						'&caption=' + data.caption + 
-						'&rows=' + data.rows + 
+		let params = 	'&session=' + data.session +
+						'&caption=' + data.caption +
+						'&rows=' + data.rows +
 						'&cuantity=' + data.cuantity;
 		params = params.replace('&', '?');
 
@@ -59,9 +59,9 @@ export class PublicationsDataService {
 
 	searchTag(data: any){
 		let url = environment.url + 'assets/api/publications/searchTag.php';
-		let params = 	'&session=' + data.session + 
-						'&caption=' + data.caption + 
-						'&rows=' + data.rows + 
+		let params = 	'&session=' + data.session +
+						'&caption=' + data.caption +
+						'&rows=' + data.rows +
 						'&cuantity=' + data.cuantity;
 		params = params.replace('&', '?');
 
@@ -103,9 +103,9 @@ export class PublicationsDataService {
 
 	likes(data: any) {
 		let url = environment.url + 'assets/api/publications/likes.php';
-		let params =	'&session=' + data.session + 
-						'&id=' + data.id + 
-						'&rows=' + data.rows + 
+		let params =	'&session=' + data.session +
+						'&id=' + data.id +
+						'&rows=' + data.rows +
 						'&cuantity=' + data.cuantity;
 		params = params.replace('&', '?');
 
@@ -137,7 +137,7 @@ export class PublicationsDataService {
 
 	comments(data: any) {
 		let url = environment.url + 'assets/api/publications/comments.php';
-		let params =	'&id=' + data.id + 
+		let params =	'&id=' + data.id +
 						'&rows=' + data.rows + 
 						'&cuantity=' + data.cuantity;
 		params = params.replace('&', '?');
@@ -150,7 +150,8 @@ export class PublicationsDataService {
 
 	getDataByName(data: any) {
 		let url = environment.url + 'assets/api/publications/getDataByName.php';
-		let params =	'&name=' + data;
+		let params =	'&name=' + data.name +
+						'&session=' + data.session;
 		params = params.replace('&', '?');
 
 		return this.http.get(url + params, this.headersService.getHeaders())
@@ -171,7 +172,7 @@ export class PublicationsDataService {
 
 	checkLike(data: any) {
 		let url = environment.url + 'assets/api/publications/checkLike.php';
-		let params = 	'&id=' + data.id + 
+		let params = 	'&id=' + data.id +
 						'&user=' + data.user;
 		params = params.replace('&', '?');
 

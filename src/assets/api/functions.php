@@ -597,13 +597,12 @@
 		$sql = "SELECT id
 				FROM z_bookmarks
 				WHERE post = '$publication' 
-					AND user = $user";
-		$result = $conn->query($sql);
+					AND user = $user
+					AND is_deleted = 0";
+		$result = $conn->query($sql)->fetch_assoc();
 
-		if ($result->num_rows)
-			$result = true;
-		else
-			$result = false;
+		$result['id'] = $result['id'] ? $result['id'] : null;
+		$result['checked'] = $result['id'] ? true : false;
 
 		return $result;
 	}

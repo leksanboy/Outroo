@@ -233,7 +233,10 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
 	// Show photo from url if is one
 	showOne(item) {
-		let data = item + '.jpg';
+		let data = {
+			name: item + '.jpg',
+			session: this.sessionData.current.id
+		}
 
 		this.photoDataService.getDataByName(data)
 			.subscribe((res: any) => {

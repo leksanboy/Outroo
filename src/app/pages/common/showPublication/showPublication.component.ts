@@ -5,11 +5,12 @@ import { Location } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 
 import { AlertService } from '../../../../app/core/services/alert/alert.service';
-import { SessionService } from '../../../../app/core/services/session/session.service';
 import { AudioDataService } from '../../../../app/core/services/user/audioData.service';
+import { BookmarksDataService } from '../../../../app/core/services/user/bookmarksData.service';
+import { NotificationsDataService } from '../../../../app/core/services/user/notificationsData.service';
 import { PlayerService } from '../../../../app/core/services/player/player.service';
 import { PublicationsDataService } from '../../../../app/core/services/user/publicationsData.service';
-import { NotificationsDataService } from '../../../../app/core/services/user/notificationsData.service';
+import { SessionService } from '../../../../app/core/services/session/session.service';
 
 import { TimeagoPipe } from '../../../../app/core/pipes/timeago.pipe';
 import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
@@ -44,9 +45,10 @@ export class ShowPublicationComponent implements OnInit {
 		private location: Location,
     	private _fb: FormBuilder,
     	private alertService: AlertService,
+    	private playerService: PlayerService,
     	private sessionService: SessionService,
     	private audioDataService: AudioDataService,
-    	private playerService: PlayerService,
+    	private bookmarksDataService: BookmarksDataService,
 		private publicationsDataService: PublicationsDataService,
 		private notificationsDataService: NotificationsDataService
 	) {
@@ -58,9 +60,6 @@ export class ShowPublicationComponent implements OnInit {
 		if (this.data.item) {
 			// Check if exists
     		this.notExists = false;
-
-	    	// Check if publication is liked
-	    	this.checkLike(this.data.current.id, this.sessionData.current.id);
 
 	    	// Update replays
 	    	this.updateReplays(this.data.current.id, this.sessionData.current.id);
@@ -87,18 +86,26 @@ export class ShowPublicationComponent implements OnInit {
 		this.publicationsDataService.updateReplays(data).subscribe();
 	}
 
-	// Check like
-	checkLike(id, user){
-		let data = {
-			id: id,
-			user: user
-		}
+	// Bookmarks
+	markUnmark(item){
+		if (this.sessionData.current.id) {
+			item.bookmark.checked = !item.bookmark.checked;
+			item.marked = item.bookmark.checked ? false : true;
 
-		this.publicationsDataService.checkLike(data)
-			.subscribe(res => {
-				this.data.current.liked = res.liked;
-				this.data.current.likers = res.likers;
-			});
+			// data
+			let data = {
+				item: item.id,
+				id: item.bookmark.id,
+				user: this.sessionData.current.id,
+				type: item.bookmark.checked ? 'add' : 'remove'
+			}
+
+			this.bookmarksDataService.markUnmark(data)
+				.subscribe(res => {
+					if (res)
+						item.bookmark.id = res;
+				});
+		}
 	}
 
 	// Like / Unlike
@@ -507,6 +514,6 @@ export class ShowPublicationComponent implements OnInit {
 
 	// Close
 	close(){
-		this.dialogRef.close();
+		this.dialogRef.close(this.data.current);
 	}
 }

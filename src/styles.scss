@@ -868,6 +868,95 @@ body{
 		}
 	}
 
+	/*Buttons (photos & publications) & Likers*/
+	.analytics{
+		box-sizing: border-box;
+		position: relative;
+		padding: 0 9px;
+		display: flex;
+		width: 100%;
+		float: left;
+
+		.buttonBox{
+			font-weight: bold;
+			line-height: 40px;
+			display: flex;
+			float: left;
+
+			button{
+				transition: .2s;
+
+				&:active{
+					transform: scale(.8);
+				}
+
+				span{
+					margin: 6px auto;
+					display: flex;
+					width: 24px;
+
+					i{
+						background-color: currentColor;
+						mask-image: $spriteImages;
+						mask-repeat: no-repeat;
+						mask-size: 48px 192px;
+						height: 24px;
+						width: 24px;
+						float: left;
+
+						&.comments{
+							mask-position: 0 -72px;	
+						}
+
+						&.like{
+							mask-position: 0 -48px;
+						}
+
+						&.bookmark{
+							/*mask-position: 0 -144px;*/
+							mask-position: 0 -120px;
+							mask-size: 40px 160px;
+							margin: 0 2px;
+							height: 20px;
+							width: 20px;
+						}
+					}
+				}
+
+				&.active{
+					span i.like{
+						background-color: $redColor !important;
+						mask-position: -24px -48px;
+					}
+
+					span i.bookmark{
+						/*mask-position: -24px -144px;*/
+						mask-position: -20px -120px;
+					}
+				}
+			}
+
+			&.bookmark{
+				position: absolute;
+				margin: 0 3px 0 0;
+				right: 0;
+			}
+		}
+
+		.likers{
+			text-overflow: ellipsis;
+			box-sizing: border-box;
+			padding: 0 48px 0 12px;
+			white-space: nowrap;
+			font-weight: bold;
+			line-height: 40px;
+			overflow: hidden;
+			font-size: 13px;
+			display: block;
+			float: left;
+		}
+	}
+
 	/*Upload files*/
 	.uploadFilesBox{
 		box-sizing: border-box;
@@ -2757,73 +2846,6 @@ body{
 												opacity: .5;
 											}
 										}
-									}
-								}
-
-								.analytics{
-									box-sizing: border-box;
-									padding: 0 9px;
-									display: flex;
-									width: 100%;
-									float: left;
-
-									.buttonBox{
-										font-weight: bold;
-										line-height: 40px;
-										display: flex;
-										float: left;
-
-										button{
-											transition: .2s;
-
-											&:active{
-												transform: scale(.8);
-											}
-											
-											span{
-												margin: 6px auto;
-												display: flex;
-												width: 24px;
-
-												i{
-													background-color: $whiteColor;
-													mask-image: $spriteImages;
-													mask-repeat: no-repeat;
-													mask-size: 48px 192px;
-													height: 24px;
-													width: 24px;
-													float: left;
-
-													&.comments{
-														mask-position: 0 -72px;	
-													}
-
-													&.like{
-														mask-position: 0 -48px;
-													}
-												}
-											}
-
-											&.active{
-												span i.like{
-													background-color: $redColor;
-													mask-position: -24px -48px;
-												}
-											}
-										}
-									}
-
-									.likers{
-										text-overflow: ellipsis;
-										box-sizing: border-box;
-										white-space: nowrap;
-										font-weight: bold;
-										line-height: 40px;
-										overflow: hidden;
-										padding: 0 12px;
-										font-size: 13px;
-										display: block;
-										float: left;
 									}
 								}
 							}
@@ -6004,88 +6026,6 @@ body{
 										}
 									}
 								}
-
-								.analytics{
-									box-sizing: border-box;
-									padding: 6px 12px;
-									display: flex;
-									width: 100%;
-									float: left;
-
-									.buttonBox{
-										font-weight: bold;
-										line-height: 40px;
-										display: flex;
-										float: left;
-
-										button{
-											transition: .2s;
-
-											&:active{
-												transform: scale(.8);
-											}
-
-											span{
-												margin: 6px auto;
-												display: flex;
-												width: 24px;
-
-												i{
-													background-color: $blackColor;
-													mask-image: $spriteImages;
-													mask-repeat: no-repeat;
-													mask-size: 48px 192px;
-													height: 24px;
-													width: 24px;
-													float: left;
-
-													&.comments{
-														mask-position: 0 -72px;	
-													}
-
-													&.like{
-														mask-position: 0 -48px;
-													}
-
-													&.bookmark{
-														mask-position: 0 -144px;
-													}
-												}
-											}
-
-											&.active{
-												span i.like{
-													background-color: $redColor;
-													mask-position: -24px -48px;
-												}
-
-												span i.bookmark{
-													background-color: $whiteColor;
-													mask-position: -24px -144px;
-												}
-											}
-										}
-
-										&.bookmark{
-											position: absolute;
-											margin: 0 3px 0 0;
-											right: 0;
-										}
-									}
-
-									.likers{
-										text-overflow: ellipsis;
-										box-sizing: border-box;
-										padding: 0 48px 0 12px;
-										white-space: nowrap;
-										font-weight: bold;
-										line-height: 40px;
-										overflow: hidden;
-										font-size: 13px;
-										display: block;
-										float: left;
-									}
-								}
 							}
 
 							.ad{
@@ -7643,16 +7583,6 @@ body{
 														}
 													}
 												}
-											}
-										}
-									}
-								}
-
-								.analytics{
-									.buttonBox{
-										button span{
-											i{
-												background-color: $whiteColor;
 											}
 										}
 									}

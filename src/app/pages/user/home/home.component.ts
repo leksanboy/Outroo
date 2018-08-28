@@ -392,16 +392,21 @@ export class HomeComponent implements OnInit, OnDestroy {
 	// Bookmarks
 	markUnmark(item){
 		if (this.sessionData.current.id) {
-			item.marked = !item.marked;
+			item.bookmark.checked = !item.bookmark.checked;
 
 			// data
 			let data = {
-				id: item.id,
+				item: item.id,
+				id: item.bookmark.id,
 				user: this.sessionData.current.id,
-				type: item.marked ? 'mark' : 'unmark'
+				type: item.bookmark.checked ? 'add' : 'remove'
 			}
 
-			this.bookmarksDataService.markUnmark(data).subscribe();
+			this.bookmarksDataService.markUnmark(data)
+				.subscribe(res => {
+					if (res)
+						item.bookmark.id = res;
+				});
 		}
 	}
 

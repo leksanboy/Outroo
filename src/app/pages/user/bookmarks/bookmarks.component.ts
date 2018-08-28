@@ -218,53 +218,42 @@ export class BookmarksComponent implements OnInit, OnDestroy {
 	}
 
 	// Show publication
-	show(item) {
-		let data = item.name;
+	show(item, line, index) {
+		item.line = line;
+		item.index = index;
 
-		// if (item.type == 'photo') {
-		// 	this.photoDataService.getDataByName(item.name)
-		// 		.subscribe((res: any) => {
-		// 			this.location.go(this.router.url + '#photo');
+		let data = {
+			name: item.name,
+			session: this.sessionData.current.id
+		}
 
-		// 			let config = {
-		// 				disableClose: false,
-		// 				data: {
-		// 					comeFrom: 'photos',
-		// 					translations: this.translations,
-		// 					sessionData: this.sessionData,
-		// 					userData: (res ? res.user : null),
-		// 					item: (res ? res.data : null)
-		// 				}
-		// 			};
+		this.publicationsDataService.getDataByName(data)
+			.subscribe((res: any) => {
+				this.location.go(this.router.url + '#publication');
 
-		// 			// Open dialog
-		// 			let dialogRef = this.dialog.open(ShowPhotoComponent, config);
-		// 			dialogRef.afterClosed().subscribe((result: any) => {
-		// 				this.location.go('/' + this.userData.username + '/photos');
-		// 			});
-		// 		});
-		// } else if (item.type == 'publication') {
-			this.publicationsDataService.getDataByName(item.name)
-				.subscribe((res: any) => {
-					this.location.go(this.router.url + '#publication');
+				res.bookmark = item.marked ? item.bookmark : res.bookmark;
 
-					let config = {
-						disableClose: false,
-						data: {
-							comeFrom: 'publications',
-							translations: this.translations,
-							sessionData: this.sessionData,
-							userData: (res ? res.user : null),
-							item: (res ? res : null)
-						}
-					};
+				let config = {
+					disableClose: false,
+					data: {
+						comeFrom: 'publications',
+						translations: this.translations,
+						sessionData: this.sessionData,
+						userData: (res ? res.user : null),
+						item: (res ? res : null)
+					}
+				};
 
-					// Open dialog
-					let dialogRef = this.dialog.open(ShowPublicationComponent, config);
-					dialogRef.afterClosed().subscribe((result: any) => {
-						this.location.go(this.router.url);
-					});
+				// Open dialog
+				let dialogRef = this.dialog.open(ShowPublicationComponent, config);
+				dialogRef.afterClosed().subscribe((result: any) => {
+					// Set mark if is deleted
+					this.dataDefault.list[item.line][item.index].marked = result.marked;
+					this.dataDefault.list[item.line][item.index].bookmark = result.bookmark;
+
+					// Set url
+					this.location.go(this.router.url);
 				});
-		// }
+			});
 	}
 }

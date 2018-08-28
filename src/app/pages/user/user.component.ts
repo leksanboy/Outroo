@@ -821,9 +821,12 @@ export class UserComponent implements AfterViewInit {
 
 	// Show photo from url if is one
 	showNotification(item) {
-		if (item.url == 'photos') {
-			let data = item.contentData.name;
+		let data = {
+			name: item.contentData.name,
+			session: this.sessionData.current.id
+		}
 
+		if (item.url == 'photos') {
 			this.photoDataService.getDataByName(data)
 				.subscribe((res: any) => {
 					this.location.go(this.router.url + '#photo');
@@ -848,8 +851,6 @@ export class UserComponent implements AfterViewInit {
 					});
 				});
 		} else if (item.url == 'publications') {
-			let data = item.contentData.name;
-
 			this.publicationsDataService.getDataByName(data)
 				.subscribe((res: any) => {
 					this.location.go(this.router.url + '#publication');
