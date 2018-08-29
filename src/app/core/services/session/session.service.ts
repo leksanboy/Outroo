@@ -17,6 +17,7 @@ export class SessionService {
     private subjectSetDataShowPublication = new Subject<any>();
     private subjectSetDataShowPhoto = new Subject<any>();
     private subjectSetDataShowLikes = new Subject<any>();
+    private subjectClickElementRef = new Subject<any>();
 
     setData(data: string) {
         this.subjectSetData.next(data);
@@ -120,5 +121,13 @@ export class SessionService {
 
     getDataShowLikes(): Observable<any> {
         return this.subjectSetDataShowLikes.asObservable();
+    }
+
+    setDataClickElementRef(data: any) {
+        this.subjectClickElementRef.next(data);
+    }
+
+    getDataClickElementRef(): Observable<any> {
+        return this.subjectClickElementRef.asObservable();
     }
 }

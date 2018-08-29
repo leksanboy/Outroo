@@ -338,6 +338,10 @@
 								<mat-icon mat-list-icon>headset</mat-icon>
 								<h4 mat-line>{{translations.audios}}</h4>
 							</a>
+							<a mat-list-item (click)="scrollTop()" routerLink="/saved" routerLinkActive="selected">
+								<mat-icon mat-list-icon>bookmark</mat-icon>
+								<h4 mat-line>{{translations.bookmarks}}</h4>
+							</a>
 							<a mat-list-item (click)="scrollTop()" routerLink="/notifications" routerLinkActive="selected">
 								<mat-icon mat-list-icon>notifications</mat-icon>
 								<h4 mat-line>{{translations.notifications}}</h4>

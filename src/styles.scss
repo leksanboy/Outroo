@@ -913,12 +913,7 @@ body{
 						}
 
 						&.bookmark{
-							/*mask-position: 0 -144px;*/
-							mask-position: 0 -120px;
-							mask-size: 40px 160px;
-							margin: 0 2px;
-							height: 20px;
-							width: 20px;
+							mask-position: 0 -144px;
 						}
 					}
 				}
@@ -930,8 +925,7 @@ body{
 					}
 
 					span i.bookmark{
-						/*mask-position: -24px -144px;*/
-						mask-position: -20px -120px;
+						mask-position: -24px -144px;
 					}
 				}
 			}
@@ -7085,9 +7079,10 @@ body{
 						margin: 0;
 
 						.background{
+							background-color: $greyColor;
+							border-radius: 5px;
 							position: relative;
 							text-align: center;
-							border-radius: 5px;
 							width: 100%;
 
 							.image{

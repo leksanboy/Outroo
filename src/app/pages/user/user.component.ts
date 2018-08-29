@@ -269,6 +269,12 @@ export class UserComponent implements AfterViewInit {
 					this.copyToClipboard(data);
 				});
 
+			// Get href clicked
+			this.sessionService.getDataClickElementRef()
+				.subscribe(data => {
+					this.clickElementRef(data);
+				});
+
 			// Pressed back
 			this.platformLocation.onPopState(() => {
 				this.location.go(this.router.url);
@@ -456,6 +462,25 @@ export class UserComponent implements AfterViewInit {
 				this.dataNotifications.noMore = true;
 				// this.alertService.error(this.translations.anErrorHasOcurred);
 			});
+	}
+
+	// Listener click on href
+	clickElementRef(event){
+		if (event.target.className == 'mention') {
+			let user = event.target.innerText.substring(1);
+			this.router.navigate([user]);
+		} else if (event.target.className == 'hashtag') {
+			console.log("hashtag click ref", event);
+
+			// Close all dialogs
+			this.dialog.closeAll();
+
+			// Data
+			let hash = 'news/'+ event.target.innerText.substring(1);
+			this.router.navigate([hash]);
+		} else if (event.target.className == 'url') {
+			window.open(event.target.innerText, '_blank');
+		}
 	}
 
 	// Player buttons

@@ -59,6 +59,12 @@ const routes: Routes = [
 				path: 'news',
 				component: NewsComponent
 			},{
+				path: 'news/:name',
+				component: NewsComponent
+			},{
+				path: 'saved',
+				component: BookmarksComponent
+			},{
 				path: 'notifications',
 				component: NotificationsComponent
 			},{
@@ -82,9 +88,6 @@ const routes: Routes = [
 			},{
 				path: ':id/followers',
 				component: FollowersComponent
-			},{
-				path: ':id/bookmarks',
-				component: BookmarksComponent
 			}
 		]
 	},{

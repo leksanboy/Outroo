@@ -101,7 +101,7 @@
 							</div>
 						</button>
 					</li>
-					<li routerLink="/{{userData.username}}/bookmarks" *ngIf="sessionData.current.id == userData.id">
+					<li routerLink="/saved" *ngIf="sessionData.current.id == userData.id">
 						<button mat-button>
 							<div class="text">
 								{{userData.countBookmarks}}

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, ElementRef, Renderer } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
@@ -42,8 +42,10 @@ export class ShowPublicationComponent implements OnInit {
 	constructor(
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		public dialogRef: MatDialogRef<ShowPublicationComponent>,
-		private location: Location,
     	private _fb: FormBuilder,
+		private location: Location,
+    	private renderer: Renderer,
+    	private elementRef: ElementRef,
     	private alertService: AlertService,
     	private playerService: PlayerService,
     	private sessionService: SessionService,
@@ -56,6 +58,12 @@ export class ShowPublicationComponent implements OnInit {
 		this.sessionData = data.sessionData;
 		this.userData = data.userData;
 		this.data.current = data.item ? data.item : [];
+
+		// Click on a href
+		this.renderer.listen(this.elementRef.nativeElement, 'click', (event) => {
+			if (event.target.localName == 'a')
+				this.sessionService.setDataClickElementRef(event);
+		});
 
 		if (this.data.item) {
 			// Check if exists

@@ -154,17 +154,8 @@ export class MainComponent implements OnInit, OnDestroy {
 
 		// Click on a href
 		this.renderer.listen(this.elementRef.nativeElement, 'click', (event) => {
-			if (event.target.localName == 'a') {
-				if (event.target.className == 'mention') {
-					let user = event.target.innerText.substring(1);
-					this.router.navigate([user]);
-				} else if (event.target.className == 'hashtag') {
-					let hash = 'news/search=#'+ event.target.innerText.substring(1);
-					this.router.navigate([hash]);
-				} else if (event.target.className == 'url') {
-					window.open(event.target.innerText, '_blank');
-				}
-			}
+			if (event.target.localName == 'a')
+				this.sessionService.setDataClickElementRef(event);
 		});
 
 		// Load more on scroll on bottom

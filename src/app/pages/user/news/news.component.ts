@@ -29,12 +29,12 @@ export class NewsComponent implements OnInit, OnDestroy {
 	public sessionData: any = [];
 	public translations: any = [];
 	public dataDefault: any = [];
+	public dataHashtag: any = [];
 	public dataSearch: any = [];
-	public dataTop: any = [];
 	public dataPeople: any = [];
 	public dataPosts: any = [];
+	public dataTop: any = [];
 	public dataTag: any = [];
-	public dataHashtag: any = [];
 	public data: any = {
 		selectedIndex: 0,
 		active: 'default',
@@ -78,6 +78,9 @@ export class NewsComponent implements OnInit, OnDestroy {
 					// Go top of page on change user
 					window.scrollTo(0, 0);
 
+					// Get url data
+			    	let urlData: any = this.activatedRoute.snapshot;
+
 					// Set Google analytics
 					let urlGa =  '[' + this.sessionData.current.id + ']/news';
 					ga('set', 'page', urlGa);
@@ -88,6 +91,15 @@ export class NewsComponent implements OnInit, OnDestroy {
 
 					// Load default
 					this.default('default', this.sessionData.current.id);
+
+					// Redirected hashtag
+			    	if (urlData.params.name) {
+			    		this.data.newSearchCaption = urlData.params.name;
+			    		this.data.selectedIndex = 2;
+			    		this.search('default');
+
+			    		console.log("url name:", this.data);
+			    	}
 				}
 			});
 
