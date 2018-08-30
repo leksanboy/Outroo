@@ -5,8 +5,10 @@
 
 	$sql = "SELECT b.id, b.user, p.name, p.url_video as urlVideo, p.photos
 			FROM z_bookmarks b
-				INNER JOIN z_publications p ON p.id = b.post
-			WHERE b.user = $user AND b.is_deleted = 0 
+				INNER JOIN z_publications p ON p.id = b.post 
+			WHERE b.user = $user 
+				AND b.is_deleted = 0 
+				AND p.is_deleted = 0
 			ORDER BY b.id DESC 
 			LIMIT $more, $cuantity";
 	$result = $conn->query($sql);

@@ -43,7 +43,7 @@
 								</button>
 								<div class="progress" *ngIf="x.status=='progress'">
 									<mat-progress-spinner mode="determinate" [value]="x.progress"></mat-progress-spinner>
-									<div class="value">{{x.progress}}%</div>
+									<div class="value">{{x.progress ? x.progress : 1}}%</div>
 								</div>
 								<button mat-icon-button matTooltip="{{translations.errorOnUpload}}" *ngIf="x.status=='error'">
 									<mat-icon>cloud_off</mat-icon>

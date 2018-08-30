@@ -307,10 +307,12 @@
 	function countUserBookmarks($id){
 		global $conn;
 
-		$sql = "SELECT id
-				FROM z_bookmarks
-				WHERE user = $id 
-					AND is_deleted = 0";
+		$sql = "SELECT b.id
+				FROM z_bookmarks b
+					INNER JOIN z_publications p ON p.id = b.post 
+				WHERE b.user = $id 
+					AND b.is_deleted = 0
+					AND p.is_deleted = 0";
 		$result = $conn->query($sql);
 
 		return $result->num_rows;
@@ -513,6 +515,7 @@
 		if ($result) {
 			$result['user'] = userUsernameNameAvatar($result['user']);
 			$result['content'] = html_entity_decode($result['content'], ENT_QUOTES);
+			$result['bookmark'] = array('id' => null, 'checked' => false);
 			$result['likers'] = getPublicationLikers($result['id']);
 			$result['disabledComments'] = ($result['disabledComments'] == 0) ? true : false;
 			$result['countComments'] = countCommentsPublication($result['id']);
@@ -596,7 +599,7 @@
 
 		$sql = "SELECT id
 				FROM z_bookmarks
-				WHERE post = '$publication' 
+				WHERE post = $publication 
 					AND user = $user
 					AND is_deleted = 0";
 		$result = $conn->query($sql)->fetch_assoc();

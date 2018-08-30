@@ -322,7 +322,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
 			this.dataFiles.actions = false;
 			let self = this;
 
-			const ajaxCall = function(file, formdata, ajax){
+			const ajaxCall = function(file, formdata, ajax) {
 				formdata.append("fileUpload", file);
 				formdata.append("user", file.user);
 				formdata.append("category", file.category);
@@ -368,12 +368,14 @@ export class PhotosComponent implements OnInit, OnDestroy {
 				counterHandler();
 			}
 
-			const counterHandler = function(){
+			const counterHandler = function() {
 				self.dataFiles.counter = self.dataFiles.counter+1;
 				self.dataFiles.reload = (self.dataFiles.list.length == self.dataFiles.counter) ? true : false;
 			}
 
 			for (let i in this.dataFiles.list) {
+				this.dataFiles.list[i].status = 'progress';
+
 				let file = this.dataFiles.list[i],
 					formdata = new FormData(),
 					ajax = new XMLHttpRequest();
