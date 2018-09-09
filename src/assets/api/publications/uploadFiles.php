@@ -100,23 +100,23 @@
 
 		// Upload video physically
 		if(move_uploaded_file($fileTmpLoc, $locationFolder)){
-			if ($fileType != 'video/mp4') {
+			if ($fileType != 'video/mp4') { // Other format video
 				// Transform video (to .mp4)
 				exec("ffmpeg -i $locationPathVideos/$fileName $locationPathVideos/$fileNameMp4");
-
+				
 				// Get video duration
 				$duration = exec("ffprobe $locationPathVideos/$fileNameMp4 -show_format 2>&1 | sed -n 's/duration=//p'");
-
+				
 				// Get video poster
 				$frameTime = intval($duration/4);
-				exec("ffmpeg -i $locationPathVideos/$fileNameMp4 -ss $frameTime -s 320x240 -vframes 1 $locationPathVideos/thumbnails/$fileNameJpg");
-			} else {
+				exec("ffmpeg -i $locationPathVideos/$fileNameMp4 -ss $frameTime -s:v:1 320x240 -vframes 1 $locationPathVideos/thumbnails/$fileNameJpg");
+			} else { // MP4
 				// Get video duration
 				$duration = exec("ffprobe $locationPathVideos/$fileNameMp4 -show_format 2>&1 | sed -n 's/duration=//p'");
-
+				
 				// Get video poster
 				$frameTime = intval($duration/4);
-				exec("ffmpeg -i $locationPathVideos/$fileNameMp4 -ss $frameTime -s 480x480 -vframes 1 $locationPathVideos/thumbnails/$fileNameJpg");
+				exec("ffmpeg -i $locationPathVideos/$fileNameMp4 -ss $frameTime -s:v:1 320x240 -vframes 1 $locationPathVideos/thumbnails/$fileNameJpg");
 			}
 
 			// Video duration

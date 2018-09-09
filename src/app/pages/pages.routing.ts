@@ -1,16 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { AboutComponent } from './web/about/about.component';
-import { ConfirmEmailComponent } from './web/confirm-email/confirm-email.component';
-import { ErrorComponent } from './web/error/error.component';
-import { ForgotPasswordComponent } from './web/forgot-password/forgot-password.component';
-import { PrivacyComponent } from './web/privacy/privacy.component';
-import { ResetPasswordComponent } from './web/reset-password/reset-password.component';
-import { SigninComponent } from './web/signin/signin.component';
-import { SignupComponent } from './web/signup/signup.component';
-import { SupportComponent } from './web/support/support.component';
-
 import { AudiosComponent } from './user/audios/audios.component';
 import { BookmarksComponent } from './user/bookmarks/bookmarks.component';
 import { FollowersComponent } from './user/followers/followers.component';
@@ -26,28 +16,31 @@ import { UserComponent } from './user/user.component';
 const routes: Routes = [
 	{
 		path: 'about',
-		component: AboutComponent
+		loadChildren: './web/about/about.module#AboutModule'
 	},{
 		path: 'confirm-email/:code',
-		component: ConfirmEmailComponent
+		loadChildren: './web/confirm-email/confirm-email.module#ConfirmEmailModule'
 	},{
 		path: 'forgot-password',
-		component: ForgotPasswordComponent
+		loadChildren: './web/forgot-password/forgot-password.module#ForgotPasswordModule'
 	},{
 		path: 'privacy',
-		component: PrivacyComponent
+		loadChildren: './web/privacy/privacy.module#PrivacyModule'
 	},{
 		path: 'reset-password/:code',
-		component: ResetPasswordComponent
+		loadChildren: './web/reset-password/reset-password.module#ResetPasswordModule'
 	},{
 		path: 'signin',
-		component: SigninComponent
+		loadChildren: './web/signin/signin.module#SigninModule'
 	},{
 		path: 'signup',
-		component: SignupComponent
+		loadChildren: './web/signup/signup.module#SignupModule'
 	},{
 		path: 'support',
-		component: SupportComponent
+		loadChildren: './web/support/support.module#SupportModule'
+	},{
+		path: 'logout',
+		loadChildren: './web/logout/logout.module#LogoutModule'
 	},{
 		path: '',
 		component: UserComponent,
@@ -92,31 +85,22 @@ const routes: Routes = [
 		]
 	},{
 		path: '**',
-		component: ErrorComponent
+		loadChildren: './web/error/error.module#ErrorModule'
 	}
 ];
 
 export const routableComponents = [
-		AboutComponent,
-		AudiosComponent,
-		BookmarksComponent,
-		ConfirmEmailComponent,
-		ErrorComponent,
-		FollowersComponent,
-		FollowingComponent,
-		ForgotPasswordComponent,
-		HomeComponent,
-		MainComponent,
-		NewsComponent,
-		NotificationsComponent,
-		PhotosComponent,
-		PrivacyComponent,
-		ResetPasswordComponent,
-		SettingsComponent,
-		SigninComponent,
-		SignupComponent,
-		SupportComponent,
-		UserComponent
+	AudiosComponent,
+	BookmarksComponent,
+	FollowersComponent,
+	FollowingComponent,
+	HomeComponent,
+	MainComponent,
+	NewsComponent,
+	NotificationsComponent,
+	PhotosComponent,
+	SettingsComponent,
+	UserComponent
 ];
 
 @NgModule({

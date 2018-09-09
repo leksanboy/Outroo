@@ -954,9 +954,6 @@ export class UserComponent implements AfterViewInit {
 
 	// Set session
 	setCurrentUser(data){
-		console.log("this.sessionData", this.sessionData);
-		console.log("data", data);
-
 		if (this.sessionData.current.id != data.id) {
 			// Dark/White theme
 			if (data.theme)
@@ -1001,21 +998,17 @@ export class UserComponent implements AfterViewInit {
 	// Close session
 	closeSession(data){
 		if (this.sessionData.sessions.length == 1) {
+			this.playTrack('stop', null);
 			this.document.body.classList.remove('darkTheme');
-			this.router.navigate(['signin']);
+			this.userDataService.logout();
+			this.router.navigate(['logout']);
 		} else {
 			for (var i in this.sessionData.sessions)
 				if (this.sessionData.sessions[i].id == data.id)
 					this.sessionData.sessions.splice(i, 1);
 
-			// if (data.id != this.sessionData.sessions[0].id)
-				// this.sessionData.current = this.sessionData.sessions[0];
-
 			// Set different account and check if is not set and deleted
 			this.setCurrentUser(this.sessionData.sessions[0]);
-
-			// Set session data
-			// this.userDataService.setSessionData('data', this.sessionData);
 		}
 	}
 

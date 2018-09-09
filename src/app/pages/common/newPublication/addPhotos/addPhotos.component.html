@@ -21,9 +21,10 @@
 				<li mat-ripple *ngFor="let x of data.list; let i=index;" (click)="toggleItem(x)">
 					<div class="image">
 						<div class="img" [ngStyle]="{'background-image': 'url(' + ((x.mimetype.indexOf('image') !== -1) ? environment.pathPhotos : environment.pathVideos) + 'thumbnails/' + x.name + ')'}"></div>
-						
+
 						<div class="category">
-							<mat-icon *ngIf="x.type=='video'">videocam</mat-icon>
+							<mat-icon *ngIf="x.mimetype.indexOf('video') !== -1">videocam</mat-icon>
+							<mat-icon *ngIf="x.mimetype.indexOf('image/gif') !== -1" class="gif">gif</mat-icon>
 						</div>
 
 						<div class="status">

@@ -51,13 +51,17 @@
 
 				<div class="photos" *ngIf="data.current.photos">
 					<span *ngIf="data.current.photos.length == 1">
-						<div *ngFor="let p of data.current.photos">
-							<img *ngIf="p.mimetype.indexOf('image') !== -1" [src]="environment.pathPhotos + p.name">
+						<img *ngIf="data.current.photos[0].mimetype.indexOf('image') !== -1" [src]="environment.pathPhotos + data.current.photos[0].name">
 
-							<video *ngIf="p.mimetype.indexOf('video') !== -1" width="100%" height="auto" poster="{{environment.pathVideos + 'thumbnails/' + p.name}}" preload="yes" controls="true">
-								<source src="{{environment.pathVideos + p.name.split('.')[0] + '.mp4'}}" type="video/mp4">
-							</video>
-						</div>
+						<video *ngIf="data.current.photos[0].mimetype.indexOf('video') !== -1" #videoPlayer width="100%" height="auto" poster="{{environment.pathVideos + 'thumbnails/' + data.current.photos[0].name}}">
+							<source src="{{environment.pathVideos + data.current.photos[0].name.split('.')[0] + '.mp4'}}" type="video/mp4">
+						</video>
+
+						<span *ngIf="data.current.photos[0].mimetype.indexOf('video') !== -1">
+							<div class="playPause" (click)="playVideo('play')" *ngIf="!data.current.playButton">
+								<mat-icon>play_arrow</mat-icon>
+							</div>
+						</span>
 					</span>
 
 					<swiper *ngIf="data.current.photos.length > 1" [config]="swiperConfig">
@@ -70,6 +74,12 @@
 										<video *ngIf="p.mimetype.indexOf('video') !== -1" width="100%" height="auto" poster="{{environment.pathVideos + 'thumbnails/' + p.name}}" preload="yes" controls="true">
 											<source src="{{environment.pathVideos + p.name.split('.')[0] + '.mp4'}}" type="video/mp4">
 										</video>
+
+										<span *ngIf="p.mimetype.indexOf('video') !== -1">
+											<div class="playPause" (click)="playVideo('play')" *ngIf="!p.playButton">
+												<mat-icon>play_arrow</mat-icon>
+											</div>
+										</span>
 									</div>
 								</div>
 							</div>
@@ -173,7 +183,6 @@
 								<button mat-icon-button (click)="showComments('showHide', data.current)">
 									<i class="comments"></i>
 								</button>
-								{{data.current.disabledComments ? data.current.countComments : ''}}
 							</div>
 							
 							<div class="buttonBox">
@@ -200,6 +209,11 @@
 
 					<div class="boxComments" *ngIf="isMobileScreen ? data.current.showCommentsBox : !data.current.showCommentsBox">
 						<div class="comments" *ngIf="data.current.disabledComments">
+							<div class="countComments">
+								{{data.current.countComments}} 
+								{{translations.comments}}
+							</div>
+
 							<div class="new" *ngIf="sessionData.current.id">
 								<div class="avatar">
 									<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>

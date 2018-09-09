@@ -25,7 +25,7 @@ export class ResetPasswordComponent implements OnInit {
     public showPassword: boolean;
     public showConfirmPassword: boolean;
     public userData: any = [];
-    public pageStatus: string;
+    public pageStatus: string = 'default';
     public recaptcha: boolean;
     public reCaptchaExists: boolean;
     public translations: any = [];
@@ -64,7 +64,7 @@ export class ResetPasswordComponent implements OnInit {
             if (!this.reCaptchaExists)
                 this.alertService.warning(this.translations.reloadPage);
         }, 1200);
-        
+
         // Get url data
         let urlData: any = this.activatedRoute.snapshot;
         let data = {
@@ -72,16 +72,16 @@ export class ResetPasswordComponent implements OnInit {
         }
 
         this.userDataService.resetPassword(data)
-			.subscribe(
-				(res: any) => {
+            .subscribe(
+                (res: any) => {
                     this.userData = res;
                     this.userData.code = data.code;
                     this.pageStatus = 'default';
-				},
-				error => {
+                },
+                error => {
                     this.pageStatus = 'error';
-				}
-			);
+                }
+            );
     }
 
 	ngOnInit() {

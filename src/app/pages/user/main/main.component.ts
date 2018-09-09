@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/platform-browser';
-import { Component, AfterViewInit, OnInit, OnDestroy, Inject, ElementRef, Renderer } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, OnInit, OnDestroy, Inject, ElementRef, Renderer } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { Location } from '@angular/common';
@@ -73,6 +73,17 @@ export class MainComponent implements OnInit, OnDestroy {
 		private publicationsDataService: PublicationsDataService,
 		private notificationsDataService: NotificationsDataService
 	) {
+		//////////
+		// META //
+		//////////
+		console.log("constructor", new Date());
+
+		// Get url data
+		let urlData: any = this.activatedRoute.snapshot.params.id;
+		
+		// Get user data
+		this.siteUserData(urlData);
+
 		// Get session data
 		this.sessionData = this.userDataService.getSessionData();
 
@@ -202,6 +213,9 @@ export class MainComponent implements OnInit, OnDestroy {
 	siteUserData(id){
 		this.userDataService.getUserData(id)
 			.subscribe(res => {
+				console.log("siteUserData", res);
+				console.log("siteUserData", new Date());
+
 				if (res) {
 					this.userExists = true;
 					this.userData = res;
@@ -322,6 +336,20 @@ export class MainComponent implements OnInit, OnDestroy {
 				this.translations = data;
 			});
 	}
+
+	// Play video
+    playVideo(item, player){
+    	player = document.getElementById(player);
+    	player.load();
+    	player.play();
+    	item.playButton = true;
+
+    	player.addEventListener('ended', myHandler, false);
+
+    	function myHandler(e) {
+    		item.playButton = false;
+	    }
+    }
 
 	// Default
 	default(type, user, session) {

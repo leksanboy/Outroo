@@ -2,7 +2,7 @@
 	<div class="header">
 		<div class="back" routerLink="/">
 			<button mat-icon-button>
-				<mat-icon>arrow_back</mat-icon>
+				<i label="back"></i>
 			</button>
 		</div>
 		<div class="center">
@@ -10,7 +10,7 @@
 		</div>
 		<div class="actions" *ngIf="!reCaptchaExists">
 			<button mat-icon-button (click)="refreshPage()">
-				<mat-icon>refresh</mat-icon>
+				<i label="refresh"></i>
 			</button>
 		</div>
 	</div>

@@ -91,7 +91,6 @@
 								<button mat-icon-button (click)="showComments('showHide', data.current)">
 									<i class="comments"></i>
 								</button>
-								{{data.current.disabledComments ? data.current.countComments : ''}}
 							</div>
 							
 							<div class="buttonBox">
@@ -112,6 +111,11 @@
 
 					<div class="boxComments" *ngIf="isMobileScreen ? data.current.showCommentsBox : !data.current.showCommentsBox">
 						<div class="comments" *ngIf="data.current.disabledComments">
+							<div class="countComments">
+								{{data.current.countComments}} 
+								{{translations.comments}}
+							</div>
+
 							<div class="new" *ngIf="sessionData.current.id">
 								<div class="avatar">
 									<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>

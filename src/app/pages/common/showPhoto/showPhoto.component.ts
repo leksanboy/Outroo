@@ -97,6 +97,7 @@ export class ShowPhotoComponent implements OnInit {
     	this.defaultComments('default', this.data.current);
     }
 
+    // Play video
     playVideo(type){
     	if (type == 'load') {
     		if (this.data.current.mimetype.indexOf('video') !== -1) {

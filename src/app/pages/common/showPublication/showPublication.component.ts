@@ -21,7 +21,6 @@ import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
 	providers: [ TimeagoPipe, SafeHtmlPipe ]
 })
 export class ShowPublicationComponent implements OnInit {
-	@ViewChild('videoPlayer') videoPlayer: any;
 	public environment: any = environment;
 	public sessionData: any = [];
 	public userData: any = [];
@@ -83,6 +82,20 @@ export class ShowPublicationComponent implements OnInit {
 	ngOnInit() {
 		// not in use
 	}
+
+	// Play video
+    playVideo(item, player){
+    	player = document.getElementById(player);
+    	player.load();
+    	player.play();
+    	item.playButton = true;
+
+    	player.addEventListener('ended', myHandler, false);
+
+    	function myHandler(e) {
+    		item.playButton = false;
+	    }
+    }
 
     // Replays +1
 	updateReplays(id, user) {

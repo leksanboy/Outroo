@@ -165,6 +165,20 @@ export class HomeComponent implements OnInit, OnDestroy {
 			});
 	}
 
+	// Play video
+    playVideo(item, player){
+    	player = document.getElementById(player);
+    	player.load();
+    	player.play();
+    	item.playButton = true;
+
+    	player.addEventListener('ended', myHandler, false);
+
+    	function myHandler(e) {
+    		item.playButton = false;
+	    }
+    }
+
 	// Default
 	default(type, user, session) {
 		if (type == 'default') {

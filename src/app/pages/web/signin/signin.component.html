@@ -2,7 +2,7 @@
 	<div class="header">
 		<div class="back" routerLink="/">
 			<button mat-icon-button>
-				<mat-icon>arrow_back</mat-icon>
+				<i label="back"></i>
 			</button>
 		</div>
 		<div class="center">
@@ -10,7 +10,7 @@
 		</div>
 		<div class="actions" *ngIf="!reCaptchaExists">
 			<button mat-icon-button (click)="refreshPage()">
-				<mat-icon>refresh</mat-icon>
+				<i label="refresh"></i>
 			</button>
 		</div>
 	</div>
@@ -31,8 +31,7 @@
 					<mat-form-field>
 						<input type="password" matInput placeholder="Password" #Password maxlength="100" formControlName="password">
 						<button type="button" *ngIf="Password.value.length > 0" mat-button matSuffix mat-icon-button (click)="showPassword=!showPassword">
-							<mat-icon *ngIf="!showPassword">visibility</mat-icon>
-							<mat-icon *ngIf="showPassword">visibility_off</mat-icon>
+							<i [ngClass]="{'show': showPassword}" label="visibility"></i>
 						</button>
 						<mat-hint align="end">{{Password.value.length}}/100</mat-hint>
 					</mat-form-field>

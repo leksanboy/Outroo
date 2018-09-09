@@ -53,13 +53,17 @@
 
 							<div class="photos" *ngIf="x.photos">
 								<span *ngIf="x.photos.length == 1">
-									<div *ngFor="let p of x.photos">
-										<img *ngIf="p.mimetype.indexOf('image') !== -1" [src]="environment.pathPhotos + p.name">
+									<img *ngIf="x.photos[0].mimetype.indexOf('image') !== -1" [src]="environment.pathPhotos + x.photos[0].name">
 
-										<video *ngIf="p.mimetype.indexOf('video') !== -1" width="100%" height="auto" poster="{{environment.pathVideos + 'thumbnails/' + p.name}}" preload="yes" controls="true">
-											<source src="{{environment.pathVideos + p.name.split('.')[0] + '.mp4'}}" type="video/mp4">
-										</video>
-									</div>
+									<video *ngIf="x.photos[0].mimetype.indexOf('video') !== -1" attr.id="videoPlayer{{x.id}}" width="100%" height="auto" poster="{{environment.pathVideos + 'thumbnails/' + x.photos[0].name}}">
+										<source src="{{environment.pathVideos + x.photos[0].name.split('.')[0] + '.mp4'}}" type="video/mp4">
+									</video>
+
+									<span *ngIf="x.photos[0].mimetype.indexOf('video') !== -1">
+										<div class="playPause" (click)="playVideo(x.photos[0], 'videoPlayer' + x.id)" *ngIf="!x.photos[0].playButton">
+											<mat-icon>play_arrow</mat-icon>
+										</div>
+									</span>
 								</span>
 
 								<swiper *ngIf="x.photos.length > 1" [config]="swiperConfig">
@@ -68,10 +72,16 @@
 											<div class="slide">
 												<div class="image">
 													<div class="img" *ngIf="p.mimetype.indexOf('image') !== -1" [ngStyle]="{'background-image': 'url(' + environment.pathPhotos + p.name + ')'}"></div>
-													
-													<video *ngIf="p.mimetype.indexOf('video') !== -1" width="100%" height="auto" poster="{{environment.pathVideos + 'thumbnails/' + p.name}}" preload="yes" controls="true">
+
+													<video *ngIf="p.mimetype.indexOf('video') !== -1" attr.id="videoPlayer{{p.id}}" width="100%" height="auto" poster="{{environment.pathVideos + 'thumbnails/' + p.name}}">
 														<source src="{{environment.pathVideos + p.name.split('.')[0] + '.mp4'}}" type="video/mp4">
 													</video>
+
+													<span *ngIf="p.mimetype.indexOf('video') !== -1">
+														<div class="playPause" (click)="playVideo(p, 'videoPlayer' + p.id)" *ngIf="!p.playButton">
+															<mat-icon>play_arrow</mat-icon>
+														</div>
+													</span>
 												</div>
 											</div>
 										</div>
@@ -148,7 +158,6 @@
 									<button mat-icon-button (click)="showComments('showHide', x)">
 										<i class="comments"></i>
 									</button>
-									{{x.disabledComments ? x.countComments : ''}}
 								</div>
 								
 								<div class="buttonBox">
@@ -174,6 +183,11 @@
 
 							<div class="boxComments" *ngIf="x.showCommentsBox">
 								<div class="comments" *ngIf="x.disabledComments && x.loaded">
+									<div class="countComments">
+										{{x.countComments}} 
+										{{translations.comments}}
+									</div>
+
 									<div class="new" *ngIf="sessionData.current.id">
 										<div class="avatar">
 											<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>

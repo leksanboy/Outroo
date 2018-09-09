@@ -20,8 +20,7 @@
 					<mat-form-field>
 						<input type="{{showPassword ? 'text' : 'password'}}" matInput placeholder="Password" #Password maxlength="100"  formControlName="password">
 						<button type="button" class="noLength" *ngIf="Password.value.length > 0" mat-button matSuffix mat-icon-button (click)="showPassword=!showPassword">
-							<mat-icon *ngIf="!showPassword">visibility</mat-icon>
-							<mat-icon *ngIf="showPassword">visibility_off</mat-icon>
+							<i [ngClass]="{'show': showPassword}" label="visibility"></i>
 						</button>
 					</mat-form-field>
 

@@ -2,7 +2,7 @@
 	<div class="header">
 		<div class="back" routerLink="/">
 			<button mat-icon-button>
-				<mat-icon>arrow_back</mat-icon>
+				<i label="back"></i>
 			</button>
 		</div>
 		<div class="center">
@@ -10,7 +10,7 @@
 		</div>
 		<div class="actions" *ngIf="!reCaptchaExists">
 			<button mat-icon-button (click)="refreshPage()">
-				<mat-icon>refresh</mat-icon>
+				<i label="refresh"></i>
 			</button>
 		</div>
 	</div>
@@ -26,9 +26,15 @@
 					<mat-form-field>
 						<input type="text" matInput placeholder="Username" #Username maxlength="100" formControlName="username">
 						<div class="validators">
-							<div class="done" *ngIf="validatorUsername == 'done'"><mat-icon>check</mat-icon></div>
-							<div class="bad" *ngIf="validatorUsername == 'bad'"><mat-icon>clear</mat-icon></div>
-							<div class="load" *ngIf="validatorUsername == 'load'"><mat-progress-spinner mode="indeterminate"></mat-progress-spinner></div>
+							<div class="done" *ngIf="validatorUsername == 'done'">
+								<i label="check"></i>
+							</div>
+							<div class="bad" *ngIf="validatorUsername == 'bad'">
+								<i label="clear"></i>
+							</div>
+							<div class="load" *ngIf="validatorUsername == 'load'">
+								<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+							</div>
 						</div>
 						<mat-hint align="end">{{Username.value.length}}/100</mat-hint>
 					</mat-form-field>
@@ -41,8 +47,12 @@
 					<mat-form-field>
 						<input type="email" matInput placeholder="Email" #Email maxlength="100" formControlName="email">
 						<div class="validators">
-							<div class="done" *ngIf="validatorEmail == 'done'"><mat-icon>check</mat-icon></div>
-							<div class="bad" *ngIf="validatorEmail == 'bad'"><mat-icon>clear</mat-icon></div>
+							<div class="done" *ngIf="validatorEmail == 'done'">
+								<i label="check"></i>
+							</div>
+							<div class="bad" *ngIf="validatorEmail == 'bad'">
+								<i label="clear"></i>
+							</div>
 							<div class="load" *ngIf="validatorEmail == 'load'"><mat-progress-spinner mode="indeterminate"></mat-progress-spinner></div>
 						</div>
 						<mat-hint align="end">{{Email.value.length}}/100</mat-hint>
@@ -51,8 +61,7 @@
 					<mat-form-field>
 						<input type="{{showPassword ? 'text' : 'password'}}" matInput placeholder="Password" #Password maxlength="100" formControlName="password">
 						<button type="button" *ngIf="Password.value.length > 0" mat-button matSuffix mat-icon-button (click)="showPassword=!showPassword">
-							<mat-icon *ngIf="!showPassword">visibility</mat-icon>
-							<mat-icon *ngIf="showPassword">visibility_off</mat-icon>
+							<i [ngClass]="{'show': showPassword}" label="visibility"></i>
 						</button>
 						<mat-hint align="end">{{Password.value.length}}/100</mat-hint>
 					</mat-form-field>

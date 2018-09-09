@@ -114,6 +114,7 @@ body{
 		}
 	}
 
+	/*#, @, url*/
 	.hashtag,
 	.mention,
 	.url{
@@ -267,7 +268,24 @@ body{
 		}
 
 		button{
+			border-radius: 50% !important;
 			margin: 0 40px 0 0;
+
+			i{
+				mask-size: 32px calc(32px * 15);
+				background-color: $greyColor;
+				mask-image: $spriteImages;
+				mask-position: 0 -144px;
+				mask-repeat: no-repeat;
+				display: inline-block;
+				height: 16px;
+				width: 16px;
+				margin: 0;
+
+				&.show{
+					mask-position: -16px -144px;
+				}
+			}
 
 			.mat-icon{
 				color: transparentize($fontBlackColor, .46);
@@ -300,16 +318,23 @@ body{
 
 			.done,
 			.bad{
-				mat-icon{
-					color: $blueColor;
-					font-weight: bold;
-					font-size: 16px;
+				i{
+					mask-size: 32px calc(32px * 15);
+					background-color: $blueColor;
+					mask-image: $spriteImages;
+					mask-position: 0 -352px;
+					mask-repeat: no-repeat;
+					display: inline-block;
+					height: 16px;
+					width: 16px;
+					margin: 0;
 				}
 			}
 
 			.bad{
-				mat-icon{
-					color: $redColor;
+				i{
+					background-color: $redColor;
+					mask-position: -16px -352px;
 				}
 			}
 
@@ -663,6 +688,14 @@ body{
 			width: 100%;
 			float: left;
 
+			.countComments{
+				padding: 4px 0 12px 0;
+				font-weight: bold;
+				font-size: 15px;
+				width: 100%;
+				float: left;
+			}
+
 			.new{
 				background: transparentize($greyColor, .75);
 				box-sizing: border-box;
@@ -740,11 +773,11 @@ body{
 						margin: 0;
 
 						i{
+							mask-size: 36px calc(36px * 15);
 							background-color: $blueColor;
 							mask-position: -18px -90px;
 							mask-image: $spriteImages;
 							mask-repeat: no-repeat;
-							mask-size: 36px 144px;
 							display: block;
 							height: 18px;
 							width: 18px;
@@ -816,11 +849,11 @@ body{
 									width: 24px;
 
 									i{
+										mask-size: 24px calc(24px * 15);
 										background-color: $greyColor;
 										mask-image: $spriteImages;
 										mask-position: 0 -60px;
 										mask-repeat: no-repeat;
-										mask-size: 24px 96px;
 										margin: 0 0 0 6px;
 										display: block;
 										height: 12px;
@@ -896,10 +929,10 @@ body{
 					width: 24px;
 
 					i{
+						mask-size: 48px calc(48px * 15);
 						background-color: currentColor;
 						mask-image: $spriteImages;
 						mask-repeat: no-repeat;
-						mask-size: 48px 192px;
 						height: 24px;
 						width: 24px;
 						float: left;
@@ -951,6 +984,11 @@ body{
 		}
 	}
 
+	/*Song*/
+	.audioItem{
+		/*TODO*/
+	}
+
 	/*Upload files*/
 	.uploadFilesBox{
 		box-sizing: border-box;
@@ -982,12 +1020,12 @@ body{
 						float: left;
 
 						i{
+							mask-size: 64px calc(64px * 15);
 							background-color: currentColor;
 							mask-position: -32px -96px;
 							mask-image: $spriteImages;
 							mask-repeat: no-repeat;
 							display: inline-block;
-							mask-size: 64px 256px;
 							height: 32px;
 							width: 32px;
 							margin: 0;
@@ -1168,6 +1206,13 @@ body{
 						display: inline-block;
 						height: 100%;
 						width: 100%;
+					}
+
+					.vid{
+						video{
+							background-color: $blackColor;
+							width: 100%;
+						}
 					}
 				}
 
@@ -1430,10 +1475,10 @@ body{
 				font-weight: bold;
 
 				.logo{
+					mask-size: 48px calc(48px * 15);
 					background-color: $blackColor;
 					mask-image: $spriteImages;
 					mask-repeat: no-repeat;
-					mask-size: 48px 192px;
 					display: inline-block;
 					mask-position: 0 0;
 					height: 48px;
@@ -2442,11 +2487,11 @@ body{
 								border-radius: 50% !important;
 
 								i{
+									mask-size: 28px calc(28px * 15);
 									background-color: $whiteColor;
 									mask-image: $spriteImages;
 									mask-position: 0 -70px;
 									mask-repeat: no-repeat;
-									mask-size: 28px 112px;
 									margin: 0 0 0 12px;
 									display: block;
 									height: 14px;
@@ -2562,8 +2607,9 @@ body{
 						margin: 0;
 
 						.photos{
-							width: 100%;
+							background: $blackColor;
 							float: left;
+							width: 100%;
 
 							img,
 							video{
@@ -2645,7 +2691,7 @@ body{
 
 							.panel{
 								box-sizing: border-box;
-								padding: 12px 0;
+								padding: 12px 0 0;
 								width: 100%;
 								float: left;
 
@@ -2935,11 +2981,11 @@ body{
 
 									i{
 										background-color: $officialColor;
+										mask-size: 24px calc(24px * 15);
 										mask-image: $spriteImages;
 										mask-position: 0 -48px;
 										mask-repeat: no-repeat;
 										display: inline-block;
-										mask-size: 24px 96px;
 										margin: 0 0 -1px 0;
 										height: 12px;
 										width: 12px;
@@ -3240,11 +3286,11 @@ body{
 
 							i{
 								background-color: $officialColor;
+								mask-size: 24px calc(24px * 15);
 								mask-image: $spriteImages;
 								mask-position: 0 -48px;
 								mask-repeat: no-repeat;
 								display: inline-block;
-								mask-size: 24px 96px;
 								margin: 0 0 -1px 0;
 								height: 12px;
 								width: 12px;
@@ -3663,11 +3709,11 @@ body{
 													display: inherit;
 
 													i{
+														mask-size: 28px calc(28px * 15);
 														background-color: $blackColor;
 														mask-image: $spriteImages;
 														mask-position: 0 -70px;
 														mask-repeat: no-repeat;
-														mask-size: 28px 112px;
 														margin: 11px 0 0;
 														display: block;
 														height: 14px;
@@ -4120,12 +4166,12 @@ body{
 									height: 18px;
 
 									i{
+										mask-size: 24px calc(24px * 15);
 										background-color: currentColor;
 										mask-image: $spriteImages;
 										mask-position: 0 -48px;
 										mask-repeat: no-repeat;
 										display: inline-block;
-										mask-size: 24px 96px;
 										height: 12px;
 										width: 12px;
 										bottom: 0;
@@ -4316,11 +4362,11 @@ body{
 								margin: 0;
 
 								i{
+									mask-size: 36px calc(36px * 15);
 									background-color: $blueColor;
 									mask-position: -18px -90px;
 									mask-image: $spriteImages;
 									mask-repeat: no-repeat;
-									mask-size: 36px 144px;
 									display: block;
 									height: 18px;
 									width: 18px;
@@ -4443,6 +4489,18 @@ body{
 					border-radius: 50% !important;
 					margin: 8px;
 					float: left;
+
+					i{
+						mask-size: 48px calc(48px * 15);
+						background-color: $blackColor;
+						mask-image: $spriteImages;
+						mask-position: 0 -240px;
+						mask-repeat: no-repeat;
+						display: inline-block;
+						height: 24px;
+						width: 24px;
+						margin: 8px;
+					}
 				}
 			}
 
@@ -4454,11 +4512,11 @@ body{
 				z-index: -1;
 
 				.logo{
+					mask-size: 24px calc(24px * 15);
 					background-color: $blackColor;
 					mask-image: $spriteImages;
 					mask-repeat: no-repeat;
 					display: inline-block;
-					mask-size: 24px 96px;
 					mask-position: 0 0;
 					margin: 16px 0 0;
 					height: 24px;
@@ -4475,6 +4533,18 @@ body{
 					border-radius: 50% !important;
 					margin: 8px;
 					float: left;
+
+					i{
+						mask-size: 48px calc(48px * 15);
+						background-color: $blackColor;
+						mask-image: $spriteImages;
+						mask-position: 0 -480px;
+						mask-repeat: no-repeat;
+						display: inline-block;
+						height: 24px;
+						width: 24px;
+						margin: 8px;
+					}
 				}
 			}
 		}
@@ -4766,13 +4836,14 @@ body{
 					z-index: -1;
 
 					.logo{
+						mask-size: 24px calc(24px * 15);
 						background-color: $blackColor;
 						mask-image: $spriteImages;
 						mask-repeat: no-repeat;
 						display: inline-block;
-						mask-size: 24px 96px;
 						mask-position: 0 0;
 						margin: 16px 0 0;
+						cursor: pointer;
 						height: 24px;
 						width: 24px;
 					}
@@ -4806,14 +4877,15 @@ body{
 						line-height: 32px;
 						display: flex;
 
-						button{
+						a{
 							background: transparent;
+							border-radius: 5px;
 							color: $blueColor;
 							font-weight: bold;
 							line-height: 32px;
 							min-width: 36px;
-						    padding: 0 4px;
-							margin: 0 4px;
+						    padding: 0 12px;
+							margin: 0 12px;
 							height: 32px;
 						}
 					}
@@ -5214,11 +5286,11 @@ body{
 
 								i{
 									background-color: $officialColor;
+									mask-size: 28px calc(28px * 15);
 									mask-image: $spriteImages;
 									mask-position: 0 -56px;
 									mask-repeat: no-repeat;
 									display: inline-block;
-									mask-size: 28px 112px;
 									margin: 0 0 -2px 0;
 									height: 14px;
 									width: 14px;
@@ -5473,11 +5545,11 @@ body{
 									height: 32px;
 
 									i{
+										mask-size: 36px calc(36px * 15);
 										background-color: $whiteColor;
 										mask-image: $spriteImages;
 										mask-position: 0 -72px;
 										mask-repeat: no-repeat;
-										mask-size: 36px 144px;
 										margin: 0 10px 2px 0;
 										position: absolute;
 										height: 18px;
@@ -5521,11 +5593,11 @@ body{
 										display: flex;
 
 										i{
+											mask-size: 28px calc(28px * 15);
 											background-color: $blackColor;
 											mask-position: -14px -56px;
 											mask-image: $spriteImages;
 											mask-repeat: no-repeat;
-											mask-size: 28px 112px;
 											margin: 8px 4px 0 0;
 											height: 14px;
 											width: 14px;
@@ -5712,11 +5784,11 @@ body{
 										border-radius: 50% !important;
 
 										i{
+											mask-size: 28px calc(28px * 15);
 											background-color: currentColor;
 											mask-image: $spriteImages;
 											mask-position: 0 -70px;
 											mask-repeat: no-repeat;
-											mask-size: 28px 112px;
 											margin: 0 0 0 12px;
 											display: block;
 											height: 14px;
@@ -5822,6 +5894,23 @@ body{
 									video{
 										max-height: 360px;
 										width: 100%;
+									}
+
+									.playPause{
+										margin: -43px 0 0 -43px;
+										position: absolute;
+										height: 86px;
+										width: 86px;
+										left: 50%;
+										top: 50%;
+
+										mat-icon{
+											text-shadow: $shadowText2;
+											color: $whiteColor;
+											font-size: 86px;
+											height: 86px;
+											width: 86px;
+										}
 									}
 								}
 
@@ -6209,11 +6298,11 @@ body{
 
 										i{
 											background-color: $officialColor;
+											mask-size: 24px calc(24px * 15);
 											mask-image: $spriteImages;
 											mask-position: 0 -48px;
 											mask-repeat: no-repeat;
 											display: inline-block;
-											mask-size: 24px 96px;
 											margin: 0 0 -1px 0;
 											height: 12px;
 											width: 12px;
@@ -6308,11 +6397,11 @@ body{
 
 									i{
 										background-color: $officialColor;
+										mask-size: 24px calc(24px * 15);
 										mask-image: $spriteImages;
 										mask-position: 0 -48px;
 										mask-repeat: no-repeat;
 										display: inline-block;
-										mask-size: 24px 96px;
 										margin: 0 0 -1px 0;
 										height: 12px;
 										width: 12px;
@@ -6731,8 +6820,8 @@ body{
 											text-align: center;
 											font-weight: bold;
 											line-height: 100%;
-											line-height: 18px;
-											font-size: 18px;
+											line-height: 36px;
+											font-size: 36px;
 											padding: 0 12px;
 											height: 36px;
 											margin: auto;
@@ -6887,11 +6976,11 @@ body{
 												display: inherit;
 
 												i{
+													mask-size: 28px calc(28px * 15);
 													background-color: currentColor;
 													mask-image: $spriteImages;
 													mask-position: 0 -70px;
 													mask-repeat: no-repeat;
-													mask-size: 28px 112px;
 													margin: 11px 0 0;
 													display: block;
 													height: 14px;
@@ -7031,11 +7120,11 @@ body{
 										display: inherit;
 
 										i{
+											mask-size: 28px calc(28px * 15);
 											background-color: currentColor;
 											mask-image: $spriteImages;
 											mask-position: 0 -70px;
 											mask-repeat: no-repeat;
-											mask-size: 28px 112px;
 											margin: 11px 0 0;
 											display: block;
 											height: 14px;
@@ -8321,6 +8410,8 @@ body{
 /*MOBILE*/
 @media (max-width: 760px){
 	body{
+		font-size: 17px;
+
 		.alertBox{
 			margin: 0;
 			top: 0;

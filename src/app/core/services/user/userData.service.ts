@@ -51,6 +51,10 @@ export class UserDataService {
 			password: password
 		};
 
+		// Reset storage data
+		this.logout();
+
+		// Call api
 		return this.http.post(url, params, this.headersService.getHeaders())
 			.pipe(map((res: Response) => { 
 				this.setSessionData('login', res.json());

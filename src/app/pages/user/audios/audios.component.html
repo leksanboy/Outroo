@@ -96,6 +96,12 @@
 								<li class="new" (click)="createPlaylist()" *ngIf="userData.id == sessionData.current.id">
 									<div mat-ripple class="image">
 										<div class="text">
+											+
+										</div>
+									</div>
+
+									<div class="panel">
+										<div class="title" (click)="createPlaylist()">
 											{{translations.createPlaylist}}
 										</div>
 									</div>
