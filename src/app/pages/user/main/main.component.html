@@ -2,12 +2,15 @@
 	<div class="pageUser" *ngIf="userExists">
 		<div class="panel">
 			<!-- <div class="back" routerLink="/{{userData.username}}">
-				<button mat-icon-button><mat-icon>arrow_back</mat-icon></button>
+				<button mat-icon-button>
+					<i label="back"></i>
+				</button>
 				<div class="text">{{userData.name}}</div>
 			</div> -->
 
 			<div class="background">
-				<img *ngIf="userData.backgroundUrl" [src]="userData.backgroundUrl"/>
+				<div class="image" *ngIf="userData.backgroundUrl" [ngStyle]="{'background-image': 'url(' + userData.backgroundUrl + ')'}"></div>
+				<div class="shadow" *ngIf="userData.backgroundUrl"></div>
 			</div>
 
 			<div class="dataBox">
@@ -24,43 +27,11 @@
 						<div class="username">@{{userData.username}}</div>
 					</div>
 
-					<div class="actions">
-						<button mat-button type="button" routerLink="/settings" *ngIf="userData.id == sessionData.current.id">
+					<div class="settings" *ngIf="userData.id == sessionData.current.id">
+						<button mat-button type="button" routerLink="/settings">
 							<i label="settings"></i>
 							{{translations.settings}}
 						</button>
-
-						<span *ngIf="(userData.id != sessionData.current.id) && sessionData.current.id">
-							<button mat-button *ngIf="userData.status == 'unfollow'" class="border" (click)="followUnfollow('follow', userData)">
-								{{translations.follow}}
-							</button>
-							<button mat-button *ngIf="userData.status == 'pending'" class="border" [matMenuTriggerFor]="cancelRequest">
-								{{translations.pending}}
-							</button>
-							<button mat-button *ngIf="userData.status == 'following'" class="active" [matMenuTriggerFor]="stopFollowing">
-								{{translations.following}}
-							</button>
-							<mat-menu #cancelRequest="matMenu" yPosition="below" xPosition="before" class="removeBox">
-								<div class="text">
-									{{translations.cancelRequest}}
-								</div>
-								<div class="buttons">
-									<button mat-menu-item>{{translations.no}}</button>
-									<button mat-menu-item (click)="followUnfollow('unfollow', userData)">{{translations.yes}}</button>
-								</div>
-							</mat-menu>
-							<mat-menu #stopFollowing="matMenu" yPosition="below" xPosition="before" class="removeBox">
-								<div class="text">
-									{{translations.stopFollowing}}
-									<br>
-									{{userData.username}}?
-								</div>
-								<div class="buttons">
-									<button mat-menu-item>{{translations.no}}</button>
-									<button mat-menu-item (click)="followUnfollow('unfollow', userData)">{{translations.yes}}</button>
-								</div>
-							</mat-menu>
-						</span>
 					</div>
 				</div>
 
@@ -127,6 +98,46 @@
 							</div>
 						</button>
 					</div>
+				</div>
+
+				<div class="actions" *ngIf="(userData.id != sessionData.current.id) && sessionData.current.id">
+					<button mat-raised-button routerLink="/notifications">
+						{{translations.sendMessage}}
+					</button>
+
+					<button mat-raised-button *ngIf="userData.status == 'unfollow'" (click)="followUnfollow('follow', userData)">
+						{{translations.follow}}
+					</button>
+					
+					<button mat-raised-button *ngIf="userData.status == 'pending'" [matMenuTriggerFor]="cancelRequest">
+						{{translations.pending}}
+					</button>
+					
+					<button mat-raised-button *ngIf="userData.status == 'following'" class="active" [matMenuTriggerFor]="stopFollowing">
+						{{translations.following}}
+					</button>
+					
+					<mat-menu #cancelRequest="matMenu" yPosition="below" xPosition="before" class="removeBox">
+						<div class="text">
+							{{translations.cancelRequest}}
+						</div>
+						<div class="buttons">
+							<button mat-menu-item>{{translations.no}}</button>
+							<button mat-menu-item (click)="followUnfollow('unfollow', userData)">{{translations.yes}}</button>
+						</div>
+					</mat-menu>
+					
+					<mat-menu #stopFollowing="matMenu" yPosition="below" xPosition="before" class="removeBox">
+						<div class="text">
+							{{translations.stopFollowing}}
+							<br>
+							{{userData.username}}?
+						</div>
+						<div class="buttons">
+							<button mat-menu-item>{{translations.no}}</button>
+							<button mat-menu-item (click)="followUnfollow('unfollow', userData)">{{translations.yes}}</button>
+						</div>
+					</mat-menu>
 				</div>
 			</div>
 		</div>
@@ -269,7 +280,6 @@
 											<mat-menu #appMenu="matMenu">
 												<button mat-menu-item (click)="itemAudiosOptions('addRemoveUser', a, null); a.addRemoveUser=!a.addRemoveUser;">{{!a.addRemoveUser ? translations.add : translations.remove}}</button>
 												<button mat-menu-item [matMenuTriggerFor]="menuPlaylists" #trigger="matMenuTrigger">{{translations.addToPlaylist}}</button>
-												<!-- <button mat-menu-item (click)="itemAudiosOptions('share', a, null)">{{translations.share}}</button> -->
 												<button mat-menu-item (click)="itemAudiosOptions('report', a, null)">{{translations.report}}</button>
 											</mat-menu>
 											<mat-menu #menuPlaylists="matMenu">
@@ -287,13 +297,13 @@
 						<div class="analytics">
 							<div class="buttonBox">
 								<button mat-icon-button (click)="showComments('showHide', x)">
-									<i class="comments"></i>
+									<i label="analytics-comments"></i>
 								</button>
 							</div>
 							
 							<div class="buttonBox">
-								<button mat-icon-button (click)="likeUnlike(x)" [ngClass]="{'active' : x.liked}">
-									<i class="like"></i>
+								<button mat-icon-button (click)="likeUnlike(x)">
+									<i label="analytics-like" [ngClass]="{'active' : x.liked}"></i>
 								</button>
 								{{x.countLikes}}
 							</div>
@@ -306,8 +316,8 @@
 							</a>
 
 							<div class="buttonBox bookmark">
-								<button mat-icon-button (click)="markUnmark(x)" [ngClass]="{'active' : x.bookmark.checked}">
-									<i class="bookmark"></i>
+								<button mat-icon-button (click)="markUnmark(x)">
+									<i label="analytics-bookmark" [ngClass]="{'active' : x.bookmark.checked}"></i>
 								</button>
 							</div>
 						</div>
@@ -329,7 +339,7 @@
 									</div>
 									<div class="actions">
 										<button mat-icon-button type="submit" (click)="newComment('create', $event, x)">
-											<i label="send"></i>
+											<i label="send-comment"></i>
 										</button>
 									</div>
 								</div>
@@ -370,7 +380,7 @@
 								
 								<div class="loadMore" *ngIf="x.loadMoreData">
 									<button mat-fab (click)="defaultComments('more', x)" *ngIf="!x.loadingMoreData">
-										<mat-icon>add</mat-icon>
+										<i label="add"></i>
 									</button>
 									<mat-progress-spinner mode="indeterminate" *ngIf="x.loadingMoreData"></mat-progress-spinner>
 								</div>
@@ -400,7 +410,7 @@
 			
 			<div class="loadMore" *ngIf="dataDefault.loadMoreData">
 				<button mat-fab (click)="default('more', null, null)" *ngIf="!dataDefault.loadingMoreData">
-					<mat-icon>add</mat-icon>
+					<i label="add"></i>
 				</button>
 				<mat-progress-spinner mode="indeterminate" *ngIf="dataDefault.loadingMoreData"></mat-progress-spinner>
 			</div>

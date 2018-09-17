@@ -22,7 +22,7 @@
 					<div class="box">
 						<form [formGroup]="actionFormSearch" (ngSubmit)="search('send')">
 							<div class="inner">
-								<mat-icon>search</mat-icon>
+								<i label="search-magnifying-glass"></i>
 
 								<div class="chips">
 									<mat-chip-list matPrefix>
@@ -39,7 +39,7 @@
 								</div>
 
 								<button mat-icon-button type="button" *ngIf="actionFormSearch.controls.caption.value.length > 0" (click)="search('clear')">
-									<mat-icon>clear</mat-icon>
+									<i label="search-clear"></i>
 								</button>
 							</div>
 						</form>
@@ -98,7 +98,7 @@
 						<div class="noData" *ngIf="dataSearch.noData">{{translations.noSearchResults}}</div>
 						<div class="loadMore" *ngIf="dataSearch.loadMoreData">
 							<button mat-fab (click)="search('more')" *ngIf="!dataSearch.loadingMoreData">
-								<mat-icon>add</mat-icon>
+								<i label="add"></i>
 							</button>
 							<mat-progress-spinner mode="indeterminate" *ngIf="dataSearch.loadingMoreData"></mat-progress-spinner>
 						</div>
@@ -131,7 +131,7 @@
 			<div class="container">
 				<div class="loadMore" *ngIf="dataDefault.loadMoreData">
 					<button mat-fab (click)="default('more', null, null)" *ngIf="!dataDefault.loadingMoreData">
-						<mat-icon>add</mat-icon>
+						<i label="add"></i>
 					</button>
 					<mat-progress-spinner mode="indeterminate" *ngIf="dataDefault.loadingMoreData"></mat-progress-spinner>
 				</div>
@@ -343,7 +343,7 @@
 					<div class="box">
 						<form [formGroup]="actionFormSearch" (ngSubmit)="search('send')">
 							<div class="inner">
-								<mat-icon>search</mat-icon>
+								<i label="search-magnifying-glass"></i>
 
 								<div class="chips">
 									<mat-chip-list matPrefix>
@@ -374,7 +374,7 @@
 								</div>
 
 								<button mat-icon-button type="button" *ngIf="actionFormSearch.controls.caption.value.length > 0" (click)="search('clear')">
-									<mat-icon>clear</mat-icon>
+									<i label="search-clear"></i>
 								</button>
 							</div>
 						</form>
@@ -461,7 +461,7 @@
 						<div class="noData" *ngIf="dataSearch.noData">{{translations.noSearchResults}}</div>
 						<div class="loadMore" *ngIf="dataSearch.loadMoreData">
 							<button mat-fab (click)="search('more')" *ngIf="!dataSearch.loadingMoreData">
-								<mat-icon>add</mat-icon>
+								<i label="add"></i>
 							</button>
 							<mat-progress-spinner mode="indeterminate" *ngIf="dataSearch.loadingMoreData"></mat-progress-spinner>
 						</div>

@@ -183,7 +183,7 @@
 					
 					<div class="loadMore" *ngIf="dataNotifications.loadMoreData">
 						<button mat-fab (click)="defaultNotifications('more', null)" *ngIf="!dataNotifications.loadingMoreData">
-							<mat-icon>add</mat-icon>
+							<i label="add"></i>
 						</button>
 						<mat-progress-spinner mode="indeterminate" *ngIf="dataNotifications.loadingMoreData"></mat-progress-spinner>
 					</div>
@@ -256,7 +256,7 @@
 					
 					<div class="loadMore" *ngIf="dataChats.loadMoreData">
 						<button mat-fab (click)="defaultChats('more', null)" *ngIf="!dataChats.loadingMoreData">
-							<mat-icon>add</mat-icon>
+							<i label="add"></i>
 						</button>
 						<mat-progress-spinner mode="indeterminate" *ngIf="dataChats.loadingMoreData"></mat-progress-spinner>
 					</div>

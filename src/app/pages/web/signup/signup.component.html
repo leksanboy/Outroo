@@ -10,7 +10,7 @@
 		</div>
 		<div class="actions" *ngIf="!reCaptchaExists">
 			<button mat-icon-button (click)="refreshPage()">
-				<i label="refresh"></i>
+				<i label="refresh-page"></i>
 			</button>
 		</div>
 	</div>
@@ -27,10 +27,10 @@
 						<input type="text" matInput placeholder="Username" #Username maxlength="100" formControlName="username">
 						<div class="validators">
 							<div class="done" *ngIf="validatorUsername == 'done'">
-								<i label="check"></i>
+								<i label="validator-check"></i>
 							</div>
 							<div class="bad" *ngIf="validatorUsername == 'bad'">
-								<i label="clear"></i>
+								<i label="validator-clear"></i>
 							</div>
 							<div class="load" *ngIf="validatorUsername == 'load'">
 								<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
@@ -48,10 +48,10 @@
 						<input type="email" matInput placeholder="Email" #Email maxlength="100" formControlName="email">
 						<div class="validators">
 							<div class="done" *ngIf="validatorEmail == 'done'">
-								<i label="check"></i>
+								<i label="validator-check"></i>
 							</div>
 							<div class="bad" *ngIf="validatorEmail == 'bad'">
-								<i label="clear"></i>
+								<i label="validator-clear"></i>
 							</div>
 							<div class="load" *ngIf="validatorEmail == 'load'"><mat-progress-spinner mode="indeterminate"></mat-progress-spinner></div>
 						</div>
@@ -60,8 +60,8 @@
 
 					<mat-form-field>
 						<input type="{{showPassword ? 'text' : 'password'}}" matInput placeholder="Password" #Password maxlength="100" formControlName="password">
-						<button type="button" *ngIf="Password.value.length > 0" mat-button matSuffix mat-icon-button (click)="showPassword=!showPassword">
-							<i [ngClass]="{'show': showPassword}" label="visibility"></i>
+						<button mat-button matSuffix mat-icon-button type="button" *ngIf="Password.value.length > 0" (click)="showPassword=!showPassword">
+							<i [ngClass]="{'active': showPassword}" label="visibility"></i>
 						</button>
 						<mat-hint align="end">{{Password.value.length}}/100</mat-hint>
 					</mat-form-field>

@@ -48,39 +48,51 @@ const routes: Routes = [
 			{
 				path: 'home',
 				component: HomeComponent
+				// loadChildren: './user/home/home.module#HomeModule'
 			},{
 				path: 'news',
 				component: NewsComponent
+				// loadChildren: './user/news/news.module#NewsModule'
 			},{
 				path: 'news/:name',
 				component: NewsComponent
+				// loadChildren: './user/news/news.module#NewsModule'
 			},{
 				path: 'saved',
 				component: BookmarksComponent
+				// loadChildren: './user/saved/saved.module#SavedModule'
 			},{
 				path: 'notifications',
 				component: NotificationsComponent
+				// loadChildren: './user/notifications/notifications.module#NotificationsModule'
 			},{
 				path: 'settings',
 				component: SettingsComponent
+				// loadChildren: './user/settings/settings.module#SettingsModule'
 			},{
 				path: ':id',
 				component: MainComponent
+				// loadChildren: './user/main/main.module#MainModule'
 			},{
 				path: ':id/photos',
 				component: PhotosComponent
+				// loadChildren: './user/photos/photos.module#PhotosModule'
 			},{
 				path: ':id/photos/:name',
 				component: PhotosComponent
+				// loadChildren: './user/photos/photos.module#PhotosModule'
 			},{
 				path: ':id/audios',
 				component: AudiosComponent
+				// loadChildren: './user/audios/audios.module#AudiosModule'
 			},{
 				path: ':id/following',
 				component: FollowingComponent
+				// loadChildren: './user/following/following.module#FollowingModule'
 			},{
 				path: ':id/followers',
 				component: FollowersComponent
+				// loadChildren: './user/followers/followers.module#FollowersModule'
 			}
 		]
 	},{

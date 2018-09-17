@@ -5,10 +5,10 @@
 			 	<div class="box">
 					<form [formGroup]="actionFormSearch" (ngSubmit)="search('send')">
 						<div class="inner">
-							<mat-icon>search</mat-icon>
+							<i label="search-magnifying-glass"></i>
 							<input type="text" placeholder="{{translations.search}}" formControlName="caption">
 							<button mat-icon-button type="button" *ngIf="actionFormSearch.controls.caption.value.length > 0" (click)="search('clear')">
-								<mat-icon>clear</mat-icon>
+								<i label="search-clear"></i>
 							</button>
 						</div>
 					</form>
@@ -57,7 +57,7 @@
 				
 				<div class="loadMore" *ngIf="dataDefault.loadMoreData">
 					<button mat-fab (click)="default('more', null, null)" *ngIf="!dataDefault.loadingMoreData">
-						<mat-icon>add</mat-icon>
+						<i label="add"></i>
 					</button>
 					<mat-progress-spinner mode="indeterminate" *ngIf="dataDefault.loadingMoreData"></mat-progress-spinner>
 				</div>
@@ -135,7 +135,7 @@
 						
 						<div class="loadMore" *ngIf="dataPeople.loadMoreData">
 							<button mat-fab (click)="people('more')" *ngIf="!dataPeople.loadingMoreData">
-								<mat-icon>add</mat-icon>
+								<i label="add"></i>
 							</button>
 							<mat-progress-spinner mode="indeterminate" *ngIf="dataPeople.loadingMoreData"></mat-progress-spinner>
 						</div>
@@ -174,7 +174,7 @@
 						
 						<div class="loadMore" *ngIf="dataPosts.loadMoreData">
 							<button mat-fab (click)="tag('more')" *ngIf="!dataPosts.loadingMoreData">
-								<mat-icon>add</mat-icon>
+								<i label="add"></i>
 							</button>
 							<mat-progress-spinner mode="indeterminate" *ngIf="dataPosts.loadingMoreData"></mat-progress-spinner>
 						</div>
@@ -208,7 +208,7 @@
 						
 						<div class="loadMore" *ngIf="dataTag.loadMoreData">
 							<button mat-fab (click)="tag('more')" *ngIf="!dataTag.loadingMoreData">
-								<mat-icon>add</mat-icon>
+								<i label="add"></i>
 							</button>
 							<mat-progress-spinner mode="indeterminate" *ngIf="dataTag.loadingMoreData"></mat-progress-spinner>
 						</div>
@@ -218,7 +218,9 @@
 
 			<span *ngIf="data.active == 'hashtag'">
 				<div class="back" (click)="setHashtag('close', null)">
-					<button mat-icon-button><mat-icon>arrow_back</mat-icon></button>
+					<button mat-icon-button>
+						<mat-icon>arrow_back</mat-icon>
+					</button>
 					<div class="text">{{data.selectedHashtag}}</div>
 				</div>
 
@@ -254,7 +256,7 @@
 				
 				<div class="loadMore" *ngIf="dataHashtag.loadMoreData">
 					<button mat-fab (click)="setHashtag('more', null)" *ngIf="!dataHashtag.loadingMoreData">
-						<mat-icon>add</mat-icon>
+						<i label="add"></i>
 					</button>
 					<mat-progress-spinner mode="indeterminate" *ngIf="dataHashtag.loadingMoreData"></mat-progress-spinner>
 				</div>

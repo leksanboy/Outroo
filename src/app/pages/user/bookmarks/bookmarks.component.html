@@ -2,7 +2,9 @@
 	<div class="pagePhotos">
 		<div class="content">
 			<div class="back" (click)="goBack()">
-				<button mat-icon-button><mat-icon>arrow_back</mat-icon></button>
+				<button mat-icon-button>
+					<i label="back"></i>
+				</button>
 				<div class="text">{{translations.bookmarks}}</div>
 			</div>
 
@@ -48,7 +50,7 @@
 				
 				<div class="loadMore" *ngIf="dataDefault.loadMoreData">
 					<button mat-fab (click)="default('more', null)" *ngIf="!dataDefault.loadingMoreData">
-						<mat-icon>add</mat-icon>
+						<i label="add"></i>
 					</button>
 					<mat-progress-spinner mode="indeterminate" *ngIf="dataDefault.loadingMoreData"></mat-progress-spinner>
 				</div>

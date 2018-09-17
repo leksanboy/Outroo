@@ -89,13 +89,13 @@
 						<div class="analytics">
 							<div class="buttonBox">
 								<button mat-icon-button (click)="showComments('showHide', data.current)">
-									<i class="comments"></i>
+									<i label="analytics-comments"></i>
 								</button>
 							</div>
 							
 							<div class="buttonBox">
-								<button mat-icon-button (click)="likeUnlike(data.current)" [ngClass]="{'active' : data.current.liked}">
-									<i class="like"></i>
+								<button mat-icon-button (click)="likeUnlike(data.current)">
+									<i label="analytics-like" [ngClass]="{'active' : data.current.liked}"></i>
 								</button>
 								{{data.current.countLikes}}
 							</div>
@@ -126,7 +126,7 @@
 								</div>
 								<div class="actions">
 									<button mat-icon-button type="submit" (click)="newComment('create', $event, data.current)">
-										<i label="send"></i>
+										<i label="send-comment"></i>
 									</button>
 								</div>
 							</div>
@@ -165,7 +165,7 @@
 							</div>
 							<div class="loadMore" *ngIf="data.current.loadMoreData">
 								<button mat-fab (click)="defaultComments('more', data.current)" *ngIf="!data.current.loadingMoreData">
-									<mat-icon>add</mat-icon>
+									<i label="add"></i>
 								</button>
 								<mat-progress-spinner mode="indeterminate" *ngIf="data.current.loadingMoreData"></mat-progress-spinner>
 							</div>

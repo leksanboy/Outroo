@@ -7,7 +7,9 @@
 				</div>
 
 				<div class="left">
-					<button mat-mini-fab (click)="navMenu=!navMenu"><mat-icon>menu</mat-icon></button>
+					<button mat-mini-fab (click)="navMenu=!navMenu">
+						<i label="menu"></i>
+					</button>
 				</div>
 
 				<div class="center">
@@ -19,7 +21,7 @@
 						<div class="pending" *ngIf="sessionData.current.countPendingNotifications">
 							{{sessionData.current.countPendingNotifications}}
 						</div>
-						<mat-icon>notifications</mat-icon>
+						<i label="notifications"></i>
 					</button>
 
 					<button mat-mini-fab class="avatar" (click)="showUserBoxWeb()">
@@ -139,7 +141,7 @@
 						<div class="forward" (click)="showNotificationsBoxWeb()" routerLink="/notifications">
 							{{translations.goToNotifications}}
 							<button mat-icon-button>
-								<mat-icon>arrow_forward</mat-icon>
+								<i label="forward"></i>
 							</button>
 						</div>
 					</div>
@@ -164,56 +166,57 @@
 							</div>
 						</div>
 					</div>
+
 					<div class="bottom">
-						<mat-nav-list *ngIf="!showCloseSession && !showChangeSession && !showChangeLanguage">
-							<mat-list-item (click)="showUserBox = false" routerLink="/{{sessionData.current.username}}">
-								<mat-icon mat-list-icon>person</mat-icon>
-								<h4 mat-line>{{translations.myAccount}}</h4>
-							</mat-list-item>
+						<div class="menu" *ngIf="!showCloseSession && !showChangeSession && !showChangeLanguage">
+							<div class="item" mat-ripple (click)="showUserBox = false" routerLink="/{{sessionData.current.username}}">
+								<i label="person"></i>
+								<div class="text">{{translations.myAccount}}</div>
+							</div>
 
-							<mat-list-item (click)="showChangeSession=!showChangeSession">
-								<mat-icon mat-list-icon>group</mat-icon>
-								<h4 mat-line>{{translations.changeAccount}}</h4>
-								<mat-icon mat-icon>keyboard_arrow_right</mat-icon>
-							</mat-list-item>
+							<div class="item" mat-ripple (click)="showChangeSession=!showChangeSession">
+								<i label="group"></i>
+								<div class="text">{{translations.changeAccount}}</div>
+								<i label="keyboard-arrow-right"></i>
+							</div>
 
-							<mat-list-item (click)="showChangeLanguage=!showChangeLanguage">
-								<mat-icon mat-list-icon>language</mat-icon>
-								<h4 mat-line>{{translations.changeLanguage}}</h4>
-								<mat-icon mat-icon>keyboard_arrow_right</mat-icon>
-							</mat-list-item>
+							<div class="item" mat-ripple (click)="showChangeLanguage=!showChangeLanguage">
+								<i label="language"></i>
+								<div class="text">{{translations.changeLanguage}}</div>
+								<i label="keyboard-arrow-right"></i>
+							</div>
 
-							<mat-list-item>
+							<div class="item" mat-ripple>
 								<mat-slide-toggle [checked]="sessionData.current.theme" (change)="changeTheme()">{{translations.darkTheme}}</mat-slide-toggle>
-							</mat-list-item>
+							</div>
 
-							<mat-list-item (click)="showUserBox = false" routerLink="/settings">
-								<mat-icon mat-list-icon>settings</mat-icon>
-								<h4 mat-line>{{translations.settings}}</h4>
-							</mat-list-item>
+							<div class="item" mat-ripple (click)="showUserBox = false" routerLink="/settings">
+								<i label="settings"></i>
+								<div class="text">{{translations.settings}}</div>
+							</div>
 
-							<mat-list-item (click)="showCloseSession=!showCloseSession">
-								<mat-icon mat-list-icon>exit_to_app</mat-icon>
-								<h4 mat-line>{{translations.logOut}}</h4>
-								<mat-icon mat-icon>keyboard_arrow_right</mat-icon>
-							</mat-list-item>
-						</mat-nav-list>
+							<div class="item" mat-ripple (click)="showCloseSession=!showCloseSession">
+								<i label="exit"></i>
+								<div class="text">{{translations.logOut}}</div>
+							</div>
+						</div>
 
 						<div class="innerBox" *ngIf="showChangeSession">
 							<div class="back" (click)="showChangeSession=false">
 								<button mat-icon-button>
-									<mat-icon>arrow_back</mat-icon>
+									<i label="back"></i>
 								</button>
 								{{translations.changeAccount}}
 							</div>
 
-							<mat-nav-list>
-								<mat-list-item class="userMini" *ngFor="let x of sessionData.sessions" [ngClass]="{active: sessionData.current.id == x.id}">
+							<div class="menu">
+								<div class="item user" mat-ripple *ngFor="let x of sessionData.sessions" [ngClass]="{active: sessionData.current.id == x.id}">
 									<div class="avatar" mat-list-avatar (click)="setCurrentUser(x); showChangeSession=false;">
 										<img [src]="x.avatar ? x.avatarUrl : environment.avatar"/>
 									</div>
-									<h4 mat-line (click)="setCurrentUser(x)">@{{x.username}}</h4>
-									<mat-icon class="material-icons" [matMenuTriggerFor]="signOut">exit_to_app</mat-icon>
+									<div class="text" (click)="setCurrentUser(x)">@{{x.username}}</div>
+									<i label="exit" [matMenuTriggerFor]="signOut"></i>
+									
 									<mat-menu #signOut="matMenu" yPosition="below" xPosition="after" class="removeBox">
 										<div class="text">
 											{{x.name}}
@@ -225,37 +228,38 @@
 											<button mat-menu-item (click)="closeSession(x)">{{translations.yes}}</button>
 										</div>
 									</mat-menu>
-								</mat-list-item>
+								</div>
 
-								<mat-list-item class="userMini" *ngIf="sessionData.sessions.length < 10" (click)="openNewSession()">
+								<div class="item user" mat-ripple *ngIf="sessionData.sessions.length < 10" (click)="openNewSession()">
 									<div class="add" mat-list-avatar>
-										<mat-icon mat-list-icon>add</mat-icon>
+										<i label="add"></i>
 									</div>
-									<h4 mat-line>{{translations.addAccount}}</h4>
-								</mat-list-item>
-							</mat-nav-list>
+									<div class="text">{{translations.addAccount}}</div>
+								</div>
+							</div>
 						</div>
 
 						<div class="innerBox" *ngIf="showChangeLanguage">
 							<div class="back" (click)="showChangeLanguage=false">
 								<button mat-icon-button>
-									<mat-icon>arrow_back</mat-icon>
+									<i label="back"></i>
 								</button>
 								{{translations.changeLanguage}}
 							</div>
 
-							<mat-nav-list>
-								<mat-list-item *ngFor="let x of sessionData.current.languages" (click)="changeLanguage(x)">
-									<mat-icon mat-list-icon>{{x.id == sessionData.current.language ? 'check' : ''}}</mat-icon>
-									<h4 mat-line>{{x.caption}}</h4>
-								</mat-list-item>
-							</mat-nav-list>
+							<div class="menu">
+								<div class="item" mat-ripple *ngFor="let x of sessionData.current.languages" (click)="changeLanguage(x)">
+									<i label="check" *ngIf="x.id == sessionData.current.language"></i>
+									<i class="empty" *ngIf="x.id != sessionData.current.language"></i>
+									<div class="text">{{x.caption}}</div>
+								</div>
+							</div>
 						</div>
 
 						<div class="innerBox" *ngIf="showCloseSession">
 							<div class="back" (click)="showCloseSession=false">
 								<button mat-icon-button>
-									<mat-icon>arrow_back</mat-icon>
+									<i label="back"></i>
 								</button>
 								{{translations.logOut}}
 							</div>
@@ -267,8 +271,12 @@
 									{{translations.leaveSite}}
 								</div>
 								<div class="buttons">
-									<button mat-menu-item (click)="showCloseSession=false">{{translations.no}}</button>
-									<button mat-menu-item (click)="showCloseSession=false; closeSession(sessionData.current);">{{translations.yes}}</button>
+									<button mat-menu-item (click)="showCloseSession=false">
+										{{translations.no}}
+									</button>
+									<button mat-menu-item (click)="showCloseSession=false; closeSession(sessionData.current);">
+										{{translations.yes}}
+									</button>
 								</div>
 							</div>
 						</div>
@@ -277,84 +285,90 @@
 			</div>
 
 			<div class="menuBox">
-				<div class="menu" *ngIf="!navMenu">
-					<mat-nav-list>
-						<mat-list-item (click)="showChangeSessionOnMenu=!showChangeSessionOnMenu" class="user">
-							<div class="avatar" mat-list-avatar>
-								<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>
+				<div class="inner" *ngIf="!navMenu">
+					<div class="user" (click)="showChangeSessionOnMenu=!showChangeSessionOnMenu">
+						<div class="avatar" mat-list-avatar>
+							<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>
+						</div>
+						<div class="text">
+							<div class="name">
+								{{sessionData.current.name}}
 							</div>
-							<h4 mat-line>{{sessionData.current.name}}</h4>
-							<p mat-line>@{{sessionData.current.username}}</p>
-							<mat-icon *ngIf="showChangeSessionOnMenu" class="material-icons">arrow_drop_up</mat-icon>
-							<mat-icon *ngIf="!showChangeSessionOnMenu" class="material-icons">arrow_drop_down</mat-icon>
-						</mat-list-item>
+							<div class="username">
+								@{{sessionData.current.username}}
+							</div>
+						</div>
+						<div class="button">
+							<i label="arrow-drop-up" *ngIf="showChangeSessionOnMenu"></i>
+							<i label="arrow-drop-down" *ngIf="!showChangeSessionOnMenu"></i>
+						</div>
+					</div>
 
-						<span *ngIf="showChangeSessionOnMenu">
-							<mat-list-item class="userMini" *ngFor="let x of sessionData.sessions" [ngClass]="{active: sessionData.current.id == x.id}">
-								<div class="avatar" mat-list-avatar (click)="setCurrentUser(x)">
-									<img [src]="x.avatar ? x.avatarUrl : environment.avatar"/>
+					<span *ngIf="showChangeSessionOnMenu">
+						<div class="item userMini" *ngFor="let x of sessionData.sessions" [ngClass]="{active: sessionData.current.id == x.id}">
+							<div class="avatar" mat-list-avatar (click)="setCurrentUser(x)">
+								<img [src]="x.avatar ? x.avatarUrl : environment.avatar"/>
+							</div>
+							<div class="text" (click)="setCurrentUser(x)">@{{x.username}}</div>
+							<i label="exit" [matMenuTriggerFor]="signOut"></i>
+							<mat-menu #signOut="matMenu" yPosition="below" xPosition="after" class="removeBox">
+								<div class="text">
+									{{x.name}}
+									<br>
+									{{translations.leaveSite}}
 								</div>
-								<h4 mat-line (click)="setCurrentUser(x)">@{{x.username}}</h4>
-								<mat-icon class="material-icons" [matMenuTriggerFor]="signOut">exit_to_app</mat-icon>
-								<mat-menu #signOut="matMenu" yPosition="below" xPosition="after" class="removeBox">
-									<div class="text">
-										{{x.name}}
-										<br>
-										{{translations.leaveSite}}
-									</div>
-									<div class="buttons">
-										<button mat-menu-item>{{translations.no}}</button>
-										<button mat-menu-item (click)="closeSession(x)">{{translations.yes}}</button>
-									</div>
-								</mat-menu>
-							</mat-list-item>
+								<div class="buttons">
+									<button mat-menu-item>{{translations.no}}</button>
+									<button mat-menu-item (click)="closeSession(x)">{{translations.yes}}</button>
+								</div>
+							</mat-menu>
+						</div>
 
-							<mat-list-item class="userMini" *ngIf="sessionData.sessions.length < 10" (click)="openNewSession()">
-								<div class="add" mat-list-avatar>
-									<mat-icon mat-list-icon>add</mat-icon>
-								</div>
-								<h4 mat-line>{{translations.addAccount}}</h4>
-							</mat-list-item>
-						</span>
+						<div class="item userMini" *ngIf="sessionData.sessions.length < 10" (click)="openNewSession()">
+							<div class="add" mat-list-avatar>
+								<i label="add"></i>
+							</div>
+							<div class="text">{{translations.addAccount}}</div>
+						</div>
+					</span>
 
-						<span *ngIf="!showChangeSessionOnMenu">
-							<a mat-list-item (click)="scrollTop()" routerLink="/{{sessionData.current.username}}" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">
-								<mat-icon mat-list-icon>person</mat-icon>
-								<h4 mat-line>{{translations.mine}}</h4>
-							</a>
-							<a mat-list-item (click)="scrollTop()" routerLink="/home" routerLinkActive="selected">
-								<mat-icon mat-list-icon>home</mat-icon>
-								<h4 mat-line>{{translations.home}}</h4>
-							</a>
-							<a mat-list-item (click)="scrollTop()" routerLink="/news" routerLinkActive="selected">
-								<mat-icon mat-list-icon>search</mat-icon>
-								<h4 mat-line>{{translations.news}}</h4>
-							</a>
-							<a mat-list-item (click)="scrollTop()" routerLink="/{{sessionData.current.username}}/photos" routerLinkActive="selected">
-								<mat-icon mat-list-icon>photo_camera</mat-icon>
-								<h4 mat-line>{{translations.photos}}</h4>
-							</a>
-							<a mat-list-item (click)="scrollTop()" routerLink="/{{sessionData.current.username}}/audios" routerLinkActive="selected">
-								<mat-icon mat-list-icon>headset</mat-icon>
-								<h4 mat-line>{{translations.audios}}</h4>
-							</a>
-							<a mat-list-item (click)="scrollTop()" routerLink="/saved" routerLinkActive="selected">
-								<mat-icon mat-list-icon>bookmark</mat-icon>
-								<h4 mat-line>{{translations.bookmarks}}</h4>
-							</a>
-							<a mat-list-item (click)="scrollTop()" routerLink="/notifications" routerLinkActive="selected">
-								<mat-icon mat-list-icon>notifications</mat-icon>
-								<h4 mat-line>{{translations.notifications}}</h4>
-								<div class="pending" *ngIf="sessionData.current.countPendingNotifications">
-									{{sessionData.current.countPendingNotifications}}
-								</div>
-							</a>
-							<a mat-list-item (click)="scrollTop()" routerLink="/settings" routerLinkActive="selected">
-								<mat-icon mat-list-icon>settings</mat-icon>
-								<h4 mat-line>{{translations.settings}}</h4>
-							</a>
-						</span>
-					</mat-nav-list>
+					<span *ngIf="!showChangeSessionOnMenu">
+						<div class="item" (click)="scrollTop()" routerLink="/{{sessionData.current.username}}" routerLinkActive="selected" [routerLinkActiveOptions]="{exact: true}">
+							<i label="person"></i>
+							<div class="text">{{translations.mine}}</div>
+						</div>
+						<div class="item" (click)="scrollTop()" routerLink="/home" routerLinkActive="selected">
+							<i label="home"></i>
+							<div class="text">{{translations.home}}</div>
+						</div>
+						<div class="item" (click)="scrollTop()" routerLink="/news" routerLinkActive="selected">
+							<i label="search"></i>
+							<div class="text">{{translations.news}}</div>
+						</div>
+						<div class="item" (click)="scrollTop()" routerLink="/{{sessionData.current.username}}/photos" routerLinkActive="selected">
+							<i label="photo-camera"></i>
+							<div class="text">{{translations.photos}}</div>
+						</div>
+						<div class="item" (click)="scrollTop()" routerLink="/{{sessionData.current.username}}/audios" routerLinkActive="selected">
+							<i label="music"></i>
+							<div class="text">{{translations.audios}}</div>
+						</div>
+						<div class="item" (click)="scrollTop()" routerLink="/saved" routerLinkActive="selected">
+							<i label="bookmark"></i>
+							<div class="text">{{translations.bookmarks}}</div>
+						</div>
+						<div class="item" (click)="scrollTop()" routerLink="/notifications" routerLinkActive="selected">
+							<i label="notifications"></i>
+							<div class="text">{{translations.notifications}}</div>
+							<div class="pending" *ngIf="sessionData.current.countPendingNotifications">
+								{{sessionData.current.countPendingNotifications}}
+							</div>
+						</div>
+						<div class="item" (click)="scrollTop()" routerLink="/settings" routerLinkActive="selected">
+							<i label="settings"></i>
+							<div class="text">{{translations.settings}}</div>
+						</div>
+					</span>
 				</div>
 			</div>
 		</span>
@@ -488,14 +502,14 @@
 			</div>
 			<div class="right">
 				<div class="playlist">
-					<button mat-mini-fab (click)="showPlaylistWeb()" [ngClass]="{active: showPlaylist}">
-						<mat-icon>playlist_play</mat-icon>
+					<button mat-mini-fab (click)="showPlaylistWeb()">
+						<i label="playlist" [ngClass]="{active: showPlaylist}"></i>
 					</button>
 				</div>
 				<div class="volume">
-					<button mat-mini-fab (click)="volumeBar('mute',$event)">
-						<mat-icon *ngIf="audioPlayerData.volume.mute">volume_off</mat-icon>
-						<mat-icon *ngIf="!audioPlayerData.volume.mute">volume_up</mat-icon>
+					<button mat-mini-fab (click)="volumeBar('mute', $event)">
+						<i label="volume-off" *ngIf="audioPlayerData.volume.mute"></i>
+						<i label="volume" *ngIf="!audioPlayerData.volume.mute"></i>
 					</button>
 					<mat-slider min="0" max="100" [value]="audioPlayerData.volume.value" (input)="volumeBar('progress', $event)" (change)="volumeBar('save', $event)"></mat-slider>
 				</div>
@@ -510,8 +524,8 @@
 							<div class="image">
 								<button mat-icon-button (click)="playTrack('item', i)">
 									<img *ngIf="x.image" [src]="audioPlayerData.path + 'thumbnails/' + x.image"/>
-									<mat-icon *ngIf="!x.playing">play_arrow</mat-icon>
-									<mat-icon *ngIf="x.playing">pause</mat-icon>
+									<i label="play" *ngIf="!x.playing"></i>
+									<i label="pause" *ngIf="x.playing"></i>
 								</button>
 							</div>
 							<div class="text" (click)="playTrack('item', i)">
@@ -523,12 +537,14 @@
 							</div>
 							<div class="actions">
 								<span *ngIf="audioPlayerData.current.user == sessionData.current.id && audioPlayerData.current.type == 'default'">
-									<button mat-icon-button [matMenuTriggerFor]="appMenu"><mat-icon>more_vert</mat-icon></button>
+									<button mat-icon-button [matMenuTriggerFor]="appMenu">
+										<i label="more-mini"></i>
+									</button>
 								</span>
 								<span *ngIf="audioPlayerData.current.user != sessionData.current.id || audioPlayerData.current.type != 'default'">
 									<button mat-icon-button [matMenuTriggerFor]="appMenu">
-										<mat-icon *ngIf="x.addRemoveUser" class="added">check</mat-icon>
-										<mat-icon *ngIf="!x.addRemoveUser">more_vert</mat-icon>
+										<i label="check-mini" *ngIf="x.addRemoveUser"></i>
+										<i label="more-mini" *ngIf="!x.addRemoveUser"></i>
 									</button>
 								</span>
 								<mat-menu #appMenu="matMenu">
@@ -565,7 +581,7 @@
 					{{translations.registerOnSite}}
 				</div>
 				<button mat-icon-button class="close" (click)="signingBox=!signingBox">
-					<mat-icon>close</mat-icon>
+					<i label="close"></i>
 				</button>
 			</div>
 

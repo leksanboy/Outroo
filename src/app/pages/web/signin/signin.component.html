@@ -10,7 +10,7 @@
 		</div>
 		<div class="actions" *ngIf="!reCaptchaExists">
 			<button mat-icon-button (click)="refreshPage()">
-				<i label="refresh"></i>
+				<i label="refresh-page"></i>
 			</button>
 		</div>
 	</div>
@@ -30,8 +30,8 @@
 
 					<mat-form-field>
 						<input type="password" matInput placeholder="Password" #Password maxlength="100" formControlName="password">
-						<button type="button" *ngIf="Password.value.length > 0" mat-button matSuffix mat-icon-button (click)="showPassword=!showPassword">
-							<i [ngClass]="{'show': showPassword}" label="visibility"></i>
+						<button mat-button matSuffix mat-icon-button type="button" *ngIf="Password.value.length > 0" (click)="showPassword=!showPassword">
+							<i [ngClass]="{'active': showPassword}" label="visibility"></i>
 						</button>
 						<mat-hint align="end">{{Password.value.length}}/100</mat-hint>
 					</mat-form-field>
