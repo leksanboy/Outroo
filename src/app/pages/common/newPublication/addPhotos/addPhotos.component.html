@@ -2,7 +2,7 @@
 	<div mat-dialog-title class="header">
 		<div class="back">
 			<button mat-icon-button (click)="close()">
-				<mat-icon>arrow_back</mat-icon>
+				<i label="back"></i>
 			</button>
 		</div>
 		<div class="text">
@@ -23,14 +23,14 @@
 						<div class="img" [ngStyle]="{'background-image': 'url(' + ((x.mimetype.indexOf('image') !== -1) ? environment.pathPhotos : environment.pathVideos) + 'thumbnails/' + x.name + ')'}"></div>
 
 						<div class="category">
-							<mat-icon *ngIf="x.mimetype.indexOf('video') !== -1">videocam</mat-icon>
-							<mat-icon *ngIf="x.mimetype.indexOf('image/gif') !== -1" class="gif">gif</mat-icon>
+							<i label="videocam" *ngIf="x.mimetype.indexOf('video') !== -1"></i>
+							<i label="gif" *ngIf="x.mimetype.indexOf('image/gif') !== -1"></i>
 						</div>
 
 						<div class="status">
 							<button mat-icon-button [ngClass]="{'selected': x.selected}">
-								<mat-icon *ngIf="!x.selected">add</mat-icon>
-								<mat-icon *ngIf="x.selected">check</mat-icon>
+								<i label="add" *ngIf="!x.selected"></i>
+								<i label="check" *ngIf="x.selected"></i>
 							</button>
 						</div>
 					</div>
@@ -43,7 +43,7 @@
 		    <div class="noData" *ngIf="noData">{{translations.noData}}</div>
 		    <div class="loadMore" *ngIf="loadMoreData">
 		    	<button mat-fab (click)="loadMore()" *ngIf="!loadingMoreData">
-		    		<mat-icon>add</mat-icon>
+		    		<i label="add"></i>
 		    	</button>
 		    	<mat-progress-spinner mode="indeterminate" *ngIf="loadingMoreData"></mat-progress-spinner>
 		    </div>

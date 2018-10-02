@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject, ElementRef, Renderer } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Inject, ElementRef, Renderer } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
@@ -20,7 +20,7 @@ import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
 	templateUrl: './showPublication.component.html',
 	providers: [ TimeagoPipe, SafeHtmlPipe ]
 })
-export class ShowPublicationComponent implements OnInit {
+export class ShowPublicationComponent implements OnInit, OnDestroy {
 	public environment: any = environment;
 	public sessionData: any = [];
 	public userData: any = [];
@@ -81,6 +81,10 @@ export class ShowPublicationComponent implements OnInit {
 
 	ngOnInit() {
 		// not in use
+	}
+
+	ngOnDestroy() {
+		this.dialogRef.close(this.data.current);
 	}
 
 	// Play video

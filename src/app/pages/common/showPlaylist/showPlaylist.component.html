@@ -2,7 +2,7 @@
 	<div mat-dialog-title class="header">
 		<div class="back">
 			<button mat-icon-button (click)="close()">
-				<mat-icon>arrow_back</mat-icon>
+				<i label="back"></i>
 			</button>
 		</div>
 		<div class="text">
@@ -21,7 +21,7 @@
 			<div class="right">
 				<div class="title" [style.color]="data.current.color">
 					{{data.current.title}}
-					<mat-icon matTooltip="Private playlist" *ngIf="data.current.private">lock</mat-icon>
+					<i label="lock" matTooltip="Private playlist" *ngIf="data.current.private"></i>
 				</div>
 				
 				<a class="username" *ngIf="data.current.user" routerLink="/{{data.current.user.username}}">
@@ -38,13 +38,13 @@
 		</div>
 
 		<div class="content">
-			<ul *ngIf="data.list.length > 0">
+			<ul class="tracks" *ngIf="data.list.length > 0">
 				<li *ngFor="let x of data.list; let i=index;" [ngClass]="{active: audioPlayerData.key == i && audioPlayerData.location == 'playlist' && audioPlayerData.type == 'default', default: !x.image, remove: x.addRemoveSession}">
 					<div class="inner" *ngIf="!x.contentTypeAd">
 						<div class="image">
 							<button mat-icon-button (click)="playItem(data.list, x, i, 'default')">
-								<mat-icon *ngIf="!x.playing || !(audioPlayerData.location == 'playlist' && audioPlayerData.type == 'default')">play_arrow</mat-icon>
-								<mat-icon *ngIf="x.playing && (audioPlayerData.location == 'playlist' && audioPlayerData.type == 'default')">pause</mat-icon>
+								<i label="play" *ngIf="!x.playing || !(audioPlayerData.location == 'playlist' && audioPlayerData.type == 'default')"></i>
+								<i label="pause" *ngIf="x.playing && (audioPlayerData.location == 'playlist' && audioPlayerData.type == 'default')"></i>
 								<img *ngIf="x.image" [src]="data.path + 'thumbnails/' + x.image"/>
 							</button>
 						</div>
@@ -57,12 +57,14 @@
 						</div>
 						<div class="actions">
 							<span *ngIf="userData.id == sessionData.current.id">
-								<button mat-icon-button [matMenuTriggerFor]="options"><mat-icon>more_vert</mat-icon></button>
+								<button mat-icon-button [matMenuTriggerFor]="options">
+									<i label="more"></i>
+								</button>
 							</span>
 							<span *ngIf="userData.id != sessionData.current.id">
 								<button mat-icon-button [matMenuTriggerFor]="options">
-									<mat-icon *ngIf="x.addRemoveUser" class="added">check</mat-icon>
-									<mat-icon *ngIf="!x.addRemoveUser">more_vert</mat-icon>
+									<i label="check" *ngIf="x.addRemoveUser"></i>
+									<i label="more" *ngIf="!x.addRemoveUser"></i>
 								</button>
 							</span>
 							<mat-menu #options="matMenu">

@@ -16,11 +16,14 @@ import { UserDataService } from '../../../../app/core/services/user/userData.ser
 import { ShowPhotoComponent } from '../../../../app/pages/common/showPhoto/showPhoto.component';
 import { ShowPublicationComponent } from '../../../../app/pages/common/showPublication/showPublication.component';
 
+import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
+
 declare var ga: Function;
 
 @Component({
 	selector: 'app-bookmarks',
-	templateUrl: './bookmarks.component.html'
+	templateUrl: './bookmarks.component.html',
+	providers: [ SafeHtmlPipe ]
 })
 export class BookmarksComponent implements OnInit, OnDestroy {
 	public environment: any = environment;

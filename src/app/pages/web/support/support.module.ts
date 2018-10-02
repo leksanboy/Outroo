@@ -24,12 +24,6 @@ const routes: Routes = [
 		MatProgressSpinnerModule,
 		MatInputModule
 	],
-	exports: [
-		MatButtonModule,
-		MatButtonToggleModule,
-		MatProgressSpinnerModule,
-		MatInputModule
-	],
 	declarations: [
 		SupportComponent
 	]

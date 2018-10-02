@@ -100,8 +100,8 @@
 	"createAnAccountToSeeContent": "Create an account to see this content",
 	"newPublication": "Create new publication",
 	"newPublicationSubtitle": "Audios / Gif / Photos / Videos",
-	"pageNotFound": "Sorry, that page does not exist.",
-	"pageNotFoundDescription": "Probably the link is incorrect or that the page has been deleted.",
+	"pageNotFound": "Sorry, that page does not exist",
+	"pageNotFoundDescription": "Probably the link is incorrect or that page has been deleted.",
 	"writeComment": "Comment...",
 	"anErrorHasOcurred": "An error has ocurred",
 	"darkThemeEnabled": "Dark theme enabled",
@@ -196,5 +196,6 @@
 	"songs": "Songs",
 	"untitled": "Untitled",
 	"noChannel": "No channel",
-	"bookmarks": "Saved"
+	"bookmarks": "Saved",
+	"reportDescription": "Describe what the problem is"
 }

@@ -17,8 +17,8 @@ import { PublicationsDataService } from '../../../../app/core/services/user/publ
 import { ShowPhotoComponent } from '../../../../app/pages/common/showPhoto/showPhoto.component';
 import { ShowPublicationComponent } from '../../../../app/pages/common/showPublication/showPublication.component';
 
-import { TimeagoPipe } from '../../../../app/core/pipes/timeago.pipe';
 import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
+import { TimeagoPipe } from '../../../../app/core/pipes/timeago.pipe';
 
 declare var ga: Function;
 

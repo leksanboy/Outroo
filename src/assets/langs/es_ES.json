@@ -100,7 +100,7 @@
 	"createAnAccountToSeeContent": "Crea una cuenta para ver el contenido",
 	"newPublication": "Crear nueva publicación",
 	"newPublicationSubtitle": "Canciones / Gif / Fotos / Videos",
-	"pageNotFound": "Lo sentimos, esa página no existe.",
+	"pageNotFound": "Lo sentimos, esa página no existe",
 	"pageNotFoundDescription": "Es posible que el enlace sea incorrecto o que se haya eliminado la página.",
 	"writeComment": "Escribe un comentario...",
 	"anErrorHasOcurred": "Ha ocurrido un error",
@@ -196,5 +196,6 @@
 	"songs": "Canciones",
 	"untitled": "Sin título",
 	"noChannel": "Sin canal",
-	"bookmarks": "Guardado"
+	"bookmarks": "Guardado",
+	"reportDescription": "Describa cual es el problema"
 }

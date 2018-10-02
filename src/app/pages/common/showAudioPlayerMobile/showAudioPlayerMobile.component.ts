@@ -4,17 +4,17 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { coerceCssPixelValue } from '@angular/cdk/coercion';
 import { ViewportRuler } from '@angular/cdk/scrolling';
 
-import { AlertService } from '../alert/alert.service';
-import { AudioDataService } from '../user/audioData.service';
-import { AudioPlayerMobileService } from './audioPlayerMobile.service';
-import { PlayerService } from '../player/player.service';
-import { SessionService } from '../session/session.service';
+import { AlertService } from '../../../../app/core/services/alert/alert.service';
+import { AudioDataService } from '../../../../app/core/services/user/audioData.service';
+import { PlayerService } from '../../../../app/core/services/player/player.service';
+import { SessionService } from '../../../../app/core/services/session/session.service';
+import { ShowAudioPlayerMobileService } from './showAudioPlayerMobile.service';
 
 import { environment } from '../../../../environments/environment';
 
 @Component({
-	selector: 'audioPlayerMobile',
-	templateUrl: './audioPlayerMobile.component.html',
+	selector: 'showAudioPlayerMobile',
+	templateUrl: './showAudioPlayerMobile.component.html',
 	animations: [
 		trigger('showFromBottomAnimation',[
 			transition(':enter', [
@@ -28,7 +28,7 @@ import { environment } from '../../../../environments/environment';
 		])
 	]
 })
-export class AudioPlayerMobileComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ShowAudioPlayerMobileComponent implements OnInit, OnDestroy, AfterViewInit {
 	public environment: any = environment;
 	public sessionData: any = [];
 	public translations: any = [];
@@ -47,7 +47,7 @@ export class AudioPlayerMobileComponent implements OnInit, OnDestroy, AfterViewI
 		private viewportRuler: ViewportRuler,
 		private alertService: AlertService,
 		private audioDataService: AudioDataService,
-		private audioPlayerMobileService: AudioPlayerMobileService,
+		private showAudioPlayerMobileService: ShowAudioPlayerMobileService,
 		private playerService: PlayerService,
 		private sessionService: SessionService
 	) {
@@ -59,7 +59,7 @@ export class AudioPlayerMobileComponent implements OnInit, OnDestroy, AfterViewI
 	}
 
 	ngOnInit() {
-		this.audioPlayerMobileService.getData()
+		this.showAudioPlayerMobileService.getData()
 			.subscribe(res => {
 				if (res) {
 					const root = this.document.documentElement;

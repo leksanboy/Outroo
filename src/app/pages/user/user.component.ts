@@ -7,26 +7,26 @@ import { environment } from '../../../environments/environment';
 
 import { AlertService } from '../../../app/core/services/alert/alert.service';
 import { AudioDataService } from '../../../app/core/services/user/audioData.service';
-import { AudioPlayerMobileService } from '../../../app/core/services/audioPlayerMobile/audioPlayerMobile.service';
 import { MomentService } from '../../../app/core/services/moment/moment.service';
 import { NotificationsDataService } from '../../../app/core/services/user/notificationsData.service';
 import { PhotoDataService } from '../../../app/core/services/user/photoData.service';
 import { PlayerService } from '../../../app/core/services/player/player.service';
 import { PublicationsDataService } from '../../../app/core/services/user/publicationsData.service';
 import { SessionService } from '../../../app/core/services/session/session.service';
+import { ShowAudioPlayerMobileService } from '../../../app/pages/common/showAudioPlayerMobile/showAudioPlayerMobile.service';
 import { UserDataService } from '../../../app/core/services/user/userData.service';
+// import { ChatsocketService } from '../../../app/core/services/websocket/chat.service';
 
-import { NewReportComponent } from '../../../app/pages/common/newReport/newReport.component';
 import { NewPlaylistComponent } from '../../../app/pages/common/newPlaylist/newPlaylist.component';
+import { NewReportComponent } from '../../../app/pages/common/newReport/newReport.component';
 import { NewSessionComponent } from '../../../app/pages/common/newSession/newSession.component';
-
 import { ShowConversationComponent } from '../../../app/pages/common/showConversation/showConversation.component';
 import { ShowLikesComponent } from '../../../app/pages/common/showLikes/showLikes.component';
 import { ShowPhotoComponent } from '../../../app/pages/common/showPhoto/showPhoto.component';
 import { ShowPublicationComponent } from '../../../app/pages/common/showPublication/showPublication.component';
 import { ShowSessionPanelMobileComponent } from '../../../app/pages/common/showSessionPanelMobile/showSessionPanelMobile.component';
 
-// import { ChatsocketService } from '../../../app/core/services/websocket/chat.service';
+import { SafeHtmlPipe } from '../../../app/core/pipes/safehtml.pipe';
 
 import 'hammerjs';
 
@@ -37,7 +37,8 @@ declare var Vibrant: any;
 
 @Component({
 	selector: 'app-user',
-	templateUrl: './user.component.html'
+	templateUrl: './user.component.html',
+	providers: [ SafeHtmlPipe ]
 })
 export class UserComponent implements AfterViewInit {
 	public environment: any = environment;
@@ -58,10 +59,6 @@ export class UserComponent implements AfterViewInit {
 	public showChangeLanguage: boolean;
 	public signingBox: boolean;
 	public signOutCurrent: boolean;
-	
-	// public noData: boolean;
-	// public loadingData: boolean = true;
-	// public loadingMoreData: boolean;
 	public audio = new Audio();
 
 	constructor(
@@ -79,7 +76,7 @@ export class UserComponent implements AfterViewInit {
 		private photoDataService: PhotoDataService,
 		private publicationsDataService: PublicationsDataService,
 		private notificationsDataService: NotificationsDataService,
-		private audioPlayerMobileService: AudioPlayerMobileService,
+		private showAudioPlayerMobileService: ShowAudioPlayerMobileService,
 		private bottomSheet: MatBottomSheet,
 		// TODO: private chatsocketService: ChatsocketService
 	) {
@@ -175,18 +172,18 @@ export class UserComponent implements AfterViewInit {
 					this.audioPlayerData.type = data.type;
 					this.audioPlayerData.selectedIndex = data.selectedIndex;
 					this.audioPlayerData.current.key = -1;
-					this.playTrack('item', data.key);
+					this.playItem('item', data.key);
 				});
 
 			// Get play/pause track
 			this.playerService.getPlayTrack()
 				.subscribe(data => {
 					if (data.buttonType == 'next')
-						this.playTrack('next', data.key);
+						this.playItem('next', data.key);
 					else if (data.buttonType == 'prev')
-						this.playTrack('prev', data.key);
+						this.playItem('prev', data.key);
 					else
-						this.playTrack('item', data.key);
+						this.playItem('item', data.key);
 				});
 
 			// Get session data
@@ -296,12 +293,12 @@ export class UserComponent implements AfterViewInit {
 
 		// Pause
 		this.audio.addEventListener('pause', function() {
-			self.playTrack('pause', self.audioPlayerData.current.key);
+			self.playItem('pause', self.audioPlayerData.current.key);
 		});
 
 		// Playing
 		this.audio.addEventListener('playing', function() {
-			self.playTrack('playing', self.audioPlayerData.current.key);
+			self.playItem('playing', self.audioPlayerData.current.key);
 
 			if ('mediaSession' in navigator)
 				self.updateMetadata();
@@ -337,25 +334,25 @@ export class UserComponent implements AfterViewInit {
 			if (self.audioPlayerData.list[key].contentTypeAd)
 				key = key + 1;
 
-			self.playTrack('item', key);
+			self.playItem('item', key);
 		});
 
 		// Mediasession generate background player
 		if ('mediaSession' in navigator) {
 			navigator.mediaSession.setActionHandler('play', function() {
-				self.playTrack('playing', self.audioPlayerData.current.key);
+				self.playItem('playing', self.audioPlayerData.current.key);
 				self.updateMetadata();
 			});
 			navigator.mediaSession.setActionHandler('pause', function() {
-				self.playTrack('pause', self.audioPlayerData.current.key);
+				self.playItem('pause', self.audioPlayerData.current.key);
 				self.updateMetadata();
 			});
 			navigator.mediaSession.setActionHandler('previoustrack', function() {
-				self.playTrack('prev', self.audioPlayerData.current.key);
+				self.playItem('prev', self.audioPlayerData.current.key);
 				self.updateMetadata();
 			});
 			navigator.mediaSession.setActionHandler('nexttrack', function() {
-				self.playTrack('next', self.audioPlayerData.current.key);
+				self.playItem('next', self.audioPlayerData.current.key);
 				self.updateMetadata();
 			});
 		}
@@ -484,7 +481,7 @@ export class UserComponent implements AfterViewInit {
 	}
 
 	// Player buttons
-	playTrack(type, key) {
+	playItem(type, key) {
 		switch(type){
 			case('item'):
 				if (this.audioPlayerData.current.key == key && this.audioPlayerData.current.user == this.audioPlayerData.user && this.audioPlayerData.current.type == this.audioPlayerData.type) { // Play/pause current
@@ -505,7 +502,7 @@ export class UserComponent implements AfterViewInit {
 						this.initEqualizer();
 					}
 
-					this.playTrack('stop', null);
+					this.playItem('stop', null);
 					this.audioPlayerData.current.initialized = true;
 
 					for (let i in this.audioPlayerData.list)
@@ -549,7 +546,7 @@ export class UserComponent implements AfterViewInit {
 				this.userDataService.setSessionData('data', this.sessionData);
 			break;
 			case('play'):
-				this.playTrack('item', this.audioPlayerData.current.key);
+				this.playItem('item', this.audioPlayerData.current.key);
 			break;
 			case('playing'):
 				this.audioPlayerData.list[key].playing = true;
@@ -573,7 +570,7 @@ export class UserComponent implements AfterViewInit {
 				if (this.audioPlayerData.list[prevKey].contentTypeAd)
 					prevKey = prevKey - 1;
 
-				this.playTrack('item', prevKey);
+				this.playItem('item', prevKey);
 			break;
 			case('next'):
 				let nextKey;
@@ -592,7 +589,7 @@ export class UserComponent implements AfterViewInit {
 						nextKey = nextKey + 1;
 				}
 
-				this.playTrack('item', nextKey);
+				this.playItem('item', nextKey);
 			break;
 			case('stop'):
 				this.audio.pause();
@@ -830,7 +827,7 @@ export class UserComponent implements AfterViewInit {
 		}
 
 		// Show palyer
-		this.audioPlayerMobileService.show(data);
+		this.showAudioPlayerMobileService.show(data);
 	}
 
 	// Show playlist web
@@ -998,7 +995,7 @@ export class UserComponent implements AfterViewInit {
 	// Close session
 	closeSession(data){
 		if (this.sessionData.sessions.length == 1) {
-			this.playTrack('stop', null);
+			this.playItem('stop', null);
 			this.document.body.classList.remove('darkTheme');
 			this.userDataService.logout();
 			this.router.navigate(['logout']);

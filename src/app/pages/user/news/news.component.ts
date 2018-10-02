@@ -97,8 +97,6 @@ export class NewsComponent implements OnInit, OnDestroy {
 			    		this.data.newSearchCaption = urlData.params.name;
 			    		this.data.selectedIndex = 2;
 			    		this.search('default');
-
-			    		console.log("url name:", this.data);
 			    	}
 				}
 			});

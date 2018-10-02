@@ -19,10 +19,6 @@ const routes: Routes = [
 		MatButtonModule,
 		MatButtonToggleModule
 	],
-	exports: [
-		MatButtonModule,
-		MatButtonToggleModule
-	],
 	declarations: [
 		PrivacyComponent
 	]

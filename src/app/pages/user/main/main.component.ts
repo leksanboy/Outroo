@@ -73,11 +73,6 @@ export class MainComponent implements OnInit, OnDestroy {
 		private publicationsDataService: PublicationsDataService,
 		private notificationsDataService: NotificationsDataService
 	) {
-		//////////
-		// META //
-		//////////
-		console.log("constructor", new Date());
-
 		// Get url data
 		let urlData: any = this.activatedRoute.snapshot.params.id;
 		
@@ -213,9 +208,6 @@ export class MainComponent implements OnInit, OnDestroy {
 	siteUserData(id){
 		this.userDataService.getUserData(id)
 			.subscribe(res => {
-				console.log("siteUserData", res);
-				console.log("siteUserData", new Date());
-
 				if (res) {
 					this.userExists = true;
 					this.userData = res;

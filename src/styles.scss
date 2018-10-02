@@ -252,7 +252,6 @@ body{
 		&[label="add"]{
 			mask-size: 48px calc(48px * 15);
 			mask-position: 0 -552px;
-			margin: 12px;
 			height: 24px;
 			width: 24px;
 		}
@@ -260,6 +259,104 @@ body{
 		&[label="check"]{
 			mask-size: 48px calc(48px * 15);
 			mask-position: 0 -528px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="check-circle"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: 0 -432px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="uncheck-circle"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: -24px -432px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="info"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: 0 -456px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="clear"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: -24px -528px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="videocam"]{
+			background-color: $whiteColor !important;
+			mask-size: 48px calc(48px * 15);
+			mask-position: -24px -168px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="gif"]{
+			background-color: $whiteColor !important;
+			mask-size: 48px calc(48px * 15);
+			mask-position: 0 -168px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="video"]{
+			background-color: $whiteColor !important;
+			mask-size: 48px calc(48px * 15);
+			mask-position: -24px -168px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="cloud-off"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: -24px -552px;
+			margin: 12px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="cloud-upload"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: -24px -72px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="error-outline"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: -24px -456px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="autorenew"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: -24px -480px;
+			margin: 12px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="reply"]{
+			mask-size: 36px calc(36px * 15);
+			mask-position: 0 -522px;
+			margin: 0 0 -4px 0;
+			height: 18px;
+			width: 18px;
+		}
+
+		&[label="lock"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: -24px -624px;
+			min-width: 24px;
 			height: 24px;
 			width: 24px;
 		}
@@ -352,19 +449,18 @@ body{
 		}
 
 		&[label="more"]{
-			mask-size: 48px calc(48px * 15);
-			mask-position: 0 -120px;
-			height: 24px;
-			width: 24px;
-			margin: 8px;
+			mask-size: 40px calc(40px * 15);
+			mask-position: 0 -100px;
+			height: 20px;
+			width: 20px;
 		}
 
 		&[label="more-mini"]{
-			mask-size: 28px calc(28px * 15);
+			mask-size: 40px calc(40px * 15);
 			background-color: $greyColor;
-			mask-position: 0 -70px;
-			height: 14px;
-			width: 14px;
+			mask-position: 0 -100px;
+			height: 20px;
+			width: 20px;
 		}
 
 		&[label="check-mini"]{
@@ -424,6 +520,24 @@ body{
 			width: 24px;
 		}
 
+		&[label="image"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: 0 -648px;
+			min-width: 24px;
+			height: 24px;
+			width: 24px;
+
+			&.big{
+				mask-size: 72px calc(72px * 15);
+				background-color: $whiteColor;
+				mask-position: 0 -972px;
+				min-width: 36px;
+				margin: 30px;
+				height: 36px;
+				width: 36px;
+			}
+		}
+
 		&[label="photo-camera"]{
 			mask-size: 48px calc(48px * 15);
 			mask-position: -24px -576px;
@@ -456,6 +570,224 @@ body{
 			height: 24px;
 			width: 24px;
 		}
+
+		&[label="zoom-in"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: 0 -336px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="zoom-out"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: -24px -336px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="rotate-left"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: 0 -360px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="rotate-right"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: -24px -360px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="swap-horiz"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: 0 -384px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="swap-vert"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: -24px -384px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="chevron-left"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: 0 -408px;
+			height: 24px;
+			width: 24px;
+		}
+
+		&[label="chevron-right"]{
+			mask-size: 48px calc(48px * 15);
+			mask-position: -24px -408px;
+			height: 24px;
+			width: 24px;
+		}
+	}
+
+	ul.tracks{
+		float: left;
+		width: 100%;
+		padding: 0;
+		margin: 0;
+
+		li{
+			border: none !important;
+			display: flex;
+			padding: 0;
+			margin: 0;
+
+			.inner{
+				padding: 2px 1px 2px 18px;
+				box-sizing: border-box;
+				align-items: center;
+				flex-direction: row;
+				position: relative;
+				margin: 0 0 4px;
+				display: flex;
+				width: 100%;
+
+				&:hover{
+					background-color: transparentize($greyColor, .9);
+				}
+
+				.image{
+					width: 42px;
+
+					button{
+						overflow: hidden;
+						height: 42px;
+						width: 42px;
+						margin: 0;
+
+						img{
+							position: absolute;
+							height: 100%;
+							width: 100%;
+							left: 0;
+							top: 0;
+						}
+
+						.mat-button-ripple-round{
+							border-radius: 0;
+						}
+
+						i{
+							background-color: $whiteColor;
+							position: relative;
+							z-index: 1;
+						}
+					}
+				}
+
+				.text{
+					justify-content: space-between;
+					box-sizing: border-box;
+					line-height: 42px;
+					overflow: hidden;
+					display: flex;
+					width: 100%;
+
+					.duration,
+					.titleArtist{
+						flex-direction: column;
+						box-sizing: border-box;
+						padding: 0 0 0 12px;
+						text-align: left;
+						overflow: hidden;
+						max-width: 80%;
+						display: flex;
+
+						.title{
+							text-overflow: ellipsis;
+							white-space: nowrap;
+							line-height: 15px;
+							overflow: hidden;
+							padding: 4px 0;
+						}
+
+						.artist{
+							text-overflow: ellipsis;
+							white-space: nowrap;
+							color: $greyColor;
+							line-height: 13px;
+							overflow: hidden;
+							font-size: 13px;
+						}
+					}
+
+					.duration{
+						padding: 0 6px 0 0;
+						color: $greyColor;
+						text-align: right;
+						font-size: 14px;
+						max-width: 75px;
+						width: 75px;
+					}
+				}
+
+				.actions{
+					box-sizing: border-box;
+					height: 42px;
+					width: 42px;
+					margin: 0;
+
+					button{
+						height: 42px;
+						width: 42px;
+						margin: 0;
+
+						i{
+							background-color: $greyColor;
+						}
+					}
+				}
+			}
+
+			.ad{
+				box-sizing: border-box;
+				padding: 2px 0 4px 0;
+				width: 100%;
+				float: left;
+
+				.box{
+					width: 100%;
+					float: left;
+				}
+			}
+
+			&.active{
+				.inner{
+					background-color: transparentize($fontBlackColor, .95);
+
+					.text{
+						color: $blueColor;
+
+						.titleArtist .artist{
+							color: transparentize($blueColor, .5);
+						}
+					}
+				}
+			}
+
+			&.default{
+				.image{
+					button{
+						i{
+							background-color: currentColor !important;
+						}
+					}
+				}
+			}
+
+			&.remove{
+				filter: grayscale(100%);
+				opacity: .5;
+			}
+		}
 	}
 
 	/*#, @, url*/
@@ -481,6 +813,10 @@ body{
 	textarea{
 		font-size: 15px;
 		resize: none;
+
+		&[disabled]{
+			color: $greyColor !important;
+		}
 	}
 
 	/*Generic buttons*/
@@ -614,11 +950,6 @@ body{
 		button{
 			border-radius: 50% !important;
 			margin: 0 40px 0 0;
-
-			.mat-icon{
-				color: transparentize($fontBlackColor, .46);
-				font-size: 20px !important;
-			}
 
 			&.noLength{
 				margin: 0;
@@ -865,15 +1196,6 @@ body{
 				width: 100%;
 				float: left;
 
-				/*mat-icon{
-					color: $greyColor;
-					line-height: 18px;
-					font-size: 18px;
-					padding: 9px;
-					height: 18px;
-					width: 18px;
-				}*/
-
 				button{
 					line-height: 36px;
 					height: 36px;
@@ -928,11 +1250,6 @@ body{
 
 							.name{
 								float: left;
-							}
-
-							mat-icon{
-								color: $fontBlackColor;
-								padding: 3px;
 							}
 						}
 					}
@@ -1142,7 +1459,7 @@ body{
 									height: 24px;
 									width: 24px;
 
-									i{
+									/*i{
 										mask-size: 24px calc(24px * 15);
 										background-color: $greyColor;
 										mask-image: $spriteImages;
@@ -1152,7 +1469,7 @@ body{
 										display: block;
 										height: 12px;
 										width: 12px;
-									}
+									}*/
 								}
 							}
 						}
@@ -1353,11 +1670,6 @@ body{
 						width: 36px;
 						float: left;
 						margin: 0;
-
-						mat-icon{
-							vertical-align: inherit;
-							padding: 6px;
-						}
 					}
 
 					.icon{
@@ -1368,22 +1680,17 @@ body{
 						float: left;
 						width: 36px;
 						margin: 6px;
-
-						mat-icon{
-							vertical-align: inherit;
-							margin: 3px 0 0;
-						}
 					}
 
 					.size{
 						background-color: $redColor;
 						box-shadow: $shadowBox2;
+						margin: 12px 6px 0 0;
 						white-space: nowrap;
 						border-radius: 5px;
 						color: $whiteColor;
 						line-height: 18px;
 						font-weight: bold;
-						margin: 9px 0 0;
 						font-size: 10px;
 						padding: 0 3px;
 						height: 18px;
@@ -1437,7 +1744,7 @@ body{
 			margin: 0;
 
 			li{
-				background-color: $whiteColor;
+				background-color: $fontBlackColor !important;
 				box-sizing: border-box;
 				margin: 0 .5% .5% 0;
 				position: relative;
@@ -1458,7 +1765,8 @@ body{
 					height: 100%;
 					width: 100%;
 
-					.img{
+					.img,
+					.vid{
 						background-position: center 35%;
 						background-repeat: no-repeat;
 						transform: translate(0px);
@@ -1467,25 +1775,26 @@ body{
 						display: inline-block;
 						height: 100%;
 						width: 100%;
-					}
 
-					.vid{
 						video{
-							background-color: $blackColor;
-							width: 100%;
+							height: 100%;
+							width: 100%;							
 						}
 					}
 				}
 
 				.category{
+					flex-direction: row-reverse;
 					position: absolute;
 					color: $whiteColor;
 					margin: 2px 6px;
+					display: flex;
+					width: 100%;
 					bottom: 0;
 					right: 0;
 
-					mat-icon{
-						text-shadow: $shadowText2;
+					i{
+						background-color: $whiteColor;
 					}
 
 					.size{
@@ -1523,11 +1832,13 @@ body{
 						width: 36px;
 						margin: 6px;
 
-						mat-icon{
-							text-shadow: $shadowText2;
-							vertical-align: inherit;
-							color: $whiteColor;
-							margin: 5px 0 0;
+						span{
+							display: flex;
+							
+							i{
+								background-color: $whiteColor;
+								margin: 4px;
+							}
 						}
 					}
 
@@ -1584,7 +1895,7 @@ body{
 			}
 
 			button{
-				background: $greyColor;
+				background: $whiteColor;
 				color: $fontBlackColor;
 				margin: 0 6px;
 				width: 100%;
@@ -1592,10 +1903,6 @@ body{
 				&:last-child{
 					background: $blueColor;
 					color: $whiteColor;
-				}
-
-				mat-icon{
-					font-size: 20px;
 				}
 
 				mat-progress-spinner{
@@ -1887,13 +2194,6 @@ body{
 					font-weight: bold;
 					width: 100%;
 				}
-
-				.close{
-					mat-icon{
-						color: $whiteColor;
-						font-size: 18px;
-					}
-				}
 			}
 
 			.box{
@@ -1988,9 +2288,9 @@ body{
 			z-index: 1;
 			top: 0;
 
-			mat-icon{
+			i{
+				background-color: transparentize($whiteColor, .25);
 				filter: drop-shadow(0px 4px 2px rgba(0,0,0,.5));
-				color: transparentize($whiteColor, .25);
 				margin: auto auto auto 6px;
 				position: absolute;
 				bottom: 0;
@@ -2004,7 +2304,7 @@ body{
 			border-radius: 5px 0 0 5px;
 			right: 0;
 
-			mat-icon{
+			i{
 				margin: auto 6px auto auto;
 			}
 		}
@@ -2247,7 +2547,7 @@ body{
 						margin: 0;
 
 						li{
-							background-color: $whiteColor;
+							background-color: $fontBlackColor !important;
 							box-sizing: border-box;
 							margin: 0 .5% .5% 0;
 							position: relative;
@@ -2268,7 +2568,8 @@ body{
 								height: 100%;
 								width: 100%;
 
-								.img{
+								.img,
+								.vid{
 									background-position: center 35%;
 									background-repeat: no-repeat;
 									transform: translate(0px);
@@ -2277,18 +2578,26 @@ body{
 									display: inline-block;
 									height: 100%;
 									width: 100%;
+
+									video{
+										height: 100%;
+										width: 100%;							
+									}
 								}
 							}
 
 							.category{
+								flex-direction: row-reverse;
 								position: absolute;
 								color: $whiteColor;
 								margin: 2px 6px;
+								display: flex;
+								width: 100%;
 								bottom: 0;
 								right: 0;
 
-								mat-icon{
-									text-shadow: $shadowText2;
+								i{
+									background-color: $whiteColor;
 								}
 
 								.size{
@@ -2326,19 +2635,23 @@ body{
 									width: 36px;
 									margin: 6px;
 
-									mat-icon{
-										text-shadow: $shadowText2;
-										vertical-align: inherit;
-										color: $whiteColor;
-										margin: 5px 0 0;
+									span{
+										display: flex;
+										
+										i{
+											background-color: $whiteColor;
+											margin: 4px;
+										}
 									}
 								}
 
 								.progress{
 									background-color: transparentize($fontBlackColor, .75);
 									border-radius: 50%;
-									height: 100%;
-									width: 100%;
+									position: relative;
+			    					height: 36px;
+			    					width: 36px;
+			    					margin: 6px;
 
 									mat-progress-spinner{
 										height: 36px !important;
@@ -2351,6 +2664,7 @@ body{
 
 											circle{
 												stroke: $whiteColor !important;
+												stroke-width: 5px !important;
 											}
 										}
 									}
@@ -2360,7 +2674,7 @@ body{
 										position: absolute;
 										text-align: center;
 										color: $whiteColor;
-										line-height: 48px;
+										line-height: 36px;
 										font-size: 10px;
 										width: 100%;
 										top: 0;
@@ -2374,208 +2688,6 @@ body{
 				.audios{
 					width: 100%;
 					float: left;
-
-					&.withPaddings{
-						box-sizing: border-box;
-						padding: 0 18px;
-					}
-
-					ul{
-						float: left;
-						width: 100%;
-						padding: 0;
-						margin: 0;
-
-						li{
-							display: flex;
-							padding: 0;
-							margin: 0;
-
-							.inner{
-								box-sizing: border-box;
-								align-items: center;
-								flex-direction: row;
-								position: relative;
-								margin: 0 0 4px;
-								padding: 4px 0;
-								display: flex;
-								width: 100%;
-
-								&:hover{
-									background-color: transparentize($fontBlackColor, .95);
-								}
-
-								.image{
-									width: 40px;
-
-									button{
-										overflow: hidden;
-										height: 40px;
-										width: 40px;
-										margin: 0;
-
-										img{
-											position: absolute;
-											height: 100%;
-											width: 100%;
-											left: 0;
-											top: 0;
-										}
-
-										.mat-button-ripple-round{
-											border-radius: 0;
-										}
-
-										mat-icon{
-											text-shadow: 0 1px 5px transparentize($fontBlackColor, .25);
-											color: $whiteColor;
-											position: relative;
-										}
-									}
-								}
-
-								.text{
-									justify-content: space-between;
-									box-sizing: border-box;
-									line-height: 40px;
-									overflow: hidden;
-									display: flex;
-									width: 100%;
-
-									.duration,
-									.titleArtist{
-										flex-direction: column;
-										box-sizing: border-box;
-										padding: 0 0 0 12px;
-										text-align: left;
-										overflow: hidden;
-										max-width: 80%;
-										display: flex;
-
-										.title{
-											text-overflow: ellipsis;
-											white-space: nowrap;
-											color: $whiteColor;
-											padding: 4px 0 2px;
-											line-height: 15px;
-											overflow: hidden;
-										}
-
-										.artist{
-											text-overflow: ellipsis;
-											white-space: nowrap;
-											color: $greyColor;
-											line-height: 13px;
-											overflow: hidden;
-											font-size: 13px;
-										}
-									}
-
-									.duration{
-										color: transparentize($whiteColor, .5);
-										padding: 0 6px 0 0;
-										text-align: right;
-										font-size: 14px;
-										max-width: 75px;
-										width: 75px;
-									}
-								}
-
-								.category{
-									display: flex;
-
-									mat-icon{
-										margin: 8px;
-										float: left;
-									}
-
-									.size{
-										background-color: $redColor;
-										box-shadow: $shadowBox2;
-										white-space: nowrap;
-										border-radius: 3px;
-										color: $whiteColor;
-										line-height: 14px;
-										font-weight: bold;
-										margin: 13px 0;
-										padding: 0 3px;
-										font-size: 8px;
-										height: 14px;
-										float: left;
-									}
-								}
-
-								.status{
-									box-sizing: border-box;
-									margin: 0 0 0 8px;
-									height: 40px;
-									width: 40px;
-
-									button{
-										border-radius: 50% !important;
-										border: 2px solid $whiteColor;
-										background-color: transparent;
-										box-shadow: $shadowBox2;
-										box-sizing: border-box;
-										height: 36px;
-										width: 36px;
-										margin: 2px;
-
-										mat-icon{
-											text-shadow: $shadowText2;
-											vertical-align: inherit;
-											color: $whiteColor;
-											margin: 5px 0 0;
-										}
-									}
-
-									.progress{
-										background-color: transparentize($fontBlackColor, .75);
-										border-radius: 50%;
-										height: 100%;
-										width: 100%;
-
-										mat-progress-spinner{
-											height: 36px !important;
-											width: 36px !important;
-
-											svg {
-												filter: drop-shadow($shadowText1);
-												height: 36px !important;
-												width: 36px !important;
-
-												circle{
-													stroke: $whiteColor !important;
-												}
-											}
-										}
-
-										.value{
-											text-shadow: $shadowText1;
-											text-align: center;
-											color: $whiteColor;
-											margin: -40px 0 0;
-											line-height: 40px;
-											font-size: 10px;
-											width: 100%;
-											top: 0;
-										}
-									}
-								}
-							}
-						}
-
-						&.default{
-							.image{
-								button{
-									mat-icon{
-										color: $fontBlackColor;
-										text-shadow: 0 0;
-									}
-								}
-							}
-						}
-					}
 				}
 
 				.filesBox{
@@ -2587,9 +2699,9 @@ body{
 						color: $fontBlackColor;
 						border-radius: 3px;
 						font-weight: bold;
+						margin: 12px 18px;
 						padding: 2px 6px;
 						font-size: 12px;
-						margin: 12px 0;
 						float: left;
 
 						&.warning{
@@ -2655,37 +2767,10 @@ body{
 								box-shadow: none;
 								right: 0;
 								top: 0;
-
-								mat-icon{
-									text-shadow: $shadowText2;
-									color: $whiteColor;
-								}
 							}
 						}
 					}
-
-					.photos,
-					.audios{
-						box-sizing: border-box;
-						padding: 0 18px;
-						width: 100%;
-						float: left;
-					}
 				}
-
-				/*.loadMore{
-					button{
-						border-color: $whiteColor;
-					}
-
-					mat-progress-spinner svg circle{
-						stroke: $whiteColor;
-					}
-				}
-
-				.noData{
-					color: $whiteColor;
-				}*/
 			}
 
 			/*show photos/publication*/
@@ -2744,18 +2829,6 @@ body{
 						.actions{
 							button{
 								border-radius: 50% !important;
-
-								i{
-									mask-size: 28px calc(28px * 15);
-									background-color: $whiteColor;
-									mask-image: $spriteImages;
-									mask-position: 0 -70px;
-									mask-repeat: no-repeat;
-									margin: 0 0 0 12px;
-									display: block;
-									height: 14px;
-									width: 14px;
-								}
 							}
 						}
 					}
@@ -2809,14 +2882,6 @@ body{
 										width: 64px;
 										left: 50%;
 										top: 50%;
-
-										mat-icon{
-											color: $fontBlackColor;
-											font-size: 30px;
-											margin: 6px 0;
-											height: 30px;
-											width: 30px;
-										}
 									}
 
 									.type{
@@ -2867,6 +2932,7 @@ body{
 
 						.photos{
 							background: $blackColor;
+							position: relative;
 							float: left;
 							width: 100%;
 
@@ -2883,31 +2949,26 @@ body{
 							/*Photos*/
 							.prev,
 							.next{
-								height: calc(100% - 56px);
+								border-radius: 0 5px 5px 0;
 								position: absolute;
 								cursor: pointer;
+								display: flex;
+								margin: 25% 0;
 								width: 100px;
-								top: 56px;
+								height: 50%;
+								z-index: 1;
+								top: 0;
 
-								mat-icon{
-									filter: drop-shadow(0px 4px 2px rgba(0,0,0,.5));
-									color: transparentize($whiteColor, .15);
+								i{
 									margin: auto auto auto 6px;
-									position: absolute;
-									font-size: 42px;
-									height: 42px;
-									width: 42px;
-									bottom: 0;
-									right: 0;
-									left: 0;
-									top: 0;
 								}
 							}
 
 							.next{
+								border-radius: 5px 0 0 5px;
 								right: 0;
 
-								mat-icon{
+								i{
 									margin: auto 6px auto auto;
 								}
 							}
@@ -2919,14 +2980,6 @@ body{
 								width: 86px;
 								left: 50%;
 								top: 50%;
-
-								mat-icon{
-									text-shadow: $shadowText2;
-									color: $whiteColor;
-									font-size: 86px;
-									height: 86px;
-									width: 86px;
-								}
 							}
 						}
 
@@ -2982,170 +3035,8 @@ body{
 								}
 
 								.audios{
-									box-sizing: border-box;
-									padding: 0 0 6px 18px;
 									width: 100%;
 									float: left;
-
-									ul{
-										float: left;
-										width: 100%;
-										padding: 0;
-										margin: 0;
-
-										li{
-											transition: .15s;
-											display: flex;
-											border: none;
-											padding: 0;
-											margin: 0;
-
-											.inner{
-												box-sizing: border-box;
-												align-items: center;
-												flex-direction: row;
-												position: relative;
-												margin: 0 0 4px;
-												padding: 2px 0;
-												display: flex;
-												width: 100%;
-
-												&:hover{
-													background-color: transparentize($fontBlackColor, .95);
-												}
-
-												.image{
-													width: 42px;
-
-													button{
-														overflow: hidden;
-														height: 42px;
-														width: 42px;
-														margin: 0;
-
-														img{
-															position: absolute;
-															height: 100%;
-															width: 100%;
-															left: 0;
-															top: 0;
-														}
-
-														.mat-button-ripple-round{
-															border-radius: 0;
-														}
-
-														mat-icon{
-															text-shadow: 0 1px 5px transparentize($fontBlackColor, .25);
-															color: $whiteColor;
-															position: relative;
-															z-index: 1;
-														}
-													}
-												}
-
-												.text{
-													justify-content: space-between;
-													box-sizing: border-box;
-													line-height: 42px;
-													overflow: hidden;
-													display: flex;
-													width: 100%;
-
-													.duration,
-													.titleArtist{
-														flex-direction: column;
-														box-sizing: border-box;
-														padding: 0 0 0 12px;
-														text-align: left;
-														overflow: hidden;
-														max-width: 80%;
-														display: flex;
-
-														.title{
-															text-overflow: ellipsis;
-															white-space: nowrap;
-															line-height: 15px;
-															overflow: hidden;
-															padding: 4px 0;
-														}
-
-														.artist{
-															text-overflow: ellipsis;
-															white-space: nowrap;
-															color: $greyColor;
-															line-height: 13px;
-															overflow: hidden;
-															font-size: 13px;
-														}
-													}
-
-													.duration{
-														padding: 0 6px 0 0;
-														color: $greyColor;
-														text-align: right;
-														font-size: 14px;
-														max-width: 75px;
-														width: 75px;
-													}
-												}
-
-												.actions{
-													box-sizing: border-box;
-													height: 42px;
-													width: 42px;
-
-													button{
-														height: 42px;
-														width: 42px;
-														margin: 0;
-
-														mat-icon{
-															color: $greyColor;
-															text-shadow: none;
-															font-size: 20px;
-
-															&.added{
-																color: $blueColor !important;
-															}
-														}
-													}
-												}
-											}
-
-											&.active{
-												.inner{
-													background-color: transparentize($fontBlackColor, .95);
-													color: $blueColor;
-												}
-
-												.text .titleArtist .artist{
-													color: transparentize($blueColor, .5);
-												}
-
-												.text .duration,
-												.actions button mat-icon{
-													color: $blueColor;
-												}
-											}
-
-											&.default{
-												.image{
-													button{
-														mat-icon{
-															color: $whiteColor;
-															text-shadow: 0 0;
-														}
-													}
-												}
-											}
-
-											&.remove{
-												filter: grayscale(100%);
-												opacity: .5;
-											}
-										}
-									}
 								}
 							}
 						}
@@ -3156,26 +3047,8 @@ body{
 					padding: 24px 36px 48px;
 				}
 
-				/*.loadMore{
-					button{
-						border-color: $whiteColor;
-					}
-
-					mat-progress-spinner svg circle{
-						stroke: $whiteColor;
-					}
-				}*/
-
 				.noData{
 					padding: 24px 36px 48px;
-					/*color: $whiteColor;*/
-
-					mat-icon{
-						padding: 0 0 24px;
-						font-size: 48px;
-						height: 48px;
-						width: 48px;
-					}
 				}
 			}
 
@@ -3183,7 +3056,7 @@ body{
 			.bodyLikes{
 				width: $modalWidth;
 				padding: 0 0 24px;
-				min-height: 360px;
+				min-height: 180px;
 
 				.container{
 					padding: 12px 0 0;
@@ -3341,6 +3214,7 @@ body{
 
 			/*audios*/
 			.bodyAudios{
+				color: $whiteColor;
 				width: $modalWidth;
 				padding: 0 0 24px;
 				min-height: 360px;
@@ -3381,7 +3255,6 @@ body{
 							bottom: 0;
 
 							.top{
-								color: $whiteColor;
 								text-align: center;
 								width: 100%;
 								float: left;
@@ -3435,28 +3308,11 @@ body{
 										box-sizing: border-box;
 										height: 56px;
 										width: 56px;
-
-										mat-icon{
-											color: $whiteColor;
-											line-height: 32px;
-											font-size: 32px;
-											height: 32px;
-											width: 32px;
-										}
 									}
 
 									&.prev,
 									&.next{
 										margin: 4px 18px;
-
-										mat-icon{
-											text-shadow: $shadowText1;
-											color: $whiteColor;
-											font-size: 32px;
-											height: 32px;
-											width: 32px;
-											padding: 0;
-										}
 									}
 								}
 							}
@@ -3521,13 +3377,6 @@ body{
 							text-overflow: ellipsis;
 							overflow: hidden;
 							max-height: 84px;
-
-							mat-icon{
-								position: relative;
-								font-size: 20px;
-								margin: 4px 0 0;
-								float: right;
-							}
 						}
 
 						.username{
@@ -3572,167 +3421,6 @@ body{
 					width: 100%;
 					float: left;
 					z-index: 1;
-
-					ul{
-						float: left;
-						width: 100%;
-						padding: 0;
-						margin: 0;
-
-						li{
-							display: flex;
-							padding: 0;
-							margin: 0;
-
-							.inner{
-								padding: 2px 9px 2px 18px;
-								box-sizing: border-box;
-								align-items: center;
-								flex-direction: row;
-								position: relative;
-								margin: 0 0 4px;
-								display: flex;
-								width: 100%;
-
-								&:hover{
-									background-color: transparentize($greyColor, .9);
-								}
-
-								.image{
-									width: 42px;
-
-									button{
-										overflow: hidden;
-										height: 42px;
-										width: 42px;
-										margin: 0;
-
-										img{
-											position: absolute;
-											height: 100%;
-											width: 100%;
-											z-index: -1;
-											left: 0;
-											top: 0;
-										}
-
-										.mat-button-ripple-round{
-											border-radius: 0;
-										}
-
-										mat-icon{
-											text-shadow: 0 1px 5px transparentize($fontBlackColor, .25);
-											color: $whiteColor;
-											position: relative;
-											z-index: 1;
-										}
-									}
-								}
-
-								.text{
-									justify-content: space-between;
-									box-sizing: border-box;
-									line-height: 42px;
-									overflow: hidden;
-									display: flex;
-									width: 100%;
-
-									.duration,
-									.titleArtist{
-										flex-direction: column;
-										box-sizing: border-box;
-										padding: 0 0 0 12px;
-										text-align: left;
-										overflow: hidden;
-										max-width: 80%;
-										display: flex;
-
-										.title{
-											text-overflow: ellipsis;
-											white-space: nowrap;
-											line-height: 15px;
-											overflow: hidden;
-											padding: 4px 0;
-										}
-
-										.artist{
-											text-overflow: ellipsis;
-											white-space: nowrap;
-											color: $greyColor;
-											line-height: 13px;
-											overflow: hidden;
-											font-size: 13px;
-										}
-									}
-
-									.duration{
-										padding: 0 6px 0 0;
-										color: $greyColor;
-										text-align: right;
-										font-size: 14px;
-										max-width: 75px;
-										width: 75px;
-									}
-								}
-
-								.actions{
-									box-sizing: border-box;
-									height: 42px;
-									width: 42px;
-									margin: 0;
-
-									button{
-										height: 42px;
-										width: 42px;
-										margin: 0;
-
-										mat-icon{
-											color: $greyColor;
-											text-shadow: none;
-											font-size: 20px;
-
-											&.added{
-												color: $blueColor !important;
-											}
-										}
-									}
-								}
-							}
-
-							.ad{
-								box-sizing: border-box;
-								padding: 2px 0 4px 0;
-								width: 100%;
-								float: left;
-
-								.box{
-									width: 100%;
-									float: left;
-								}
-							}
-
-							&.active{
-								.inner{
-									background-color: transparentize($fontBlackColor, .95);
-									color: $blueColor;
-								}
-
-								.text .titleArtist .artist{
-									color: transparentize($blueColor, .5);
-								}
-
-								.text .duration,
-								.actions button mat-icon{
-									color: $blueColor;
-								}
-							}
-
-							&.remove{
-								filter: grayscale(100%);
-								opacity: .5;
-							}
-						}
-					}
 
 					.noData{
 						padding: 56px 0;
@@ -3797,13 +3485,6 @@ body{
 								background: $fontBlackColor;
 								color: $whiteColor;
 								margin: 0 4px;
-
-								mat-icon{
-									color: $whiteColor;
-									font-size: 20px;
-									padding: 0;
-									margin: 0;
-								}
 							}
 						}
 					}
@@ -3964,15 +3645,7 @@ body{
 													display: inherit;
 
 													i{
-														mask-size: 28px calc(28px * 15);
-														background-color: $blackColor;
-														mask-image: $spriteImages;
-														mask-position: 0 -70px;
-														mask-repeat: no-repeat;
-														margin: 11px 0 0;
-														display: block;
-														height: 14px;
-														width: 14px;
+														margin: 12px 0;
 													}
 												}
 											}
@@ -4043,11 +3716,6 @@ body{
 
 												.arrow{
 													float: left;
-
-													mat-icon{
-														color: $greyColor;
-														margin: 4px 0;
-													}
 												}
 											}
 
@@ -4093,14 +3761,6 @@ body{
 															width: 64px;
 															left: 50%;
 															top: 50%;
-
-															mat-icon{
-																color: $fontBlackColor;
-																font-size: 30px;
-																margin: 6px 0;
-																height: 30px;
-																width: 30px;
-															}
 														}
 
 														.type{
@@ -4141,175 +3801,8 @@ body{
 											}
 
 											.audios{
-												ul{
-													margin: 6px 0 0;
-													float: left;
-													width: 100%;
-													padding: 0;
-
-													li{
-														transition: .15s;
-														display: flex;
-														border: none;
-														padding: 0;
-														margin: 0;
-
-														.inner{
-															padding: 2px 9px 2px 12px;
-															box-sizing: border-box;
-															align-items: center;
-															flex-direction: row;
-															position: relative;
-															margin: 0 0 4px;
-															display: flex;
-															width: 100%;
-
-															.image{
-																width: 42px;
-
-																button{
-																	overflow: hidden;
-																	height: 42px;
-																	width: 42px;
-																	margin: 0;
-
-																	img{
-																		position: absolute;
-																		height: 100%;
-																		width: 100%;
-																		left: 0;
-																		top: 0;
-																	}
-
-																	.mat-button-ripple-round{
-																		border-radius: 0;
-																	}
-
-																	mat-icon{
-																		text-shadow: 0 1px 5px transparentize($fontBlackColor, .25);
-																		color: $whiteColor;
-																		position: relative;
-																		z-index: 1;
-																	}
-																}
-															}
-
-															.text{
-																justify-content: space-between;
-																box-sizing: border-box;
-																line-height: 42px;
-																overflow: hidden;
-																display: flex;
-																width: 100%;
-																padding: 0;
-
-																.duration,
-																.titleArtist{
-																	flex-direction: column;
-																	box-sizing: border-box;
-																	padding: 0 0 0 12px;
-																	text-align: left;
-																	overflow: hidden;
-																	max-width: 80%;
-																	display: flex;
-
-																	.title{
-																		text-overflow: ellipsis;
-																		white-space: nowrap;
-																		line-height: 15px;
-																		overflow: hidden;
-																		padding: 4px 0;
-																	}
-
-																	.artist{
-																		text-overflow: ellipsis;
-																		white-space: nowrap;
-																		color: $greyColor;
-																		line-height: 13px;
-																		overflow: hidden;
-																		font-size: 13px;
-																	}
-																}
-
-																.duration{
-																	padding: 0 6px 0 0;
-																	color: $greyColor;
-																	text-align: right;
-																	font-size: 14px;
-																	max-width: 75px;
-																	width: 75px;
-																}
-															}
-
-															.actions{
-																box-sizing: border-box;
-																height: 42px;
-																width: 42px;
-																margin: 0;
-
-																button{
-																	height: 42px;
-																	width: 42px;
-																	margin: 0;
-
-																	mat-icon{
-																		color: $greyColor;
-																		text-shadow: none;
-																		font-size: 20px;
-
-																		&.added{
-																			color: $blueColor !important;
-																		}
-																	}
-																}
-															}
-														}
-
-														.ad{
-															box-sizing: border-box;
-															padding: 18px;
-															width: 100%;
-															float: left;
-
-															.box{
-																width: 100%;
-																float: left;
-															}
-														}
-
-														&.active{
-															.inner{
-																background-color: transparentize($fontBlackColor, .95);
-																color: $blueColor;
-															}
-
-															.text .titleArtist .artist{
-																color: transparentize($blueColor, .5);
-															}
-
-															.text .duration,
-															.actions button mat-icon{
-																color: $blueColor;
-															}
-														}
-
-														&.default{
-															.image{
-																button{
-																	mat-icon{
-																		color: $fontBlackColor;
-																		text-shadow: 0 0;
-																	}
-																}
-															}
-														}
-
-														&.remove{
-															filter: grayscale(100%);
-															opacity: .5;
-														}
-													}
-												}
+												width: 100%;
+												float: left;
 											}
 										}
 									}
@@ -4439,14 +3932,6 @@ body{
 									color: $greyColor;
 									padding: 2px 0 0;
 									font-size: 14px;
-
-									mat-icon{
-										margin: -2px 2px 0 -2px;
-										font-size: 18px;
-										height: 18px;
-										width: 18px;
-										float: left;
-									}
 								}
 							}
 
@@ -4454,15 +3939,9 @@ body{
 								box-sizing: border-box;
 								height: 48px;
 
-								mat-icon{
+								i{
 									margin: 12px 0 0;
 								}
-
-								/*button{
-									padding: 0 12px;
-									margin: 5px 0;
-									min-width: 0;
-								}*/
 							}
 						}
 					}
@@ -4473,6 +3952,7 @@ body{
 			.bodyReport{
 				width: $modalWidth;
 				padding: 0 0 24px;
+				min-height: 180px;
 
 				.form{
 					box-sizing: border-box;
@@ -4643,8 +4123,8 @@ body{
 							box-shadow: none;
 							margin: 0 3px;
 
-							mat-icon{
-								color: $whiteColor;
+							i{
+								background-color: $whiteColor;
 							}
 						}
 					}
@@ -5466,7 +4946,6 @@ body{
 						}
 
 						.noData{
-							/*color: $fontBlackColor;*/
 							padding: 56px 0;
 						}
 
@@ -5816,7 +5295,6 @@ body{
 						&.imageColor{
 							background-color: $whiteColor;
 						}
-
 					}
 
 					.dataBox{
@@ -5918,14 +5396,15 @@ body{
 										display: flex;
 
 										i{
-											mask-size: 28px calc(28px * 15);
+											mask-size: 36px calc(36px * 15);
 											background-color: $blackColor;
-											mask-position: -14px -56px;
+											mask-position: -18px -72px;
 											mask-image: $spriteImages;
 											mask-repeat: no-repeat;
-											margin: 8px 4px 0 0;
-											height: 14px;
-											width: 14px;
+											margin: 6px 4px 0 0;
+											min-width: 18px;
+											height: 18px;
+											width: 18px;
 											float: left;
 										}
 									}
@@ -6016,39 +5495,24 @@ body{
 							}
 						}
 
-						.buttonPublication{
-							box-sizing: border-box;
-							padding: 12px 18px;
-							float: left;
-							width: 100%;
-
-							button{
-								text-transform: uppercase;
-								background: $fontBlackColor;
-								color: $whiteColor;
-								height: 48px;
-								width: 100%;
-							}
-						}
-
 						.actions{
 							box-sizing: border-box;
-							padding: 0 12px 12px;
+							padding: 12px;
 							display: flex;
 							width: 100%;
 							float: left;
 
 							button{
-								background-color: $whiteColor;
+								background-color: $fontBlackColor;
 								text-transform: inherit;
-								color: $fontBlackColor;
+								color: $whiteColor;
 								padding: 0 8px;
 								margin: 0 6px;
 								width: 100%;
 								float: left;
 
 								&.active{
-									background-color: $fontBlackColor;
+									background-color: $blueColor;
 									color: $whiteColor;
 								}
 							}
@@ -6131,18 +5595,6 @@ body{
 								.actions{
 									button{
 										border-radius: 50% !important;
-
-										i{
-											mask-size: 28px calc(28px * 15);
-											background-color: currentColor;
-											mask-image: $spriteImages;
-											mask-position: 0 -70px;
-											mask-repeat: no-repeat;
-											margin: 0 0 0 12px;
-											display: block;
-											height: 14px;
-											width: 14px;
-										}
 									}
 								}
 							}
@@ -6194,14 +5646,6 @@ body{
 												width: 64px;
 												left: 50%;
 												top: 50%;
-
-												mat-icon{
-													color: $fontBlackColor;
-													font-size: 30px;
-													margin: 6px 0;
-													height: 30px;
-													width: 30px;
-												}
 											}
 
 											.type{
@@ -6252,14 +5696,6 @@ body{
 										width: 86px;
 										left: 50%;
 										top: 50%;
-
-										mat-icon{
-											text-shadow: $shadowText2;
-											color: $whiteColor;
-											font-size: 86px;
-											height: 86px;
-											width: 86px;
-										}
 									}
 								}
 
@@ -6286,177 +5722,8 @@ body{
 								}
 
 								.audios{
-									ul{
-										margin: 6px 0 0;
-										float: left;
-										width: 100%;
-										padding: 0;
-
-										li{
-											transition: .15s;
-											display: flex;
-											border: none;
-											padding: 0;
-											margin: 0;
-
-											.inner{
-												padding: 2px 2px 2px 18px;
-												box-sizing: border-box;
-												align-items: center;
-												flex-direction: row;
-												position: relative;
-												margin: 0 0 4px;
-												display: flex;
-												width: 100%;
-
-												&:hover{
-													background-color: transparentize($fontBlackColor, .95);
-												}
-
-												.image{
-													width: 42px;
-
-													button{
-														overflow: hidden;
-														height: 42px;
-														width: 42px;
-														margin: 0;
-
-														img{
-															position: absolute;
-															height: 100%;
-															width: 100%;
-															left: 0;
-															top: 0;
-														}
-
-														.mat-button-ripple-round{
-															border-radius: 0;
-														}
-
-														mat-icon{
-															text-shadow: 0 1px 5px transparentize($fontBlackColor, .25);
-															color: $whiteColor;
-															position: relative;
-															z-index: 1;
-														}
-													}
-												}
-
-												.text{
-													justify-content: space-between;
-													box-sizing: border-box;
-													line-height: 42px;
-													overflow: hidden;
-													display: flex;
-													width: 100%;
-
-													.duration,
-													.titleArtist{
-														flex-direction: column;
-														box-sizing: border-box;
-														padding: 0 0 0 12px;
-														text-align: left;
-														overflow: hidden;
-														max-width: 80%;
-														display: flex;
-
-														.title{
-															text-overflow: ellipsis;
-															white-space: nowrap;
-															line-height: 15px;
-															overflow: hidden;
-															padding: 4px 0;
-														}
-
-														.artist{
-															text-overflow: ellipsis;
-															white-space: nowrap;
-															color: $greyColor;
-															line-height: 13px;
-															overflow: hidden;
-															font-size: 13px;
-														}
-													}
-
-													.duration{
-														padding: 0 6px 0 0;
-														color: $greyColor;
-														text-align: right;
-														font-size: 14px;
-														max-width: 75px;
-														width: 75px;
-													}
-												}
-
-												.actions{
-													box-sizing: border-box;
-													height: 42px;
-													width: 42px;
-
-													button{
-														height: 42px;
-														width: 42px;
-														margin: 0;
-
-														mat-icon{
-															color: $greyColor;
-															text-shadow: none;
-															font-size: 20px;
-
-															&.added{
-																color: $blueColor !important;
-															}
-														}
-													}
-												}
-											}
-
-											.ad{
-												box-sizing: border-box;
-												padding: 18px;
-												width: 100%;
-												float: left;
-
-												.box{
-													width: 100%;
-													float: left;
-												}
-											}
-
-											&.active{
-												.inner{
-													background-color: transparentize($fontBlackColor, .95);
-													color: $blueColor;
-												}
-
-												.text .titleArtist .artist{
-													color: transparentize($blueColor, .5);
-												}
-
-												.text .duration,
-												.actions button mat-icon{
-													color: $blueColor;
-												}
-											}
-
-											&.default{
-												.image{
-													button{
-														mat-icon{
-															color: $fontBlackColor;
-															text-shadow: 0 0;
-														}
-													}
-												}
-											}
-
-											&.remove{
-												filter: grayscale(100%);
-												opacity: .5;
-											}
-										}
-									}
+									width: 100%;
+									float: left;
 								}
 							}
 
@@ -6492,7 +5759,6 @@ body{
 					width: 100%;
 					float: left;
 					margin: 0;
-
 
 					.line{
 						position: relative;
@@ -6544,16 +5810,6 @@ body{
 									margin: 6px;
 									bottom: 0;
 									right: 0;
-
-									mat-icon{
-										text-shadow: $shadowText1;
-										color: $whiteColor;
-
-										&.gif{
-											margin: -4px 0 0 -6px;
-											font-size: 34px;
-										}
-									}
 								}
 
 								&:nth-child(3n+3){
@@ -6791,6 +6047,7 @@ body{
 			}
 
 			/*Photos & Videos*/
+			.pageBookmarks,
 			.pagePhotos{
 				max-width: $pageMaxWidth;
 				margin: 0 auto;
@@ -6838,23 +6095,13 @@ body{
 								}
 							}
 
-							.category{
+							.type{
 								position: absolute;
 								height: 24px;
 								width: 24px;
 								margin: 6px;
 								bottom: 0;
 								right: 0;
-
-								mat-icon{
-									text-shadow: $shadowText1;
-									color: $whiteColor;
-
-									&.gif{
-										margin: -4px 0 0 -6px;
-										font-size: 34px;
-									}
-								}
 							}
 
 							&:nth-child(3n+3){
@@ -6880,311 +6127,128 @@ body{
 					float: left;
 					margin: 0;
 
-					ul{
-						float: left;
+					.playlists{
+						-webkit-overflow-scrolling: touch;
+						box-sizing: border-box;
+						white-space: nowrap;
+						overflow-y: hidden;
+						overflow-x: auto;
+						margin: 0 0 12px;
+						padding: 0 18px;
 						width: 100%;
-						padding: 0;
-						margin: 0;
 
-						li{
-							display: flex;
-							padding: 0;
-							margin: 0;
+						.box{
+							box-sizing: border-box;
+							display: inline-block;
+							margin: 0 12px 0 0;
+							list-style: none;
+							max-width: 207px;
+							width: 40vw;
 
-							.inner{
-								padding: 2px 9px 2px 18px;
+							.image{
+								height: calc(40vw - 24px);
 								box-sizing: border-box;
-								align-items: center;
-								flex-direction: row;
 								position: relative;
-								margin: 0 0 4px;
-								display: flex;
-								width: 100%;
-
-								&:hover{
-									background-color: transparentize($greyColor, .9);
-								}
-
-								.image{
-									width: 42px;
-
-									button{
-										overflow: hidden;
-										height: 42px;
-										width: 42px;
-										margin: 0;
-
-										img{
-											position: absolute;
-											height: 100%;
-											width: 100%;
-											z-index: -1;
-											left: 0;
-											top: 0;
-										}
-
-										.mat-button-ripple-round{
-											border-radius: 0;
-										}
-
-										mat-icon{
-											text-shadow: 0 1px 5px transparentize($fontBlackColor, .25);
-											color: $whiteColor;
-											position: relative;
-											z-index: 1;
-										}
-									}
-								}
-
-								.text{
-									justify-content: space-between;
-									box-sizing: border-box;
-									line-height: 42px;
-									overflow: hidden;
-									display: flex;
-									width: 100%;
-
-									.duration,
-									.titleArtist{
-										flex-direction: column;
-										box-sizing: border-box;
-										padding: 0 0 0 12px;
-										text-align: left;
-										overflow: hidden;
-										max-width: 80%;
-										display: flex;
-
-										.title{
-											text-overflow: ellipsis;
-											white-space: nowrap;
-											line-height: 15px;
-											overflow: hidden;
-											padding: 4px 0;
-										}
-
-										.artist{
-											text-overflow: ellipsis;
-											white-space: nowrap;
-											color: $greyColor;
-											line-height: 13px;
-											overflow: hidden;
-											font-size: 13px;
-										}
-									}
-
-									.duration{
-										padding: 0 6px 0 0;
-										color: $greyColor;
-										text-align: right;
-										font-size: 14px;
-										max-width: 75px;
-										width: 75px;
-									}
-								}
-
-								.actions{
-									box-sizing: border-box;
-									height: 42px;
-									width: 42px;
-									margin: 0;
-
-									button{
-										height: 42px;
-										width: 42px;
-										margin: 0;
-
-										mat-icon{
-											color: $greyColor;
-											text-shadow: none;
-											font-size: 20px;
-
-											&.added{
-												color: $blueColor !important;
-											}
-										}
-									}
-								}
-							}
-
-							.ad{
-								box-sizing: border-box;
-								padding: 2px 0 4px 0;
+								border-radius: 5px;
+								max-height: 207px;
+								cursor: pointer;
 								width: 100%;
 								float: left;
 
-								.box{
+								.img{
+									background-position: center 65%;
+									background-repeat: no-repeat;
+									transform: translate(0);
+									box-sizing: border-box;
+									background-size: cover;
+									display: inline-block;
+									border-radius: 5px;
+									height: 100%;
 									width: 100%;
+								}
+
+								.category{
+									position: absolute;
+									height: 40px;
+									width: 40px;
 									float: left;
+									bottom: 0;
+									right: 0;
 								}
 							}
 
-							&.active{
-								.inner{
-									background-color: transparentize($fontBlackColor, .95);
-									color: $blueColor;
+							.panel{
+								padding: 0 0 6px 0;
+								position: relative;
+								display: flex;
+								width: 100%;
+								float: left;
+
+								.title{
+									text-overflow: ellipsis;
+									box-sizing: border-box;
+								    white-space: nowrap;
+									padding: 0 0 0 4px;
+									line-height: 40px;
+								    overflow: hidden;
+								    cursor: pointer;
+									width: 100%;
 								}
 
-								.text .titleArtist .artist{
-									color: transparentize($blueColor, .5);
-								}
-
-								.text .duration,
-								.actions button mat-icon{
-									color: $blueColor;
+								.actions{
+									display: flex;
+									height: 40px;
+									float: left;
+									margin: 0;
 								}
 							}
 
-							&.default{
+							&.new{
+								float: left;
+
 								.image{
-									button{
-										mat-icon{
-											color: $fontBlackColor;
-											text-shadow: 0 0;
-										}
+									background-color: transparent;
+									border: 1px solid $greyColor;
+
+									.text{
+										justify-content: space-between;
+										box-sizing: border-box;
+										position: absolute;
+										text-align: center;
+										font-weight: bold;
+										line-height: 100%;
+										line-height: 36px;
+										font-size: 36px;
+										padding: 0 12px;
+										height: 36px;
+										margin: auto;
+										width: 100%;
+										bottom: 0;
+										top: 0;
 									}
 								}
 							}
 
-							&.remove{
-								filter: grayscale(100%);
-								opacity: .5;
+							&:last-child{
+								margin: 0;
 							}
 						}
 					}
 
-					.playlist{
-						box-sizing: border-box;
-						padding: 0 18px 12px;
+					.scrolling-wrapper {
+						-webkit-overflow-scrolling: touch;
+						white-space: nowrap;
+						overflow-y: hidden;
+						overflow-x: scroll;
+						margin: 12px 0;
 						width: 100%;
-						float: left;
-						margin: 0;
 
-						ul{
-							white-space: nowrap;
-							overflow-y: hidden;
-							overflow-x: auto;
-							float: left;
-							padding: 0;
-							margin: 0;
-
-							li{
-								box-sizing: border-box;
-								display: inline-block;
-								position: relative;
-								margin: 0 12px 0 0;
-								list-style: none;
-								width: 40%;
-
-								.image{
-									height: calc(40vw - 24px);
-									box-sizing: border-box;
-									position: relative;
-									border-radius: 5px;
-									max-height: 207px;
-									cursor: pointer;
-									width: 100%;
-									float: left;
-
-									.img{
-										background-position: center 65%;
-										background-repeat: no-repeat;
-										transform: translate(0);
-										box-sizing: border-box;
-										background-size: cover;
-										display: inline-block;
-										border-radius: 5px;
-										height: 100%;
-										width: 100%;
-									}
-
-									.category{
-										position: absolute;
-										height: 40px;
-										width: 40px;
-										float: left;
-										bottom: 0;
-										right: 0;
-
-										mat-icon{
-											text-shadow: $shadowText1;
-											color: $whiteColor;
-											font-size: 18px;
-											padding: 11px;
-											height: 18px;
-											width: 18px;
-										}
-									}
-								}
-
-								.panel{
-									padding: 0 0 6px 0;
-									position: relative;
-									display: flex;
-									width: 100%;
-									float: left;
-
-									.title{
-										text-overflow: ellipsis;
-										box-sizing: border-box;
-									    white-space: nowrap;
-										padding: 0 0 0 4px;
-										line-height: 40px;
-									    overflow: hidden;
-									    cursor: pointer;
-										width: 100%;
-									}
-
-									.actions{
-										display: flex;
-										height: 40px;
-										float: left;
-										margin: 0;
-
-										button{
-											/*margin: 0 -8px 0 0;
-											float: left;*/
-
-											mat-icon{
-												text-shadow: none;
-												font-size: 20px;
-
-												&.added{
-													color: $blueColor !important;
-												}
-											}
-										}
-									}
-								}
-
-								&.new{
-									float: left;
-
-									.image{
-										border: 1px solid $greyColor;
-
-										.text{
-											justify-content: space-between;
-											box-sizing: border-box;
-											position: absolute;
-											text-align: center;
-											font-weight: bold;
-											line-height: 100%;
-											line-height: 36px;
-											font-size: 36px;
-											padding: 0 12px;
-											height: 36px;
-											margin: auto;
-											width: 100%;
-											bottom: 0;
-											top: 0;
-										}
-									}
-								}
-
-								&:last-child{
-									margin: 0;
-								}
-							}
+						.card {
+							display: inline-block;
+							background: grey;
+							margin: 0 6px;
+							height: 100px;
+							width: 100px;
 						}
 					}
 				}
@@ -7320,22 +6384,6 @@ body{
 											height: 36px !important;
 											width: 36px !important;
 											margin: 4px 0 0;
-
-											span{
-												display: inherit;
-
-												i{
-													mask-size: 28px calc(28px * 15);
-													background-color: currentColor;
-													mask-image: $spriteImages;
-													mask-position: 0 -70px;
-													mask-repeat: no-repeat;
-													margin: 11px 0 0;
-													display: block;
-													height: 14px;
-													width: 14px;
-												}
-											}
 										}
 									}
 								}
@@ -7444,14 +6492,6 @@ body{
 									color: $greyColor;
 									padding: 2px 0 0;
 									font-size: 14px;
-
-									mat-icon{
-										margin: -2px 2px 0 -2px;
-										font-size: 18px;
-										height: 18px;
-										width: 18px;
-										float: left;
-									}
 								}
 							}
 
@@ -7464,22 +6504,6 @@ body{
 									height: 36px !important;
 									width: 36px !important;
 									margin: 4px 0 0;
-
-									span{
-										display: inherit;
-
-										i{
-											mask-size: 28px calc(28px * 15);
-											background-color: currentColor;
-											mask-image: $spriteImages;
-											mask-position: 0 -70px;
-											mask-repeat: no-repeat;
-											margin: 11px 0 0;
-											display: block;
-											height: 14px;
-											width: 14px;
-										}
-									}
 								}
 							}
 
@@ -7556,12 +6580,10 @@ body{
 										width: 100%;
 										bottom: 0;
 
-										mat-icon{
+										i{
+											background-color: $whiteColor;
 											margin: -2px 0 0 -32px;
 											position: absolute;
-											font-size: 24px;
-											height: 24px;
-											width: 24px;
 										}
 									}
 								}
@@ -7598,14 +6620,6 @@ body{
 										height: 100%;
 										width: 100%;
 										top: 0;
-
-										mat-icon{
-											color: $whiteColor;
-											font-size: 36px;
-											margin: 30px;
-											height: 36px;
-											width: 36px;
-										}
 									}
 								}
 							}
@@ -7784,8 +6798,8 @@ body{
 									width: 100%;
 								}
 
-								mat-icon{
-									color: $whiteColor;
+								i{
+									background-color: $whiteColor;
 									margin: 8px;
 								}
 							}
@@ -7942,54 +6956,13 @@ body{
 				}
 			}
 
-			.pageAudios{
-				.content{
-					ul{
-						li{
-							&.default{
-								.image{
-									button{
-										mat-icon{
-											color: $whiteColor;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-
 			.pageUser{
-				.content{
-					ul{
-						li{
-							.head{
-								.actions{
-									button{
-										i{
-											background-color: $whiteColor;
-										}
-									}
-								}
-							}
-
-							.body{
-								.audios{
-									ul{
-										li{
-											&.default{
-												.image{
-													button{
-														mat-icon{
-															color: $whiteColor !important;
-														}
-													}
-												}
-											}
-										}
-									}
-								}
+				.panel{
+					.dataBox{
+						.actions{
+							button{
+								background: $whiteColor;
+								color: $fontBlackColor;
 							}
 						}
 					}
@@ -8016,8 +6989,8 @@ body{
 							.add{
 								background-color: $whiteColor;
 
-								mat-icon{
-									color: $fontBlackColor;
+								i{
+									background-color: $fontBlackColor;
 								}
 							}
 						}
@@ -8080,12 +7053,9 @@ body{
 			border-top: 1px solid transparentize($greyColor, .75);
 			background-color: $blackColor;
 			box-shadow: $shadowBoxBottom;
+			color: $whiteColor;
 
 			.player{
-				mat-icon{
-					color: $whiteColor;
-				}
-
 				.center{
 					.top{
 						button{
@@ -8105,7 +7075,21 @@ body{
 				}
 
 				.right{
+					.playlist{
+						button{
+							i{
+								background-color: $whiteColor;
+							}
+						}
+					}
+
 					.volume{
+						button{
+							i{
+								background-color: $whiteColor;
+							}
+						}
+
 						mat-slider{
 							.mat-slider-wrapper{
 								.mat-slider-track-wrapper{
@@ -8147,7 +7131,7 @@ body{
 
 		.audioPlayerMobile{
 			.box{
-				padding: 24px 0 300px 0;
+				padding: 0 0 300px 0;
 
 				.player{
 					padding: 0 0 36px 0;
@@ -8203,8 +7187,9 @@ body{
 
 		.audioPlayerWeb{
 			border-top: 1px solid transparentize($greyColor, .75);
-			box-shadow: $shadowBoxBottom;
 			background-color: $whiteColor;
+			box-shadow: $shadowBoxBottom;
+			color: $fontBlackColor;
 			position: fixed;
 			width: 100%;
 			z-index: 99;
@@ -8269,14 +7254,6 @@ body{
 						padding: 23px 0 23px 12px;
 						width: 40px;
 						float: left;
-
-						button{
-							mat-icon{
-								&.added{
-									color: $blueColor !important;
-								}
-							}
-						}
 					}
 				}
 
@@ -8542,177 +7519,6 @@ body{
 					padding: 12px 0;
 					min-height: 0;
 					width: 100%;
-
-					ul{
-						float: left;
-						width: 100%;
-						padding: 0;
-						margin: 0;
-
-						li{
-							color: $fontBlackColor;
-							display: flex;
-							padding: 0;
-							margin: 0;
-
-							.inner{
-								box-sizing: border-box;
-								align-items: center;
-								flex-direction: row;
-								position: relative;
-								padding: 4px 12px;
-								margin: 0 0 4px;
-								display: flex;
-								width: 100%;
-
-								&:hover{
-									background-color: transparentize($greyColor, .75);
-								}
-
-								.image{
-									width: 40px;
-
-									button{
-										overflow: hidden;
-										height: 40px;
-										width: 40px;
-										margin: 0;
-
-										img{
-											position: absolute;
-											height: 100%;
-											width: 100%;
-											z-index: -1;
-											left: 0;
-											top: 0;
-										}
-
-										.mat-button-ripple-round{
-											border-radius: 0;
-										}
-
-										mat-icon{
-											text-shadow: 0 1px 5px transparentize($fontBlackColor, .25);
-											color: $whiteColor;
-										}
-									}
-								}
-
-								.text{
-									justify-content: space-between;
-									box-sizing: border-box;
-									line-height: 40px;
-									overflow: hidden;
-									display: flex;
-									width: 100%;
-
-									.duration,
-									.titleArtist{
-										flex-direction: column;
-										box-sizing: border-box;
-										padding: 0 0 0 12px;
-										text-align: left;
-										overflow: hidden;
-										max-width: 80%;
-										display: flex;
-
-										.title{
-											text-overflow: ellipsis;
-											white-space: nowrap;
-											padding: 4px 0 2px;
-											line-height: 15px;
-											overflow: hidden;
-										}
-
-										.artist{
-											text-overflow: ellipsis;
-											white-space: nowrap;
-											color: $greyColor;
-											line-height: 13px;
-											overflow: hidden;
-											font-size: 13px;
-										}
-									}
-
-									.duration{
-										color: $greyColor;
-										text-align: right;
-										padding: 0 6px 0;
-										font-size: 14px;
-										max-width: 75px;
-										width: 75px;
-									}
-								}
-
-								.actions{
-									box-sizing: border-box;
-									height: 40px;
-									width: 40px;
-									margin: 0;
-
-									button{
-										margin: 0;
-
-										mat-icon{
-											color: $greyColor;
-											text-shadow: none;
-											font-size: 20px;
-
-											&.added{
-												color: $blueColor !important;
-											}
-										}
-									}
-								}
-							}
-
-							&.active{
-								.inner{
-									background-color: transparentize($whiteColor, .95);
-									color: $blueColor;
-								}
-
-								.text .titleArtist .artist{
-									color: transparentize($blueColor, .5);
-								}
-
-								.text .duration,
-								.actions button mat-icon{
-									color: $blueColor;
-								}
-							}
-
-							&.default{
-								.image button mat-icon{
-									color: $fontBlackColor;
-									text-shadow: 0 0;
-								}
-							}
-
-							&.remove{
-								filter: grayscale(100%);
-								opacity: .5;
-							}
-						}
-					}
-
-					/*.loadMore{
-						button{
-							border-color: $fontBlackColor;
-
-							mat-icon{
-								color: $fontBlackColor;
-							}
-						}
-
-						mat-progress-spinner svg circle{
-							stroke: $fontBlackColor;
-						}
-					}
-
-					.noData{
-						color: $fontBlackColor;
-					}*/
 				}
 			}
 		}
@@ -9265,12 +8071,10 @@ body{
 			.box{
 				border-top: 1px solid transparentize($greyColor, .75);
 				background-color: $blackColor;
-				padding: 24px 0 268px 0;
 				box-sizing: border-box;
 				color: $whiteColor;
-				max-height: 75vh;
+				max-height: 74vh;
 				position: fixed;
-				overflow: auto;
 				display: block;
 				z-index: 1001;
 				width: 100%;
@@ -9337,15 +8141,6 @@ body{
 									padding: 0;
 									z-index: 9;
 									margin: 0;
-
-									mat-icon{
-										color: $whiteColor;
-										padding: 0;
-
-										&.added{
-											color: $redColor !important;
-										}
-									}
 								}
 							}
 						}
@@ -9440,6 +8235,7 @@ body{
 
 							&.playPause{
 								transition: .2s;
+								margin: 0 12px;
 								height: 76px;
 								width: 76px;
 
@@ -9465,7 +8261,7 @@ body{
 
 							&.prev,
 							&.next{
-								margin: 4px 6px 4px 32px;
+								margin: 4px 6px 4px 24px;
 								height: 48px;
 								width: 48px;
 
@@ -9479,7 +8275,7 @@ body{
 							}
 
 							&.next{
-								margin: 4px 32px 4px 6px;
+								margin: 4px 24px 4px 6px;
 
 								i{
 									mask-position: -24px -96px;
@@ -9539,22 +8335,26 @@ body{
 							height: 48px;
 							width: 48px;
 
-							mat-icon{
-								color: transparentize($greyColor, .5);
-								font-size: 24px;
+							i{
+								background-color: $greyColor;
 							}
 						}
 					}
 				}
 
 				.data{
-					height: 100%;
+					-webkit-overflow-scrolling: touch;
+					overflow-x: hidden;
+					overflow-y: auto;
+					height: 100vh;
 					width: 100%;
 
 					ul{
-						float: left;
+						padding: 12px 0 466px;
+						position: relative;
+						display: block;
+						z-index: 1;
 						width: 100%;
-						padding: 0;
 						margin: 0;
 
 						li{
@@ -9596,13 +8396,6 @@ body{
 
 										.mat-button-ripple-round{
 											border-radius: 0;
-										}
-
-										mat-icon{
-											text-shadow: 0 1px 5px transparentize($fontBlackColor, .25);
-											color: $whiteColor;
-											position: relative;
-											z-index: 1;
 										}
 									}
 								}
@@ -9663,16 +8456,6 @@ body{
 										height: 42px;
 										width: 42px;
 										margin: 0;
-
-										mat-icon{
-											color: $greyColor;
-											text-shadow: none;
-											font-size: 20px;
-
-											&.added{
-												color: $blueColor !important;
-											}
-										}
 									}
 								}
 							}
@@ -9683,20 +8466,24 @@ body{
 									color: $blueColor;
 								}
 
-								.text .titleArtist .artist{
-									color: transparentize($blueColor, .5);
-								}
+								.text{
+									.titleArtist .artist{
+										color: transparentize($blueColor, .5);
+									}
 
-								.text .duration,
-								.actions button mat-icon{
-									color: $blueColor;
+									.duration{
+										color: $blueColor;
+									}
 								}
 							}
 
 							&.default{
-								.image button mat-icon{
-									color: $whiteColor;
-									text-shadow: 0 0;
+								.image{
+									button{
+										i{
+											background-color: $whiteColor;
+										}
+									}
 								}
 							}
 
@@ -9706,20 +8493,6 @@ body{
 							}
 						}
 					}
-
-					/*.loadMore{
-						button{
-							border-color: $whiteColor;
-
-							mat-icon{
-								color: $whiteColor;
-							}
-						}
-
-						mat-progress-spinner svg circle{
-							stroke: $whiteColor;
-						}
-					}*/
 				}
 			}
 		}
@@ -9813,8 +8586,8 @@ body{
 						display: none;
 						height: 48px;
 
-						mat-icon{
-							color: $blueColor;
+						i{
+							background-color: $blueColor;
 							margin: 12px 8px;
 						}
 					}

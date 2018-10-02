@@ -34,24 +34,24 @@
 							<div *ngIf="x.category=='video'" class="vid"><video [src]="x.thumbnail"></video></div>
 
 							<div class="category">
-								<div class="size" *ngIf="x.sizeBig">{{x.sizeBig}}</div>
-								<mat-icon class="redColor" *ngIf="x.category=='unknown'">error_outline</mat-icon>
-								<mat-icon *ngIf="x.category=='video'">videocam</mat-icon>
+								<i label="videocam" *ngIf="x.category=='video'"></i>
+								<i label="error-outline" matTooltip="{{translations.invalidFile}}" *ngIf="x.category=='unknown'"></i>
+								<div class="size" matTooltip="{{translations.fileSizeToBig}}" *ngIf="x.sizeBig">{{x.sizeBig}}</div>
 							</div>
 
 							<div class="status">
 								<button mat-icon-button (click)="uploadFiles(3, i)" *ngIf="x.status=='clear'">
-									<mat-icon>clear</mat-icon>
+									<i label="clear"></i>
 								</button>
 								<div class="progress" *ngIf="x.status=='progress'">
 									<mat-progress-spinner mode="determinate" [value]="x.progress"></mat-progress-spinner>
 									<div class="value">{{x.progress ? x.progress : 1}}%</div>
 								</div>
 								<button mat-icon-button matTooltip="{{translations.errorOnUpload}}" *ngIf="x.status=='error'">
-									<mat-icon>cloud_off</mat-icon>
+									<i label="cloud-off"></i>
 								</button>
 								<button mat-icon-button *ngIf="x.status=='completed'">
-									<mat-icon>check</mat-icon>
+									<i label="check"></i>
 								</button>
 							</div>
 						</div>
@@ -69,7 +69,7 @@
 					</div>
 
 					<button *ngIf="dataFiles.reload" mat-raised-button (click)="uploadFiles(5, $event)">
-						<mat-icon>autorenew</mat-icon>
+						<i label="autorenew"></i>
 						{{translations.refresh}}
 					</button>
 				</div>
@@ -79,9 +79,9 @@
 				<li mat-ripple *ngFor="let x of dataDefault.list; let i=index;" [ngClass]="{'remove': x.addRemoveSession}">
 					<a class="image" (click)="show(x, i)">
 						<div class="img" [ngStyle]="{'background-image': 'url(' + (x.mimetype.indexOf('image') !== -1 ? environment.pathPhotos : environment.pathVideos) + 'thumbnails/' + x.name + ')'}"></div>
-						<div class="category">
-							<mat-icon *ngIf="x.mimetype.indexOf('video') !== -1">videocam</mat-icon>
-							<mat-icon *ngIf="x.mimetype.indexOf('image/gif') !== -1" class="gif">gif</mat-icon>
+						<div class="type">
+							<i label="videocam" *ngIf="x.mimetype.indexOf('video') !== -1"></i>
+							<i label="gif" *ngIf="x.mimetype.indexOf('image/gif') !== -1"></i>
 						</div>
 					</a>
 				</li>

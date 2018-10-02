@@ -20,11 +20,6 @@ const routes: Routes = [
 		MatButtonToggleModule,
 		MatProgressSpinnerModule
 	],
-	exports: [
-		MatButtonModule,
-		MatButtonToggleModule,
-		MatProgressSpinnerModule
-	],
 	declarations: [
 		ConfirmEmailComponent
 	]

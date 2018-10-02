@@ -44,8 +44,12 @@
 								<div class="embedResponsive">
 									<div class="image" (click)="x.urlVideo.showVideo=!x.urlVideo.showVideo" *ngIf="!x.urlVideo.showVideo">
 										<div class="img" [ngStyle]="{'background-image': 'url(' + x.urlVideo.thumbnail + ')'}"></div>
-										<div class="play"><mat-icon>play_arrow</mat-icon></div>
-										<div class="type">{{x.urlVideo.type}}</div>
+										<div class="play">
+											<i label="play"></i>
+										</div>
+										<div class="type">
+											{{x.urlVideo.type}}
+										</div>
 									</div>
 									<span [innerHtml]="x.urlVideo.iframe | safeHtml" *ngIf="x.urlVideo.showVideo"></span>
 								</div>
@@ -61,7 +65,7 @@
 
 									<span *ngIf="x.photos[0].mimetype.indexOf('video') !== -1">
 										<div class="playPause" (click)="playVideo(x.photos[0], 'videoPlayer' + x.id)" *ngIf="!x.photos[0].playButton">
-											<mat-icon>play_arrow</mat-icon>
+											<i label="play"></i>
 										</div>
 									</span>
 								</span>
@@ -79,7 +83,7 @@
 
 													<span *ngIf="p.mimetype.indexOf('video') !== -1">
 														<div class="playPause" (click)="playVideo(p, 'videoPlayer' + p.id)" *ngIf="!p.playButton">
-															<mat-icon>play_arrow</mat-icon>
+															<i label="play"></i>
 														</div>
 													</span>
 												</div>
@@ -90,10 +94,10 @@
 									<div class="swiper-pagination"></div>
 									
 									<div class="swiperNext" mat-ripple>
-										<mat-icon>keyboard_arrow_right</mat-icon>
+										<i label="keyboard-arrow-right"></i>
 									</div>
 									<div class="swiperPrev" mat-ripple>
-										<mat-icon>keyboard_arrow_left</mat-icon>
+										<i label="keyboard-arrow-left"></i>
 									</div>
 								</swiper>
 							</div>
@@ -105,8 +109,12 @@
 									<div class="embedResponsive">
 										<div class="image" (click)="x.urlVideo.showVideo=!x.urlVideo.showVideo" *ngIf="!x.urlVideo.showVideo">
 											<div class="img" [ngStyle]="{'background-image': 'url(' + x.urlVideo.thumbnail + ')'}"></div>
-											<div class="play"><mat-icon>play_arrow</mat-icon></div>
-											<div class="type">{{x.urlVideo.type}}</div>
+											<div class="play">
+												<i label="play"></i>
+											</div>
+											<div class="type">
+												{{x.urlVideo.type}}
+											</div>
 										</div>
 										<span [innerHtml]="x.urlVideo.iframe | safeHtml" *ngIf="x.urlVideo.showVideo"></span>
 									</div>
@@ -114,13 +122,13 @@
 							</div>
 
 							<div class="audios" *ngIf="x.audios">
-								<ul>
+								<ul class="tracks">
 									<li *ngFor="let a of x.audios; let i=index;" [ngClass]="{active: audioPlayerData.key == i && audioPlayerData.type == 'publication' && audioPlayerData.postId == x.id, default: !a.image}">
 										<div class="inner">
 											<div class="image">
 												<button mat-icon-button (click)="playItem(x, a, i, 'publication')">
-													<mat-icon *ngIf="!a.playing || !(audioPlayerData.postId == x.id)">play_arrow</mat-icon>
-													<mat-icon *ngIf="a.playing && (audioPlayerData.postId == x.id)">pause</mat-icon>
+													<i label="play" *ngIf="!a.playing || !(audioPlayerData.postId == x.id)"></i>
+													<i label="pause" *ngIf="a.playing && (audioPlayerData.postId == x.id)"></i>
 													<img *ngIf="a.image" [src]="environment.pathAudios + 'thumbnails/' + a.image"/>
 												</button>
 											</div>
@@ -133,8 +141,8 @@
 											</div>
 											<div class="actions" *ngIf="sessionData.current.id">
 												<button mat-icon-button [matMenuTriggerFor]="appMenu">
-													<mat-icon *ngIf="a.addRemoveUser" class="added">check</mat-icon>
-													<mat-icon *ngIf="!a.addRemoveUser">more_vert</mat-icon>
+													<i label="check" *ngIf="a.addRemoveUser"></i>
+													<i label="more-mini" *ngIf="!a.addRemoveUser"></i>
 												</button>
 												<mat-menu #appMenu="matMenu">
 													<button mat-menu-item (click)="itemAudiosOptions('addRemoveUser', a, null)">{{!a.addRemoveUser ? translations.add : translations.remove}}</button>
@@ -214,7 +222,7 @@
 													<span class="date">{{c.date | timeago}}</span>
 													<div class="actions" *ngIf="sessionData.current.id">
 														<button mat-icon-button [matMenuTriggerFor]="optionsComments">
-															<i label="more"></i>
+															<i label="more-mini"></i>
 														</button>
 														<mat-menu #optionsComments="matMenu">
 															<button mat-menu-item (click)="commentsOptions('addRemove', x, c)" *ngIf="c.user.id == sessionData.current.id">{{c.addRemove ? translations.add : translations.remove}}</button>

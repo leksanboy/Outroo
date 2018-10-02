@@ -2,7 +2,7 @@
 	<div mat-dialog-title class="header headerMobile">
 		<div class="back">
 			<button mat-icon-button (click)="close()">
-				<mat-icon>arrow_back</mat-icon>
+				<i label="back"></i>
 			</button>
 		</div>
 		<div class="text">
@@ -45,18 +45,16 @@
 
 					<span *ngIf="data.current.mimetype.indexOf('video') !== -1">
 						<div class="playPause" (click)="playVideo('play')" *ngIf="!data.current.playButton">
-							<mat-icon>play_arrow</mat-icon>
+							<i label="play"></i>
 						</div>
 					</span>
 
-					<span *ngIf="data.list.length > 1">
-						<div class="prev" (click)="prevNext('prev')">
-							<mat-icon>chevron_left</mat-icon>
-						</div>
-						<div class="next" (click)="prevNext('next')">
-							<mat-icon>chevron_right</mat-icon>
-						</div>
-					</span>
+					<div class="prev" mat-ripple (click)="prevNext('prev')" *ngIf="data.list.length > 1">
+						<i label="keyboard-arrow-left"></i>
+					</div>
+					<div class="next" mat-ripple (click)="prevNext('next')" *ngIf="data.list.length > 1">
+						<i label="keyboard-arrow-right"></i>
+					</div>
 				</div>
 			</div>
 

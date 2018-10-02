@@ -3,7 +3,7 @@
 		<div mat-dialog-title class="header">
 			<div class="back">
 				<button mat-icon-button (click)="close()">
-					<mat-icon>arrow_back</mat-icon>
+					<i label="back"></i>
 				</button>
 			</div>
 			<div class="text">
@@ -31,7 +31,7 @@
 												<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
 											</div>
 											<span class="name">{{x.user.username}}</span>
-											<mat-icon>clear</mat-icon>
+											<i label="clear"></i>
 										</mat-chip>
 
 										<input type="text" placeholder="{{translations.search}}" formControlName="caption">
@@ -62,8 +62,8 @@
 									<span class="name">{{x.user.name}}</span>
 								</div>
 								<div class="actions">
-									<mat-icon *ngIf="x.added">check_circle</mat-icon>
-									<mat-icon *ngIf="!x.added">radio_button_unchecked</mat-icon>
+									<i label="check-circle" *ngIf="x.added"></i>
+									<i label="uncheck-circle" *ngIf="!x.added"></i>
 								</div>
 							</li>
 						</ul>
@@ -86,8 +86,8 @@
 									<span class="name">{{x.user.name}}</span>
 								</div>
 								<div class="actions">
-									<span *ngIf="x.added"><mat-icon>check_circle</mat-icon></span>
-									<span *ngIf="!x.added"><mat-icon>radio_button_unchecked</mat-icon></span>
+									<i label="check-circle" *ngIf="x.added"></i>
+									<i label="uncheck-circle" *ngIf="!x.added"></i>
 								</div>
 							</li>
 						</ul>
@@ -112,7 +112,7 @@
 		<div mat-dialog-title class="header">
 			<div class="back">
 				<button mat-icon-button (click)="close()">
-					<mat-icon>arrow_back</mat-icon>
+					<i label="back"></i>
 				</button>
 			</div>
 			<div class="text">
@@ -122,7 +122,7 @@
 			</div>
 			<div class="actions">
 				<button mat-icon-button class="info" (click)="showUsers=!showUsers">
-					<mat-icon>info_outline</mat-icon>
+					<i label="info"></i>
 				</button>
 			</div>
 		</div>
@@ -212,8 +212,12 @@
 												<div class="embedResponsive">
 													<div class="image" *ngIf="!x.publication.urlVideo.showVideo">
 														<div class="img" [ngStyle]="{'background-image': 'url(' + x.publication.urlVideo.thumbnail + ')'}"></div>
-														<div class="play"><mat-icon>play_arrow</mat-icon></div>
-														<div class="type">{{x.publication.urlVideo.type}}</div>
+														<div class="play">
+															<i label="play"></i>
+														</div>
+														<div class="type">
+															{{x.publication.urlVideo.type}}
+														</div>
 													</div>
 													<span [innerHtml]="x.publication.urlVideo.iframe | safeHtml" *ngIf="x.publication.urlVideo.showVideo"></span>
 												</div>
@@ -235,7 +239,7 @@
 														<div class="inner">
 															<div class="image">
 																<button mat-icon-button>
-																	<mat-icon>play_arrow</mat-icon>
+																	<i label="play"></i>
 																	<img *ngIf="a.image" [src]="environment.pathAudios + 'thumbnails/' + a.image"/>
 																</button>
 															</div>
@@ -291,7 +295,7 @@
 		<div mat-dialog-title class="header">
 			<div class="back">
 				<button mat-icon-button (click)="showUsers=!showUsers">
-					<mat-icon>arrow_back</mat-icon>
+					<i label="back"></i>
 				</button>
 			</div>
 			<div class="text">
@@ -324,7 +328,7 @@
 		<div mat-dialog-title class="header">
 			<div class="back">
 				<button mat-icon-button (click)="close()">
-					<mat-icon>arrow_back</mat-icon>
+					<i label="back"></i>
 				</button>
 			</div>
 			<div class="text">
@@ -366,7 +370,7 @@
 												</span>
 											</span>
 
-											<mat-icon>clear</mat-icon>
+											<i label="clear"></i>
 										</mat-chip>
 
 										<input type="text" placeholder="{{translations.search}}" formControlName="caption">
@@ -400,13 +404,14 @@
 											<span [innerHtml]="x.last.content | safeHtml"></span>
 										</span>
 										<span *ngIf="x.last.type == 'publication'">
-											<mat-icon>reply</mat-icon> {{translations.sharedPublicationWithYou}}
+											<i label="reply"></i>
+											{{translations.sharedPublicationWithYou}}
 										</span>
 									</span>
 								</div>
 								<div class="actions">
-									<mat-icon *ngIf="x.added">check_circle</mat-icon>
-									<mat-icon *ngIf="!x.added">radio_button_unchecked</mat-icon>
+									<i label="check-circle" *ngIf="x.added"></i>
+									<i label="uncheck-circle" *ngIf="!x.added"></i>
 								</div>
 							</li>
 						</ul>
@@ -425,8 +430,8 @@
 									<span class="name">{{x.user.name}}</span>
 								</div>
 								<div class="actions">
-									<mat-icon *ngIf="x.added">check_circle</mat-icon>
-									<mat-icon *ngIf="!x.added">radio_button_unchecked</mat-icon>
+									<i label="check-circle" *ngIf="x.added"></i>
+									<i label="uncheck-circle" *ngIf="!x.added"></i>
 								</div>
 							</li>
 						</ul>
@@ -449,8 +454,8 @@
 									<span class="name">{{x.about.trim() ? x.about : x.user.name}}</span>
 								</div>
 								<div class="actions">
-									<span *ngIf="x.added"><mat-icon>check_circle</mat-icon></span>
-									<span *ngIf="!x.added"><mat-icon>radio_button_unchecked</mat-icon></span>
+									<i label="check-circle" *ngIf="x.added"></i>
+									<i label="uncheck-circle" *ngIf="!x.added"></i>
 								</div>
 							</li>
 						</ul>

@@ -27,14 +27,14 @@ import { AlertService } from './core/services/alert/alert.service';
 import { AlertComponent } from './core/services/alert/alert.component';
 
 // Audio player mobile
-import { AudioPlayerMobileService } from './core/services/audioPlayerMobile/audioPlayerMobile.service';
-import { AudioPlayerMobileComponent } from './core/services/audioPlayerMobile/audioPlayerMobile.component';
+import { ShowAudioPlayerMobileService } from './pages/common/showAudioPlayerMobile/showAudioPlayerMobile.service';
+import { ShowAudioPlayerMobileComponent } from './pages/common/showAudioPlayerMobile/showAudioPlayerMobile.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
 		AlertComponent,
-		AudioPlayerMobileComponent
+		ShowAudioPlayerMobileComponent
 	],
 	imports: [
 		BrowserModule,
@@ -52,7 +52,7 @@ import { AudioPlayerMobileComponent } from './core/services/audioPlayerMobile/au
 		},
 		Title,
 		AlertService,
-		AudioPlayerMobileService
+		ShowAudioPlayerMobileService
 	],
 	bootstrap: [
 		AppComponent

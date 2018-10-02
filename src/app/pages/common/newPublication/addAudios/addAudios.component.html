@@ -2,7 +2,7 @@
 	<div mat-dialog-title class="header">
 		<div class="back">
 			<button mat-icon-button (click)="close()">
-				<mat-icon>arrow_back</mat-icon>
+				<i label="back"></i>
 			</button>
 		</div>
 		<div class="text">
@@ -17,14 +17,14 @@
 	</div>
 
 	<div mat-dialog-content class="bodyCreatePublication">
-		<div class="audios withPaddings">
-			<ul *ngIf="data.list.length > 0">
+		<div class="audios">
+			<ul class="tracks" *ngIf="data.list.length > 0">
 				<li *ngFor="let x of data.list" [ngClass]="{default: !x.image}" (click)="toggleItem(x)">
 					<div class="inner">
 						<div class="image">
 							<button mat-icon-button>
 								<img *ngIf="x.image" [src]="environment.pathAudios + 'thumbnails/' + x.image"/>
-								<mat-icon>play_arrow</mat-icon>
+								<i label="play"></i>
 							</button>
 						</div>
 						
@@ -38,8 +38,8 @@
 
 						<div class="status">
 							<button mat-icon-button [ngClass]="{'selected': x.selected}">
-								<mat-icon *ngIf="!x.selected">add</mat-icon>
-								<mat-icon *ngIf="x.selected">check</mat-icon>
+								<i label="add" *ngIf="!x.selected"></i>
+								<i label="check" *ngIf="x.selected"></i>
 							</button>
 						</div>
 					</div>
@@ -52,7 +52,7 @@
 		    <div class="noData" *ngIf="noData">{{translations.noData}}</div>
 		    <div class="loadMore" *ngIf="loadMoreData">
 		    	<button mat-fab (click)="loadMore()" *ngIf="!loadingMoreData">
-		    		<mat-icon>add</mat-icon>
+		    		<i label="add"></i>
 		    	</button>
 		    	<mat-progress-spinner mode="indeterminate" *ngIf="loadingMoreData"></mat-progress-spinner>
 		    </div>

@@ -2,7 +2,7 @@
 	<div mat-dialog-title class="header">
 		<div class="back">
 			<button mat-icon-button (click)="close()">
-				<mat-icon>arrow_back</mat-icon>
+				<i label="back"></i>
 			</button>
 		</div>
 		<div class="text">
@@ -14,7 +14,7 @@
 		<div class="form">
 			<form [formGroup]="actionForm" (ngSubmit)="submit($event);">
 				<mat-form-field class="textarea">
-					<textarea matInput matTextareaAutosize placeholder="What is the problem?" #Question maxlength="1000" formControlName="content"></textarea>
+					<textarea matInput matTextareaAutosize placeholder="{{translations.reportDescription}}" #Question maxlength="1000" formControlName="content"></textarea>
 					<mat-hint align="end">{{Question.value.length}}/1000</mat-hint>
 				</mat-form-field>
 			</form>

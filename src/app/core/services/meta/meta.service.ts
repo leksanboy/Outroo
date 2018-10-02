@@ -10,7 +10,6 @@ export class MetaService {
     ) { }
 
     setData(data: any) {
-        console.log("META", data);
     	// Set title
     	this.title.setTitle(data.page);
 

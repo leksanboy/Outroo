@@ -45,7 +45,7 @@
 									<div class="text">
 										<div class="name">
 											<a class="username" routerLink="/{{x.user.username}}">{{x.user.username}}</a>
-											<span class="date">{{x.date | timeago}}</span>
+											<span class="date">{{x.date}}</span>
 										</div>
 										
 										<div class="container">
@@ -65,14 +65,14 @@
 									<div class="text">
 										<div class="name">
 											<a class="username" routerLink="/{{x.user.username}}">{{x.user.username}}</a>
-											<span class="date">{{x.date | timeago}}</span>
+											<span class="date">{{x.date}}</span>
 										</div>
 
 										<div class="container" (click)="showNotification(x)">
 											<span *ngIf="x.type == 'comment'">
 												{{translations.commentedYourPhoto}}
 												<br>
-												<span *ngIf="x.contentData.comment" [innerHtml]="x.contentData.comment.comment | safeHtml"></span>
+												<span *ngIf="x.contentData.comment" [innerHtml]="x.contentData.comment.comment"></span>
 											</span>
 											
 											<span *ngIf="x.type == 'like'">{{translations.likedYourPhoto}}</span>
@@ -96,14 +96,14 @@
 									<div class="text">
 										<div class="name">
 											<a class="username" routerLink="/{{x.user.username}}">{{x.user.username}}</a>
-											<span class="date">{{x.date | timeago}}</span>
+											<span class="date">{{x.date}}</span>
 										</div>
 
 										<div class="container" (click)="showNotification(x)">
 											<span *ngIf="x.type == 'comment'">
 												{{translations.commentedYourPublication}}
 												<br>
-												<span *ngIf="x.contentData.comment" [innerHtml]="x.contentData.comment.comment | safeHtml"></span>
+												<span *ngIf="x.contentData.comment" [innerHtml]="x.contentData.comment.comment"></span>
 											</span>
 											
 											<span *ngIf="x.type == 'like'">{{translations.likedYourPublication}}</span>
@@ -116,7 +116,7 @@
 
 											<span *ngIf="!x.contentData.media">
 												<br>
-												<span [innerHtml]="x.contentData.content | safeHtml"></span>
+												<span [innerHtml]="x.contentData.content"></span>
 											</span>
 										</div>
 									</div>
@@ -467,24 +467,24 @@
 			</div>
 			<div class="center">
 				<div class="top">
-					<button mat-mini-fab (click)="playTrack('shuffle', '')" class="shuffle" [ngClass]="{'active': audioPlayerData.shuffle, 'disabled': audioPlayerData.list.length <= 1}">
+					<button mat-mini-fab (click)="playItem('shuffle', '')" class="shuffle" [ngClass]="{'active': audioPlayerData.shuffle, 'disabled': audioPlayerData.list.length <= 1}">
 						<i></i>
 					</button>
 
-					<button mat-mini-fab (click)="playTrack('prev', '')" class="prev" [ngClass]="{'disabled': audioPlayerData.list.length <= 1}">
+					<button mat-mini-fab (click)="playItem('prev', '')" class="prev" [ngClass]="{'disabled': audioPlayerData.list.length <= 1}">
 						<i [style.background]="audioPlayerData.current.color"></i>
 					</button>
 
-					<button mat-fab (click)="playTrack('play', '')" class="playPause" [ngClass]="{'disabled': audioPlayerData.list.length == 0}" [style.background]="audioPlayerData.current.color">
+					<button mat-fab (click)="playItem('play', '')" class="playPause" [ngClass]="{'disabled': audioPlayerData.list.length == 0}" [style.background]="audioPlayerData.current.color">
 						<i class="play" *ngIf="!audioPlayerData.playing"></i>
 						<i class="pause" *ngIf="audioPlayerData.playing"></i>
 					</button>
 
-					<button mat-mini-fab (click)="playTrack('next', '')" class="next" [ngClass]="{'disabled': audioPlayerData.list.length <= 1}">
+					<button mat-mini-fab (click)="playItem('next', '')" class="next" [ngClass]="{'disabled': audioPlayerData.list.length <= 1}">
 						<i [style.background]="audioPlayerData.current.color"></i>
 					</button>
 
-					<button mat-mini-fab (click)="playTrack('repeat', '')" class="repeat" [ngClass]="{'active': audioPlayerData.repeat, 'disabled': audioPlayerData.list.length <= 1}">
+					<button mat-mini-fab (click)="playItem('repeat', '')" class="repeat" [ngClass]="{'active': audioPlayerData.repeat, 'disabled': audioPlayerData.list.length <= 1}">
 						<i></i>
 					</button>
 				</div>
@@ -518,17 +518,17 @@
 
 		<div class="playlistBox" *ngIf="showPlaylist">
 			<div class="data">
-				<ul *ngIf="audioPlayerData.list">
+				<ul class="tracks" *ngIf="audioPlayerData.list">
 					<li *ngFor="let x of audioPlayerData.list; let i=index;" [ngClass]="{active: audioPlayerData.current.key == i, default: !x.image, remove: x.addRemoveSession}">
 						<div class="inner" *ngIf="!x.contentTypeAd">
 							<div class="image">
-								<button mat-icon-button (click)="playTrack('item', i)">
-									<img *ngIf="x.image" [src]="audioPlayerData.path + 'thumbnails/' + x.image"/>
+								<button mat-icon-button (click)="playItem('item', i)">
 									<i label="play" *ngIf="!x.playing"></i>
 									<i label="pause" *ngIf="x.playing"></i>
+									<img *ngIf="x.image" [src]="audioPlayerData.path + 'thumbnails/' + x.image"/>
 								</button>
 							</div>
-							<div class="text" (click)="playTrack('item', i)">
+							<div class="text" (click)="playItem('item', i)">
 								<div class="titleArtist" title="{{x.original_title ? x.original_title : x.title}}">
 									<div class="title">{{x.original_title ? x.original_title : x.title}}</div>
 									<div class="artist">{{x.original_artist ? x.original_artist : x.title}}</div>

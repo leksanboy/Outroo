@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 
 @Injectable()
-export class AudioPlayerMobileService {
+export class ShowAudioPlayerMobileService {
 	private subject = new Subject<any>();
 	private keepAfterRouteChange = false;
 

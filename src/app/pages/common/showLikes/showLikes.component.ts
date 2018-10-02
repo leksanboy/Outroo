@@ -9,13 +9,9 @@ import { PhotoDataService } from '../../../../app/core/services/user/photoData.s
 import { PublicationsDataService } from '../../../../app/core/services/user/publicationsData.service';
 import { SessionService } from '../../../../app/core/services/session/session.service';
 
-import { TimeagoPipe } from '../../../../app/core/pipes/timeago.pipe';
-import { SafeHtmlPipe } from '../../../../app/core/pipes/safehtml.pipe';
-
 @Component({
 	selector: 'app-showLikes',
-	templateUrl: './showLikes.component.html',
-	providers: [ TimeagoPipe, SafeHtmlPipe ]
+	templateUrl: './showLikes.component.html'
 })
 export class ShowLikesComponent implements OnInit {
 	@ViewChild('videoPlayer') videoPlayer: any;

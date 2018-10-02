@@ -10,7 +10,7 @@
 
 								<div class="layer">
 									<div class="text">
-										<mat-icon>image</mat-icon>
+										<i label="image"></i>
 										{{translations.changeBackground}}
 									</div>
 								</div>
@@ -27,7 +27,9 @@
 								<div class="image" [matMenuTriggerFor]="avatarOptions">
 									<img [src]="sessionData.current.avatar ? sessionData.current.avatarUrl : environment.avatar"/>
 
-									<div class="layer"><mat-icon>image</mat-icon></div>
+									<div class="layer">
+										<i label="image" class="big"></i>
+									</div>
 								</div>
 								<input type="file" hidden (change)="openAvatar('avatar', 'upload', $event)" accept=".jpg,.jpeg,.png,.gif,.bmp,.tiff" #avatarFile>
 
@@ -53,9 +55,15 @@
 							<mat-form-field>
 								<input matInput placeholder="{{translations.username}}" #Username maxlength="100" formControlName="username">
 								<div class="validators">
-									<div class="done" *ngIf="validatorUsername == 'done'"><mat-icon>check</mat-icon></div>
-									<div class="bad" *ngIf="validatorUsername == 'bad'"><mat-icon>clear</mat-icon></div>
-									<div class="load" *ngIf="validatorUsername == 'load'"><mat-progress-spinner mode="indeterminate"></mat-progress-spinner></div>
+									<div class="done" *ngIf="validatorUsername == 'done'">
+										<i label="validator-check"></i>
+									</div>
+									<div class="bad" *ngIf="validatorUsername == 'bad'">
+										<i label="validator-clear"></i>
+									</div>
+									<div class="load" *ngIf="validatorUsername == 'load'">
+										<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+									</div>
 								</div>
 								<mat-hint align="end">{{Username.value.length}}/100</mat-hint>
 							</mat-form-field>
@@ -92,7 +100,9 @@
 							<mat-form-field>
 								<input matInput type="password" placeholder="{{translations.oldPassword}}" #OldPassword maxlength="100" formControlName="oldPassword">
 								<div class="validators">
-									<div class="bad" *ngIf="validatorOldPassword == 'bad'"><mat-icon>clear</mat-icon></div>
+									<div class="bad" *ngIf="validatorOldPassword == 'bad'">
+										<i label="validator-clear"></i>
+									</div>
 								</div>
 								<mat-hint align="end">{{OldPassword.value.length}}/100</mat-hint>
 							</mat-form-field>
@@ -100,9 +110,15 @@
 							<mat-form-field>
 								<input matInput type="password" placeholder="{{translations.newPassword}}" #NewPassword maxlength="100" formControlName="newPassword">
 								<div class="validators">
-									<div class="done" *ngIf="validatorNewPassword == 'done'"><mat-icon>check</mat-icon></div>
-									<div class="bad" *ngIf="validatorNewPassword == 'bad'"><mat-icon>clear</mat-icon></div>
-									<div class="load" *ngIf="validatorNewPassword == 'load'"><mat-progress-spinner mode="indeterminate"></mat-progress-spinner></div>
+									<div class="done" *ngIf="validatorNewPassword == 'done'">
+										<i label="validator-check"></i>
+									</div>
+									<div class="bad" *ngIf="validatorNewPassword == 'bad'">
+										<i label="validator-clear"></i>
+									</div>
+									<div class="load" *ngIf="validatorNewPassword == 'load'">
+										<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+									</div>
 								</div>
 								<mat-hint align="end">{{NewPassword.value.length}}/100</mat-hint>
 							</mat-form-field>
@@ -110,9 +126,15 @@
 							<mat-form-field>
 								<input matInput type="password" placeholder="{{translations.confirmNewPassword}}" #ConfirmPassword maxlength="100" formControlName="confirmPassword">
 								<div class="validators">
-									<div class="done" *ngIf="validatorNewPassword == 'done'"><mat-icon>check</mat-icon></div>
-									<div class="bad" *ngIf="validatorNewPassword == 'bad'"><mat-icon>clear</mat-icon></div>
-									<div class="load" *ngIf="validatorNewPassword == 'load'"><mat-progress-spinner mode="indeterminate"></mat-progress-spinner></div>
+									<div class="done" *ngIf="validatorNewPassword == 'done'">
+										<i label="validator-check"></i>
+									</div>
+									<div class="bad" *ngIf="validatorNewPassword == 'bad'">
+										<i label="validator-cleaar"></i>
+									</div>
+									<div class="load" *ngIf="validatorNewPassword == 'load'">
+										<mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+									</div>
 								</div>
 								<mat-hint align="end">{{ConfirmPassword.value.length}}/100</mat-hint>
 							</mat-form-field>
@@ -158,7 +180,7 @@
 
 						<li *ngIf="sessionData.sessions.length < 10" (click)="openNewSession()">
 							<div class="add">
-								<mat-icon>add</mat-icon>
+								<i label="add"></i>
 							</div>
 							<div class="text">
 								<span class="name">{{translations.addAccount}}</span>

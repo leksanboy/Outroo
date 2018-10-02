@@ -3,6 +3,8 @@
 									'error': x.type == 'error',
 									'warning': x.type == 'warning'}">
 		<div class="text">{{x.message}}</div>
-		<button mat-mini-fab (click)="close(x)"><mat-icon>clear</mat-icon></button>
+		<button mat-mini-fab (click)="close(x)">
+			<i label="clear"></i>
+		</button>
 	</div>
 </div>

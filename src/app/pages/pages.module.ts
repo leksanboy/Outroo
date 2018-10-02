@@ -43,17 +43,11 @@ import {
 } from '@angular/material';
 import { CdkTableModule } from '@angular/cdk/table';
 
+// Routing pages
 import { PagesRouting, routableComponents } from './pages.routing';
 import { PagesComponent } from './pages.component';
 
-import { TimeagoPipe } from '../core/pipes/timeago.pipe';
-import { DateTimePipe } from '../core/pipes/datetime.pipe';
-import { ReversePipe } from '../core/pipes/reverse.pipe';
-import { SafeHtmlPipe } from '../core/pipes/safehtml.pipe';
-import { TruncatePipe } from '../core/pipes/truncate.pipe';
-
-import { SwiperModule } from 'angular2-useful-swiper';
-
+// Services
 import { AudioDataService } from '../core/services/user/audioData.service';
 import { BookmarksDataService } from '../core/services/user/bookmarksData.service';
 import { FollowsDataService } from '../core/services/user/followsData.service';
@@ -62,28 +56,23 @@ import { NotificationsDataService } from '../core/services/user/notificationsDat
 import { PhotoDataService } from '../core/services/user/photoData.service';
 import { PublicationsDataService } from '../core/services/user/publicationsData.service';
 import { UserDataService } from '../core/services/user/userData.service';
-
 import { SessionService } from '../core/services/session/session.service';
 import { PlayerService } from '../core/services/player/player.service';
 import { MetaService } from '../core/services/meta/meta.service';
 import { MomentService } from '../core/services/moment/moment.service';
 import { HeadersService } from '../core/services/headers/headers.service';
-// import { WebsocketService } from '../core/services/websocket/websocket.service';
-// import { ChatsocketService } from '../core/services/websocket/chat.service';
 
-import { NewReportComponent } from './common/newReport/newReport.component';
-import { NewAvatarComponent } from './common/newAvatar/newAvatar.component';
+// Web Socket
+// TODO: import { WebsocketService } from '../core/services/websocket/websocket.service';
+// TODO: import { ChatsocketService } from '../core/services/websocket/chat.service';
+
+// Entry
 import { NewPlaylistComponent } from './common/newPlaylist/newPlaylist.component';
-import { NewPublicationComponent } from './common/newPublication/newPublication.component';
-import { NewPublicationAddAudiosComponent } from './common/newPublication/addAudios/addAudios.component';
-import { NewPublicationAddPhotosComponent } from './common/newPublication/addPhotos/addPhotos.component';
+import { NewReportComponent } from './common/newReport/newReport.component';
 import { NewSessionComponent } from './common/newSession/newSession.component';
-
-import { ShowAvatarComponent } from './common/showAvatar/showAvatar.component';
 import { ShowConversationComponent } from './common/showConversation/showConversation.component';
 import { ShowLikesComponent } from './common/showLikes/showLikes.component';
 import { ShowPhotoComponent } from './common/showPhoto/showPhoto.component';
-import { ShowPlaylistComponent } from './common/showPlaylist/showPlaylist.component';
 import { ShowPublicationComponent } from './common/showPublication/showPublication.component';
 import { ShowSessionPanelMobileComponent } from './common/showSessionPanelMobile/showSessionPanelMobile.component';
 
@@ -95,7 +84,6 @@ import { ShowSessionPanelMobileComponent } from './common/showSessionPanelMobile
 		BrowserAnimationsModule,
 		FormsModule,
 		ReactiveFormsModule,
-		SwiperModule,
 		CdkTableModule,
 		MatAutocompleteModule,
 		MatBadgeModule,
@@ -172,42 +160,17 @@ import { ShowSessionPanelMobileComponent } from './common/showSessionPanelMobile
 		MatTreeModule
 	],
 	declarations: [
-		TimeagoPipe,
-		DateTimePipe,
-		ReversePipe,
-		SafeHtmlPipe,
-		TruncatePipe,
 		routableComponents,
-		PagesComponent,
-		NewPublicationComponent,
-		NewPublicationAddPhotosComponent,
-		NewPublicationAddAudiosComponent,
-		ShowPublicationComponent,
-		ShowAvatarComponent,
-		ShowLikesComponent,
-		ShowPhotoComponent,
-		NewAvatarComponent,
-		NewSessionComponent,
-		ShowConversationComponent,
-		NewReportComponent,
-		NewPlaylistComponent,
-		ShowPlaylistComponent,
-		ShowSessionPanelMobileComponent
+		PagesComponent
 	],
 	entryComponents : [
-		NewPublicationComponent,
-		NewPublicationAddPhotosComponent,
-		NewPublicationAddAudiosComponent,
-		ShowPublicationComponent,
-		ShowAvatarComponent,
-		ShowLikesComponent,
-		ShowPhotoComponent,
-		NewAvatarComponent,
 		NewSessionComponent,
-		ShowConversationComponent,
 		NewReportComponent,
 		NewPlaylistComponent,
-		ShowPlaylistComponent,
+		ShowConversationComponent,
+		ShowLikesComponent,
+		ShowPhotoComponent,
+		ShowPublicationComponent,
 		ShowSessionPanelMobileComponent
 	],
 	providers: [
@@ -224,8 +187,8 @@ import { ShowSessionPanelMobileComponent } from './common/showSessionPanelMobile
 		PublicationsDataService,
 		SessionService,
 		UserDataService,
-		// WebsocketService,
-		// ChatsocketService,
+		// TODO: WebsocketService,
+		// TODO: ChatsocketService,
 	]
 })
 export class PagesModule { }
