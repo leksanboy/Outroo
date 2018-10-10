@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { 
 	MatAutocompleteModule,
-	MatBottomSheetModule,
 	MatButtonModule,
 	MatButtonToggleModule,
+	MatBottomSheetModule,
+	MatDialogModule,
 	MatExpansionModule,
 	MatIconModule,
 	MatInputModule,
@@ -17,8 +18,7 @@ import {
 	MatSidenavModule,
 	MatSliderModule,
 	MatSlideToggleModule,
-	MatTooltipModule,
-	MatDialogModule
+	MatTooltipModule
 } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -53,9 +53,9 @@ const routes: Routes = [
 		FormsModule,
 		ReactiveFormsModule,
 		MatAutocompleteModule,
-		MatBottomSheetModule,
 		MatButtonModule,
 		MatButtonToggleModule,
+		MatBottomSheetModule,
 		MatDialogModule,
 		MatExpansionModule,
 		MatIconModule,
@@ -68,8 +68,7 @@ const routes: Routes = [
 		MatSidenavModule,
 		MatSliderModule,
 		MatSlideToggleModule,
-		MatTooltipModule,
-		MatDialogModule
+		MatTooltipModule
 	],
 	declarations: [
 		MainComponent

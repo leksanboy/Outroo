@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { 
-	MatButtonModule, 
-	MatButtonToggleModule, 
-	MatProgressSpinnerModule, 
-	MatTooltipModule,
+	MatButtonModule,
+	MatButtonToggleModule,
+	MatDialogModule,
+	MatProgressSpinnerModule,
 	MatRippleModule,
-	MatDialogModule
+	MatTooltipModule
 } from '@angular/material';
 
 // Pipe
@@ -32,12 +32,12 @@ const routes: Routes = [
 		CommonModule,
 		PipesModule,
 		RouterModule.forChild(routes),
-		MatButtonModule,
+		MatButtonModule, 
 		MatButtonToggleModule,
+		MatDialogModule,
 		MatProgressSpinnerModule,
-		MatTooltipModule,
 		MatRippleModule,
-		MatDialogModule
+		MatTooltipModule
 	],
 	declarations: [
 		BookmarksComponent

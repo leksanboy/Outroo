@@ -59,17 +59,11 @@
 															<a href="'.$urlWeb.'about" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
 																About
 															</a>
-															<a href="'.$urlWeb.'brand" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
-																Brand
-															</a>
 															<a href="'.$urlWeb.'privacy" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
 																Privacy
 															</a>
 															<a href="'.$urlWeb.'support" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
 																Support
-															</a>
-															<a href="'.$urlWeb.'terms" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
-																Terms
 															</a>
 														</td>
 													</tr>
@@ -176,17 +170,11 @@
 															<a href="'.$urlWeb.'about" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
 																About
 															</a>
-															<a href="'.$urlWeb.'brand" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
-																Brand
-															</a>
 															<a href="'.$urlWeb.'privacy" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
 																Privacy
 															</a>
 															<a href="'.$urlWeb.'support" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
 																Support
-															</a>
-															<a href="'.$urlWeb.'terms" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
-																Terms
 															</a>
 														</td>
 													</tr>
@@ -291,17 +279,11 @@
 															<a href="'.$urlWeb.'about" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
 																About
 															</a>
-															<a href="'.$urlWeb.'brand" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
-																Brand
-															</a>
 															<a href="'.$urlWeb.'privacy" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
 																Privacy
 															</a>
 															<a href="'.$urlWeb.'support" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
 																Support
-															</a>
-															<a href="'.$urlWeb.'terms" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
-																Terms
 															</a>
 														</td>
 													</tr>
@@ -394,17 +376,11 @@
 															<a href="'.$urlWeb.'about" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
 																About
 															</a>
-															<a href="'.$urlWeb.'brand" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
-																Brand
-															</a>
 															<a href="'.$urlWeb.'privacy" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
 																Privacy
 															</a>
 															<a href="'.$urlWeb.'support" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
 																Support
-															</a>
-															<a href="'.$urlWeb.'terms" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
-																Terms
 															</a>
 														</td>
 													</tr>
@@ -517,17 +493,11 @@
 															<a href="'.$urlWeb.'about" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
 																About
 															</a>
-															<a href="'.$urlWeb.'brand" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
-																Brand
-															</a>
 															<a href="'.$urlWeb.'privacy" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
 																Privacy
 															</a>
 															<a href="'.$urlWeb.'support" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
 																Support
-															</a>
-															<a href="'.$urlWeb.'terms" style="padding:0 3px;color:#777;text-decoration:none;font-weight:bold;" role="link" target="_blank">
-																Terms
 															</a>
 														</td>
 													</tr>

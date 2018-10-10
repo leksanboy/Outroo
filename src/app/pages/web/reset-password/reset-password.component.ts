@@ -9,7 +9,6 @@ import { AlertService } from '../../../../app/core/services/alert/alert.service'
 import { UserDataService } from '../../../../app/core/services/user/userData.service';
 
 declare var ga: Function;
-declare var grecaptcha: any;
 
 @Component({
     selector: 'app-reset-password',
@@ -27,7 +26,6 @@ export class ResetPasswordComponent implements OnInit {
     public userData: any = [];
     public pageStatus: string = 'default';
     public recaptcha: boolean;
-    public reCaptchaExists: boolean;
     public translations: any = [];
 
 	constructor(
@@ -40,30 +38,6 @@ export class ResetPasswordComponent implements OnInit {
 	) {
         // Get translations
         this.getTranslations(1);
-
-        // reCaptcha
-        let self = this;
-        window['onloadCallback'] = function() {
-            // Unset recaptcha message
-            self.reCaptchaExists = true;
-
-            // Get data
-            grecaptcha.render('reCaptcha_element', {
-                'sitekey' : self.environment.reCaptcha,
-                'callback': (res: string) => { 
-                                self.verifyReCaptcha(res);
-                            },
-                'expired-callback': () => {
-                    self.verifyReCaptcha(null);
-                }
-            });
-        };
-
-        // Reload page, check if not exists to show reCaptcha
-        setTimeout(() => {
-            if (!this.reCaptchaExists)
-                this.alertService.warning(this.translations.reloadPage);
-        }, 1200);
 
         // Get url data
         let urlData: any = this.activatedRoute.snapshot;
@@ -114,11 +88,6 @@ export class ResetPasswordComponent implements OnInit {
         this.recaptcha = data ? true : false;
     }
 
-    // Refresh page
-    refreshPage(){
-        window.location.reload();
-    }
-
     // Submit
 	submit(ev: Event) {
 		this.submitLoading = true;
@@ -147,8 +116,7 @@ export class ResetPasswordComponent implements OnInit {
         					this.alertService.error(this.translations.anErrorHasOcurred);
 
                             // reset reCaptcha
-                        this.recaptcha = false;
-                        grecaptcha.reset();
+                            this.recaptcha = false;
                         }
                     );
             } else {

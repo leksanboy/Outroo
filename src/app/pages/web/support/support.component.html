@@ -8,11 +8,6 @@
 		<div class="center">
 			<div class="logo" routerLink="/"></div>
 		</div>
-		<div class="actions" *ngIf="!reCaptchaExists">
-			<button mat-icon-button (click)="refreshPage()">
-				<i label="refresh-page"></i>
-			</button>
-		</div>
 	</div>
 
 	<div class="innerBodyContent">
@@ -41,7 +36,7 @@
 						<mat-hint align="end">{{Content.value.length}}/1000</mat-hint>
 					</mat-form-field>
 
-					<div class="reCaptcha" id="reCaptcha_element"></div>
+					<re-captcha class="reCaptcha" (resolved)="verifyReCaptcha($event)" siteKey="{{environment.reCaptcha}}"></re-captcha>
 
 					<div class="buttons">
 						<button mat-raised-button type="submit">

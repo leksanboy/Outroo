@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { 
-	MatButtonModule, 
-	MatButtonToggleModule, 
-	MatProgressSpinnerModule, 
+	MatButtonModule,
+	MatButtonToggleModule,
 	MatInputModule,
-	MatTooltipModule, 
-	MatMenuModule
+	MatMenuModule,
+	MatProgressSpinnerModule,
+	MatTooltipModule
 } from '@angular/material';
 
 import { FollowingComponent } from './following.component';
@@ -28,10 +28,10 @@ const routes: Routes = [
 		ReactiveFormsModule,
 		MatButtonModule,
 		MatButtonToggleModule,
-		MatProgressSpinnerModule,
 		MatInputModule,
-		MatTooltipModule, 
-		MatMenuModule
+		MatMenuModule,
+		MatProgressSpinnerModule,
+		MatTooltipModule
 	],
 	declarations: [
 		FollowingComponent

@@ -9,7 +9,6 @@ import { AlertService } from '../../../../app/core/services/alert/alert.service'
 import { UserDataService } from '../../../../app/core/services/user/userData.service';
 
 declare var ga: Function;
-declare var grecaptcha: any;
 
 @Component({
 	selector: 'app-signin',
@@ -22,7 +21,6 @@ export class SigninComponent implements OnInit {
 	public submitLoading: boolean;
 	public showPassword: boolean;
 	public recaptcha: boolean;
-	public reCaptchaExists: boolean;
 	public translations: any = [];
 
 	constructor(
@@ -35,30 +33,6 @@ export class SigninComponent implements OnInit {
 	) {
 		// Get translations
 		this.getTranslations(1);
-
-		// reCaptcha
-		let self = this;
-		window['onloadCallback'] = function() {
-			// Unset recaptcha message
-			self.reCaptchaExists = true;
-
-			// Get data
-			grecaptcha.render('reCaptcha_element', {
-				'sitekey' : self.environment.reCaptcha,
-				'callback': (res: string) => { 
-								self.verifyReCaptcha(res);
-							},
-				'expired-callback': () => {
-					self.verifyReCaptcha(null);
-				}
-			});
-		};
-
-		// Reload page, check if not exists to show reCaptcha
-		setTimeout(() => {
-			if (!this.reCaptchaExists)
-				this.alertService.warning(this.translations.reloadPage);
-		}, 1200);
 	}
 
 	ngOnInit() {
@@ -93,11 +67,6 @@ export class SigninComponent implements OnInit {
 		this.recaptcha = data ? true : false;
 	}
 
-	// Refresh page
-	refreshPage(){
-		window.location.reload();
-	}
-
 	// Submit
 	submit(ev: Event) {
 		this.submitLoading = true;
@@ -120,7 +89,6 @@ export class SigninComponent implements OnInit {
 
 						// reset reCaptcha
 						this.recaptcha = false;
-						grecaptcha.reset();
 					}
 				);
 		} else {

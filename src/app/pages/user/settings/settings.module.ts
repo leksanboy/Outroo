@@ -3,16 +3,16 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { 
-	MatButtonModule, 
-	MatButtonToggleModule, 
-	MatProgressSpinnerModule, 
+	MatButtonModule,
+	MatButtonToggleModule,
+	MatDialogModule,
 	MatInputModule,
-	MatTooltipModule, 
 	MatMenuModule,
-	MatTabsModule,
+	MatProgressSpinnerModule,
 	MatSelectModule,
 	MatSlideToggleModule,
-	MatDialogModule
+	MatTabsModule,
+	MatTooltipModule
 } from '@angular/material';
 
 // Pipe
@@ -41,14 +41,14 @@ const routes: Routes = [
 		ReactiveFormsModule,
 		MatButtonModule,
 		MatButtonToggleModule,
-		MatProgressSpinnerModule,
+		MatDialogModule,
 		MatInputModule,
-		MatTooltipModule, 
 		MatMenuModule,
-		MatTabsModule,
+		MatProgressSpinnerModule,
 		MatSelectModule,
 		MatSlideToggleModule,
-		MatDialogModule
+		MatTabsModule,
+		MatTooltipModule
 	],
 	declarations: [
 		SettingsComponent

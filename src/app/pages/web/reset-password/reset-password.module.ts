@@ -4,6 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { MatButtonModule, MatButtonToggleModule, MatProgressSpinnerModule, MatInputModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { RecaptchaModule } from 'ng-recaptcha';
+
 import { ResetPasswordComponent } from './reset-password.component';
 
 const routes: Routes = [
@@ -17,6 +19,7 @@ const routes: Routes = [
 	imports: [
 		CommonModule,
 		RouterModule.forChild(routes),
+		RecaptchaModule.forRoot(),
 		FormsModule,
 		ReactiveFormsModule,
 		MatButtonModule,
@@ -24,6 +27,9 @@ const routes: Routes = [
 		MatProgressSpinnerModule,
 		MatInputModule
 	],
+	exports: [
+       RecaptchaModule
+    ],
 	declarations: [
 		ResetPasswordComponent
 	]

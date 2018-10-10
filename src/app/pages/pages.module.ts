@@ -4,6 +4,7 @@ import { HttpModule } from '@angular/http';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import {
 	MatAutocompleteModule,
 	MatBadgeModule,
@@ -41,7 +42,6 @@ import {
 	MatTooltipModule,
 	MatTreeModule
 } from '@angular/material';
-import { CdkTableModule } from '@angular/cdk/table';
 
 // Routing pages
 import { PagesRouting, routableComponents } from './pages.routing';
@@ -62,7 +62,7 @@ import { MetaService } from '../core/services/meta/meta.service';
 import { MomentService } from '../core/services/moment/moment.service';
 import { HeadersService } from '../core/services/headers/headers.service';
 
-// Web Socket
+// ***** Web Socket
 // TODO: import { WebsocketService } from '../core/services/websocket/websocket.service';
 // TODO: import { ChatsocketService } from '../core/services/websocket/chat.service';
 
@@ -84,80 +84,32 @@ import { ShowSessionPanelMobileComponent } from './common/showSessionPanelMobile
 		BrowserAnimationsModule,
 		FormsModule,
 		ReactiveFormsModule,
-		CdkTableModule,
-		MatAutocompleteModule,
-		MatBadgeModule,
 		MatBottomSheetModule,
 		MatButtonModule,
 		MatButtonToggleModule,
-		MatCardModule,
-		MatCheckboxModule,
-		MatChipsModule,
-		MatDatepickerModule,
 		MatDialogModule,
-		MatDividerModule,
-		MatExpansionModule,
-		MatGridListModule,
-		MatIconModule,
 		MatInputModule,
-		MatListModule,
 		MatMenuModule,
-		MatNativeDateModule,
-		MatPaginatorModule,
-		MatProgressBarModule,
 		MatProgressSpinnerModule,
-		MatRadioModule,
 		MatRippleModule,
 		MatSelectModule,
-		MatSidenavModule,
 		MatSliderModule,
 		MatSlideToggleModule,
-		MatSnackBarModule,
-		MatSortModule,
-		MatStepperModule,
-		MatTableModule,
-		MatTabsModule,
-		MatToolbarModule,
-		MatTooltipModule,
-		MatTreeModule
+		MatTooltipModule
 	],
 	exports: [
-		CdkTableModule,
-		MatAutocompleteModule,
-		MatBadgeModule,
 		MatBottomSheetModule,
 		MatButtonModule,
 		MatButtonToggleModule,
-		MatCardModule,
-		MatCheckboxModule,
-		MatChipsModule,
-		MatDatepickerModule,
 		MatDialogModule,
-		MatDividerModule,
-		MatExpansionModule,
-		MatGridListModule,
-		MatIconModule,
 		MatInputModule,
-		MatListModule,
 		MatMenuModule,
-		MatNativeDateModule,
-		MatPaginatorModule,
-		MatProgressBarModule,
 		MatProgressSpinnerModule,
-		MatRadioModule,
 		MatRippleModule,
 		MatSelectModule,
-		MatSidenavModule,
 		MatSliderModule,
 		MatSlideToggleModule,
-		MatSnackBarModule,
-		MatSortModule,
-		MatStepperModule,
-		MatTableModule,
-		MatTabsModule,
-		MatToolbarModule,
-		MatTooltipModule,
-		MatTreeModule
+		MatTooltipModule
 	],
 	declarations: [
 		routableComponents,
@@ -186,9 +138,10 @@ import { ShowSessionPanelMobileComponent } from './common/showSessionPanelMobile
 		PlayerService,
 		PublicationsDataService,
 		SessionService,
-		UserDataService,
+		UserDataService
+		
 		// TODO: WebsocketService,
-		// TODO: ChatsocketService,
+		// TODO: ChatsocketService
 	]
 })
 export class PagesModule { }
