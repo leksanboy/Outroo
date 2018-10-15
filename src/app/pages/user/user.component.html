@@ -36,7 +36,7 @@
 				<div class="box">
 					<div class="innerBox">
 						<ul class="notifications" *ngIf="dataNotifications.list">
-							<li mat-ripple *ngFor="let x of dataNotifications.list" [ngClass]="{'active': x.status == 0, 'remove': x.addRemoveSession}">
+							<li mat-ripple *ngFor="let x of dataNotifications.list" [ngClass]="{'active': x.status == 0}">
 								<a class="avatar" routerLink="/{{x.user.username}}">
 									<img [src]="x.user.avatar ? x.user.avatarUrl : environment.avatar"/>
 								</a>
@@ -45,7 +45,7 @@
 									<div class="text">
 										<div class="name">
 											<a class="username" routerLink="/{{x.user.username}}">{{x.user.username}}</a>
-											<span class="date">{{x.date}}</span>
+											<span class="date">{{x.date | timeago}}</span>
 										</div>
 										
 										<div class="container">
@@ -65,7 +65,7 @@
 									<div class="text">
 										<div class="name">
 											<a class="username" routerLink="/{{x.user.username}}">{{x.user.username}}</a>
-											<span class="date">{{x.date}}</span>
+											<span class="date">{{x.date | timeago}}</span>
 										</div>
 
 										<div class="container" (click)="showNotification(x)">
@@ -96,7 +96,7 @@
 									<div class="text">
 										<div class="name">
 											<a class="username" routerLink="/{{x.user.username}}">{{x.user.username}}</a>
-											<span class="date">{{x.date}}</span>
+											<span class="date">{{x.date | timeago}}</span>
 										</div>
 
 										<div class="container" (click)="showNotification(x)">
@@ -463,6 +463,17 @@
 				<div class="text">
 					<div class="title">{{audioPlayerData.current.original_title ? audioPlayerData.current.original_title : audioPlayerData.current.title}}</div>
 					<div class="artist">{{audioPlayerData.current.original_artist ? audioPlayerData.current.original_artist : audioPlayerData.current.title}}</div>
+				</div>
+
+				<div class="add" *ngIf="audioPlayerData.current.initialized">
+					<button mat-mini-fab (click)="itemAudiosOptions('addRemoveSession', audioPlayerData.current.item, audioPlayerData.current.key)" *ngIf="audioPlayerData.current.user == sessionData.current.id && audioPlayerData.current.type == 'default'">
+						<i label="add" *ngIf="audioPlayerData.current.item.addRemoveSession"></i>
+						<i label="check" *ngIf="!audioPlayerData.current.item.addRemoveSession"></i>
+					</button>
+					<button mat-mini-fab (click)="itemAudiosOptions('addRemoveUser', audioPlayerData.current.item, audioPlayerData.current.key)" *ngIf="audioPlayerData.current.user != sessionData.current.id || audioPlayerData.current.type != 'default'">
+						<i label="add" *ngIf="!audioPlayerData.current.item.addRemoveUser"></i>
+						<i label="check" *ngIf="audioPlayerData.current.item.addRemoveUser"></i>
+					</button>
 				</div>
 			</div>
 			<div class="center">

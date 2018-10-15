@@ -926,6 +926,7 @@ export class AudiosComponent implements OnInit, OnDestroy {
 					.subscribe(res => {
 						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title,
 							text = !item.addRemoveSession ? (' ' + this.translations.hasBeenAddedSuccessfully) : (' ' + this.translations.hasBeenRemoved);
+						
 						this.alertService.success(song + text);
 					}, error => {
 						this.alertService.error(this.translations.anErrorHasOcurred);

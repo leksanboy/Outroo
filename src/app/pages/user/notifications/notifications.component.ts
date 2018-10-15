@@ -164,6 +164,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
 			let data = {
 				user: user,
+				type: 'default',
 				rows: this.dataNotifications.rows,
 				cuantity: environment.cuantity
 			}

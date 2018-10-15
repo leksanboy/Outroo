@@ -16,8 +16,9 @@ export class NotificationsDataService {
 
 	default(data: any) {
 		let url = environment.url + 'assets/api/notifications/default.php';
-		let params =	'&user=' + data.user + 
-						'&rows=' + data.rows + 
+		let params =	'&user=' + data.user +
+						'&type=' + data.type +
+						'&rows=' + data.rows +
 						'&cuantity=' + data.cuantity;
 		params = params.replace('&', '?');
 

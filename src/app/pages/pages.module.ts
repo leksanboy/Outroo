@@ -47,6 +47,9 @@ import {
 import { PagesRouting, routableComponents } from './pages.routing';
 import { PagesComponent } from './pages.component';
 
+// Pipe
+import { PipesModule } from '../core/pipes/pipes.module';
+
 // Services
 import { AudioDataService } from '../core/services/user/audioData.service';
 import { BookmarksDataService } from '../core/services/user/bookmarksData.service';
@@ -79,6 +82,7 @@ import { ShowSessionPanelMobileComponent } from './common/showSessionPanelMobile
 @NgModule({
 	imports: [
 		CommonModule,
+		PipesModule,
 		PagesRouting,
 		HttpModule,
 		BrowserAnimationsModule,

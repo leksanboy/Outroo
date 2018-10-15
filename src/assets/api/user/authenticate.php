@@ -1,6 +1,7 @@
 <?php include "../db.php";
 	$data = json_decode(file_get_contents('php://input'), true);
 
+	// Parameters
 	$ipAddress = $_SERVER['REMOTE_ADDR'];
 	$username = $data['username'];
 
@@ -45,8 +46,12 @@
 		$location = json_decode(file_get_contents("https://ipinfo.io/$ipAddress/json"));
 		$location = $location->city ? ($location->city.', '.$location->region) : 'Unable to locate '.$ipAddress;
 
+		// Date/set date by location
+		$zone = date_default_timezone_get();
+		$date = date('l jS\, F Y h:i:s A').' ('.$zone.')';
+
 		// Send email
-		emailNewLogin($result['username'], $result['email'], $result['rp'], $device , $location);
+		emailNewLogin($result['username'], $result['email'], $result['rp'], $device , $location, $date);
 
 		// Data
 		echo json_encode($result);

@@ -161,7 +161,7 @@ export class ShowAudioPlayerMobileComponent implements OnInit, OnDestroy, AfterV
 	}
 
 	// Item options: add/remove, share, search, report
-	itemOptions(type, item, playlist){
+	itemAudiosOptions(type, item, playlist){
 		switch(type){
 			case("addRemoveSession"):
 				item.addRemoveSession = !item.addRemoveSession;
@@ -178,6 +178,7 @@ export class ShowAudioPlayerMobileComponent implements OnInit, OnDestroy, AfterV
 					.subscribe(res => {
 						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title,
 							text = !item.addRemoveSession ? ' has been added successfully' : ' has been removed';
+						
 						this.alertService.success(song + text);
 					}, error => {
 						this.alertService.success('An error has ocurred');
@@ -197,8 +198,11 @@ export class ShowAudioPlayerMobileComponent implements OnInit, OnDestroy, AfterV
 
 				this.audioDataService.addRemove(dataARO)
 					.subscribe(res => {
+						item.insertedId = res.json();
+						
 						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title,
 							text = item.addRemoveUser ? ' has been added successfully' : ' has been removed';
+						
 						this.alertService.success(song + text);
 					}, error => {
 						this.alertService.success('An error has ocurred');

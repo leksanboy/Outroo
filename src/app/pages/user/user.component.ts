@@ -26,7 +26,7 @@ import { ShowPhotoComponent } from '../../../app/pages/common/showPhoto/showPhot
 import { ShowPublicationComponent } from '../../../app/pages/common/showPublication/showPublication.component';
 import { ShowSessionPanelMobileComponent } from '../../../app/pages/common/showSessionPanelMobile/showSessionPanelMobile.component';
 
-import { SafeHtmlPipe } from '../../../app/core/pipes/safehtml.pipe';
+import { TimeagoPipe } from '../../../app/core/pipes/timeago.pipe';
 
 import 'hammerjs';
 
@@ -38,7 +38,7 @@ declare var Vibrant: any;
 @Component({
 	selector: 'app-user',
 	templateUrl: './user.component.html',
-	providers: [ SafeHtmlPipe ]
+	providers: [ TimeagoPipe ]
 })
 export class UserComponent implements AfterViewInit {
 	public environment: any = environment;
@@ -153,9 +153,11 @@ export class UserComponent implements AfterViewInit {
 
 			// Pending notifications
 			this.pendingNotifications();
+
+			// Pending notifications every 10 minutes
 			setInterval(() => {
 				this.pendingNotifications();
-			}, 1000 * 60 * 15);
+			}, 1000 * 60 * 10);
 
 			// Get player data
 			this.playerService.getData()
@@ -371,14 +373,6 @@ export class UserComponent implements AfterViewInit {
 		window.scrollTo(0, 0);
 	}
 
-	// Pending notifications
-	pendingNotifications(){
-		this.notificationsDataService.pending(this.sessionData.current.id)
-			.subscribe(res => {
-				this.sessionData.current.countPendingNotifications = res;
-			});
-	}
-
 	// Update session data
 	updateSessionDataFromSettings(data){
 		this.sessionData = data;
@@ -417,6 +411,18 @@ export class UserComponent implements AfterViewInit {
 			});
 	}
 
+	// Pending notifications
+	pendingNotifications(){
+		this.notificationsDataService.pending(this.sessionData.current.id)
+			.subscribe(res => {
+				this.sessionData.current.countPendingNotifications = res;
+
+				// Get data to notifications box
+				if (res > 0)
+					this.defaultNotifications(this.sessionData.current.id);
+			});
+	}
+
 	// Default notifications (last week)
 	defaultNotifications(user) {
 		this.dataNotifications = {
@@ -430,6 +436,7 @@ export class UserComponent implements AfterViewInit {
 
 		let data = {
 			user: user,
+			type: 'box',
 			rows: this.dataNotifications.rows,
 			cuantity: environment.cuantity/3
 		}
@@ -441,24 +448,82 @@ export class UserComponent implements AfterViewInit {
 				if (!res || res.length == 0) {
 					this.dataNotifications.noMore = true;
 				} else {
-					// this.dataNotifications.loadMoreData = (!res || res.length < environment.cuantity) ? false : true;
-
-					// for (let i in res)
-					// 	setTimeout(() => {
-					// 		res[i].status = 1;
-					// 	}, 1800);
+					for (let i in res){
+						setTimeout(() => {
+							res[i].status = 1;
+						}, 1800);
+					}
 
 					this.dataNotifications.list = res;
-					// this.sessionService.setPendingNotifications('refresh');
-
-					// if (!res || res.length < environment.cuantity)
-						// this.dataNotifications.noMore = true;
 				}
 			}, error => {
 				this.dataNotifications.loadingData = false;
 				this.dataNotifications.noMore = true;
-				// this.alertService.error(this.translations.anErrorHasOcurred);
 			});
+	}
+
+	// Show notifications web
+	showNotificationsBoxWeb(){
+		this.showNotificationsBox = !this.showNotificationsBox;
+
+		// Count to '0'
+		this.sessionData.current.countPendingNotifications = 0;
+	}
+
+	// Show photo from url if is one
+	showNotification(item) {
+		let data = {
+			name: item.contentData.name,
+			session: this.sessionData.current.id
+		}
+
+		if (item.url == 'photos') {
+			this.photoDataService.getDataByName(data)
+				.subscribe((res: any) => {
+					this.location.go(this.router.url + '#photo');
+
+					let config = {
+						disableClose: false,
+						data: {
+							comeFrom: 'notifications',
+							translations: this.translations,
+							sessionData: this.sessionData,
+							userData: (res ? res.user : null),
+							item: (res ? res.data : null),
+							index: null,
+							list: []
+						}
+					};
+
+					// Open dialog
+					let dialogRef = this.dialog.open(ShowPhotoComponent, config);
+					dialogRef.afterClosed().subscribe((result: any) => {
+						this.location.go(this.router.url);
+					});
+				});
+		} else if (item.url == 'publications') {
+			this.publicationsDataService.getDataByName(data)
+				.subscribe((res: any) => {
+					this.location.go(this.router.url + '#publication');
+
+					let config = {
+						disableClose: false,
+						data: {
+							comeFrom: 'notifications',
+							translations: this.translations,
+							sessionData: this.sessionData,
+							userData: (res ? res.user : null),
+							item: (res ? res : null)
+						}
+					};
+
+					// Open dialog
+					let dialogRef = this.dialog.open(ShowPublicationComponent, config);
+					dialogRef.afterClosed().subscribe((result: any) => {
+						this.location.go(this.router.url);
+					});
+				});
+		}
 	}
 
 	// Listener click on href
@@ -720,6 +785,7 @@ export class UserComponent implements AfterViewInit {
 					.subscribe(res => {
 						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title,
 							text = !item.addRemoveSession ? (' ' + this.translations.hasBeenAddedSuccessfully) : (' ' + this.translations.hasBeenRemoved);
+						
 						this.alertService.success(song + text);
 					}, error => {
 						this.alertService.error(this.translations.anErrorHasOcurred);
@@ -739,8 +805,11 @@ export class UserComponent implements AfterViewInit {
 
 				this.audioDataService.addRemove(dataARO)
 					.subscribe(res => {
+						item.insertedId = res.json();
+
 						let song = item.original_title ? (item.original_artist + ' - ' + item.original_title) : item.title,
 							text = item.addRemoveUser ? (' ' + this.translations.hasBeenAddedSuccessfully) : (' ' + this.translations.hasBeenRemoved);
+
 						this.alertService.success(song + text);
 					}, error => {
 						this.alertService.error(this.translations.anErrorHasOcurred);
@@ -834,67 +903,6 @@ export class UserComponent implements AfterViewInit {
 	showPlaylistWeb(){
 		this.showUserBox = false;
 		this.showPlaylist = !this.showPlaylist;
-	}
-
-	// Show notifications web
-	showNotificationsBoxWeb(){
-		this.showNotificationsBox = !this.showNotificationsBox;
-	}
-
-	// Show photo from url if is one
-	showNotification(item) {
-		let data = {
-			name: item.contentData.name,
-			session: this.sessionData.current.id
-		}
-
-		if (item.url == 'photos') {
-			this.photoDataService.getDataByName(data)
-				.subscribe((res: any) => {
-					this.location.go(this.router.url + '#photo');
-
-					let config = {
-						disableClose: false,
-						data: {
-							comeFrom: 'notifications',
-							translations: this.translations,
-							sessionData: this.sessionData,
-							userData: (res ? res.user : null),
-							item: (res ? res.data : null),
-							index: null,
-							list: []
-						}
-					};
-
-					// Open dialog
-					let dialogRef = this.dialog.open(ShowPhotoComponent, config);
-					dialogRef.afterClosed().subscribe((result: any) => {
-						this.location.go(this.router.url);
-					});
-				});
-		} else if (item.url == 'publications') {
-			this.publicationsDataService.getDataByName(data)
-				.subscribe((res: any) => {
-					this.location.go(this.router.url + '#publication');
-
-					let config = {
-						disableClose: false,
-						data: {
-							comeFrom: 'notifications',
-							translations: this.translations,
-							sessionData: this.sessionData,
-							userData: (res ? res.user : null),
-							item: (res ? res : null)
-						}
-					};
-
-					// Open dialog
-					let dialogRef = this.dialog.open(ShowPublicationComponent, config);
-					dialogRef.afterClosed().subscribe((result: any) => {
-						this.location.go(this.router.url);
-					});
-				});
-		}
 	}
 
 	// Show userBox web

@@ -103,7 +103,7 @@
 	}
 
 	// Email new login
-	function emailNewLogin($name, $email, $hash, $device, $location){
+	function emailNewLogin($name, $email, $hash, $device, $location, $date){
 		$urlWeb = 'https://outhroo.com/';
 		$nameWeb = 'Outhroo';
 		$messageContent = '<div style="background-color:#fff">
@@ -133,6 +133,11 @@
 																	<tr>
 																		<td id="paragraph" style="padding:0 5% 4px;font:14px/18px Arial,Helvetica,sans-serif;color:#333">
 																			<b>Location</b>: '.$location.'
+																		</td>
+																	</tr>
+																	<tr>
+																		<td id="paragraph" style="padding:0 5% 4px;font:14px/18px Arial,Helvetica,sans-serif;color:#333">
+																			<b>Date</b>: '.$date.'
 																		</td>
 																	</tr>
 																	<tr>

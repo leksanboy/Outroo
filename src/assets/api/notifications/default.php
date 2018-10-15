@@ -2,6 +2,7 @@
 	$cuantity = $_GET['cuantity'];
 	$more = $_GET['rows']*$cuantity;
 	$user = $_GET['user'];
+	$type = $_GET['type'];
 
 	$sql = "SELECT 
 				n.id, 
@@ -33,8 +34,9 @@
 			$row['user'] = userUsernameNameAvatar($row['sender']);
 
 			// Upgrade status
-			if ($row['status'] == '0')
-				updateNotificationStatus($row['id']);
+			if ($row['type'] != 'box')
+				if ($row['status'] == '0')
+					updateNotificationStatus($row['id']);
 
 			// Followers
 			if ($row['url'] == 'followers') {

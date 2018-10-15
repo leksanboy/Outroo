@@ -412,7 +412,7 @@ body{
 			margin: 8px;
 
 			&.active{
-				background-color: $blueColor;
+				background-color: $blueColor !important;
 			}
 		}
 
@@ -641,7 +641,7 @@ body{
 			margin: 0;
 
 			.inner{
-				padding: 2px 1px 2px 18px;
+				padding: 2px 0 2px 18px;
 				box-sizing: border-box;
 				align-items: center;
 				flex-direction: row;
@@ -731,14 +731,14 @@ body{
 
 				.actions{
 					box-sizing: border-box;
-					height: 42px;
-					width: 42px;
-					margin: 0;
+					/*height: 42px;
+					width: 42px;*/
+					margin: 1px 0;
 
 					button{
-						height: 42px;
+						/*height: 42px;
 						width: 42px;
-						margin: 0;
+						margin: 0;*/
 
 						i{
 							background-color: $greyColor;
@@ -1453,7 +1453,7 @@ body{
 								width: 24px;
 
 								button{
-									margin: -3px 0 0 -5px !important;
+									margin: -3px 0 0 -2px !important;
 									border-radius: 50% !important;
 									padding: 0 !important;
 									height: 24px;
@@ -1543,7 +1543,6 @@ body{
 
 			&.bookmark{
 				position: absolute;
-				margin: 0 3px 0 0;
 				right: 0;
 			}
 		}
@@ -2127,6 +2126,24 @@ body{
 					}
 				}
 			}
+		}
+	}
+
+	/*Page loading*/
+	.pageLoading{
+		padding: calc(50vh - 48px) 0;
+		text-align: center;
+
+		.logo{
+			animation: scale .2s infinite alternate;
+			mask-size: 96px calc(96px * 15);
+			background-color: $greyColor;
+			mask-image: $spriteImages;
+			mask-repeat: no-repeat;
+			display: inline-block;
+			mask-position: 0 0;
+			height: 96px;
+			width: 96px;
 		}
 	}
 
@@ -4720,8 +4737,9 @@ body{
 							text-align: center;
 							font-weight: bold;
 							line-height: 12px;
-							padding: 2px 5px;
+							padding: 2px 6px;
 							font-size: 10px;
+							margin: 18px 0;
 							height: 12px;
 						}
 
@@ -5269,7 +5287,7 @@ body{
 						position: relative;
 						max-height: 312px;
 						overflow: hidden;
-						height: 56vw;
+						height: 50vw;
 						width: 100%;
 						float: left;
 
@@ -5548,7 +5566,7 @@ body{
 							margin: 0;
 
 							.head{
-								padding: 6px 2px 6px 18px;
+								padding: 6px 0 6px 18px;
 								box-sizing: border-box;
 								display: flex;
 								width: 100%;
@@ -6496,7 +6514,7 @@ body{
 							}
 
 							.actions{
-								margin: 0 6px 0 0;
+								margin: 0 2px 0 0;
 								float: right;
 
 								button{
@@ -7213,10 +7231,12 @@ body{
 					width: 100%;
 
 					.image{
+						margin: 12px 0 0 18px;
+						border-radius: 5px;
 						overflow: hidden;
-						min-width: 86px;
-						height: 86px;
-						width: 86px;
+						min-width: 62px;
+						height: 62px;
+						width: 62px;
 
 						img{
 							height: 100%;
@@ -7225,11 +7245,11 @@ body{
 					}
 
 					.text{
-						padding: 24px 0 24px 24px;
 						box-sizing: border-box;
+						padding: 24px 0 0 18px;
 						text-align: left;
 						max-width: 276px;
-						min-width: 156px;
+						min-width: 120px;
 						height: 86px;
 						float: left;
 
@@ -7250,9 +7270,8 @@ body{
 						}
 					}
 
-					.addRemove{
-						padding: 23px 0 23px 12px;
-						width: 40px;
+					.add{
+						padding: 21px 0 0 12px;
 						float: left;
 					}
 				}
@@ -7528,7 +7547,7 @@ body{
 /*MOBILE*/
 @media (max-width: 760px){
 	body{
-		font-size: 16px;
+		/*font-size: 16px;*/
 
 		.alertBox{
 			margin: 0;
@@ -8126,8 +8145,8 @@ body{
 								}
 							}
 
-							.addRemove{
-								margin: 12px 20px 0 0;
+							.add{
+								margin: 32px 18px 0 0;
 								position: absolute;
 								right: 0;
 
@@ -8141,6 +8160,10 @@ body{
 									padding: 0;
 									z-index: 9;
 									margin: 0;
+
+									i{
+										background-color: $whiteColor;
+									}
 								}
 							}
 						}
@@ -8353,17 +8376,17 @@ body{
 						padding: 12px 0 466px;
 						position: relative;
 						display: block;
-						z-index: 1;
 						width: 100%;
+						z-index: 1;
 						margin: 0;
 
 						li{
 							color: $whiteColor;
-							display: flex;
+							/*display: flex;
 							padding: 0;
-							margin: 0;
+							margin: 0;*/
 
-							.inner{
+							/*.inner{
 								padding: 2px 4px 2px 18px;
 								box-sizing: border-box;
 								align-items: center;
@@ -8490,7 +8513,7 @@ body{
 							&.remove{
 								filter: grayscale(100%);
 								opacity: .5;
-							}
+							}*/
 						}
 					}
 				}
