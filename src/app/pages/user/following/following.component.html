@@ -33,7 +33,7 @@
 								<a class="text" routerLink="/{{x.user.username}}">
 									<span class="username">
 										{{x.user.username}}
-										<i *ngIf="x.user.official" matTooltip="{{translations.verifiedAccount}}"></i>
+										<i label="official" *ngIf="x.user.official" matTooltip="{{translations.verifiedAccount}}"></i>
 									</span>
 									<br>
 									<span class="name">{{x.user.name}}</span>
@@ -104,7 +104,7 @@
 							<a class="text" routerLink="/{{x.user.username}}">
 								<span class="username">
 									{{x.user.username}}
-									<i *ngIf="x.user.official" matTooltip="{{translations.verifiedAccount}}"></i>
+									<i label="official" *ngIf="x.user.official" matTooltip="{{translations.verifiedAccount}}"></i>
 								</span>
 								<br>
 								<span class="name">{{x.user.name}}</span>

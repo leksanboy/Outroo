@@ -51,7 +51,7 @@
 												</tbody>
 											</table>
 										</div>
-										<footer style="width:100%; margin: 5% 0;">
+										<footer style="width:100%; margin: 0;">
 											<table id="footer-paragraphs" border="0" cellpadding="0" cellspacing="0" style="width:100%;">
 												<tbody>
 													<tr>
@@ -167,7 +167,7 @@
 												</tbody>
 											</table>
 										</div>
-										<footer style="width:100%; margin: 5% 0;">
+										<footer style="width:100%; margin: 0;">
 											<table id="footer-paragraphs" border="0" cellpadding="0" cellspacing="0" style="width:100%;">
 												<tbody>
 													<tr>
@@ -276,7 +276,7 @@
 												</tbody>
 											</table>
 										</div>
-										<footer style="width:100%; margin: 5% 0;">
+										<footer style="width:100%; margin: 0;">
 											<table id="footer-paragraphs" border="0" cellpadding="0" cellspacing="0" style="width:100%;">
 												<tbody>
 													<tr>
@@ -373,7 +373,7 @@
 												</tbody>
 											</table>
 										</div>
-										<footer style="width:100%; margin: 5% 0;">
+										<footer style="width:100%; margin: 0;">
 											<table id="footer-paragraphs" border="0" cellpadding="0" cellspacing="0" style="width:100%;">
 												<tbody>
 													<tr>
@@ -490,7 +490,7 @@
 												</tbody>
 											</table>
 										</div>
-										<footer style="width:100%; margin: 5% 0;">
+										<footer style="width:100%; margin: 0;">
 											<table id="footer-paragraphs" border="0" cellpadding="0" cellspacing="0" style="width:100%;">
 												<tbody>
 													<tr>

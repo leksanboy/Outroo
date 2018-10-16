@@ -85,7 +85,7 @@ export const routableComponents = [
 
 @NgModule({
 	imports: [
-		RouterModule.forChild(routes)
+		RouterModule.forRoot(routes)
 	],
 	exports: [
 		RouterModule

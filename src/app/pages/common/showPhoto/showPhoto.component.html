@@ -19,7 +19,10 @@
 					</a>
 					<div class="text">
 						<a class="name" routerLink="/{{userData.username}}">
-							<span class="username">{{userData.username}}</span>
+							<span class="username">
+								{{userData.username}}
+								<i label="official" *ngIf="userData.official" matTooltip="{{translations.verifiedAccount}}"></i>
+							</span>
 							<span class="date">{{data.current.date | timeago}}</span>
 						</a>
 					</div>
@@ -67,7 +70,10 @@
 							</a>
 							<div class="text">
 								<a class="name" routerLink="/{{userData.username}}">
-									<span class="username">{{userData.username}}</span>
+									<span class="username">
+										{{userData.username}}
+										<i label="official" *ngIf="userData.official" matTooltip="{{translations.verifiedAccount}}"></i>
+									</span>
 									<span class="date">{{data.current.date | timeago}}</span>
 								</a>
 							</div>

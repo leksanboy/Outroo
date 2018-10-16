@@ -12,7 +12,10 @@
 							<div class="inner" *ngIf="x.url == 'followers'">
 								<div class="text">
 									<div class="name">
-										<a class="username" routerLink="/{{x.user.username}}">{{x.user.username}}</a>
+										<a class="username" routerLink="/{{x.user.username}}">
+											{{x.user.username}}
+											<i label="official" *ngIf="x.user.official" matTooltip="{{translations.verifiedAccount}}"></i>
+										</a>
 										<span class="date">{{x.date | timeago}}</span>
 									</div>
 									
@@ -85,7 +88,10 @@
 							<div class="inner" *ngIf="x.url == 'photos'">
 								<div class="text">
 									<div class="name">
-										<a class="username" routerLink="/{{x.user.username}}">{{x.user.username}}</a>
+										<a class="username" routerLink="/{{x.user.username}}">
+											{{x.user.username}}
+											<i label="official" *ngIf="x.user.official" matTooltip="{{translations.verifiedAccount}}"></i>
+										</a>
 										<span class="date">{{x.date | timeago}}</span>
 									</div>
 
@@ -127,7 +133,10 @@
 							<div class="inner" *ngIf="x.url == 'publications'">
 								<div class="text">
 									<div class="name">
-										<a class="username" routerLink="/{{x.user.username}}">{{x.user.username}}</a>
+										<a class="username" routerLink="/{{x.user.username}}">
+											{{x.user.username}}
+											<i label="official" *ngIf="x.user.official" matTooltip="{{translations.verifiedAccount}}"></i>
+										</a>
 										<span class="date">{{x.date | timeago}}</span>
 									</div>
 

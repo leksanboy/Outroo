@@ -626,6 +626,18 @@ body{
 			height: 24px;
 			width: 24px;
 		}
+
+		&[label="official"]{
+			background-color: $officialColor;
+			mask-size: 28px calc(28px * 15);
+			mask-position: 0 -56px;
+			display: inline-block;
+			margin: 0 0 -1px 0;
+			height: 14px;
+			width: 14px;
+			/*bottom: 0;
+			right: 0;*/
+		}
 	}
 
 	ul.tracks{
@@ -731,15 +743,9 @@ body{
 
 				.actions{
 					box-sizing: border-box;
-					/*height: 42px;
-					width: 42px;*/
 					margin: 1px 0;
 
 					button{
-						/*height: 42px;
-						width: 42px;
-						margin: 0;*/
-
 						i{
 							background-color: $greyColor;
 						}
@@ -1458,18 +1464,6 @@ body{
 									padding: 0 !important;
 									height: 24px;
 									width: 24px;
-
-									/*i{
-										mask-size: 24px calc(24px * 15);
-										background-color: $greyColor;
-										mask-image: $spriteImages;
-										mask-position: 0 -60px;
-										mask-repeat: no-repeat;
-										margin: 0 0 0 6px;
-										display: block;
-										height: 12px;
-										width: 12px;
-									}*/
 								}
 							}
 						}
@@ -2211,6 +2205,12 @@ body{
 					font-weight: bold;
 					width: 100%;
 				}
+
+				.close{
+					position: absolute;
+					right: 12px;
+					top: 12px;
+				}
 			}
 
 			.box{
@@ -2226,6 +2226,7 @@ body{
 					button{
 						background: $blueColor;
 						color: $whiteColor;
+						font-size: 14px;
 						margin: 6px 0;
 						width: 100%;
 
@@ -3123,20 +3124,6 @@ body{
 									font-weight: bold;
 									line-height: 18px;
 									height: 18px;
-
-									i{
-										background-color: $officialColor;
-										mask-size: 24px calc(24px * 15);
-										mask-image: $spriteImages;
-										mask-position: 0 -48px;
-										mask-repeat: no-repeat;
-										display: inline-block;
-										margin: 0 0 -1px 0;
-										height: 12px;
-										width: 12px;
-										bottom: 0;
-										right: 0;
-									}
 								}
 
 								.name{
@@ -3373,17 +3360,6 @@ body{
 						float: left;
 
 						.title{
-							/*text-overflow: ellipsis;
-							box-sizing: border-box;
-							white-space: nowrap;
-							font-weight: bold;
-							overflow: hidden;
-							font-size: 24px;
-							display: block;
-							width: 100%;
-							float: left;
-							padding: 0;
-							margin: 0;*/
 							display: -webkit-box;
 							word-break: break-word;
 							font-weight: bold;
@@ -3404,20 +3380,6 @@ body{
 							height: 18px;
 							float: left;
 							width: 100%;
-
-							i{
-								background-color: $officialColor;
-								mask-size: 24px calc(24px * 15);
-								mask-image: $spriteImages;
-								mask-position: 0 -48px;
-								mask-repeat: no-repeat;
-								display: inline-block;
-								margin: 0 0 -1px 0;
-								height: 12px;
-								width: 12px;
-								bottom: 0;
-								right: 0;
-							}
 						}
 
 						.button{
@@ -3929,19 +3891,6 @@ body{
 									font-weight: bold;
 									line-height: 18px;
 									height: 18px;
-
-									i{
-										mask-size: 24px calc(24px * 15);
-										background-color: currentColor;
-										mask-image: $spriteImages;
-										mask-position: 0 -48px;
-										mask-repeat: no-repeat;
-										display: inline-block;
-										height: 12px;
-										width: 12px;
-										bottom: 0;
-										right: 0;
-									}
 								}
 
 								.name{
@@ -5918,20 +5867,6 @@ body{
 										font-weight: bold;
 										line-height: 18px;
 										height: 18px;
-
-										i{
-											background-color: $officialColor;
-											mask-size: 24px calc(24px * 15);
-											mask-image: $spriteImages;
-											mask-position: 0 -48px;
-											mask-repeat: no-repeat;
-											display: inline-block;
-											margin: 0 0 -1px 0;
-											height: 12px;
-											width: 12px;
-											bottom: 0;
-											right: 0;
-										}
 									}
 
 									.name{
@@ -6017,20 +5952,6 @@ body{
 									font-weight: bold;
 									line-height: 18px;
 									height: 18px;
-
-									i{
-										background-color: $officialColor;
-										mask-size: 24px calc(24px * 15);
-										mask-image: $spriteImages;
-										mask-position: 0 -48px;
-										mask-repeat: no-repeat;
-										display: inline-block;
-										margin: 0 0 -1px 0;
-										height: 12px;
-										width: 12px;
-										bottom: 0;
-										right: 0;
-									}
 								}
 
 								.name{
@@ -7149,8 +7070,6 @@ body{
 
 		.audioPlayerMobile{
 			.box{
-				padding: 0 0 300px 0;
-
 				.player{
 					padding: 0 0 36px 0;
 				}
@@ -8094,7 +8013,7 @@ body{
 				color: $whiteColor;
 				max-height: 74vh;
 				position: fixed;
-				display: block;
+				display: flex;
 				z-index: 1001;
 				width: 100%;
 				float: left;
@@ -8367,153 +8286,23 @@ body{
 
 				.data{
 					-webkit-overflow-scrolling: touch;
+					display: inline-block;
+					padding: 12px 0 546px;
+					margin: 0 0 -246px;
 					overflow-x: hidden;
 					overflow-y: auto;
-					height: 100vh;
 					width: 100%;
 
 					ul{
-						padding: 12px 0 466px;
 						position: relative;
 						display: block;
 						width: 100%;
 						z-index: 1;
+						padding: 0;
 						margin: 0;
 
 						li{
 							color: $whiteColor;
-							/*display: flex;
-							padding: 0;
-							margin: 0;*/
-
-							/*.inner{
-								padding: 2px 4px 2px 18px;
-								box-sizing: border-box;
-								align-items: center;
-								flex-direction: row;
-								position: relative;
-								margin: 0 0 4px;
-								display: flex;
-								width: 100%;
-
-								&:hover{
-									background-color: transparentize($whiteColor, .95);
-								}
-
-								.image{
-									width: 42px;
-
-									button{
-										overflow: hidden;
-										height: 42px;
-										width: 42px;
-										margin: 0;
-
-										img{
-											position: absolute;
-											height: 100%;
-											width: 100%;
-											left: 0;
-											top: 0;
-										}
-
-										.mat-button-ripple-round{
-											border-radius: 0;
-										}
-									}
-								}
-
-								.text{
-									justify-content: space-between;
-									box-sizing: border-box;
-									line-height: 42px;
-									overflow: hidden;
-									display: flex;
-									width: 100%;
-
-									.duration,
-									.titleArtist{
-										flex-direction: column;
-										box-sizing: border-box;
-										padding: 0 0 0 12px;
-										text-align: left;
-										overflow: hidden;
-										max-width: 80%;
-										display: flex;
-
-										.title{
-											text-overflow: ellipsis;
-											white-space: nowrap;
-											line-height: 15px;
-											overflow: hidden;
-											padding: 4px 0;
-										}
-
-										.artist{
-											text-overflow: ellipsis;
-											white-space: nowrap;
-											color: $greyColor;
-											line-height: 13px;
-											overflow: hidden;
-											font-size: 13px;
-										}
-									}
-
-									.duration{
-										padding: 0 6px 0 0;
-										color: $greyColor;
-										text-align: right;
-										font-size: 14px;
-										max-width: 75px;
-										width: 75px;
-									}
-								}
-
-								.actions{
-									box-sizing: border-box;
-									height: 42px;
-									width: 42px;
-									margin: 0;
-
-									button{
-										height: 42px;
-										width: 42px;
-										margin: 0;
-									}
-								}
-							}
-
-							&.active{
-								.inner{
-									background-color: transparentize($whiteColor, .95);
-									color: $blueColor;
-								}
-
-								.text{
-									.titleArtist .artist{
-										color: transparentize($blueColor, .5);
-									}
-
-									.duration{
-										color: $blueColor;
-									}
-								}
-							}
-
-							&.default{
-								.image{
-									button{
-										i{
-											background-color: $whiteColor;
-										}
-									}
-								}
-							}
-
-							&.remove{
-								filter: grayscale(100%);
-								opacity: .5;
-							}*/
 						}
 					}
 				}
